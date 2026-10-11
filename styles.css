@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --brand-ivory: #faf8f5;
+    --brand-cream: #f4ede4;
+    --brand-charcoal: #292524;
+    --brand-terracotta: #b45309;
+    --brand-taupe: #78716c;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.05); }
+}
+.animate-pulse-soft {
+    animation: pulse-soft 3s infinite;
+}
+
+/* Page Transitions */
+.page-fade-enter {
+    opacity: 0;
+    transform: translateY(15px);
+}
+.page-fade-enter-active {
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Scroll Reveal */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.2, 0, 0, 1);
+}
+.scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+
+/* Custom Buttons */
+.btn-primary {
+    background-color: var(--brand-charcoal);
+    color: white;
+    transition: all 0.3s;
+}
+.btn-primary:hover {
+    background-color: black;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+.btn-accent {
+    background-color: white;
+    color: var(--brand-charcoal);
+    transition: all 0.3s;
+}
+.btn-accent:hover {
+    background-color: var(--brand-ivory);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Toast */
+.toast-enter { opacity: 0; transform: translate(-50%, -100%); }
+.toast-enter-active { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+.toast-leave-active { transition: all 0.3s ease-in; opacity: 0; transform: translate(-50%, -100%); }
+
+/* Hide Scrollbar */
+.hide-scroll::-webkit-scrollbar {
+    display: none;
+}
+.hide-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Scrollbar global */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--brand-ivory);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--brand-taupe);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-charcoal);
+}

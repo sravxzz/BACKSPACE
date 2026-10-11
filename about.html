@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | Backspace Go</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { cream: '#FAF9F6', charcoal: '#2D2D2D', brown: '#8B5A2B', accent: '#A0522D' }, fontFamily: { sans: ['Outfit', 'sans-serif'] } } } }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="js/app.js"></script>
+</head>
+<body class="bg-cream text-charcoal antialiased flex flex-col min-h-screen">
+  
+  <nav class="sticky top-0 z-50 bg-cream/90 backdrop-blur-md border-b border-gray-200" x-data="{ mobileMenuOpen: false }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="index.html" class="text-2xl font-bold tracking-tight text-charcoal">BACKSPACE GO</a>
+        <div class="hidden md:flex space-x-8">
+          <a href="index.html" class="text-gray-600 hover:text-brown font-medium">Home</a>
+          <a href="products.html?category=mattresses" class="text-gray-600 hover:text-brown font-medium">Mattresses</a>
+          <a href="bulk-solutions.html" class="text-gray-600 hover:text-brown font-medium">Bulk Solutions</a>
+          <a href="about.html" class="text-charcoal hover:text-brown font-medium">About Us</a>
+          <a href="contact.html" class="text-gray-600 hover:text-brown font-medium">Contact</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow">
+    <section class="py-24 px-4 max-w-4xl mx-auto text-center slide-up">
+      <h1 class="text-5xl md:text-6xl font-bold mb-8 leading-tight">Comfort That Fits<br>Every Space.</h1>
+      <p class="text-xl text-gray-600 leading-relaxed mb-12">
+        Backspace Go provides premium mattresses, furniture and customized sleep solutions for homes and institutions. 
+        We are dedicated to redefining comfort with high-quality materials and modern aesthetics.
+      </p>
+      
+      <div class="bg-white p-8 md:p-12 rounded-3xl shadow-soft text-left mb-16">
+        <h2 class="text-3xl font-bold mb-6">Our Story</h2>
+        <p class="text-gray-600 mb-4 text-lg">
+          Based in the heart of Andhra Pradesh and Telangana, Backspace Go was founded with a simple mission: to make premium sleep solutions accessible to everyone, from individual homes to large-scale institutional projects.
+        </p>
+        <p class="text-gray-600 text-lg">
+          We understand that every space is unique, which is why we specialize in both direct-to-consumer comfort and customized bulk manufacturing for hotels, hostels, and hospitals across India.
+        </p>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <div class="w-32 h-32 bg-gray-200 rounded-full mb-6 overflow-hidden">
+          <!-- Placeholder for founder -->
+          <img src="https://ui-avatars.com/api/?name=Shaurya+Challa&background=2D2D2D&color=fff&size=256" alt="Shaurya Challa" class="w-full h-full object-cover">
+        </div>
+        <h3 class="text-2xl font-bold">Shaurya Challa</h3>
+        <p class="text-brown font-medium tracking-wider uppercase text-sm mt-1">Founder</p>
+      </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="bg-white py-24 px-4">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl font-bold text-center mb-16">Customer Reviews</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-cream p-8 rounded-3xl">
+            <div class="flex text-yellow-500 mb-4"><i class="ph-fill ph-star text-xl"></i><i class="ph-fill ph-star text-xl"></i><i class="ph-fill ph-star text-xl"></i><i class="ph-fill ph-star text-xl"></i><i class="ph-fill ph-star text-xl"></i></div>
+            <p class="text-gray-600 text-lg italic mb-6">"Excellent mattress quality and comfortable pricing."</p>
+            <p class="font-bold">- Customer Name</p>
+          </div>
+          <div class="bg-cream p-8 rounded-3xl">
+            <div class="flex text-yellow-500 mb-4"><i class="ph-fill ph-star text-xl"></i><i class="ph-fill ph-star text-xl"></i><i class="ph-fill ph-star text-xl"></i><i class="ph-fill ph-star text-xl"></i><i class="ph-fill ph-star text-xl"></i></div>
+            <p class="text-gray-600 text-lg italic mb-6">"Very smooth experience from enquiry to delivery."</p>
+            <p class="font-bold">- Customer Name</p>
+          </div>
+          <div class="bg-cream p-8 rounded-3xl">
+            <div class="flex text-yellow-500 mb-4"><i class="ph-fill ph-star text-xl"></i><i class="ph-fill ph-star text-xl"></i><i class="ph-fill ph-star text-xl"></i><i class="ph-fill ph-star text-xl"></i><i class="ph-fill ph-star text-xl"></i></div>
+            <p class="text-gray-600 text-lg italic mb-6">"Good option for bulk hostel requirements."</p>
+            <p class="font-bold">- Institutional Client</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-charcoal text-white py-8 text-center mt-auto">
+    <p>© 2026 Backspace Go. All rights reserved.</p>
+  </footer>
+</body>
+</html>

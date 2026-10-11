@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details | Backspace Go</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { cream: '#FAF9F6', charcoal: '#2D2D2D', brown: '#8B5A2B', accent: '#A0522D' }, fontFamily: { sans: ['Outfit', 'sans-serif'] } } } }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="js/app.js"></script>
+</head>
+<body class="bg-cream text-charcoal antialiased flex flex-col min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-cream/90 backdrop-blur-md border-b border-gray-200" x-data="{ mobileMenuOpen: false }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="index.html" class="text-2xl font-bold tracking-tight text-charcoal">BACKSPACE GO</a>
+        <div class="hidden md:flex space-x-8 items-center">
+          <a href="index.html" class="text-gray-600 hover:text-brown font-medium">Home</a>
+          <a href="products.html?category=mattresses" class="text-gray-600 hover:text-brown">Mattresses</a>
+          <a href="products.html?category=beds" class="text-gray-600 hover:text-brown">Beds</a>
+          <a href="bulk-solutions.html" class="text-gray-600 hover:text-brown">Bulk Orders</a>
+        </div>
+        <div class="flex items-center space-x-6">
+          <a href="cart.html" class="text-charcoal hover:text-brown relative">
+            <i class="ph ph-shopping-cart text-2xl"></i>
+            <span x-show="$store.cart.count > 0" x-text="$store.cart.count" class="absolute -top-2 -right-2 bg-brown text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center"></span>
+          </a>
+          <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-charcoal focus:outline-none">
+            <i class="ph ph-list text-3xl" x-show="!mobileMenuOpen"></i>
+            <i class="ph ph-x text-3xl" x-show="mobileMenuOpen" x-cloak></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div x-show="mobileMenuOpen" x-collapse class="md:hidden bg-cream border-b border-gray-200" x-cloak>
+      <div class="px-4 pt-2 pb-6 space-y-1 shadow-inner">
+        <a href="index.html" class="block px-3 py-3 font-medium text-gray-600">Home</a>
+        <a href="products.html?category=mattresses" class="block px-3 py-3 font-medium text-gray-600">Mattresses</a>
+        <a href="products.html?category=beds" class="block px-3 py-3 font-medium text-gray-600">Beds</a>
+        <a href="bulk-solutions.html" class="block px-3 py-3 font-medium text-gray-600">Bulk Orders</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow max-w-7xl mx-auto px-4 w-full py-16" x-data="productDetail()">
+    <template x-if="!product">
+      <div class="text-center py-32">
+        <h2 class="text-2xl font-bold text-gray-500">Product not found.</h2>
+        <a href="index.html" class="mt-4 inline-block text-brown underline">Return to Home</a>
+      </div>
+    </template>
+
+    <template x-if="product">
+      <div class="flex flex-col lg:flex-row gap-16 slide-up">
+        
+        <!-- Image -->
+        <div class="w-full lg:w-1/2">
+          <div class="bg-white rounded-3xl overflow-hidden shadow-sm aspect-square">
+            <img :src="product.image" :alt="product.name" class="w-full h-full object-cover">
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="w-full lg:w-1/2 flex flex-col">
+          <div class="mb-4">
+            <span class="text-sm font-bold text-gray-500 uppercase tracking-wider" x-text="product.type"></span>
+          </div>
+          <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight" x-text="product.name"></h1>
+          
+          <div class="text-3xl font-bold text-brown mb-6">
+            Price: <span x-text="product.priceStr"></span>
+          </div>
+
+          <p class="text-gray-600 text-lg mb-8" x-text="product.shortDesc"></p>
+
+          <!-- Selectors -->
+          <div class="space-y-6 mb-10 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            
+            <div x-show="product.sizes">
+              <label class="block font-bold text-sm mb-2 text-gray-700">Size</label>
+              <select x-model="selectedSize" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none bg-white">
+                <template x-for="sz in product.sizes" :key="sz">
+                  <option :value="sz" x-text="sz"></option>
+                </template>
+              </select>
+            </div>
+
+            <div x-show="product.thickness">
+              <label class="block font-bold text-sm mb-2 text-gray-700">Thickness</label>
+              <select x-model="selectedThickness" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none bg-white">
+                <template x-for="th in product.thickness" :key="th">
+                  <option :value="th" x-text="th"></option>
+                </template>
+              </select>
+            </div>
+
+            <div x-show="product.colors">
+              <label class="block font-bold text-sm mb-2 text-gray-700">Color</label>
+              <select x-model="selectedColor" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none bg-white">
+                <template x-for="c in product.colors" :key="c">
+                  <option :value="c" x-text="c"></option>
+                </template>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-bold text-sm mb-2 text-gray-700">Quantity</label>
+              <div class="flex items-center border border-gray-300 rounded-xl w-32 bg-white">
+                <button @click="if(quantity > 1) quantity--" class="w-10 h-12 flex items-center justify-center text-xl text-gray-500 hover:text-charcoal transition-colors">-</button>
+                <input type="number" x-model.number="quantity" min="1" class="w-12 h-12 text-center font-bold focus:outline-none bg-transparent">
+                <button @click="quantity++" class="w-10 h-12 flex items-center justify-center text-xl text-gray-500 hover:text-charcoal transition-colors">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="flex flex-col gap-4">
+            <button @click="addToCart" class="w-full bg-charcoal text-white py-4 rounded-xl font-bold hover:bg-gray-800 transition-colors flex items-center justify-center text-lg">
+              <i class="ph ph-shopping-cart text-xl mr-2"></i> Add to Cart
+            </button>
+            <button @click="orderWhatsApp" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-bold hover:bg-[#20bd5a] transition-colors flex items-center justify-center text-lg">
+              <i class="ph ph-whatsapp-logo text-2xl mr-2"></i> Buy Now / Order on WhatsApp
+            </button>
+          </div>
+
+          <!-- Simple Details -->
+          <div class="mt-12 space-y-4 text-gray-600 border-t border-gray-200 pt-8">
+            <h3 class="font-bold text-xl text-charcoal mb-4">Product Details</h3>
+            <div class="grid grid-cols-3 gap-2 border-b border-gray-100 pb-2" x-show="product.material">
+              <span class="font-bold col-span-1">Material:</span>
+              <span class="col-span-2" x-text="product.material"></span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 border-b border-gray-100 pb-2" x-show="product.firmness">
+              <span class="font-bold col-span-1">Firmness:</span>
+              <span class="col-span-2" x-text="product.firmness"></span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 border-b border-gray-100 pb-2" x-show="product.warranty">
+              <span class="font-bold col-span-1">Warranty:</span>
+              <span class="col-span-2" x-text="product.warranty"></span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 border-b border-gray-100 pb-2">
+              <span class="font-bold col-span-1">Delivery:</span>
+              <span class="col-span-2">Contact for delivery information.</span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </template>
+  </main>
+
+  <footer class="bg-charcoal text-white py-8 text-center mt-auto">
+    <p>© 2026 Backspace Go. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function productDetail() {
+      return {
+        product: null,
+        selectedSize: '',
+        selectedThickness: '',
+        selectedColor: '',
+        quantity: 1,
+        
+        init() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const id = urlParams.get('id');
+          this.product = window.getProduct(id);
+          
+          if(this.product) {
+            if(this.product.sizes) this.selectedSize = this.product.sizes[0];
+            if(this.product.thickness) this.selectedThickness = this.product.thickness[0];
+            if(this.product.colors) this.selectedColor = this.product.colors[0];
+          }
+        },
+        
+        addToCart() {
+          Alpine.store('cart').add(this.product, this.selectedSize, this.selectedThickness, this.selectedColor, this.quantity);
+        },
+        
+        orderWhatsApp() {
+          window.buyNowWhatsApp(
+            this.product.name, 
+            this.selectedSize, 
+            this.selectedThickness, 
+            this.selectedColor, 
+            this.quantity, 
+            this.product.priceStr
+          );
+        }
+      }
+    }
+  </script>
+</body>
+</html>

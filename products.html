@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop | Backspace Go</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { cream: '#FAF9F6', charcoal: '#2D2D2D', brown: '#8B5A2B', accent: '#A0522D' }, fontFamily: { sans: ['Outfit', 'sans-serif'] } } } }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="js/app.js"></script>
+</head>
+<body class="bg-cream text-charcoal antialiased flex flex-col min-h-screen" x-data="{ mobileMenuOpen: false }">
+
+  <nav class="sticky top-0 z-50 bg-cream/90 backdrop-blur-md border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="index.html" class="text-2xl font-bold tracking-tight text-charcoal">BACKSPACE GO</a>
+        <div class="hidden md:flex space-x-8 items-center">
+          <a href="index.html" class="text-gray-600 hover:text-brown font-medium">Home</a>
+          <a href="products.html?category=mattresses" class="text-gray-600 hover:text-brown">Mattresses</a>
+          <a href="products.html?category=beds" class="text-gray-600 hover:text-brown">Beds</a>
+          <a href="bulk-solutions.html" class="text-gray-600 hover:text-brown">Bulk Orders</a>
+          <a href="about.html" class="text-gray-600 hover:text-brown">About</a>
+          <a href="contact.html" class="text-gray-600 hover:text-brown">Contact</a>
+        </div>
+        <div class="flex items-center space-x-6">
+          <a href="#" class="text-charcoal hover:text-brown hidden sm:block"><i class="ph ph-magnifying-glass text-2xl"></i></a>
+          <a href="cart.html" class="text-charcoal hover:text-brown relative">
+            <i class="ph ph-shopping-cart text-2xl"></i>
+            <span x-show="$store.cart.count > 0" x-text="$store.cart.count" class="absolute -top-2 -right-2 bg-brown text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center"></span>
+          </a>
+          <a href="https://wa.me/916300946652" target="_blank" class="text-charcoal hover:text-green-600 hidden sm:block"><i class="ph ph-whatsapp-logo text-2xl"></i></a>
+          <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-charcoal focus:outline-none">
+            <i class="ph ph-list text-3xl" x-show="!mobileMenuOpen"></i>
+            <i class="ph ph-x text-3xl" x-show="mobileMenuOpen" x-cloak></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div x-show="mobileMenuOpen" x-collapse class="md:hidden bg-cream border-b border-gray-200" x-cloak>
+      <div class="px-4 pt-2 pb-6 space-y-1 shadow-inner">
+        <a href="index.html" class="block px-3 py-3 font-medium text-gray-600">Home</a>
+        <a href="products.html?category=mattresses" class="block px-3 py-3 font-medium text-charcoal bg-gray-50 rounded-md">Mattresses</a>
+        <a href="products.html?category=beds" class="block px-3 py-3 font-medium text-gray-600">Beds</a>
+        <a href="bulk-solutions.html" class="block px-3 py-3 font-medium text-gray-600">Bulk Orders</a>
+        <a href="about.html" class="block px-3 py-3 font-medium text-gray-600">About</a>
+        <a href="contact.html" class="block px-3 py-3 font-medium text-gray-600">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow max-w-7xl mx-auto px-4 w-full py-16" x-data="productListing()">
+    <div class="text-center mb-16">
+      <h1 class="text-4xl font-bold capitalize mb-4" x-text="categoryName">Shop</h1>
+      <p class="text-gray-600 text-lg">Browse our simple and elegant collection.</p>
+    </div>
+
+    <template x-if="products.length === 0">
+      <div class="text-center py-20">
+        <h3 class="text-2xl font-bold text-gray-400">No products found in this category.</h3>
+      </div>
+    </template>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <template x-for="product in products" :key="product.id">
+        <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-soft transition-all-300 flex flex-col group">
+          <a :href="`product-detail.html?id=${product.id}`" class="block aspect-[4/3] overflow-hidden bg-gray-100 relative">
+            <img :src="product.image" :alt="product.name" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider" x-text="product.type"></div>
+          </a>
+          
+          <div class="p-6 flex flex-col flex-grow">
+            <a :href="`product-detail.html?id=${product.id}`">
+              <h3 class="font-bold text-xl mb-2 group-hover:text-brown transition-colors" x-text="product.name"></h3>
+              <p class="text-gray-500 text-sm mb-4" x-text="product.shortDesc"></p>
+            </a>
+            
+            <div class="text-sm text-gray-600 mb-6 space-y-1">
+              <div x-show="product.sizes"><span class="font-medium">Sizes:</span> Select Size</div>
+              <div x-show="product.thickness"><span class="font-medium">Thickness:</span> Add thickness</div>
+              <div x-show="product.material"><span class="font-medium">Material:</span> <span x-text="product.material"></span></div>
+              <div x-show="product.warranty"><span class="font-medium">Warranty:</span> <span x-text="product.warranty"></span></div>
+            </div>
+
+            <div class="mt-auto">
+              <div class="text-2xl font-bold text-brown mb-6">Price: <span x-text="product.priceStr"></span></div>
+              
+              <div class="flex flex-col gap-3">
+                <a :href="`product-detail.html?id=${product.id}`" class="w-full text-center bg-gray-100 text-charcoal py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors">
+                  View Details
+                </a>
+                <button @click="buyNow(product)" class="w-full bg-[#25D366] text-white py-3 rounded-xl font-bold hover:bg-[#20bd5a] transition-colors flex justify-center items-center">
+                  <i class="ph ph-whatsapp-logo text-xl mr-2"></i> Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </main>
+
+  <footer class="bg-charcoal text-white py-8 text-center mt-auto">
+    <p>© 2026 Backspace Go. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function productListing() {
+      return {
+        categoryName: 'Products',
+        products: [],
+        
+        init() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const category = urlParams.get('category') || 'mattresses';
+          this.categoryName = category;
+          this.products = window.getProductsByCategory(category);
+        },
+
+        buyNow(product) {
+          // If customer clicks buy now from listing, we send them to whatsapp with base details
+          window.buyNowWhatsApp(product.name, '', '', '', 1, product.priceStr);
+        }
+      }
+    }
+  </script>
+</body>
+</html>

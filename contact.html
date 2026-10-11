@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Backspace Go</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { cream: '#FAF9F6', charcoal: '#2D2D2D', brown: '#8B5A2B', accent: '#A0522D' }, fontFamily: { sans: ['Outfit', 'sans-serif'] } } } }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="js/app.js"></script>
+</head>
+<body class="bg-cream text-charcoal antialiased flex flex-col min-h-screen">
+  
+  <nav class="sticky top-0 z-50 bg-cream/90 backdrop-blur-md border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="index.html" class="text-2xl font-bold tracking-tight text-charcoal">BACKSPACE GO</a>
+        <div class="hidden md:flex space-x-8">
+          <a href="index.html" class="text-gray-600 hover:text-brown font-medium">Home</a>
+          <a href="products.html?category=mattresses" class="text-gray-600 hover:text-brown font-medium">Mattresses</a>
+          <a href="bulk-solutions.html" class="text-gray-600 hover:text-brown font-medium">Bulk Solutions</a>
+          <a href="about.html" class="text-gray-600 hover:text-brown font-medium">About Us</a>
+          <a href="contact.html" class="text-charcoal hover:text-brown font-medium">Contact</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow max-w-7xl mx-auto px-4 w-full py-24">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+      
+      <!-- Contact Info -->
+      <div class="slide-up">
+        <h1 class="text-5xl font-bold mb-6">Get in Touch</h1>
+        <p class="text-xl text-gray-600 mb-12">Have a question about our products, or want to discuss a custom requirement? We're here to help.</p>
+        
+        <div class="space-y-8">
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-brown shadow-sm mr-6 flex-shrink-0">
+              <i class="ph ph-phone text-2xl"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-xl mb-1">Phone & WhatsApp</h3>
+              <p class="text-gray-600">+91 6300946652</p>
+              <p class="text-gray-600">+91 9494888749</p>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-brown shadow-sm mr-6 flex-shrink-0">
+              <i class="ph ph-instagram-logo text-2xl"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-xl mb-1">Instagram</h3>
+              <a href="https://instagram.com/backspace.go" target="_blank" class="text-brown hover:underline">@backspace.go</a>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-brown shadow-sm mr-6 flex-shrink-0">
+              <i class="ph ph-map-pin text-2xl"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-xl mb-1">Service Areas</h3>
+              <p class="text-gray-600">Primary: Andhra Pradesh & Telangana</p>
+              <p class="text-gray-600">Nationwide delivery across India.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="bg-white p-8 md:p-10 rounded-3xl shadow-soft">
+        <h2 class="text-2xl font-bold mb-8">Send an Enquiry</h2>
+        <form class="space-y-6" onsubmit="event.preventDefault(); alert('Message sent!');">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+            <input type="text" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Phone / WhatsApp</label>
+            <input type="tel" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Email (Optional)</label>
+            <input type="email" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+            <textarea rows="5" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none"></textarea>
+          </div>
+          <div class="flex gap-4 pt-4">
+            <button type="submit" class="flex-1 bg-charcoal text-white py-4 rounded-xl font-bold hover:bg-gray-800 transition-colors">
+              Send Message
+            </button>
+            <a href="https://wa.me/916300946652" target="_blank" class="flex-1 bg-[#25D366] text-white py-4 rounded-xl font-bold hover:bg-[#20bd5a] transition-colors flex items-center justify-center">
+              WhatsApp Us
+            </a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="bg-charcoal text-white py-8 text-center mt-auto">
+    <p>© 2026 Backspace Go. All rights reserved.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# Dependencies & build outputs
+node_modules/
+.vercel/
+dist/
+build/
+
+# Python scripts and bytecode
+__pycache__/
+*.pyc
+*.py
+
+# System files
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak

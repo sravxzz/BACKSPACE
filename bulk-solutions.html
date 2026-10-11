@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bulk Sleep Solutions | Backspace Go</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { cream: '#FAF9F6', charcoal: '#2D2D2D', brown: '#8B5A2B', accent: '#A0522D' }, fontFamily: { sans: ['Outfit', 'sans-serif'] } } } }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="js/app.js"></script>
+</head>
+<body class="bg-cream text-charcoal antialiased flex flex-col min-h-screen">
+  
+  <nav class="sticky top-0 z-50 bg-cream/90 backdrop-blur-md border-b border-gray-200" x-data="{ mobileMenuOpen: false }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="index.html" class="text-2xl font-bold tracking-tight text-charcoal">BACKSPACE GO</a>
+        <div class="hidden md:flex space-x-8 items-center">
+          <a href="index.html" class="text-gray-600 hover:text-brown font-medium">Home</a>
+          <a href="products.html?category=mattresses" class="text-gray-600 hover:text-brown">Mattresses</a>
+          <a href="products.html?category=beds" class="text-gray-600 hover:text-brown">Beds</a>
+          <a href="bulk-solutions.html" class="text-charcoal hover:text-brown">Bulk Orders</a>
+        </div>
+        <div class="flex items-center space-x-6">
+          <a href="cart.html" class="text-charcoal hover:text-brown relative">
+            <i class="ph ph-shopping-cart text-2xl"></i>
+            <span x-show="$store.cart.count > 0" x-text="$store.cart.count" class="absolute -top-2 -right-2 bg-brown text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center"></span>
+          </a>
+          <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-charcoal focus:outline-none">
+            <i class="ph ph-list text-3xl" x-show="!mobileMenuOpen"></i>
+            <i class="ph ph-x text-3xl" x-show="mobileMenuOpen" x-cloak></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div x-show="mobileMenuOpen" x-collapse class="md:hidden bg-cream border-b border-gray-200" x-cloak>
+      <div class="px-4 pt-2 pb-6 space-y-1 shadow-inner">
+        <a href="index.html" class="block px-3 py-3 font-medium text-gray-600">Home</a>
+        <a href="bulk-solutions.html" class="block px-3 py-3 font-medium text-charcoal bg-gray-50 rounded-md">Bulk Orders</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 py-24 text-center">
+    
+    <h1 class="text-5xl font-bold mb-6">Bulk Sleep Solutions</h1>
+    <p class="text-xl text-gray-600 mb-16 max-w-2xl mx-auto">We provide premium, customized mattresses and sleep solutions for Hotels, Hostels, Hospitals, PGs, Resorts, Colleges, and Institutional requirements.</p>
+
+    <div class="bg-white p-8 md:p-12 rounded-3xl shadow-soft text-left">
+      <h2 class="text-2xl font-bold mb-8 text-center">Request a Quote</h2>
+      
+      <form class="space-y-6" id="bulkForm" onsubmit="event.preventDefault(); sendBulkWhatsApp();">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2">Name</label>
+            <input type="text" id="bName" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none">
+          </div>
+          <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2">Organization</label>
+            <input type="text" id="bOrg" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-bold text-gray-700 mb-2">Location</label>
+            <input type="text" id="bLoc" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none">
+          </div>
+          <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2">Product Required</label>
+            <input type="text" id="bProd" placeholder="e.g. Memory Foam Mattresses" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none">
+          </div>
+          <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2">Quantity</label>
+            <input type="number" id="bQty" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-bold text-gray-700 mb-2">Required Size</label>
+            <input type="text" id="bSize" placeholder="e.g. 72x36 inches" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-bold text-gray-700 mb-2">Additional Requirements</label>
+            <textarea id="bReq" rows="3" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none"></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-[#25D366] text-white py-5 rounded-xl font-bold hover:bg-[#20bd5a] transition-colors flex items-center justify-center text-lg mt-8 shadow-lg">
+          <i class="ph ph-whatsapp-logo text-2xl mr-3"></i> Request Bulk Quote on WhatsApp
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="bg-charcoal text-white py-8 text-center mt-auto">
+    <p>© 2026 Backspace Go. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function sendBulkWhatsApp() {
+      const name = document.getElementById('bName').value;
+      const org = document.getElementById('bOrg').value;
+      const loc = document.getElementById('bLoc').value;
+      const prod = document.getElementById('bProd').value;
+      const qty = document.getElementById('bQty').value;
+      const size = document.getElementById('bSize').value;
+      const req = document.getElementById('bReq').value;
+
+      let text = `Hello Backspace Go,\n\nI am interested in a bulk order.\n\nName: ${name}\nOrganization: ${org}\nLocation: ${loc}\nProduct Required: ${prod}\nQuantity: ${qty}\nRequired Size: ${size}\nAdditional Requirements: ${req}\n\nPlease share your bulk quotation.`;
+
+      const phone = "916300946652";
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
