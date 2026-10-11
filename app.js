@@ -55,6 +55,7 @@ function appData() {
         
         // Data
         products: [],
+        allProducts: [],
         cart: [],
         wishlist: [],
         compareList: [],
@@ -93,7 +94,13 @@ function appData() {
         },
         
         init() {
-            this.products = [...defaultProducts]; 
+            if (typeof window !== 'undefined' && window.BACKSPACE_CATALOGUE && window.BACKSPACE_CATALOGUE.length > 0) {
+                this.allProducts = window.BACKSPACE_CATALOGUE;
+                this.products = window.BACKSPACE_CATALOGUE;
+            } else {
+                this.products = [...defaultProducts];
+                this.allProducts = [...defaultProducts];
+            }
             localStorage.setItem('backspaceProducts', JSON.stringify(this.products));
             
             const storedCart = localStorage.getItem('backspaceCart');
@@ -121,16 +128,14 @@ function appData() {
         },
 
         goToPage(page, category = null) {
+            this.currentPage = page;
+            if(category) this.currentCategoryFilter = category;
+            this.mobileMenuOpen = false;
+            this.hamburgerOpen = false;
+            this.searchOpen = false;
+            this.activeMegaMenu = null;
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            setTimeout(() => {
-                this.currentPage = page;
-                if(category) this.currentCategoryFilter = category;
-                this.mobileMenuOpen = false;
-                this.hamburgerOpen = false;
-                this.searchOpen = false;
-                this.activeMegaMenu = null;
-                setTimeout(() => this.checkScrollAnimations(), 100);
-            }, 100);
+            setTimeout(() => this.checkScrollAnimations(), 100);
         },
 
         openProduct(product) {
