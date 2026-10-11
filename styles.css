@@ -1,16 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --brand-ivory: #faf8f5;
-    --brand-cream: #f4ede4;
-    --brand-charcoal: #292524;
-    --brand-terracotta: #b45309;
-    --brand-taupe: #78716c;
+    --brand-ivory: #F7F4EF;
+    --brand-secondary: #F1EBE3;
+    --brand-grid: #F4F2EF;
+    --brand-card: #FFFCF7;
+    --brand-sidebar: #F8F5F0;
+    --brand-terracotta: #B85C38;
+    --brand-charcoal: #292522;
+    --brand-warm-grey: #77716B;
+    --brand-border: #E6DFD6;
+    --brand-cream: #F1EBE3;
+    --brand-taupe: #77716B;
 }
 
 body {
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
+    background-color: var(--brand-ivory);
+    color: var(--brand-charcoal);
 }
 
 
