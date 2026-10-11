@@ -818,18 +818,67 @@
                         <button @click="resetFilters" class="text-[11px] font-bold text-brand-terracotta uppercase hover:text-orange-700 transition">RESET</button>
                     </div>
 
-                    <!-- Price -->
+                    <!-- Price Filter -->
                     <div class="mb-8">
-                        <h3 class="text-sm font-bold text-brand-charcoal mb-4 uppercase">PRICE</h3>
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-bold text-brand-charcoal uppercase tracking-wider">PRICE</h3>
+                            <span class="text-[11px] font-bold text-brand-terracotta" x-text="`${formatRupee(filters.minPrice)} - ${formatRupee(filters.maxPrice)}`"></span>
+                        </div>
+
+                        <!-- Dual Range Slider (1000 - 49999) -->
+                        <div class="relative py-4 select-none">
+                            <div class="relative h-2 w-full flex items-center">
+                                <!-- Background Track -->
+                                <div class="absolute w-full h-1.5 bg-gray-200 rounded-full"></div>
+                                <!-- Active Colored Progress Track -->
+                                <div class="absolute h-1.5 bg-brand-charcoal rounded-full"
+                                     :style="`left: ${Math.max(0, Math.min(100, ((filters.minPrice - 1000) / 48999) * 100))}%; right: ${Math.max(0, Math.min(100, 100 - (((filters.maxPrice - 1000) / 48999) * 100)))}%`">
+                                </div>
+                                <!-- Min Range Handle -->
+                                <input type="range" min="1000" max="49999" step="100"
+                                       :value="filters.minPrice"
+                                       @input="onMinSlider($event.target.value)"
+                                       class="range-slider-input z-20 pointer-events-none"
+                                       aria-label="Minimum Price Slider">
+                                <!-- Max Range Handle -->
+                                <input type="range" min="1000" max="49999" step="100"
+                                       :value="filters.maxPrice"
+                                       @input="onMaxSlider($event.target.value)"
+                                       class="range-slider-input z-30 pointer-events-none"
+                                       aria-label="Maximum Price Slider">
+                            </div>
+                            <div class="flex justify-between items-center text-[10px] text-gray-400 font-semibold mt-1">
+                                <span>₹1,000</span>
+                                <span>₹49,999</span>
+                            </div>
+                        </div>
+
+                        <!-- Side-by-Side Minimum & Maximum Input Fields -->
+                        <div class="flex items-center gap-2 mt-1">
                             <div class="flex-1">
                                 <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MINIMUM</label>
-                                <input type="number" x-model.number="filters.minPrice" class="w-full border border-gray-300 rounded-lg p-2 text-sm text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:outline-none" placeholder="0">
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-2.5 text-xs font-semibold text-gray-500 select-none">₹</span>
+                                    <input type="number" min="1000" max="49999"
+                                           :value="filters.minPrice"
+                                           @input="onMinInput($event.target.value)"
+                                           @blur="sanitizePriceRange()"
+                                           class="w-full border border-gray-300 rounded-lg pl-6 pr-2 py-2 text-xs font-semibold text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:border-brand-charcoal focus:outline-none"
+                                           placeholder="1000">
+                                </div>
                             </div>
-                            <span class="text-gray-400 mt-5">-</span>
+                            <span class="text-gray-400 mt-5 font-bold">-</span>
                             <div class="flex-1">
                                 <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MAXIMUM</label>
-                                <input type="number" x-model.number="filters.maxPrice" class="w-full border border-gray-300 rounded-lg p-2 text-sm text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:outline-none" placeholder="Max">
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-2.5 text-xs font-semibold text-gray-500 select-none">₹</span>
+                                    <input type="number" min="1000" max="49999"
+                                           :value="filters.maxPrice"
+                                           @input="onMaxInput($event.target.value)"
+                                           @blur="sanitizePriceRange()"
+                                           class="w-full border border-gray-300 rounded-lg pl-6 pr-2 py-2 text-xs font-semibold text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:border-brand-charcoal focus:outline-none"
+                                           placeholder="49999">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -988,21 +1037,70 @@
             
             <div class="flex-1 overflow-y-auto p-4 hide-scroll">
                 <!-- Identical filters to desktop -->
-                <!-- Price -->
-                <div class="mb-8">
-                    <h3 class="text-sm font-bold text-brand-charcoal mb-4 uppercase">PRICE</h3>
-                    <div class="flex items-center gap-2">
-                        <div class="flex-1">
-                            <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MINIMUM</label>
-                            <input type="number" x-model.number="filters.minPrice" class="w-full border border-gray-300 rounded-lg p-2 text-sm text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:outline-none">
+                    <!-- Price Filter -->
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-bold text-brand-charcoal uppercase tracking-wider">PRICE</h3>
+                            <span class="text-[11px] font-bold text-brand-terracotta" x-text="`${formatRupee(filters.minPrice)} - ${formatRupee(filters.maxPrice)}`"></span>
                         </div>
-                        <span class="text-gray-400 mt-5">-</span>
-                        <div class="flex-1">
-                            <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MAXIMUM</label>
-                            <input type="number" x-model.number="filters.maxPrice" class="w-full border border-gray-300 rounded-lg p-2 text-sm text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:outline-none">
+
+                        <!-- Dual Range Slider (1000 - 49999) -->
+                        <div class="relative py-4 select-none">
+                            <div class="relative h-2 w-full flex items-center">
+                                <!-- Background Track -->
+                                <div class="absolute w-full h-1.5 bg-gray-200 rounded-full"></div>
+                                <!-- Active Colored Progress Track -->
+                                <div class="absolute h-1.5 bg-brand-charcoal rounded-full"
+                                     :style="`left: ${Math.max(0, Math.min(100, ((filters.minPrice - 1000) / 48999) * 100))}%; right: ${Math.max(0, Math.min(100, 100 - (((filters.maxPrice - 1000) / 48999) * 100)))}%`">
+                                </div>
+                                <!-- Min Range Handle -->
+                                <input type="range" min="1000" max="49999" step="100"
+                                       :value="filters.minPrice"
+                                       @input="onMinSlider($event.target.value)"
+                                       class="range-slider-input z-20 pointer-events-none"
+                                       aria-label="Minimum Price Slider">
+                                <!-- Max Range Handle -->
+                                <input type="range" min="1000" max="49999" step="100"
+                                       :value="filters.maxPrice"
+                                       @input="onMaxSlider($event.target.value)"
+                                       class="range-slider-input z-30 pointer-events-none"
+                                       aria-label="Maximum Price Slider">
+                            </div>
+                            <div class="flex justify-between items-center text-[10px] text-gray-400 font-semibold mt-1">
+                                <span>₹1,000</span>
+                                <span>₹49,999</span>
+                            </div>
+                        </div>
+
+                        <!-- Side-by-Side Minimum & Maximum Input Fields -->
+                        <div class="flex items-center gap-2 mt-1">
+                            <div class="flex-1">
+                                <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MINIMUM</label>
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-2.5 text-xs font-semibold text-gray-500 select-none">₹</span>
+                                    <input type="number" min="1000" max="49999"
+                                           :value="filters.minPrice"
+                                           @input="onMinInput($event.target.value)"
+                                           @blur="sanitizePriceRange()"
+                                           class="w-full border border-gray-300 rounded-lg pl-6 pr-2 py-2 text-xs font-semibold text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:border-brand-charcoal focus:outline-none"
+                                           placeholder="1000">
+                                </div>
+                            </div>
+                            <span class="text-gray-400 mt-5 font-bold">-</span>
+                            <div class="flex-1">
+                                <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MAXIMUM</label>
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-2.5 text-xs font-semibold text-gray-500 select-none">₹</span>
+                                    <input type="number" min="1000" max="49999"
+                                           :value="filters.maxPrice"
+                                           @input="onMaxInput($event.target.value)"
+                                           @blur="sanitizePriceRange()"
+                                           class="w-full border border-gray-300 rounded-lg pl-6 pr-2 py-2 text-xs font-semibold text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:border-brand-charcoal focus:outline-none"
+                                           placeholder="49999">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
                 <!-- Color -->
                 <div class="mb-8">
@@ -1089,7 +1187,7 @@
             "main": "./public/images/mattresses/cool-gel/main.jpg",
             "detail": "./public/images/mattresses/cool-gel/detail.jpg",
             "side": "./public/images/mattresses/cool-gel/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/cool-gel/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1147,7 +1245,7 @@
             "main": "./public/images/mattresses/orthopedic-support/main.jpg",
             "detail": "./public/images/mattresses/orthopedic-support/detail.jpg",
             "side": "./public/images/mattresses/orthopedic-support/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/orthopedic-support/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1205,7 +1303,7 @@
             "main": "./public/images/mattresses/cloud-memory-foam/main.jpg",
             "detail": "./public/images/mattresses/cloud-memory-foam/detail.jpg",
             "side": "./public/images/mattresses/cloud-memory-foam/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/cloud-memory-foam/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1267,7 +1365,7 @@
             "main": "./public/images/mattresses/essential-budget/main.jpg",
             "detail": "./public/images/mattresses/essential-budget/detail.jpg",
             "side": "./public/images/mattresses/essential-budget/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/essential-budget/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1325,7 +1423,7 @@
             "main": "./public/images/mattresses/classic-spring/main.jpg",
             "detail": "./public/images/mattresses/classic-spring/detail.jpg",
             "side": "./public/images/mattresses/classic-spring/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/classic-spring/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1383,7 +1481,7 @@
             "main": "./public/images/mattresses/cool-gel/main.jpg",
             "detail": "./public/images/mattresses/cool-gel/detail.jpg",
             "side": "./public/images/mattresses/cool-gel/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/cool-gel/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1440,7 +1538,7 @@
             "main": "./public/images/mattresses/comfort-foam/main.jpg",
             "detail": "./public/images/mattresses/comfort-foam/detail.jpg",
             "side": "./public/images/mattresses/comfort-foam/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/comfort-foam/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1497,7 +1595,7 @@
             "main": "./public/images/mattresses/luxury-latex/main.jpg",
             "detail": "./public/images/mattresses/luxury-latex/detail.jpg",
             "side": "./public/images/mattresses/luxury-latex/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/luxury-latex/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1554,7 +1652,7 @@
             "main": "./public/images/mattresses/premium-latex/main.jpg",
             "detail": "./public/images/mattresses/premium-latex/detail.jpg",
             "side": "./public/images/mattresses/premium-latex/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/premium-latex/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1612,7 +1710,7 @@
             "main": "./public/images/mattresses/cloud-memory-foam/main.jpg",
             "detail": "./public/images/mattresses/cloud-memory-foam/detail.jpg",
             "side": "./public/images/mattresses/cloud-memory-foam/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/cloud-memory-foam/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1670,7 +1768,7 @@
             "main": "./public/images/mattresses/comfort-foam/main.jpg",
             "detail": "./public/images/mattresses/comfort-foam/detail.jpg",
             "side": "./public/images/mattresses/comfort-foam/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/comfort-foam/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1725,7 +1823,7 @@
             "main": "./public/images/mattresses/essential-budget/main.jpg",
             "detail": "./public/images/mattresses/essential-budget/detail.jpg",
             "side": "./public/images/mattresses/essential-budget/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/essential-budget/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1777,7 +1875,7 @@
             "main": "./public/images/mattresses/classic-spring/main.jpg",
             "detail": "./public/images/mattresses/classic-spring/detail.jpg",
             "side": "./public/images/mattresses/classic-spring/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/classic-spring/angle.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1837,7 +1935,7 @@
             "main": "./images/bed1.jpg",
             "detail": "./images/detail1.jpg",
             "side": "./images/surface1.jpg",
-            "lifestyle": "./images/bed1.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1892,7 +1990,7 @@
             "main": "./images/surface1.jpg",
             "detail": "./images/detail1.jpg",
             "side": "./images/bed1.jpg",
-            "lifestyle": "./images/surface1.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1948,7 +2046,7 @@
             "main": "./images/bed1.jpg",
             "detail": "./images/detail1.jpg",
             "side": "./images/surface1.jpg",
-            "lifestyle": "./images/bed1.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -2002,7 +2100,7 @@
             "main": "./public/images/mattresses/classic-spring/angle.jpg",
             "detail": "./images/detail1.jpg",
             "side": "./images/surface1.jpg",
-            "lifestyle": "./images/bed1.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -2055,7 +2153,7 @@
             "main": "./public/images/mattresses/comfort-foam/thickness.jpg",
             "detail": "./images/close_up_texture_1790608850802.jpg",
             "side": "./public/images/assets/texture.jpg",
-            "lifestyle": "./public/images/mattresses/comfort-foam/main.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -2114,7 +2212,7 @@
             "main": "./images/close_up_texture_1790608850802.jpg",
             "detail": "./public/images/mattresses/cloud-memory-foam/thickness.jpg",
             "side": "./public/images/assets/texture.jpg",
-            "lifestyle": "./images/close_up_texture_1790608850802.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -2173,7 +2271,7 @@
             "main": "./public/images/assets/texture.jpg",
             "detail": "./images/close_up_texture_1790608850802.jpg",
             "side": "./public/images/mattresses/comfort-foam/thickness.jpg",
-            "lifestyle": "./public/images/assets/texture.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -2232,7 +2330,7 @@
             "main": "./public/images/mattresses/cool-gel/thickness.jpg",
             "detail": "./images/close_up_texture_1790608850802.jpg",
             "side": "./public/images/assets/texture.jpg",
-            "lifestyle": "./public/images/mattresses/cool-gel/thickness.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -2290,7 +2388,7 @@
             "main": "./public/images/mattresses/cool-gel/thickness.jpg",
             "detail": "./public/images/mattresses/luxury-latex/detail.jpg",
             "side": "./public/images/mattresses/orthopedic-support/detail.jpg",
-            "lifestyle": "./public/images/mattresses/cloud-memory-foam/detail.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -2343,7 +2441,7 @@
             "main": "./public/images/mattresses/orthopedic-support/detail.jpg",
             "detail": "./public/images/mattresses/cool-gel/thickness.jpg",
             "side": "./public/images/mattresses/luxury-latex/detail.jpg",
-            "lifestyle": "./public/images/mattresses/orthopedic-support/detail.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -2396,7 +2494,7 @@
             "main": "./public/images/mattresses/luxury-latex/detail.jpg",
             "detail": "./public/images/mattresses/cloud-memory-foam/detail.jpg",
             "side": "./public/images/mattresses/orthopedic-support/detail.jpg",
-            "lifestyle": "./public/images/mattresses/luxury-latex/detail.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -2449,7 +2547,7 @@
             "main": "./public/images/mattresses/cloud-memory-foam/detail.jpg",
             "detail": "./public/images/mattresses/classic-spring/thickness.jpg",
             "side": "./public/images/mattresses/cool-gel/thickness.jpg",
-            "lifestyle": "./public/images/mattresses/cloud-memory-foam/detail.jpg"
+            "lifestyle": "./images/backspace-premium-sleeper.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -2481,33 +2579,96 @@ function singleBedApp() {
         mobileFiltersOpen: false,
         sortBy: 'recommended',
         filters: {
-            minPrice: null,
-            maxPrice: null,
+            minPrice: 1000,
+            maxPrice: 49999,
             colors: [],
             heights: [],
             categories: []
         },
         products: BACKSPACE_CATALOGUE,
+        formatRupee(num) {
+            const val = typeof num === 'number' && !isNaN(num) ? num : (parseInt(num) || 0);
+            return '₹' + val.toLocaleString('en-IN');
+        },
+        onMinSlider(val) {
+            let num = parseInt(val);
+            if (isNaN(num)) num = 1000;
+            if (num < 1000) num = 1000;
+            if (num > 49999) num = 49999;
+            if (num > this.filters.maxPrice) {
+                num = this.filters.maxPrice;
+            }
+            this.filters.minPrice = num;
+        },
+        onMaxSlider(val) {
+            let num = parseInt(val);
+            if (isNaN(num)) num = 49999;
+            if (num < 1000) num = 1000;
+            if (num > 49999) num = 49999;
+            if (num < this.filters.minPrice) {
+                num = this.filters.minPrice;
+            }
+            this.filters.maxPrice = num;
+        },
+        onMinInput(val) {
+            if (val === '' || val === null || val === undefined) return;
+            let num = parseInt(val);
+            if (isNaN(num)) return;
+            if (num < 1000) num = 1000;
+            if (num > 49999) num = 49999;
+            if (num > this.filters.maxPrice) {
+                num = this.filters.maxPrice;
+            }
+            this.filters.minPrice = num;
+        },
+        onMaxInput(val) {
+            if (val === '' || val === null || val === undefined) return;
+            let num = parseInt(val);
+            if (isNaN(num)) return;
+            if (num < 1000) num = 1000;
+            if (num > 49999) num = 49999;
+            if (num < this.filters.minPrice) {
+                num = this.filters.minPrice;
+            }
+            this.filters.maxPrice = num;
+        },
+        sanitizePriceRange() {
+            let min = parseInt(this.filters.minPrice);
+            let max = parseInt(this.filters.maxPrice);
+            if (isNaN(min) || min < 1000) min = 1000;
+            if (isNaN(max) || max > 49999) max = 49999;
+            if (min > max) {
+                let temp = min;
+                min = max;
+                max = temp;
+            }
+            if (min < 1000) min = 1000;
+            if (max > 49999) max = 49999;
+            this.filters.minPrice = min;
+            this.filters.maxPrice = max;
+        },
         get filteredProducts() {
-                    let result = this.products;
-                    if (this.filters.minPrice) result = result.filter(p => p.price >= this.filters.minPrice);
-                    if (this.filters.maxPrice) result = result.filter(p => p.price <= this.filters.maxPrice);
-                    if (this.filters.colors.length > 0) result = result.filter(p => this.filters.colors.includes(p.color));
-                    if (this.filters.heights.length > 0) result = result.filter(p => this.filters.heights.includes(p.height));
-                    if (this.filters.categories.length > 0) result = result.filter(p => this.filters.categories.includes(p.category));
+            let result = this.products;
+            const minP = typeof this.filters.minPrice === 'number' && !isNaN(this.filters.minPrice) ? this.filters.minPrice : 1000;
+            const maxP = typeof this.filters.maxPrice === 'number' && !isNaN(this.filters.maxPrice) ? this.filters.maxPrice : 49999;
+            result = result.filter(p => p.price >= minP && p.price <= maxP);
+            
+            if (this.filters.colors.length > 0) result = result.filter(p => this.filters.colors.includes(p.color));
+            if (this.filters.heights.length > 0) result = result.filter(p => this.filters.heights.includes(p.height));
+            if (this.filters.categories.length > 0) result = result.filter(p => this.filters.categories.includes(p.category));
 
-                    if (this.sortBy === 'price_low') result.sort((a, b) => a.price - b.price);
-                    else if (this.sortBy === 'price_high') result.sort((a, b) => b.price - a.price);
-                    else if (this.sortBy === 'rating') result.sort((a, b) => b.rating - a.rating);
-                    else if (this.sortBy === 'discount') {
-                        result.sort((a, b) => parseFloat(b.discount) - parseFloat(a.discount));
-                    }
-                    return result;
-                },
-                resetFilters() {
-                    this.filters = { minPrice: null, maxPrice: null, colors: [], heights: [], categories: [] };
-                    this.sortBy = 'recommended';
-                },
+            if (this.sortBy === 'price_low') result.sort((a, b) => a.price - b.price);
+            else if (this.sortBy === 'price_high') result.sort((a, b) => b.price - a.price);
+            else if (this.sortBy === 'rating') result.sort((a, b) => b.rating - a.rating);
+            else if (this.sortBy === 'discount') {
+                result.sort((a, b) => parseFloat(b.discount) - parseFloat(a.discount));
+            }
+            return result;
+        },
+        resetFilters() {
+            this.filters = { minPrice: 1000, maxPrice: 49999, colors: [], heights: [], categories: [] };
+            this.sortBy = 'recommended';
+        },
                 addToCart(product) {
                     this.cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 });
                     product.added = true;
@@ -3616,13 +3777,74 @@ function singleBedApp() {
          mobileFiltersOpen: false,
          sortBy: 'recommended',
          filters: {
-             minPrice: null,
-             maxPrice: null,
+             minPrice: 1000,
+             maxPrice: 49999,
              sizes: [],
              firmness: []
          },
          get allProducts() {
              return window.BACKSPACE_CATALOGUE || [];
+         },
+         formatRupee(num) {
+             const val = typeof num === 'number' && !isNaN(num) ? num : (parseInt(num) || 0);
+             return '₹' + val.toLocaleString('en-IN');
+         },
+         onMinSlider(val) {
+             let num = parseInt(val);
+             if (isNaN(num)) num = 1000;
+             if (num < 1000) num = 1000;
+             if (num > 49999) num = 49999;
+             if (num > this.filters.maxPrice) {
+                 num = this.filters.maxPrice;
+             }
+             this.filters.minPrice = num;
+         },
+         onMaxSlider(val) {
+             let num = parseInt(val);
+             if (isNaN(num)) num = 49999;
+             if (num < 1000) num = 1000;
+             if (num > 49999) num = 49999;
+             if (num < this.filters.minPrice) {
+                 num = this.filters.minPrice;
+             }
+             this.filters.maxPrice = num;
+         },
+         onMinInput(val) {
+             if (val === '' || val === null || val === undefined) return;
+             let num = parseInt(val);
+             if (isNaN(num)) return;
+             if (num < 1000) num = 1000;
+             if (num > 49999) num = 49999;
+             if (num > this.filters.maxPrice) {
+                 num = this.filters.maxPrice;
+             }
+             this.filters.minPrice = num;
+         },
+         onMaxInput(val) {
+             if (val === '' || val === null || val === undefined) return;
+             let num = parseInt(val);
+             if (isNaN(num)) return;
+             if (num < 1000) num = 1000;
+             if (num > 49999) num = 49999;
+             if (num < this.filters.minPrice) {
+                 num = this.filters.minPrice;
+             }
+             this.filters.maxPrice = num;
+         },
+         sanitizePriceRange() {
+             let min = parseInt(this.filters.minPrice);
+             let max = parseInt(this.filters.maxPrice);
+             if (isNaN(min) || min < 1000) min = 1000;
+             if (isNaN(max) || max > 49999) max = 49999;
+             if (min > max) {
+                 let temp = min;
+                 min = max;
+                 max = temp;
+             }
+             if (min < 1000) min = 1000;
+             if (max > 49999) max = 49999;
+             this.filters.minPrice = min;
+             this.filters.maxPrice = max;
          },
          get categoryTitle() {
              const cat = (currentCategoryFilter || '').toLowerCase();
@@ -3674,9 +3896,10 @@ function singleBedApp() {
                  list = list.filter(p => p.mainCategory === 'Mattresses' || p.category === 'SINGLE');
              }
              
-             // Price filter
-             if (this.filters.minPrice) list = list.filter(p => p.price >= this.filters.minPrice);
-             if (this.filters.maxPrice) list = list.filter(p => p.price <= this.filters.maxPrice);
+                           // Price filter (1000 to 49999)
+              const minP = typeof this.filters.minPrice === 'number' && !isNaN(this.filters.minPrice) ? this.filters.minPrice : 1000;
+              const maxP = typeof this.filters.maxPrice === 'number' && !isNaN(this.filters.maxPrice) ? this.filters.maxPrice : 49999;
+              list = list.filter(p => p.price >= minP && p.price <= maxP);
              
              // Sizes filter
              if (this.filters.sizes.length > 0) {
@@ -3690,9 +3913,10 @@ function singleBedApp() {
              
              return list;
          },
-         resetFilters() {
-             this.filters = { minPrice: null, maxPrice: null, sizes: [], firmness: [] };
-         }
+                   resetFilters() {
+              this.filters = { minPrice: 1000, maxPrice: 49999, sizes: [], firmness: [] };
+              this.sortBy = 'recommended';
+          }
      }">
     <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Breadcrumbs & Category Bar -->
@@ -3730,11 +3954,66 @@ function singleBedApp() {
 
                     <!-- Price Filter -->
                     <div class="mb-8">
-                        <h3 class="text-xs font-bold text-brand-charcoal mb-3 uppercase tracking-wider">PRICE RANGE</h3>
-                        <div class="flex items-center gap-2">
-                            <input type="number" x-model.number="filters.minPrice" class="w-full border border-gray-200 rounded-xl p-2.5 text-xs text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:outline-none" placeholder="Min ₹">
-                            <span class="text-gray-400">-</span>
-                            <input type="number" x-model.number="filters.maxPrice" class="w-full border border-gray-200 rounded-xl p-2.5 text-xs text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:outline-none" placeholder="Max ₹">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-bold text-brand-charcoal uppercase tracking-wider">PRICE</h3>
+                            <span class="text-[11px] font-bold text-brand-terracotta" x-text="`${formatRupee(filters.minPrice)} - ${formatRupee(filters.maxPrice)}`"></span>
+                        </div>
+
+                        <!-- Dual Range Slider (1000 - 49999) -->
+                        <div class="relative py-4 select-none">
+                            <div class="relative h-2 w-full flex items-center">
+                                <!-- Background Track -->
+                                <div class="absolute w-full h-1.5 bg-gray-200 rounded-full"></div>
+                                <!-- Active Colored Progress Track -->
+                                <div class="absolute h-1.5 bg-brand-charcoal rounded-full"
+                                     :style="`left: ${Math.max(0, Math.min(100, ((filters.minPrice - 1000) / 48999) * 100))}%; right: ${Math.max(0, Math.min(100, 100 - (((filters.maxPrice - 1000) / 48999) * 100)))}%`">
+                                </div>
+                                <!-- Min Range Handle -->
+                                <input type="range" min="1000" max="49999" step="100"
+                                       :value="filters.minPrice"
+                                       @input="onMinSlider($event.target.value)"
+                                       class="range-slider-input z-20 pointer-events-none"
+                                       aria-label="Minimum Price Slider">
+                                <!-- Max Range Handle -->
+                                <input type="range" min="1000" max="49999" step="100"
+                                       :value="filters.maxPrice"
+                                       @input="onMaxSlider($event.target.value)"
+                                       class="range-slider-input z-30 pointer-events-none"
+                                       aria-label="Maximum Price Slider">
+                            </div>
+                            <div class="flex justify-between items-center text-[10px] text-gray-400 font-semibold mt-1">
+                                <span>₹1,000</span>
+                                <span>₹49,999</span>
+                            </div>
+                        </div>
+
+                        <!-- Side-by-Side Minimum & Maximum Input Fields -->
+                        <div class="flex items-center gap-2 mt-1">
+                            <div class="flex-1">
+                                <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MINIMUM</label>
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-2.5 text-xs font-semibold text-gray-500 select-none">₹</span>
+                                    <input type="number" min="1000" max="49999"
+                                           :value="filters.minPrice"
+                                           @input="onMinInput($event.target.value)"
+                                           @blur="sanitizePriceRange()"
+                                           class="w-full border border-gray-300 rounded-lg pl-6 pr-2 py-2 text-xs font-semibold text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:border-brand-charcoal focus:outline-none"
+                                           placeholder="1000">
+                                </div>
+                            </div>
+                            <span class="text-gray-400 mt-5 font-bold">-</span>
+                            <div class="flex-1">
+                                <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MAXIMUM</label>
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-2.5 text-xs font-semibold text-gray-500 select-none">₹</span>
+                                    <input type="number" min="1000" max="49999"
+                                           :value="filters.maxPrice"
+                                           @input="onMaxInput($event.target.value)"
+                                           @blur="sanitizePriceRange()"
+                                           class="w-full border border-gray-300 rounded-lg pl-6 pr-2 py-2 text-xs font-semibold text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:border-brand-charcoal focus:outline-none"
+                                           placeholder="49999">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -3772,6 +4051,10 @@ function singleBedApp() {
                 <!-- Top Status Bar: Count + Sort -->
                 <div class="flex items-center justify-between mb-6 bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
                     <div class="flex items-center space-x-2">
+                        <button @click="mobileFiltersOpen = true" class="lg:hidden flex items-center space-x-2 bg-gray-50 hover:bg-gray-100 text-brand-charcoal border border-gray-200 px-3 py-1.5 rounded-xl text-xs font-bold transition">
+                            <i class="fa-solid fa-sliders text-brand-terracotta"></i>
+                            <span>FILTERS</span>
+                        </button>
                         <span class="text-xs font-extrabold text-brand-charcoal uppercase tracking-wider" x-text="`${displayProducts.length} PRODUCTS FOUND`"></span>
                     </div>
 
@@ -3857,6 +4140,113 @@ Please confirm availability and delivery timelines.`)}`, '_blank')" class="w-ful
             </div>
         </div>
     </div>
+
+    <!-- MOBILE FILTER DRAWER (Shop Page) -->
+    <div x-show="mobileFiltersOpen" class="fixed inset-0 z-50 flex lg:hidden" style="display:none;">
+        <div x-show="mobileFiltersOpen" class="fixed inset-0 bg-black/60 backdrop-blur-sm" @click="mobileFiltersOpen = false" x-transition.opacity></div>
+        <div class="relative ml-auto w-full max-w-xs bg-white h-full shadow-2xl z-10 flex flex-col transform"
+             x-show="mobileFiltersOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="translate-x-full"
+             x-transition:enter-end="translate-x-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="translate-x-0"
+             x-transition:leave-end="translate-x-full">
+            
+            <div class="p-4 border-b border-gray-100 flex items-center justify-between">
+                <span class="text-sm font-extrabold uppercase tracking-widest text-brand-charcoal">FILTERS</span>
+                <button @click="mobileFiltersOpen = false" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-brand-charcoal focus:outline-none">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-4 hide-scroll">
+                <!-- Price Filter -->
+                <div class="mb-8">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-sm font-bold text-brand-charcoal uppercase tracking-wider">PRICE</h3>
+                        <span class="text-[11px] font-bold text-brand-terracotta" x-text="`${formatRupee(filters.minPrice)} - ${formatRupee(filters.maxPrice)}`"></span>
+                    </div>
+
+                    <!-- Dual Range Slider (1000 - 49999) -->
+                    <div class="relative py-4 select-none">
+                        <div class="relative h-2 w-full flex items-center">
+                            <div class="absolute w-full h-1.5 bg-gray-200 rounded-full"></div>
+                            <div class="absolute h-1.5 bg-brand-charcoal rounded-full"
+                                 :style="`left: ${Math.max(0, Math.min(100, ((filters.minPrice - 1000) / 48999) * 100))}%; right: ${Math.max(0, Math.min(100, 100 - (((filters.maxPrice - 1000) / 48999) * 100)))}%`">
+                            </div>
+                            <input type="range" min="1000" max="49999" step="100"
+                                   :value="filters.minPrice"
+                                   @input="onMinSlider($event.target.value)"
+                                   class="range-slider-input z-20 pointer-events-none"
+                                   aria-label="Minimum Price Slider">
+                            <input type="range" min="1000" max="49999" step="100"
+                                   :value="filters.maxPrice"
+                                   @input="onMaxSlider($event.target.value)"
+                                   class="range-slider-input z-30 pointer-events-none"
+                                   aria-label="Maximum Price Slider">
+                        </div>
+                        <div class="flex justify-between items-center text-[10px] text-gray-400 font-semibold mt-1">
+                            <span>₹1,000</span>
+                            <span>₹49,999</span>
+                        </div>
+                    </div>
+
+                    <!-- Side-by-Side Minimum & Maximum Input Fields -->
+                    <div class="flex items-center gap-2 mt-1">
+                        <div class="flex-1">
+                            <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MINIMUM</label>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-2.5 text-xs font-semibold text-gray-500 select-none">₹</span>
+                                <input type="number" min="1000" max="49999"
+                                       :value="filters.minPrice"
+                                       @input="onMinInput($event.target.value)"
+                                       @blur="sanitizePriceRange()"
+                                       class="w-full border border-gray-300 rounded-lg pl-6 pr-2 py-2 text-xs font-semibold text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:border-brand-charcoal focus:outline-none"
+                                       placeholder="1000">
+                            </div>
+                        </div>
+                        <span class="text-gray-400 mt-5 font-bold">-</span>
+                        <div class="flex-1">
+                            <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MAXIMUM</label>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-2.5 text-xs font-semibold text-gray-500 select-none">₹</span>
+                                <input type="number" min="1000" max="49999"
+                                       :value="filters.maxPrice"
+                                       @input="onMaxInput($event.target.value)"
+                                       @blur="sanitizePriceRange()"
+                                       class="w-full border border-gray-300 rounded-lg pl-6 pr-2 py-2 text-xs font-semibold text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:border-brand-charcoal focus:outline-none"
+                                       placeholder="49999">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sizes Filter -->
+                <div class="mb-8">
+                    <h3 class="text-xs font-bold text-brand-charcoal mb-3 uppercase tracking-wider">AVAILABLE SIZES</h3>
+                    <div class="space-y-2.5">
+                        <template x-for="sz in ['Single', 'Double', 'Queen', 'King', 'Standard (24x16 inch)']">
+                            <label class="flex items-center cursor-pointer group">
+                                <input type="checkbox" :value="sz" x-model="filters.sizes" class="peer sr-only">
+                                <div class="w-4 h-4 border-2 border-gray-300 rounded flex items-center justify-center peer-checked:bg-brand-charcoal peer-checked:border-brand-charcoal transition text-white">
+                                    <i class="fa-solid fa-check text-[9px] opacity-0 peer-checked:opacity-100"></i>
+                                </div>
+                                <span class="ml-2.5 text-xs text-gray-600 font-medium group-hover:text-brand-charcoal transition" x-text="sz"></span>
+                            </label>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="p-4 border-t border-gray-100 flex gap-3">
+                <button @click="resetFilters()" class="w-1/3 border border-gray-300 text-brand-charcoal py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-gray-50 transition">RESET</button>
+                <button @click="mobileFiltersOpen = false" class="flex-1 bg-brand-charcoal text-white py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-black transition">APPLY</button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 
