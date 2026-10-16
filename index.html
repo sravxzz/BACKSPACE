@@ -966,17 +966,20 @@
                 <!-- Product Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <template x-for="product in filteredProducts" :key="product.id">
-                        <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-[0_15px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-300 group flex flex-col cursor-pointer" @click="currentProductData = product; goToPage('productDetail')">
-                            <!-- Image -->
-                            <div class="relative aspect-[4/3] overflow-hidden bg-gray-50">
-                                <img :src="product.image" :alt="product.name" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
-                                <div class="absolute top-3 left-3 flex gap-2">
-                                    <div class="bg-brand-charcoal text-white text-[9px] font-bold px-2 py-1 rounded uppercase tracking-widest shadow-sm">NEW</div>
+                        <div class="bg-[#FFFCF7] rounded-2xl border border-[#E6DFD6] overflow-hidden hover:shadow-[0_15px_35px_-10px_rgba(41,37,34,0.12)] transition-all duration-300 group flex flex-col cursor-pointer hover:-translate-y-1" @click="currentProductData = product; goToPage('productDetail')">
+                            <!-- Image Container matching Reference Aesthetic -->
+                            <div class="relative aspect-[4/3] overflow-hidden bg-[#F1EBE3]">
+                                <img :src="product.image || (product.images && product.images.main)" :alt="product.name" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}else{this.src='./images/products/p01_ortho_support.jpg';}">
+                                <div class="absolute top-3 left-3 flex gap-2 z-10">
+                                    <div class="bg-brand-charcoal text-white text-[9px] font-bold px-2.5 py-1 rounded-md uppercase tracking-widest shadow-sm">NEW</div>
                                 </div>
+                                <button @click.stop="toggleWishlist(product)" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/85 hover:bg-white text-[#77716B] hover:text-brand-terracotta flex items-center justify-center shadow-sm transition-all focus:outline-none z-10" title="Wishlist">
+                                    <i :class="isInWishlist(product.id) ? 'fa-solid fa-heart text-brand-terracotta' : 'fa-regular fa-heart text-xs'"></i>
+                                </button>
                             </div>
                             
                             <!-- Content -->
-                            <div class="p-5 flex-grow flex flex-col">
+                            <div class="p-5 md:p-6 flex-grow flex flex-col">
                                 <!-- Rating -->
                                 <div class="flex items-center space-x-1.5 mb-2">
                                     <div class="flex text-brand-terracotta text-[10px]">
@@ -1223,7 +1226,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Orthopedic",
-        "alt": "BACKSPACE Ortho Support Mattress - Firm Orthopedic Spine Alignment"
+        "alt": "BACKSPACE Ortho Support Mattress - Firm Orthopedic Spine Alignment",
+        "image": "./public/images/products/p01_ortho_support.jpg"
     },
     {
         "id": 2,
@@ -1282,7 +1286,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Orthopedic",
-        "alt": "BACKSPACE Ortho Comfort Mattress - Everyday Comfort Foam"
+        "alt": "BACKSPACE Ortho Comfort Mattress - Plush Pressure Relief & Comfort",
+        "image": "./public/images/products/p02_ortho_comfort.jpg"
     },
     {
         "id": 3,
@@ -1345,7 +1350,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Spring",
-        "alt": "BACKSPACE Ortho Hybrid Mattress - Pocket Spring & Memory Foam"
+        "alt": "BACKSPACE Ortho Hybrid Mattress - Premium Pocket Spring & Memory Foam",
+        "image": "./public/images/products/p03_ortho_hybrid.jpg"
     },
     {
         "id": 4,
@@ -1404,7 +1410,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Cooling Gel",
-        "alt": "BACKSPACE Luxe Cooling Mattress - Cool Hydro-Gel Thermal Relief"
+        "alt": "BACKSPACE Luxe Cooling Mattress - Cool Hydro-Gel Thermal Relief",
+        "image": "./public/images/products/p04_luxe_cooling.jpg"
     },
     {
         "id": 5,
@@ -1463,7 +1470,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Cooling Gel",
-        "alt": "BACKSPACE Ortho Cooling Mattress - Ventilated Temperature Regulating Foam"
+        "alt": "BACKSPACE Ortho Cooling Mattress - Ventilated Temperature Regulating Foam",
+        "image": "./public/images/products/p05_ortho_cooling.jpg"
     },
     {
         "id": 6,
@@ -1521,7 +1529,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Single Bed",
-        "alt": "BACKSPACE Luxe Comfort Mattress - Multi-Layer Cloud Luxury Cushion"
+        "alt": "BACKSPACE Luxe Comfort Mattress - Multi-Layer Cloud Luxury Cushion",
+        "image": "./public/images/products/p06_luxe_comfort.jpg"
     },
     {
         "id": 7,
@@ -1579,7 +1588,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Orthopedic",
-        "alt": "BACKSPACE Ortho Royale Mattress - High Density Ortho Support Foam"
+        "alt": "BACKSPACE Ortho Royale Mattress - High Density Ortho Support Foam",
+        "image": "./public/images/products/p07_ortho_royale.jpg"
     },
     {
         "id": 8,
@@ -1637,7 +1647,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Single Bed",
-        "alt": "BACKSPACE Luxe Royale Mattress - 100% Organic Natural Tree Latex"
+        "alt": "BACKSPACE Luxe Royale Mattress - 100% Organic Natural Tree Latex",
+        "image": "./public/images/products/p08_luxe_royale.jpg"
     },
     {
         "id": 9,
@@ -1696,7 +1707,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Cooling Gel",
-        "alt": "BACKSPACE Ortho Cool Mattress - Cool Touch Surface with Zoned Contouring"
+        "alt": "BACKSPACE Ortho Cool Mattress - Cool Touch Surface with Zoned Contouring",
+        "image": "./public/images/products/p09_ortho_cool.jpg"
     },
     {
         "id": 10,
@@ -1755,7 +1767,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Single Bed",
-        "alt": "BACKSPACE Grid Support Mattress - Patented Hyper-Elastic Polymer Grid"
+        "alt": "BACKSPACE Grid Support Mattress - Patented Hyper-Elastic Polymer Grid",
+        "image": "./public/images/products/p10_grid_support.jpg"
     },
     {
         "id": 11,
@@ -1811,7 +1824,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Single Bed",
-        "alt": "BACKSPACE Junior Comfort Mattress - Resilient Youth Ergonomic Bedding"
+        "alt": "BACKSPACE Junior Comfort Mattress - Resilient Youth Ergonomic Bedding",
+        "image": "./public/images/products/p11_junior_comfort.jpg"
     },
     {
         "id": 12,
@@ -1864,7 +1878,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Single Bed",
-        "alt": "BACKSPACE Recliner Comfort Mattress - Flexible Motorized Bed Articulation"
+        "alt": "BACKSPACE Recliner Comfort Mattress - Flexible Motorized Bed Articulation",
+        "image": "./public/images/products/p12_recliner_comfort.jpg"
     },
     {
         "id": 13,
@@ -1923,7 +1938,8 @@
         ],
         "mainCategory": "Mattresses",
         "subCategory": "Single Bed",
-        "alt": "BACKSPACE Grand Comfort Mattress - Plush Pillow Top Hotel Comfort"
+        "alt": "BACKSPACE Grand Comfort Mattress - Plush Pillow Top Hotel Comfort",
+        "image": "./public/images/products/p13_grand_comfort.jpg"
     },
     {
         "id": 201,
@@ -1979,7 +1995,8 @@
                 "desc": "Zero-slip mattress retainer platform"
             }
         ],
-        "alt": "BACKSPACE Smart Motorized Recliner Bed - Zero Gravity Elevation"
+        "alt": "BACKSPACE Smart Motorized Recliner Bed - Zero Gravity Elevation",
+        "image": "./public/images/products/p14_motorized_smart_bed.jpg"
     },
     {
         "id": 202,
@@ -2036,7 +2053,8 @@
                 "desc": "Heavy-gauge reinforced steel anchors"
             }
         ],
-        "alt": "BACKSPACE Solid Wood Platform Bed Frame - Seasoned Sheesham Timber"
+        "alt": "BACKSPACE Solid Wood Platform Bed Frame - Seasoned Sheesham Timber",
+        "image": "./public/images/products/p15_solid_wood_bed.jpg"
     },
     {
         "id": 203,
@@ -2091,7 +2109,8 @@
                 "desc": "Fully dust-sealed underbed volume"
             }
         ],
-        "alt": "BACKSPACE Luxury Upholstered Storage Bed - Hydraulic Gas-Lift"
+        "alt": "BACKSPACE Luxury Upholstered Storage Bed - Hydraulic Gas-Lift",
+        "image": "./public/images/products/p16_upholstered_storage_bed.jpg"
     },
     {
         "id": 204,
@@ -2145,7 +2164,8 @@
                 "desc": "Floor-safe silicone foot pads"
             }
         ],
-        "alt": "BACKSPACE Minimalist Single Bed Base - Heavy Gauge Steel Squeak-Free"
+        "alt": "BACKSPACE Minimalist Single Bed Base - Heavy Gauge Steel Squeak-Free",
+        "image": "./public/images/products/p17_single_bed_base.jpg"
     },
     {
         "id": 301,
@@ -2205,7 +2225,8 @@
                 "desc": "360-degree snug grip skirt"
             }
         ],
-        "alt": "BACKSPACE 100% Waterproof Bamboo Mattress Protector - TPU Membrane"
+        "alt": "BACKSPACE 100% Waterproof Bamboo Mattress Protector - TPU Membrane",
+        "image": "./public/images/products/p18_bamboo_waterproof_protector.jpg"
     },
     {
         "id": 302,
@@ -2265,7 +2286,8 @@
                 "desc": "Reinforced elastic border"
             }
         ],
-        "alt": "BACKSPACE Premium Quilted Fitted Mattress Cover - 300TC Breathable Cotton"
+        "alt": "BACKSPACE Premium Quilted Fitted Mattress Cover - 300TC Breathable Cotton",
+        "image": "./public/images/products/p19_quilted_fitted_cover.jpg"
     },
     {
         "id": 303,
@@ -2325,7 +2347,8 @@
                 "desc": "Allows air circulation without heat buildup"
             }
         ],
-        "alt": "BACKSPACE Anti-Allergen Dust Mite Shield - Micro-Filament Barrier"
+        "alt": "BACKSPACE Anti-Allergen Dust Mite Shield - Micro-Filament Barrier",
+        "image": "./public/images/products/p20_dust_mite_shield.jpg"
     },
     {
         "id": 304,
@@ -2384,7 +2407,8 @@
                 "desc": "Snug hold for zero bunching"
             }
         ],
-        "alt": "BACKSPACE Cool-Touch Breathable Mattress Protector - Ice Silk Surface"
+        "alt": "BACKSPACE Cool-Touch Breathable Mattress Protector - Ice Silk Surface",
+        "image": "./public/images/products/p21_cool_breathable_protector.jpg"
     },
     {
         "id": 401,
@@ -2438,7 +2462,8 @@
                 "desc": "Breathable washable outer cover"
             }
         ],
-        "alt": "BACKSPACE Ergonomic Memory Foam Contour Pillow - Cervical Alignment"
+        "alt": "BACKSPACE Ergonomic Memory Foam Contour Pillow - Cervical Alignment",
+        "image": "./public/images/products/p22_contour_memory_pillow.jpg"
     },
     {
         "id": 402,
@@ -2492,7 +2517,8 @@
                 "desc": "Rapid moisture-wicking cover"
             }
         ],
-        "alt": "BACKSPACE Cool Gel Infused Ortho Pillow - Temperature Dissipation Pad"
+        "alt": "BACKSPACE Cool Gel Infused Ortho Pillow - Temperature Dissipation Pad",
+        "image": "./public/images/products/p23_cool_gel_ortho_pillow.jpg"
     },
     {
         "id": 403,
@@ -2546,7 +2572,8 @@
                 "desc": "Chemical-free soft outer skin"
             }
         ],
-        "alt": "BACKSPACE 100% Natural Organic Latex Pillow - Pure Dunlop Rubber Core"
+        "alt": "BACKSPACE 100% Natural Organic Latex Pillow - Pure Dunlop Rubber Core",
+        "image": "./public/images/products/p24_organic_latex_pillow.jpg"
     },
     {
         "id": 404,
@@ -2600,7 +2627,8 @@
                 "desc": "Breathable skin-friendly casing"
             }
         ],
-        "alt": "BACKSPACE Microfiber Cloud Sleeping Pillow (Set of 2) - 1000g High-Loft"
+        "alt": "BACKSPACE Microfiber Cloud Sleeping Pillow (Set of 2) - 1000g High-Loft",
+        "image": "./public/images/products/p25_microfiber_cloud_pillow.jpg"
     }
 ];
 window.BACKSPACE_CATALOGUE = BACKSPACE_CATALOGUE;
@@ -2617,6 +2645,40 @@ function singleBedApp() {
             categories: []
         },
         products: BACKSPACE_CATALOGUE,
+        wishlistIds: [],
+        init() {
+            if (Array.isArray(this.products)) {
+                this.products.forEach(p => {
+                    if (!p.image && p.images && p.images.main) {
+                        p.image = p.images.main;
+                    }
+                });
+            }
+        },
+        toggleWishlist(p) {
+            const id = p.id;
+            const idx = this.wishlistIds.indexOf(id);
+            if (idx > -1) {
+                this.wishlistIds.splice(idx, 1);
+            } else {
+                this.wishlistIds.push(id);
+            }
+            try {
+                const gw = this.$root?._x_dataStack?.find(d => d.wishlist !== undefined);
+                if (gw) {
+                    const gIdx = gw.wishlist.findIndex(item => item.id === id);
+                    if (gIdx > -1) gw.wishlist.splice(gIdx, 1);
+                    else gw.wishlist.push(p);
+                }
+            } catch(e) {}
+        },
+        isInWishlist(id) {
+            const gw = this.$root?._x_dataStack?.find(d => d.wishlist !== undefined);
+            if (gw && gw.wishlist) {
+                return gw.wishlist.some(p => p.id === id) || this.wishlistIds.includes(id);
+            }
+            return this.wishlistIds.includes(id);
+        },
         formatRupee(num) {
             const val = typeof num === 'number' && !isNaN(num) ? num : (parseInt(num) || 0);
             return '₹' + val.toLocaleString('en-IN');
@@ -2701,7 +2763,15 @@ function singleBedApp() {
             this.sortBy = 'recommended';
         },
                 addToCart(product) {
-                    this.cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 });
+                    const rootData = this.$root?._x_dataStack?.find(d => d.cart !== undefined);
+                    const targetCart = rootData ? rootData.cart : (this.cart = this.cart || []);
+                    const existing = targetCart.find(i => i.id === product.id);
+                    const imgSrc = product.image || (product.images && product.images.main) || './images/products/p01_ortho_support.jpg';
+                    if (existing) {
+                        existing.quantity += 1;
+                    } else {
+                        targetCart.push({ id: product.id, name: product.name, price: product.price, image: imgSrc, quantity: 1 });
+                    }
                     product.added = true;
                     setTimeout(() => { product.added = false; }, 2000);
                 }
@@ -4105,8 +4175,8 @@ function singleBedApp() {
                     <template x-for="p in displayProducts" :key="p.id">
                         <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1">
                             <!-- Image Header -->
-                            <div class="relative aspect-[4/3] bg-gray-50 overflow-hidden cursor-pointer" @click="currentProductData = p; goToPage('productDetail')">
-                                <img :src="p.images.main" :alt="p.name" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                            <div class="relative aspect-[4/3] bg-[#F1EBE3] overflow-hidden cursor-pointer" @click="currentProductData = p; goToPage('productDetail')">
+                                <img :src="p.image || p.images.main" onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}else{this.src='./images/products/p01_ortho_support.jpg';}" :alt="p.name" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
                                 <span class="absolute top-3 left-3 bg-brand-charcoal text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-widest shadow-sm" x-text="p.discount || 'FEATURED'"></span>
                                 <span x-show="p.firmness" class="absolute top-3 right-3 bg-white/90 backdrop-blur text-brand-charcoal text-[9px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm" x-text="p.firmness"></span>
                             </div>
