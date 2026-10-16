@@ -35,6 +35,15 @@ const defaultProducts = [
     {
         id: 207, name: 'Polished Wood Frame Bed', tagline: 'Organic Timber', description: 'Classic polished natural hardwood bed frame with warm organic wood grains.', category: 'Beds', subcategory: 'Wooden Beds', material: 'Seasoned Sheesham Wood', firmness: 'Natural Wood', warranty: '10 Years', image: './public/images/beds/bed-006.jpg', images: ['./public/images/beds/bed-006.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Double', 'Queen', 'King'], thicknesses: ['12 inch'], prices: { 'Single': { price: 21990, mrp: 29990 }, 'Queen': { price: 27990, mrp: 36990 }, 'King': { price: 32990, mrp: 42990 } }, discount: '24% OFF', offer: 'BEST SELLER', stock: 20, sku: 'BKPBD006', featured: true, reviews: []
     },
+    {
+        id: 208, name: 'Hydraulic Storage Bed', tagline: 'Max Storage', description: 'Effortless gas-lift hydraulic storage bed frame offering massive under-mattress storage capacity.', category: 'Beds', subcategory: 'Storage Beds', material: 'Textured Linen + Steel Frame', firmness: 'Hydraulic Lift', warranty: '10 Years', image: './public/images/beds/bed-007.jpg', images: ['./public/images/beds/bed-007.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch'], prices: { 'Queen': { price: 35990, mrp: 46990 }, 'King': { price: 41990, mrp: 53990 } }, discount: '23% OFF', offer: 'BEST SELLER', stock: 10, sku: 'BKPBD007', featured: true, reviews: []
+    },
+    {
+        id: 209, name: 'Front Drawer Storage Bed', tagline: 'Easy Access', description: 'Premium upholstered platform bed with dual integrated front pull-out storage drawers on smooth silent glides.', category: 'Beds', subcategory: 'Storage Beds', material: 'Linen Weave + Hardwood', firmness: 'Drawer Storage', warranty: '10 Years', image: './public/images/beds/bed-008.jpg', images: ['./public/images/beds/bed-008.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch'], prices: { 'Queen': { price: 32990, mrp: 42990 }, 'King': { price: 38990, mrp: 49990 } }, discount: '23% OFF', offer: 'NEW', stock: 14, sku: 'BKPBD008', featured: true, reviews: []
+    },
+    {
+        id: 210, name: 'Upholstered Wingback Bed', tagline: 'Grand Hotel Style', description: 'Grand hotel-style upholstered bed featuring architectural sheltering wingback headboard and luxurious cream fabric.', category: 'Beds', subcategory: 'Wingback Beds', material: 'Tailored Linen + Solid Frame', firmness: 'Sheltering Wingback', warranty: '10 Years', image: './public/images/beds/bed-009.jpg', images: ['./public/images/beds/bed-009.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['16 inch'], prices: { 'Queen': { price: 38990, mrp: 49990 }, 'King': { price: 44990, mrp: 57990 } }, discount: '22% OFF', offer: 'PREMIUM', stock: 8, sku: 'BKPBD009', featured: true, reviews: []
+    },
 
     // --- PILLOWS ---
     {
