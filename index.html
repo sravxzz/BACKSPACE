@@ -28,6 +28,9 @@
             }
         }
     </script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -963,57 +966,50 @@
                     </div>
                 </div>
 
-                <!-- Product Grid -->
+                <!-- Active Filter Tag matching Screenshot 2 -->
+                <div class="mb-5 flex items-center">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#E8E1D5] text-[#554D42] rounded-md text-xs font-serif shadow-sm">
+                        <span>Beds</span>
+                        <span class="text-[10px] text-[#7E7467] font-sans">✕</span>
+                    </div>
+                </div>
+
+                <!-- Product Grid matching Screenshot 2 Bed Cards -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <template x-for="product in filteredProducts" :key="product.id">
-                        <div class="bg-[#FFFCF7] rounded-2xl border border-[#E6DFD6] overflow-hidden hover:shadow-[0_15px_35px_-10px_rgba(41,37,34,0.12)] transition-all duration-300 group flex flex-col cursor-pointer hover:-translate-y-1" @click="currentProductData = product; goToPage('productDetail')">
-                            <!-- Image Container matching Reference Aesthetic -->
-                            <div class="relative aspect-[4/3] overflow-hidden bg-[#F1EBE3]">
-                                <img :src="product.image || (product.images && product.images.main)" :alt="product.name" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}else{this.src='./images/products/p01_ortho_support.jpg';}">
-                                <div class="absolute top-3 left-3 flex gap-2 z-10">
-                                    <div class="bg-brand-charcoal text-white text-[9px] font-bold px-2.5 py-1 rounded-md uppercase tracking-widest shadow-sm">NEW</div>
-                                </div>
-                                <button @click.stop="toggleWishlist(product)" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/85 hover:bg-white text-[#77716B] hover:text-brand-terracotta flex items-center justify-center shadow-sm transition-all focus:outline-none z-10" title="Wishlist">
-                                    <i :class="isInWishlist(product.id) ? 'fa-solid fa-heart text-brand-terracotta' : 'fa-regular fa-heart text-xs'"></i>
+                        <div class="bg-[#F4ECE1] rounded-[28px] border border-[#E7DFD3] p-3.5 pb-5 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] transition-all duration-300 group flex flex-col cursor-pointer hover:-translate-y-1" @click="currentProductData = product; goToPage('productDetail')">
+                            <!-- Image Frame with Rounded Borders -->
+                            <div class="relative overflow-hidden rounded-[20px] border border-white/80 bg-[#EFE8DE] shadow-sm">
+                                <img :src="product.image || (product.images && product.images.main)" :alt="product.name" class="w-full h-auto aspect-[301/201] object-cover rounded-[18px] transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}else{this.src='./images/beds/upholstered_platform_bed.jpg';}">
+                                
+                                <!-- Circular Heart/Favourite Button -->
+                                <button @click.stop="toggleWishlist(product)" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 hover:bg-white text-[#786C5E] hover:text-[#B85C38] flex items-center justify-center shadow-sm transition-all focus:outline-none z-10" title="Wishlist">
+                                    <i :class="isInWishlist(product.id) ? 'fa-solid fa-heart text-[#B85C38]' : 'fa-regular fa-heart text-[13px] text-[#6E5D4F]'"></i>
                                 </button>
                             </div>
                             
-                            <!-- Content -->
-                            <div class="p-5 md:p-6 flex-grow flex flex-col">
-                                <!-- Rating -->
-                                <div class="flex items-center space-x-1.5 mb-2">
-                                    <div class="flex text-brand-terracotta text-[10px]">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
-                                    </div>
-                                    <span class="text-[11px] font-bold text-brand-charcoal" x-text="product.rating + '/5'"></span>
-                                    <span class="text-[10px] text-gray-400" x-text="product.reviews + ' Reviews'"></span>
-                                </div>
-                                
-                                <h3 class="font-bold text-brand-charcoal text-base leading-tight mb-2 group-hover:text-brand-terracotta transition" x-text="product.name"></h3>
-                                <p class="text-xs text-gray-500 mb-4 line-clamp-2 leading-relaxed" x-text="product.desc"></p>
-                                
-                                <!-- Meta specs -->
-                                <div class="space-y-1 mb-4 text-[10px] font-medium text-gray-500 uppercase tracking-wide">
-                                    <div class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-gray-400 w-3 text-center"></i> <span x-text="product.warranty"></span></div>
-                                    <div class="flex items-center gap-2"><i class="fa-solid fa-layer-group text-gray-400 w-3 text-center"></i> <span x-text="product.firmness"></span></div>
-                                </div>
-
-                                <div class="mt-auto">
-                                    <!-- Pricing -->
-                                    <div class="flex items-end space-x-2 mb-4">
-                                        <span class="text-xl font-extrabold text-brand-charcoal" x-text="'₹' + product.price.toLocaleString()"></span>
-                                        <span class="text-xs font-medium text-gray-400 line-through mb-1" x-text="'₹' + product.originalPrice.toLocaleString()"></span>
-                                        <span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded mb-1" x-text="product.discount"></span>
+                            <!-- Card Body matching Screenshot 2 Typography & Layout -->
+                            <div class="px-2 pt-4 pb-1 flex-grow flex flex-col justify-between" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                                <div>
+                                    <!-- Category & Product Code -->
+                                    <div class="flex items-center justify-between text-[#7E7467] text-[13px] mb-1 font-medium">
+                                        <span x-text="product.category || 'Beds'">Beds</span>
+                                        <span class="tracking-wide" x-text="product.code || 'BKPBD001'">BKPBD001</span>
                                     </div>
                                     
-                                    <!-- Actions -->
-                                    <div class="flex gap-2">
-                                        <button @click.stop="addToCart(product)" class="flex-1 bg-brand-charcoal text-white py-3 rounded-xl text-[11px] font-bold tracking-widest uppercase hover:bg-black transition-colors focus:outline-none relative overflow-hidden">
-                                            <span x-show="!product.added" class="transition-opacity">ADD TO CART</span>
-                                            <span x-show="product.added" class="text-green-400 transition-opacity" style="display:none;"><i class="fa-solid fa-check mr-1"></i>ADDED</span>
-                                        </button>
-                                        <button @click.stop="goToPage('home'); setTimeout(()=>window.scrollTo({top: document.getElementById('store-section')?.offsetTop || 0, behavior: 'smooth'}), 300)" class="w-12 flex-shrink-0 bg-white border border-gray-200 text-brand-charcoal rounded-xl flex items-center justify-center hover:bg-gray-50 hover:text-brand-terracotta transition focus:outline-none" title="Store Near Me">
-                                            <i class="fa-solid fa-location-dot text-[14px]"></i>
+                                    <!-- Elegant Product Name -->
+                                    <h3 class="text-[#2B241E] text-[22px] sm:text-[23px] lg:text-[25px] font-normal leading-snug my-2 group-hover:text-[#8B5A2B] transition-colors" x-text="product.name"></h3>
+                                </div>
+                                
+                                <div>
+                                    <!-- Thin Horizontal Divider -->
+                                    <div class="w-full h-[1px] bg-[#E5DCD0] my-3.5"></div>
+                                    
+                                    <!-- Footer: Customization available + Circular Arrow Button -->
+                                    <div class="flex items-center justify-between pt-1">
+                                        <span class="text-[#7E7467] text-[12px] sm:text-[13px] font-normal" x-text="product.footer || 'Customization available'">Customization available</span>
+                                        <button @click.stop="currentProductData = product; goToPage('productDetail')" class="w-8 h-8 rounded-full border border-[#D5C9B8] bg-transparent hover:bg-white flex items-center justify-center text-[#4A4036] hover:text-black transition shadow-sm focus:outline-none" title="View Bed Details">
+                                            <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7V15" /></svg>
                                         </button>
                                     </div>
                                 </div>
@@ -1021,7 +1017,7 @@
                         </div>
                     </template>
                 </div>
-
+                
                 <!-- Empty State -->
                 <div x-show="filteredProducts.length === 0" class="bg-white rounded-2xl border border-gray-100 p-16 text-center shadow-sm" style="display: none;">
                     <div class="text-brand-charcoal text-5xl mb-4 opacity-20"><i class="fa-solid fa-box-open"></i></div>
@@ -1943,7 +1939,7 @@
     },
     {
         "id": 201,
-        "name": "BACKSPACE Smart Motorized Recliner Bed",
+        "name": "Upholstered Platform Bed",
         "rating": 4.9,
         "reviews": 1420,
         "price": 38990,
@@ -1951,7 +1947,7 @@
         "discount": "22% OFF",
         "firmness": "Adjustable",
         "warranty": "5 Years Motor & Frame Warranty",
-        "desc": "Motorized ergonomic adjustable bed with zero-gravity elevation, whisper-quiet motor, dual USB charging ports, and wireless remote control.",
+        "desc": "Minimalist upholstered platform bed featuring clean lines, premium woven fabric, and reinforced acoustic slatted base.",
         "positioning": "Ultimate modern luxury bed for personalized head and foot elevation, reading, work, and zero-gravity back pain relief.",
         "features": [
             "Whisper-quiet dual motor system",
@@ -1963,14 +1959,14 @@
         ],
         "color": "CHARCOAL",
         "height": 14,
-        "category": "BEDS",
+        "category": "Beds",
         "mainCategory": "Beds",
         "subCategory": "Smart Beds",
         "images": {
-            "main": "./public/images/products/p14_motorized_smart_bed.jpg",
+            "main": "./public/images/beds/upholstered_platform_bed.jpg",
             "detail": "./images/detail1.jpg",
             "side": "./images/surface1.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
+            "lifestyle": "./public/images/beds/upholstered_platform_bed.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -1996,11 +1992,13 @@
             }
         ],
         "alt": "BACKSPACE Smart Motorized Recliner Bed - Zero Gravity Elevation",
-        "image": "./public/images/products/p14_motorized_smart_bed.jpg"
+        "image": "./public/images/beds/upholstered_platform_bed.jpg",
+        "code": "BKPBD001",
+        "footer": "Customization available"
     },
     {
         "id": 202,
-        "name": "BACKSPACE Solid Wood Platform Bed Frame",
+        "name": "Floor Divan Storage Bed",
         "rating": 4.8,
         "reviews": 2180,
         "price": 22490,
@@ -2008,7 +2006,7 @@
         "discount": "25% OFF",
         "firmness": "Solid",
         "warranty": "10 Years Solid Wood Warranty",
-        "desc": "Minimalist solid natural Sheesham wood platform bed frame with reinforced slatted support foundation and zero squeak joinery.",
+        "desc": "Functional floor divan bed equipped with spacious pull-out storage drawers and seamless upholstered surround.",
         "positioning": "A timeless solid wood bed designed to support any mattress without requiring an additional box spring.",
         "features": [
             "100% Solid Sheesham hardwood",
@@ -2020,14 +2018,14 @@
         ],
         "color": "NATURAL TEAK",
         "height": 12,
-        "category": "BEDS",
+        "category": "Beds",
         "mainCategory": "Beds",
         "subCategory": "Platform Beds",
         "images": {
-            "main": "./public/images/products/p15_solid_wood_bed.jpg",
+            "main": "./public/images/beds/floor_divan_storage_bed.jpg",
             "detail": "./images/detail1.jpg",
             "side": "./images/bed1.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
+            "lifestyle": "./public/images/beds/floor_divan_storage_bed.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -2054,11 +2052,13 @@
             }
         ],
         "alt": "BACKSPACE Solid Wood Platform Bed Frame - Seasoned Sheesham Timber",
-        "image": "./public/images/products/p15_solid_wood_bed.jpg"
+        "image": "./public/images/beds/floor_divan_storage_bed.jpg",
+        "code": "BKPBD002",
+        "footer": "Customization available"
     },
     {
         "id": 203,
-        "name": "BACKSPACE Luxury Upholstered Storage Bed",
+        "name": "Horizontal Channel Headboard Bed",
         "rating": 4.9,
         "reviews": 1840,
         "price": 29890,
@@ -2066,7 +2066,7 @@
         "discount": "25% OFF",
         "firmness": "Cushioned",
         "warranty": "5 Years Warranty",
-        "desc": "Spacious hydraulic lift-up under-bed storage with cushioned ergonomic headboard and stain-resistant woven linen fabric.",
+        "desc": "Statement bed frame showcasing an opulent horizontal channel-tufted headboard in tailored architectural grey fabric.",
         "positioning": "Combines hotel-suite luxury aesthetics with massive clutter-free storage for modern urban bedrooms.",
         "features": [
             "Effortless hydraulic gas-lift mechanism",
@@ -2078,14 +2078,14 @@
         ],
         "color": "BEIGE",
         "height": 16,
-        "category": "BEDS",
+        "category": "Beds",
         "mainCategory": "Beds",
         "subCategory": "Storage Beds",
         "images": {
-            "main": "./public/images/products/p16_upholstered_storage_bed.jpg",
+            "main": "./public/images/beds/horizontal_channel_headboard_bed.jpg",
             "detail": "./images/detail1.jpg",
             "side": "./images/surface1.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
+            "lifestyle": "./public/images/beds/horizontal_channel_headboard_bed.jpg"
         },
         "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
@@ -2110,7 +2110,9 @@
             }
         ],
         "alt": "BACKSPACE Luxury Upholstered Storage Bed - Hydraulic Gas-Lift",
-        "image": "./public/images/products/p16_upholstered_storage_bed.jpg"
+        "image": "./public/images/beds/horizontal_channel_headboard_bed.jpg",
+        "code": "BKPBD003",
+        "footer": "Customization available"
     },
     {
         "id": 204,
@@ -2633,6 +2635,89 @@
 ];
 window.BACKSPACE_CATALOGUE = BACKSPACE_CATALOGUE;
 
+const BED_COLLECTION_CARDS = [
+    {
+        id: 201,
+        code: "BKPBD001",
+        category: "Beds",
+        name: "Upholstered Platform Bed",
+        footer: "Customization available",
+        price: 29990,
+        originalPrice: 39990,
+        discount: "25% OFF",
+        rating: 4.9,
+        reviews: 1420,
+        firmness: "Premium Fabric",
+        warranty: "10 Years Solid Warranty",
+        desc: "Minimalist upholstered platform bed featuring clean lines, premium woven fabric, and reinforced acoustic slatted base.",
+        image: "./public/images/beds/upholstered_platform_bed.jpg",
+        images: {
+            main: "./public/images/beds/upholstered_platform_bed.jpg",
+            detail: "./public/images/beds/upholstered_platform_bed.jpg",
+            side: "./public/images/beds/upholstered_platform_bed.jpg",
+            lifestyle: "./public/images/beds/upholstered_platform_bed.jpg"
+        },
+        sizes: ["Single", "Queen", "King"],
+        heights: [12, 14],
+        mainCategory: "Beds",
+        subCategory: "Platform Beds"
+    },
+    {
+        id: 202,
+        code: "BKPBD002",
+        category: "Beds",
+        name: "Floor Divan Storage Bed",
+        footer: "Customization available",
+        price: 34990,
+        originalPrice: 44990,
+        discount: "22% OFF",
+        rating: 4.8,
+        reviews: 2180,
+        firmness: "Storage Divan",
+        warranty: "10 Years Solid Warranty",
+        desc: "Functional floor divan bed equipped with spacious pull-out storage drawers and seamless upholstered surround.",
+        image: "./public/images/beds/floor_divan_storage_bed.jpg",
+        images: {
+            main: "./public/images/beds/floor_divan_storage_bed.jpg",
+            detail: "./public/images/beds/floor_divan_storage_bed.jpg",
+            side: "./public/images/beds/floor_divan_storage_bed.jpg",
+            lifestyle: "./public/images/beds/floor_divan_storage_bed.jpg"
+        },
+        sizes: ["Single", "Double", "Queen", "King"],
+        heights: [14],
+        mainCategory: "Beds",
+        subCategory: "Storage Beds"
+    },
+    {
+        id: 203,
+        code: "BKPBD003",
+        category: "Beds",
+        name: "Horizontal Channel Headboard Bed",
+        footer: "Customization available",
+        price: 32990,
+        originalPrice: 42990,
+        discount: "23% OFF",
+        rating: 4.9,
+        reviews: 1840,
+        firmness: "Cushioned Headboard",
+        warranty: "10 Years Solid Warranty",
+        desc: "Statement bed frame showcasing an opulent horizontal channel-tufted headboard in tailored architectural grey fabric.",
+        image: "./public/images/beds/horizontal_channel_headboard_bed.jpg",
+        images: {
+            main: "./public/images/beds/horizontal_channel_headboard_bed.jpg",
+            detail: "./public/images/beds/horizontal_channel_headboard_bed.jpg",
+            side: "./public/images/beds/horizontal_channel_headboard_bed.jpg",
+            lifestyle: "./public/images/beds/horizontal_channel_headboard_bed.jpg"
+        },
+        sizes: ["Queen", "King"],
+        heights: [14, 16],
+        mainCategory: "Beds",
+        subCategory: "Headboard Beds"
+    }
+];
+window.BED_COLLECTION_CARDS = BED_COLLECTION_CARDS;
+
+
 function singleBedApp() {
     return {
         mobileFiltersOpen: false,
@@ -2644,7 +2729,7 @@ function singleBedApp() {
             heights: [],
             categories: []
         },
-        products: BACKSPACE_CATALOGUE,
+        products: BED_COLLECTION_CARDS,
         wishlistIds: [],
         init() {
             if (Array.isArray(this.products)) {
