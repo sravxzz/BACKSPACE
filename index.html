@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="js/bed-data.js"></script>
     <script src="app.js"></script>
 
 <style>
@@ -847,9 +848,9 @@
         <div class="w-full">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 lg:gap-8">
                 <template x-for="product in filteredProducts" :key="product.id">
-                    <div class="bg-[#F4ECE1] rounded-[28px] border border-[#E7DFD3] p-3.5 pb-5 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] transition-all duration-300 group flex flex-col cursor-pointer hover:-translate-y-1" @click="currentProductData = product; goToPage('productDetail')">
+                    <div class="bg-[#F4ECE1] rounded-[28px] border border-[#E7DFD3] p-3.5 pb-5 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] transition-all duration-300 group flex flex-col cursor-pointer hover:-translate-y-1" @click="openBed(product)">
                         <!-- Image Frame with Rounded Borders -->
-                        <div class="relative overflow-hidden rounded-[20px] border border-white/80 bg-[#EFE8DE] shadow-sm">
+                        <div class="relative overflow-hidden rounded-[20px] border border-white/80 bg-[#EFE8DE] shadow-sm cursor-pointer" @click="openBed(product)">
                             <img :src="product.image || (product.images && product.images.main)" :alt="product.name" class="w-full h-auto aspect-[301/201] object-cover rounded-[18px] transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}else{this.src='./images/beds/upholstered_platform_bed.jpg';}">
                             
                             <!-- Circular Heart/Favourite Button -->
@@ -868,7 +869,7 @@
                                 </div>
                                 
                                 <!-- Elegant Product Name -->
-                                <h3 class="text-[#2B241E] text-[22px] sm:text-[23px] lg:text-[25px] font-normal leading-snug my-2 group-hover:text-[#8B5A2B] transition-colors" x-text="product.name"></h3>
+                                <h3 class="text-[#2B241E] text-[22px] sm:text-[23px] lg:text-[25px] font-normal leading-snug my-2 group-hover:text-[#8B5A2B] transition-colors cursor-pointer" @click="openBed(product)" x-text="product.name"></h3>
                             </div>
                             
                             <div>
@@ -878,7 +879,7 @@
                                 <!-- Footer: Customization available + Circular Arrow Button -->
                                 <div class="flex items-center justify-between pt-1">
                                     <span class="text-[#7E7467] text-[12px] sm:text-[13px] font-normal" x-text="product.footer || 'Customization available'">Customization available</span>
-                                    <button @click.stop="currentProductData = product; goToPage('productDetail')" class="w-8 h-8 rounded-full border border-[#D5C9B8] bg-transparent hover:bg-white flex items-center justify-center text-[#4A4036] hover:text-black transition shadow-sm focus:outline-none" title="View Bed Details">
+                                    <button @click.stop="openBed(product)" class="w-8 h-8 rounded-full border border-[#D5C9B8] bg-transparent hover:bg-white flex items-center justify-center text-[#4A4036] hover:text-black transition shadow-sm focus:outline-none" title="View Bed Details">
                                         <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7V15" /></svg>
                                     </button>
                                 </div>
@@ -2924,766 +2925,1946 @@
 window.BACKSPACE_CATALOGUE = BACKSPACE_CATALOGUE;
 
 const BED_COLLECTION_CARDS = [
-    // --- ROW 1: EXISTING BEDS (BKPBD001, BKPBD002, BKPBD003) ---
     {
         "id": 201,
         "code": "BKPBD001",
-        "category": "Beds",
         "name": "Upholstered Platform Bed",
+        "slug": "upholstered-platform-bed",
+        "category": "Beds",
+        "tagline": "Minimalist Scandinavian Serenity",
         "footer": "Customization available",
-        "price": 29990,
-        "originalPrice": 39990,
-        "discount": "25% OFF",
+        "price": 28990,
+        "originalPrice": 36990,
+        "discount": "22% OFF",
         "rating": 4.9,
-        "reviews": 1420,
-        "firmness": "Premium Fabric",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Minimalist upholstered platform bed featuring clean lines, premium woven fabric, and reinforced acoustic slatted base.",
-        "positioning": "A timeless upholstered platform bed designed to bring modern Scandinavian serenity and silence into any master bedroom.",
-        "image": "./public/images/beds/upholstered_platform_bed.jpg",
+        "reviews": 38,
+        "description": "A contemporary upholstered platform bed featuring a clean silhouette, a softly padded headboard, and a neutral, versatile design. Built with an internal kiln-dried hardwood framework and acoustic timber slats that ensure silent, breathable support.",
+        "positioning": "Ideal for modern minimalist and Scandinavian master bedrooms seeking understated luxury and calming tactile textures.",
+        "image": "./public/images/beds/bed-001.jpg",
         "images": {
-            "main": "./public/images/beds/upholstered_platform_bed.jpg",
-            "detail": "./public/images/beds/upholstered_platform_bed.jpg",
-            "side": "./public/images/beds/upholstered_platform_bed.jpg",
-            "lifestyle": "./public/images/beds/upholstered_platform_bed.jpg"
+            "main": "./public/images/beds/bed-001.jpg",
+            "headboard": "./public/images/beds/bed-001-headboard.jpg",
+            "frame": "./public/images/beds/bed-001-frame.jpg",
+            "detail": "./public/images/beds/bed-001-detail.jpg",
+            "storage": "./public/images/beds/bed-001-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-001-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
-            "Single",
-            "Queen",
-            "King"
-        ],
-        "heights": [
-            12,
-            14
-        ],
-        "construction": [
             {
-                "name": "Woven Fabric",
-                "desc": "High-durability tactile upholstery"
+                "name": "Single",
+                "dimensions": "36\" × 75\" (91 × 190 cm)",
+                "diff": -4000
             },
             {
-                "name": "Internal Timber",
-                "desc": "Kiln-dried solid frame"
+                "name": "Double",
+                "dimensions": "48\" × 75\" (122 × 190 cm)",
+                "diff": -2000
             },
             {
-                "name": "Center Support",
-                "desc": "Heavy-duty structural spine"
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Tailored to your master bedroom specifications",
+                "diff": 3000
             }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Platform Beds",
-        "alt": "Upholstered Platform Bed - Minimalist Woven Fabric Frame"
+        "materials": [
+            "Textured Linen",
+            "Plush Velvet",
+            "Organic Boucle"
+        ],
+        "colors": [
+            {
+                "name": "Warm Beige",
+                "hex": "#E7DEC8"
+            },
+            {
+                "name": "Sand Cream",
+                "hex": "#F3EDE2"
+            },
+            {
+                "name": "Slate Grey",
+                "hex": "#8B8D8E"
+            },
+            {
+                "name": "Charcoal",
+                "hex": "#3C3B3A"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (Minimal Platform)",
+                "diff": 0
+            },
+            {
+                "id": "drawers",
+                "name": "Built-in Underbed Drawers",
+                "diff": 3500
+            },
+            {
+                "id": "hydraulic",
+                "name": "German Gas-Lift Hydraulic Storage",
+                "diff": 6000
+            }
+        ],
+        "featuresList": [
+            "Softly padded ergonomic headboard with clean tailored seams",
+            "Solid kiln-dried hardwood frame engineered for lifetime durability",
+            "Acoustic noise-free solid wood slat foundation system",
+            "Breathable, stain-resistant premium upholstery fabrics",
+            "Low-profile platform silhouette suitable for contemporary interiors"
+        ],
+        "specifications": {
+            "bedType": "Upholstered Platform Bed",
+            "frameConstruction": "Kiln-Dried Seasoned Hardwood & Reinforced Pine",
+            "upholstery": "Premium Textured Linen / Soft Velvet (Stain Resistant)",
+            "headboardHeight": "48 inches (122 cm)",
+            "platformHeight": "12 inches (30 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats (Silent Sleep System)",
+            "underbedClearance": "6 inches (15 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD003",
+            "BKPBD011",
+            "BKPBD013"
+        ]
     },
     {
         "id": 202,
         "code": "BKPBD002",
-        "category": "Beds",
         "name": "Floor Divan Storage Bed",
+        "slug": "floor-divan-storage-bed",
+        "category": "Beds",
+        "tagline": "Seamless Built-in Organization",
         "footer": "Customization available",
-        "price": 34990,
-        "originalPrice": 44990,
-        "discount": "22% OFF",
+        "price": 32490,
+        "originalPrice": 41990,
+        "discount": "23% OFF",
         "rating": 4.8,
-        "reviews": 2180,
-        "firmness": "Storage Divan",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Functional floor divan bed equipped with spacious pull-out storage drawers and seamless upholstered surround.",
-        "positioning": "Combines maximum practical storage space with a modern low-profile divan aesthetic.",
-        "image": "./public/images/beds/floor_divan_storage_bed.jpg",
+        "reviews": 42,
+        "description": "A low-profile divan-style bed designed to combine a simple upholstered appearance with practical storage. Features a flush floor perimeter that eliminates underbed dust while offering spacious integrated pull-out storage compartments.",
+        "positioning": "Perfect for urban apartments and master suites requiring maximum discreet organization without compromising architectural refinement.",
+        "image": "./public/images/beds/bed-002.jpg",
         "images": {
-            "main": "./public/images/beds/floor_divan_storage_bed.jpg",
-            "detail": "./public/images/beds/floor_divan_storage_bed.jpg",
-            "side": "./public/images/beds/floor_divan_storage_bed.jpg",
-            "lifestyle": "./public/images/beds/floor_divan_storage_bed.jpg"
+            "main": "./public/images/beds/bed-002.jpg",
+            "headboard": "./public/images/beds/bed-002-headboard.jpg",
+            "frame": "./public/images/beds/bed-002-frame.jpg",
+            "detail": "./public/images/beds/bed-002-detail.jpg",
+            "storage": "./public/images/beds/bed-002-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-002-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
-            "Single",
-            "Double",
-            "Queen",
-            "King"
-        ],
-        "heights": [
-            14
-        ],
-        "construction": [
             {
-                "name": "Smooth Glides",
-                "desc": "Silent steel ball-bearing drawer slides"
+                "name": "Single",
+                "dimensions": "36\" × 75\" (91 × 190 cm)",
+                "diff": -4000
             },
             {
-                "name": "Solid Wood Cavity",
-                "desc": "Dust-proof storage volume"
+                "name": "Double",
+                "dimensions": "48\" × 75\" (122 × 190 cm)",
+                "diff": -2000
             },
             {
-                "name": "Dense Padding",
-                "desc": "Impact-soft edge surround"
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Customized to your exact room specifications",
+                "diff": 3000
             }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Storage Beds",
-        "alt": "Floor Divan Storage Bed - Integrated Drawer Organization"
+        "materials": [
+            "Textured Tweed",
+            "Heavy Woven Linen",
+            "Performance Suede"
+        ],
+        "colors": [
+            {
+                "name": "Sand Cream",
+                "hex": "#F3EDE2"
+            },
+            {
+                "name": "Oatmeal Beige",
+                "hex": "#DFD7CA"
+            },
+            {
+                "name": "Heather Grey",
+                "hex": "#9E9A95"
+            },
+            {
+                "name": "Soft Mocha",
+                "hex": "#7A685B"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "drawers",
+                "name": "Integrated Divan Drawers (Included)",
+                "diff": 0
+            },
+            {
+                "id": "hydraulic",
+                "name": "Gas-Lift Hydraulic Divan Base",
+                "diff": 3500
+            }
+        ],
+        "featuresList": [
+            "Floor-level low-profile divan base prevents dust accumulation",
+            "Integrated large-capacity slide-out storage compartments",
+            "Solid reinforced platform deck providing continuous planar support",
+            "Space-efficient flush footprint with no protruding edges",
+            "High-density padded surround wrapped in tactile woven upholstery"
+        ],
+        "specifications": {
+            "bedType": "Divan Storage Bed",
+            "frameConstruction": "Engineered Timber with Reinforced Corner Bracing",
+            "upholstery": "Heavy Woven Linen / Tweed (Water Repellent)",
+            "headboardHeight": "46 inches (117 cm)",
+            "platformHeight": "14 inches (35 cm)",
+            "slatFoundation": "Solid Engineered Timber Deck Base",
+            "underbedClearance": "Floor Flush (0 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid deck foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD007",
+            "BKPBD008",
+            "BKPBD001"
+        ]
     },
     {
         "id": 203,
         "code": "BKPBD003",
-        "category": "Beds",
         "name": "Horizontal Channel Headboard Bed",
+        "slug": "horizontal-channel-headboard-bed",
+        "category": "Beds",
+        "tagline": "Architectural Horizontal Paneling",
         "footer": "Customization available",
-        "price": 32990,
-        "originalPrice": 42990,
-        "discount": "23% OFF",
+        "price": 31990,
+        "originalPrice": 39990,
+        "discount": "20% OFF",
         "rating": 4.9,
-        "reviews": 1840,
-        "firmness": "Cushioned Headboard",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Statement bed frame showcasing an opulent horizontal channel-tufted headboard in tailored architectural grey fabric.",
-        "positioning": "Flawless horizontal channel cushioning creates an expansive luxury suite backdrop for reading and relaxing.",
-        "image": "./public/images/beds/horizontal_channel_headboard_bed.jpg",
+        "reviews": 35,
+        "description": "A modern upholstered bed distinguished by horizontal channel detailing on its headboard. The bold linear fluting creates a striking architectural backdrop while providing deep, ergonomic back support for reading and relaxing.",
+        "positioning": "Created for contemporary bedrooms that embrace structured geometry, linear visual harmony, and luxurious cushioned comfort.",
+        "image": "./public/images/beds/bed-003.jpg",
         "images": {
-            "main": "./public/images/beds/horizontal_channel_headboard_bed.jpg",
-            "detail": "./public/images/beds/horizontal_channel_headboard_bed.jpg",
-            "side": "./public/images/beds/horizontal_channel_headboard_bed.jpg",
-            "lifestyle": "./public/images/beds/horizontal_channel_headboard_bed.jpg"
+            "main": "./public/images/beds/bed-003.jpg",
+            "headboard": "./public/images/beds/bed-003-headboard.jpg",
+            "frame": "./public/images/beds/bed-003-frame.jpg",
+            "detail": "./public/images/beds/bed-003-detail.jpg",
+            "storage": "./public/images/beds/bed-003-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-003-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
-            "Queen",
-            "King"
-        ],
-        "heights": [
-            14,
-            16
-        ],
-        "construction": [
             {
-                "name": "Channel Padding",
-                "desc": "High-resilience foam channels"
+                "name": "Single",
+                "dimensions": "36\" × 75\" (91 × 190 cm)",
+                "diff": -4000
             },
             {
-                "name": "Architectural Grey",
-                "desc": "Textured stain-resistant weave"
+                "name": "Double",
+                "dimensions": "48\" × 75\" (122 × 190 cm)",
+                "diff": -2000
             },
             {
-                "name": "Reinforced Base",
-                "desc": "Triple beam internal reinforcement"
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Custom width and headboard dimensions",
+                "diff": 3000
             }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Headboard Beds",
-        "alt": "Horizontal Channel Headboard Bed - Tailored Architectural Grey Fabric"
+        "materials": [
+            "Brushed Linen",
+            "Soft Velvet",
+            "Chunky Weave"
+        ],
+        "colors": [
+            {
+                "name": "Warm Taupe",
+                "hex": "#CFC5B8"
+            },
+            {
+                "name": "Cream Ivory",
+                "hex": "#F7F3EB"
+            },
+            {
+                "name": "Slate Grey",
+                "hex": "#7F8183"
+            },
+            {
+                "name": "Olive Ash",
+                "hex": "#939688"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (Standard Platform)",
+                "diff": 0
+            },
+            {
+                "id": "drawers",
+                "name": "Underbed Sliding Drawers",
+                "diff": 3500
+            },
+            {
+                "id": "hydraulic",
+                "name": "German Gas-Lift Hydraulic Storage",
+                "diff": 6000
+            }
+        ],
+        "featuresList": [
+            "Individually padded horizontal channel segments for plush lumbar support",
+            "Kiln-dried hardwood structural perimeter with rounded safety corners",
+            "Reinforced solid timber slat foundation engineered for air circulation",
+            "High-resilience foam padding that retains fullness over decades",
+            "Subtle recessed leg design for a clean, floating visual appeal"
+        ],
+        "specifications": {
+            "bedType": "Channel Upholstered Bed",
+            "frameConstruction": "Kiln-Dried Seasoned Timber & Structural Plywood",
+            "upholstery": "Brushed Linen / Soft Velvet (Dual Layer Cushioning)",
+            "headboardHeight": "50 inches (127 cm)",
+            "platformHeight": "13 inches (33 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats (Silent Sleep System)",
+            "underbedClearance": "6.5 inches (16 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD001",
+            "BKPBD012",
+            "BKPBD014"
+        ]
     },
-    // --- ROW 2: EXISTING BEDS (BKPBD004, BKPBD005, BKPBD006) ---
     {
         "id": 205,
         "code": "BKPBD004",
-        "category": "Beds",
         "name": "Diamond Tufted Headboard Bed",
+        "slug": "diamond-tufted-headboard-bed",
+        "category": "Beds",
+        "tagline": "Handcrafted Luxury Tufting",
         "footer": "Customization available",
-        "price": 36990,
-        "originalPrice": 48990,
-        "discount": "24% OFF",
+        "price": 34990,
+        "originalPrice": 44990,
+        "discount": "22% OFF",
         "rating": 4.9,
-        "reviews": 1290,
-        "firmness": "Plush Tufted",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Luxurious handcrafted diamond button-tufted headboard bed frame with premium linen weave upholstery and silent slatted base.",
-        "positioning": "Grand hotel-suite luxury with deep diamond tufting and ergonomic cushioned backrest.",
+        "reviews": 46,
+        "description": "An elegant upholstered bed with diamond-pattern tufting that adds texture and a refined appearance. Each diamond fold is individually hand-gathered and buttoned by master upholsterers, paired with a solid timber frame for heirloom-quality durability.",
+        "positioning": "Brings grand hotel luxury, timeless depth, and opulent European craftsmanship to classical and transitional bedrooms.",
         "image": "./public/images/beds/bed-004.jpg",
         "images": {
             "main": "./public/images/beds/bed-004.jpg",
-            "detail": "./public/images/beds/bed-004.jpg",
-            "side": "./public/images/beds/bed-004.jpg",
-            "lifestyle": "./public/images/beds/bed-004.jpg"
+            "headboard": "./public/images/beds/bed-004-headboard.jpg",
+            "frame": "./public/images/beds/bed-004-frame.jpg",
+            "detail": "./public/images/beds/bed-004-detail.jpg",
+            "storage": "./public/images/beds/bed-004-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-004-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
-            "Single",
-            "Queen",
-            "King"
-        ],
-        "heights": [
-            14,
-            16
-        ],
-        "construction": [
             {
-                "name": "Tufted Backrest",
-                "desc": "Hand-stitched deep diamond buttons"
+                "name": "Double",
+                "dimensions": "48\" × 75\" (122 × 190 cm)",
+                "diff": -2000
             },
             {
-                "name": "Solid Wood Frame",
-                "desc": "Kiln-dried hardwood core"
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
             },
             {
-                "name": "Acoustic Slats",
-                "desc": "Noise-free slatted mattress base"
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Bespoke dimensions per architectural drawing",
+                "diff": 3500
             }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Tufted Beds",
-        "alt": "Diamond Tufted Headboard Bed - Premium Handcrafted Linen Upholstery"
+        "materials": [
+            "Plush Velvet",
+            "Belgian Linen",
+            "Matte Leatherette"
+        ],
+        "colors": [
+            {
+                "name": "Warm Beige",
+                "hex": "#E7DEC8"
+            },
+            {
+                "name": "Pearl Cream",
+                "hex": "#F8F5EE"
+            },
+            {
+                "name": "Deep Charcoal",
+                "hex": "#3A3938"
+            },
+            {
+                "name": "Royal Champagne",
+                "hex": "#DECBA4"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (Classic Footprint)",
+                "diff": 0
+            },
+            {
+                "id": "drawers",
+                "name": "Dual Side Storage Drawers",
+                "diff": 3500
+            },
+            {
+                "id": "hydraulic",
+                "name": "Heavy-Duty Gas-Lift Hydraulic",
+                "diff": 6000
+            }
+        ],
+        "featuresList": [
+            "Artisanal deep diamond tufting with fabric-matched hand-tied buttons",
+            "Extra-thick high-resilience foam padding for comfortable upright sitting",
+            "Reinforced solid Sheesham internal spine with center support legs",
+            "Padded perimeter side rails that match the headboard upholstery",
+            "Silent solid wood slat foundation with zero creaks"
+        ],
+        "specifications": {
+            "bedType": "Diamond Tufted Bed",
+            "frameConstruction": "Kiln-Dried Sheesham & Heavy-Duty Pine",
+            "upholstery": "Plush Velvet / Belgian Linen (Stain Resistant)",
+            "headboardHeight": "52 inches (132 cm)",
+            "platformHeight": "13.5 inches (34 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats",
+            "underbedClearance": "6 inches (15 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD005",
+            "BKPBD009",
+            "BKPBD010"
+        ]
     },
     {
         "id": 206,
         "code": "BKPBD005",
-        "category": "Beds",
         "name": "Chesterfield Rolled Headboard Bed",
-        "footer": "Customization available",
-        "price": 39990,
-        "originalPrice": 52990,
-        "discount": "25% OFF",
-        "rating": 5.0,
-        "reviews": 980,
-        "firmness": "Rolled Chesterfield",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Magnificent Chesterfield-style bed frame featuring deep button tufting, an iconic scroll rolled headboard, and exquisite tailoring.",
-        "positioning": "A statement architectural bed frame inspired by British Chesterfield aesthetics with deep comfort padding.",
-        "image": "./public/images/beds/bed-005.jpg",
-        "images": {
-            "main": "./public/images/beds/bed-005.jpg",
-            "detail": "./public/images/beds/bed-005.jpg",
-            "side": "./public/images/beds/bed-005.jpg",
-            "lifestyle": "./public/images/beds/bed-005.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Queen",
-            "King"
-        ],
-        "heights": [
-            16,
-            18
-        ],
-        "construction": [
-            {
-                "name": "Rolled Scroll",
-                "desc": "Architectural rolled crown design"
-            },
-            {
-                "name": "Deep Tufting",
-                "desc": "Reinforced button-pull craftsmanship"
-            },
-            {
-                "name": "Hardwood Foundation",
-                "desc": "Heavy-duty structural framework"
-            }
-        ],
-        "mainCategory": "Beds",
-        "subCategory": "Chesterfield Beds",
-        "alt": "Chesterfield Rolled Headboard Bed - Classic Scroll Button-Tufted Design"
-    },
-    {
-        "id": 207,
-        "code": "BKPBD006",
+        "slug": "chesterfield-rolled-headboard-bed",
         "category": "Beds",
-        "name": "Polished Wood Frame Bed",
-        "footer": "Customization available",
-        "price": 27990,
-        "originalPrice": 36990,
-        "discount": "24% OFF",
-        "rating": 4.8,
-        "reviews": 1650,
-        "firmness": "Natural Wood",
-        "warranty": "10 Years Solid Wood Warranty",
-        "desc": "Classic polished natural hardwood bed frame showcasing warm organic wood grains, clean contemporary lines, and heavy-duty foundation.",
-        "positioning": "An enduring wooden bed frame in warm organic teak finish providing silent, reliable sleep support.",
-        "image": "./public/images/beds/bed-006.jpg",
-        "images": {
-            "main": "./public/images/beds/bed-006.jpg",
-            "detail": "./public/images/beds/bed-006.jpg",
-            "side": "./public/images/beds/bed-006.jpg",
-            "lifestyle": "./public/images/beds/bed-006.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Double",
-            "Queen",
-            "King"
-        ],
-        "heights": [
-            12,
-            14
-        ],
-        "construction": [
-            {
-                "name": "Hardwood Timber",
-                "desc": "Seasoned natural Sheesham timber"
-            },
-            {
-                "name": "Polished Finish",
-                "desc": "Silky organic stain and sealant"
-            },
-            {
-                "name": "Central Beam",
-                "desc": "Reinforced load-bearing steel spine"
-            }
-        ],
-        "mainCategory": "Beds",
-        "subCategory": "Wooden Beds",
-        "alt": "Polished Wood Frame Bed - Solid Seasoned Hardwood Natural Finish"
-    },
-    // --- ROW 2: NEWLY ADDED BEDS (BKPBD007, BKPBD008, BKPBD009) ---
-    {
-        "id": 208,
-        "code": "BKPBD007",
-        "category": "Beds",
-        "name": "Hydraulic Storage Bed",
-        "footer": "Customization available",
-        "price": 35990,
-        "originalPrice": 46990,
-        "discount": "23% OFF",
-        "rating": 4.9,
-        "reviews": 1420,
-        "firmness": "Hydraulic Lift",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Effortless gas-lift hydraulic storage bed frame offering massive under-mattress storage capacity with a vertical channel upholstered headboard.",
-        "positioning": "Maximum bedroom storage with premium hydraulic lift mechanism and cushioned vertical channel headboard.",
-        "image": "./public/images/beds/bed-007.jpg",
-        "images": {
-            "main": "./public/images/beds/bed-007.jpg",
-            "detail": "./public/images/beds/bed-007.jpg",
-            "side": "./public/images/beds/bed-007.jpg",
-            "lifestyle": "./public/images/beds/bed-007.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Queen",
-            "King"
-        ],
-        "heights": [
-            14,
-            16
-        ],
-        "construction": [
-            {
-                "name": "Hydraulic Gas Lift",
-                "desc": "Smooth dual German gas pistons"
-            },
-            {
-                "name": "Full Base Storage",
-                "desc": "Dust-proof storage volume"
-            },
-            {
-                "name": "Channel Headboard",
-                "desc": "Cushioned vertical channel padding"
-            }
-        ],
-        "mainCategory": "Beds",
-        "subCategory": "Storage Beds",
-        "alt": "Hydraulic Storage Bed - Gas Lift Storage Base with Vertical Channel Headboard"
-    },
-    {
-        "id": 209,
-        "code": "BKPBD008",
-        "category": "Beds",
-        "name": "Front Drawer Storage Bed",
-        "footer": "Customization available",
-        "price": 32990,
-        "originalPrice": 42990,
-        "discount": "23% OFF",
-        "rating": 4.8,
-        "reviews": 1150,
-        "firmness": "Drawer Storage",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Premium upholstered platform bed with dual integrated front pull-out storage drawers on smooth silent glides and cushioned panel headboard.",
-        "positioning": "Seamless front-drawer organization with easy-slide compartments and warm minimalist fabric finish.",
-        "image": "./public/images/beds/bed-008.jpg",
-        "images": {
-            "main": "./public/images/beds/bed-008.jpg",
-            "detail": "./public/images/beds/bed-008.jpg",
-            "side": "./public/images/beds/bed-008.jpg",
-            "lifestyle": "./public/images/beds/bed-008.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Queen",
-            "King"
-        ],
-        "heights": [
-            14,
-            16
-        ],
-        "construction": [
-            {
-                "name": "Front Pull-Out Drawers",
-                "desc": "Silent steel ball-bearing runners"
-            },
-            {
-                "name": "Reinforced Platform",
-                "desc": "Solid timber acoustic slat system"
-            },
-            {
-                "name": "Padded Headboard",
-                "desc": "High-density foam backrest"
-            }
-        ],
-        "mainCategory": "Beds",
-        "subCategory": "Storage Beds",
-        "alt": "Front Drawer Storage Bed - Integrated Pull-Out Storage Drawers"
-    },
-    {
-        "id": 210,
-        "code": "BKPBD009",
-        "category": "Beds",
-        "name": "Upholstered Wingback Bed",
+        "tagline": "Grand Heritage Rolled Silhouette",
         "footer": "Customization available",
         "price": 38990,
         "originalPrice": 49990,
         "discount": "22% OFF",
-        "rating": 5.0,
-        "reviews": 980,
-        "firmness": "Sheltering Wingback",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Grand hotel-style upholstered bed featuring architectural sheltering wingback headboard, luxurious cream fabric, and heavy-duty frame.",
-        "positioning": "Stately architectural wingback silhouette designed to anchor luxury master suites with cozy enclosure.",
-        "image": "./public/images/beds/bed-009.jpg",
+        "rating": 4.9,
+        "reviews": 51,
+        "description": "A statement bed with a Chesterfield-inspired headboard featuring a distinctive rolled design. Anchored by generous scrolled shoulders, hand-folded deep tufting, and a solid kiln-dried chassis that radiates traditional elegance.",
+        "positioning": "Created for grand master bedrooms that require an imposing, majestic architectural focal point with classical British heritage.",
+        "image": "./public/images/beds/bed-005.jpg",
         "images": {
-            "main": "./public/images/beds/bed-009.jpg",
-            "detail": "./public/images/beds/bed-009.jpg",
-            "side": "./public/images/beds/bed-009.jpg",
-            "lifestyle": "./public/images/beds/bed-009.jpg"
+            "main": "./public/images/beds/bed-005.jpg",
+            "headboard": "./public/images/beds/bed-005-headboard.jpg",
+            "frame": "./public/images/beds/bed-005-frame.jpg",
+            "detail": "./public/images/beds/bed-005-detail.jpg",
+            "storage": "./public/images/beds/bed-005-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-005-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
         "sizes": [
-            "Queen",
-            "King"
-        ],
-        "heights": [
-            16,
-            18
-        ],
-        "construction": [
             {
-                "name": "Sheltering Wings",
-                "desc": "Curved acoustic side panels"
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
             },
             {
-                "name": "Luxury Weave",
-                "desc": "Heavy-duty textured cream linen"
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
             },
             {
-                "name": "Steel-Wood Spine",
-                "desc": "Dual center support framework"
+                "name": "Custom Size",
+                "dimensions": "Grand estate & custom master dimensions",
+                "diff": 4000
             }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Wingback Beds",
-        "alt": "Upholstered Wingback Bed - Tall Architectural Sheltering Headboard"
+        "materials": [
+            "Royal Velvet",
+            "Supple Leatherette",
+            "Heritage Linen"
+        ],
+        "colors": [
+            {
+                "name": "Camel Beige",
+                "hex": "#C9B59B"
+            },
+            {
+                "name": "Antique Cream",
+                "hex": "#F4EBD9"
+            },
+            {
+                "name": "Charcoal Grey",
+                "hex": "#4A4744"
+            },
+            {
+                "name": "Cognac Brown",
+                "hex": "#7F4E28"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (Heritage Profile)",
+                "diff": 0
+            },
+            {
+                "id": "hydraulic",
+                "name": "Heavy-Duty Gas-Lift Hydraulic Storage",
+                "diff": 6000
+            }
+        ],
+        "featuresList": [
+            "Grand scrolled rolled crown headboard with deep hand-tucked pleats",
+            "Plush multi-layer reflex cushioning for unparalleled back luxury",
+            "Seasoned kiln-dried hardwood structure with heavy steel brackets",
+            "Coordinated rolled footboard detailing on full frame models",
+            "Heavy-gauge solid timber slat mattress foundation system"
+        ],
+        "specifications": {
+            "bedType": "Chesterfield Rolled Bed",
+            "frameConstruction": "Solid Seasoned Hardwood & Heavy Steel Corner Plates",
+            "upholstery": "Royal Velvet / Premium Leatherette",
+            "headboardHeight": "54 inches (137 cm)",
+            "platformHeight": "14 inches (35 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats",
+            "underbedClearance": "5.5 inches (14 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD004",
+            "BKPBD009",
+            "BKPBD016"
+        ]
     },
-    // --- ROW 4: NEWLY ADDED BEDS (BKPBD010, BKPBD011, BKPBD012) ---
     {
-        "id": 211,
-        "code": "BKPBD010",
+        "id": 207,
+        "code": "BKPBD006",
+        "name": "Polished Wood Frame Bed",
+        "slug": "polished-wood-frame-bed",
         "category": "Beds",
-        "name": "Scallop Shell Headboard Bed",
+        "tagline": "Organic Solid Timber & Lacquer",
+        "footer": "Customization available",
+        "price": 33990,
+        "originalPrice": 42990,
+        "discount": "21% OFF",
+        "rating": 4.8,
+        "reviews": 39,
+        "description": "A wooden bed featuring a polished frame and a timeless furniture design. Handcrafted from solid seasoned timber, hand-buffed with organic protective oils and clear satin lacquer that celebrates natural wood grain patterns.",
+        "positioning": "Perfect for bedrooms highlighting organic natural materials, clean lines, warmth, and enduring solid wood carpentry.",
+        "image": "./public/images/beds/bed-006.jpg",
+        "images": {
+            "main": "./public/images/beds/bed-006.jpg",
+            "headboard": "./public/images/beds/bed-006-headboard.jpg",
+            "frame": "./public/images/beds/bed-006-frame.jpg",
+            "detail": "./public/images/beds/bed-006-detail.jpg",
+            "storage": "./public/images/beds/bed-006-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-006-lifestyle.jpg"
+        },
+        "sizes": [
+            {
+                "name": "Single",
+                "dimensions": "36\" × 75\" (91 × 190 cm)",
+                "diff": -4000
+            },
+            {
+                "name": "Double",
+                "dimensions": "48\" × 75\" (122 × 190 cm)",
+                "diff": -2000
+            },
+            {
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Custom solid timber dimensions",
+                "diff": 3500
+            }
+        ],
+        "materials": [
+            "100% Solid Sheesham",
+            "Solid Teak Wood",
+            "Seasoned Oak"
+        ],
+        "colors": [
+            {
+                "name": "Natural Walnut",
+                "hex": "#5B4031"
+            },
+            {
+                "name": "Honey Teak",
+                "hex": "#B87333"
+            },
+            {
+                "name": "Warm Oak",
+                "hex": "#C49A6C"
+            },
+            {
+                "name": "Raw Natural",
+                "hex": "#D8BC97"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (8.5\" Open Clearance)",
+                "diff": 0
+            },
+            {
+                "id": "drawers",
+                "name": "Underbed Solid Wood Drawers (Pair)",
+                "diff": 4500
+            }
+        ],
+        "featuresList": [
+            "100% genuine solid hardwood throughout with visible grain variations",
+            "Hand-buffed satin protective coat resistant to moisture and scuffs",
+            "Traditional mortise-and-tenon reinforced joinery for maximum rigidity",
+            "Generous 8.5-inch under-bed clearance for robotic vacuums & storage boxes",
+            "Heavy-duty solid timber slat foundation supporting up to 450 kg"
+        ],
+        "specifications": {
+            "bedType": "Solid Wood Platform Bed",
+            "frameConstruction": "100% Solid Kiln-Dried Sheesham / Teak Timber",
+            "upholstery": "N/A (Hand-Polished Natural Timber)",
+            "headboardHeight": "44 inches (112 cm)",
+            "platformHeight": "14 inches (35 cm)",
+            "slatFoundation": "Solid Wood Interlocking Slats",
+            "underbedClearance": "8.5 inches (21.5 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Solid Timber Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid wood slats included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD011",
+            "BKPBD016",
+            "BKPBD015"
+        ]
+    },
+    {
+        "id": 208,
+        "code": "BKPBD007",
+        "name": "Hydraulic Storage Bed",
+        "slug": "hydraulic-storage-bed",
+        "category": "Beds",
+        "tagline": "German Gas-Lift Hydraulic Storage",
+        "footer": "Customization available",
+        "price": 39490,
+        "originalPrice": 51990,
+        "discount": "24% OFF",
+        "rating": 4.9,
+        "reviews": 58,
+        "description": "A bed designed to provide additional under-bed storage through a hydraulic lifting mechanism. Engineered with dual heavy-duty German gas-lift pistons that allow effortless, one-handed lifting of the mattress platform to reveal a dust-sealed 650-liter storage cavity.",
+        "positioning": "The definitive solution for bedrooms demanding maximum storage capacity for seasonal bedding, luggage, and quilts.",
+        "image": "./public/images/beds/bed-007.jpg",
+        "images": {
+            "main": "./public/images/beds/bed-007.jpg",
+            "headboard": "./public/images/beds/bed-007-headboard.jpg",
+            "frame": "./public/images/beds/bed-007-frame.jpg",
+            "detail": "./public/images/beds/bed-007-detail.jpg",
+            "storage": "./public/images/beds/bed-007-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-007-lifestyle.jpg"
+        },
+        "sizes": [
+            {
+                "name": "Double",
+                "dimensions": "48\" × 75\" (122 × 190 cm)",
+                "diff": -2000
+            },
+            {
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Customized hydraulic bed proportions",
+                "diff": 3500
+            }
+        ],
+        "materials": [
+            "Performance Linen",
+            "Soft Velvet",
+            "Heavy Weave"
+        ],
+        "colors": [
+            {
+                "name": "Sandstone Beige",
+                "hex": "#E2D9CC"
+            },
+            {
+                "name": "Slate Grey",
+                "hex": "#7E8183"
+            },
+            {
+                "name": "Warm Taupe",
+                "hex": "#B5A795"
+            },
+            {
+                "name": "Ivory White",
+                "hex": "#F9F6F0"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "hydraulic",
+                "name": "Heavy-Duty Gas-Lift Hydraulic (Included)",
+                "diff": 0
+            }
+        ],
+        "featuresList": [
+            "German-engineered gas-lift hydraulic pistons with smooth assisted lift",
+            "Full-footprint 650-liter under-bed storage with sealed bottom panel",
+            "Safety lock catch preventing accidental lowering during access",
+            "High-density padded headboard with vertical accent stitching",
+            "Welded steel subframe with reinforced timber platform deck"
+        ],
+        "specifications": {
+            "bedType": "Hydraulic Storage Bed",
+            "frameConstruction": "Heavy-Duty Tubular Steel & Kiln-Dried Hardwood",
+            "upholstery": "Performance Linen (Stain & Tear Resistant)",
+            "headboardHeight": "48 inches (122 cm)",
+            "platformHeight": "14.5 inches (37 cm)",
+            "slatFoundation": "Reinforced Steel Subframe with Timber Decking",
+            "underbedClearance": "Floor Flush with Internal Storage Depth 11\"",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Frame & 5 Years Hydraulic Piston Warranty",
+            "mattressIncluded": "No (Mattress sold separately; hydraulic deck system included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD002",
+            "BKPBD008",
+            "BKPBD003"
+        ]
+    },
+    {
+        "id": 209,
+        "code": "BKPBD008",
+        "name": "Front Drawer Storage Bed",
+        "slug": "front-drawer-storage-bed",
+        "category": "Beds",
+        "tagline": "Slide-Out Front Storage Drawers",
+        "footer": "Customization available",
+        "price": 35990,
+        "originalPrice": 46990,
+        "discount": "23% OFF",
+        "rating": 4.8,
+        "reviews": 36,
+        "description": "A practical storage bed with front-access drawers integrated into its base. Designed for rooms where side space is constrained by nightstands, offering two massive front-opening drawers operating on full-extension ball-bearing slides.",
+        "positioning": "Ideal for compact bedrooms where bedside tables block lateral drawers but easy access to daily essentials is required.",
+        "image": "./public/images/beds/bed-008.jpg",
+        "images": {
+            "main": "./public/images/beds/bed-008.jpg",
+            "headboard": "./public/images/beds/bed-008-headboard.jpg",
+            "frame": "./public/images/beds/bed-008-frame.jpg",
+            "detail": "./public/images/beds/bed-008-detail.jpg",
+            "storage": "./public/images/beds/bed-008-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-008-lifestyle.jpg"
+        },
+        "sizes": [
+            {
+                "name": "Double",
+                "dimensions": "48\" × 75\" (122 × 190 cm)",
+                "diff": -2000
+            },
+            {
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Customized drawer dimensions",
+                "diff": 3000
+            }
+        ],
+        "materials": [
+            "Textured Cotton-Linen",
+            "Soft Velvet",
+            "Woven Chenille"
+        ],
+        "colors": [
+            {
+                "name": "Linen Cream",
+                "hex": "#F4EFE6"
+            },
+            {
+                "name": "Warm Grey",
+                "hex": "#8C8782"
+            },
+            {
+                "name": "Pebble Beige",
+                "hex": "#DDD4C5"
+            },
+            {
+                "name": "Midnight Charcoal",
+                "hex": "#2E2D2C"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "drawers",
+                "name": "Dual Heavy-Duty Front Drawers (Included)",
+                "diff": 0
+            },
+            {
+                "id": "hydraulic",
+                "name": "Upgrade to Full Hydraulic Base",
+                "diff": 3500
+            }
+        ],
+        "featuresList": [
+            "Two oversized front slide-out drawers on soft-close ball-bearing runners",
+            "Allows full drawer extension without moving nightstands or bedside lamps",
+            "Softly padded rectangular headboard with clean tailored seams",
+            "Rigid engineered timber drawer boxes holding up to 35 kg each",
+            "Solid wood slat support system for even mattress weight distribution"
+        ],
+        "specifications": {
+            "bedType": "Front Drawer Storage Bed",
+            "frameConstruction": "Reinforced Engineered Wood & Solid Pine",
+            "upholstery": "Cotton-Linen Blend (Breathable & Durable)",
+            "headboardHeight": "47 inches (119 cm)",
+            "platformHeight": "14 inches (35 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats",
+            "underbedClearance": "Floor Flush (Drawers internal depth 8.5\")",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Frame & 3 Years Runner Hardware Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD002",
+            "BKPBD007",
+            "BKPBD012"
+        ]
+    },
+    {
+        "id": 210,
+        "code": "BKPBD009",
+        "name": "Upholstered Wingback Bed",
+        "slug": "upholstered-wingback-bed",
+        "category": "Beds",
+        "tagline": "Grand Cocooning Flared Wings",
         "footer": "Customization available",
         "price": 36990,
         "originalPrice": 47990,
         "discount": "23% OFF",
         "rating": 4.9,
-        "reviews": 840,
-        "firmness": "Fluted Velvet",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Artistic blush-pink upholstered bed featuring a distinctive fluted scallop shell headboard, cream bedding, and a warm neutral bedroom setting.",
-        "positioning": "An eye-catching focal piece with sculptural scallop fluting, blush velvet finish, and reinforced solid frame.",
+        "reviews": 44,
+        "description": "An upholstered bed featuring a wingback headboard that creates a distinctive, enclosed silhouette. The flared sheltering side wings provide a cozy sense of privacy, acoustic absorption, and comfortable side leaning.",
+        "positioning": "Created for lavish master suites that favor dramatic architectural headboard profiles and cocoon-like tranquility.",
+        "image": "./public/images/beds/bed-009.jpg",
+        "images": {
+            "main": "./public/images/beds/bed-009.jpg",
+            "headboard": "./public/images/beds/bed-009-headboard.jpg",
+            "frame": "./public/images/beds/bed-009-frame.jpg",
+            "detail": "./public/images/beds/bed-009-detail.jpg",
+            "storage": "./public/images/beds/bed-009-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-009-lifestyle.jpg"
+        },
+        "sizes": [
+            {
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Custom wing depth and headboard dimensions",
+                "diff": 3500
+            }
+        ],
+        "materials": [
+            "Brushed Linen",
+            "Luxury Velvet",
+            "Boucle Weave"
+        ],
+        "colors": [
+            {
+                "name": "Ivory Cream",
+                "hex": "#F8F5EE"
+            },
+            {
+                "name": "Soft Oatmeal",
+                "hex": "#E3DACE"
+            },
+            {
+                "name": "Slate Grey",
+                "hex": "#7A7B7D"
+            },
+            {
+                "name": "Warm Mink",
+                "hex": "#9B8B7D"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (Sculpted Profile)",
+                "diff": 0
+            },
+            {
+                "id": "drawers",
+                "name": "Underbed Sliding Drawers",
+                "diff": 3500
+            },
+            {
+                "id": "hydraulic",
+                "name": "German Gas-Lift Hydraulic Storage",
+                "diff": 6000
+            }
+        ],
+        "featuresList": [
+            "Gracefully flared wingback side panels provide acoustic dampening and cocoon comfort",
+            "Extra-deep foam headboard padding engineered for reading in bed",
+            "Seasoned kiln-dried hardwood internal structure with steel corner ties",
+            "Padded perimeter rails with seamless mitered corner joints",
+            "Solid acoustic hardwood slat foundation eliminating squeaks"
+        ],
+        "specifications": {
+            "bedType": "Upholstered Wingback Bed",
+            "frameConstruction": "Solid Seasoned Hardwood & Reinforced Timber",
+            "upholstery": "Brushed Linen / Luxury Velvet",
+            "headboardHeight": "52 inches (132 cm)",
+            "platformHeight": "13 inches (33 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats",
+            "underbedClearance": "6 inches (15 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD004",
+            "BKPBD005",
+            "BKPBD010"
+        ]
+    },
+    {
+        "id": 211,
+        "code": "BKPBD010",
+        "name": "Scallop Shell Headboard Bed",
+        "slug": "scallop-shell-headboard-bed",
+        "category": "Beds",
+        "tagline": "Sculptural Art-Deco Petal Fluting",
+        "footer": "Customization available",
+        "price": 33490,
+        "originalPrice": 43990,
+        "discount": "24% OFF",
+        "rating": 4.9,
+        "reviews": 40,
+        "description": "A decorative upholstered bed with a scalloped, shell-inspired headboard. Radiating vertical petal fluting evokes 1920s Art-Deco glamour, sculpted with plush padding and draped in soft-touch velvet or textured bouclé.",
+        "positioning": "An artistic centerpiece for romantic, boutique-inspired bedrooms that celebrate feminine curves and sculptural artistry.",
         "image": "./public/images/beds/bed-010.jpg",
         "images": {
             "main": "./public/images/beds/bed-010.jpg",
-            "detail": "./public/images/beds/bed-010.jpg",
-            "side": "./public/images/beds/bed-010.jpg",
-            "lifestyle": "./public/images/beds/bed-010.jpg"
+            "headboard": "./public/images/beds/bed-010-headboard.jpg",
+            "frame": "./public/images/beds/bed-010-frame.jpg",
+            "detail": "./public/images/beds/bed-010-detail.jpg",
+            "storage": "./public/images/beds/bed-010-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-010-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": ["Queen", "King"],
-        "heights": [14, 16],
-        "construction": [
-            { "name": "Scallop Shell Fluting", "desc": "Hand-tailored vertical channel arches" },
-            { "name": "Plush Velvet Weave", "desc": "High-durability blush pink upholstery" },
-            { "name": "Acoustic Foundation", "desc": "Zero-squeak kiln-dried hardwood base" }
+        "sizes": [
+            {
+                "name": "Single",
+                "dimensions": "36\" × 75\" (91 × 190 cm)",
+                "diff": -4000
+            },
+            {
+                "name": "Double",
+                "dimensions": "48\" × 75\" (122 × 190 cm)",
+                "diff": -2000
+            },
+            {
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Bespoke petal curvature and size",
+                "diff": 3500
+            }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Fluted Beds",
-        "alt": "Scallop Shell Headboard Bed - Blush Pink Velvet Curved Crown"
+        "materials": [
+            "Plush Velvet",
+            "Textured Boucle",
+            "Silky Linen"
+        ],
+        "colors": [
+            {
+                "name": "Blush Pink",
+                "hex": "#E8C5BE"
+            },
+            {
+                "name": "Warm Cream",
+                "hex": "#F4ECE1"
+            },
+            {
+                "name": "Seafoam Grey",
+                "hex": "#B5C4BC"
+            },
+            {
+                "name": "Champagne Gold",
+                "hex": "#E0CEB5"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (Aesthetic Platform)",
+                "diff": 0
+            },
+            {
+                "id": "hydraulic",
+                "name": "German Gas-Lift Hydraulic Storage",
+                "diff": 6000
+            }
+        ],
+        "featuresList": [
+            "Hand-sculpted radiating scallop shell fluting with deep contoured channels",
+            "Soft-touch luxury velvet upholstery offering gentle tactile indulgence",
+            "Seasoned timber internal framework engineered for long-term shape retention",
+            "Gently rounded perimeter side rails with concealed metal brackets",
+            "Acoustic noise-damped solid timber slat foundation"
+        ],
+        "specifications": {
+            "bedType": "Scalloped Upholstered Bed",
+            "frameConstruction": "Kiln-Dried Hardwood & Contoured High-Resilience Foam",
+            "upholstery": "Plush Velvet / Textured Bouclé (Soft Touch)",
+            "headboardHeight": "51 inches (130 cm)",
+            "platformHeight": "12 inches (30 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats",
+            "underbedClearance": "6.5 inches (16 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD004",
+            "BKPBD009",
+            "BKPBD013"
+        ]
     },
     {
         "id": 212,
         "code": "BKPBD011",
-        "category": "Beds",
         "name": "Low Floating Platform Bed",
+        "slug": "low-floating-platform-bed",
+        "category": "Beds",
+        "tagline": "Minimalist Zen Cantilever Illusion",
         "footer": "Customization available",
-        "price": 31990,
-        "originalPrice": 41990,
-        "discount": "24% OFF",
+        "price": 31490,
+        "originalPrice": 40990,
+        "discount": "23% OFF",
         "rating": 4.8,
-        "reviews": 1220,
-        "firmness": "Floating Platform",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Contemporary low-profile grey upholstered platform bed with a minimalist headboard, neutral bedding, and a floating-style base.",
-        "positioning": "Clean Japanese-inspired floating platform architecture creating an open, modern minimalist bedroom vibe.",
+        "reviews": 34,
+        "description": "A low-profile platform bed designed to create a clean, visually lightweight appearance. Featuring deeply recessed inset legs that give the bed frame a weightless, floating illusion, complemented by an extended low perimeter ledge.",
+        "positioning": "Ideal for Japanese Zen, modern minimalist, and studio bedrooms that prioritize airy open space and low visual mass.",
         "image": "./public/images/beds/bed-011.jpg",
         "images": {
             "main": "./public/images/beds/bed-011.jpg",
-            "detail": "./public/images/beds/bed-011.jpg",
-            "side": "./public/images/beds/bed-011.jpg",
-            "lifestyle": "./public/images/beds/bed-011.jpg"
+            "headboard": "./public/images/beds/bed-011-headboard.jpg",
+            "frame": "./public/images/beds/bed-011-frame.jpg",
+            "detail": "./public/images/beds/bed-011-detail.jpg",
+            "storage": "./public/images/beds/bed-011-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-011-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": ["Double", "Queen", "King"],
-        "heights": [10, 12],
-        "construction": [
-            { "name": "Recessed Inset Base", "desc": "Architectural cantilevered floating effect" },
-            { "name": "Grey Textured Weave", "desc": "Stain-resistant tailored fabric surround" },
-            { "name": "Heavy-Duty Core", "desc": "Solid timber internal box framework" }
+        "sizes": [
+            {
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Custom low platform footprint",
+                "diff": 3000
+            }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Platform Beds",
-        "alt": "Low Floating Platform Bed - Minimalist Grey Inset Base Platform"
+        "materials": [
+            "Matte Timber Veneer",
+            "Performance Linen",
+            "Soft Textured Weave"
+        ],
+        "colors": [
+            {
+                "name": "Natural Oak",
+                "hex": "#D2BA99"
+            },
+            {
+                "name": "Warm Walnut",
+                "hex": "#5A4434"
+            },
+            {
+                "name": "Matte Beige",
+                "hex": "#E3D8C8"
+            },
+            {
+                "name": "Zen Charcoal",
+                "hex": "#383635"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (Cantilever Floating Illusion)",
+                "diff": 0
+            }
+        ],
+        "featuresList": [
+            "Deeply recessed heavy steel cantilever subframe creating a floating visual illusion",
+            "Ultra low-profile 9-inch platform height aligned with Japanese Zen interior ethos",
+            "Extended low perimeter ledge that serves as a bedside tray or book rest",
+            "Acoustic noise-free solid wood slat foundation with zero creaks",
+            "Clean low-profile horizontal headboard panel that doesn't dominate wall space"
+        ],
+        "specifications": {
+            "bedType": "Low Floating Platform Bed",
+            "frameConstruction": "Solid Hardwood Frame & Reinforced Center Steel Substructure",
+            "upholstery": "Matte Timber Veneer / Premium Textured Linen",
+            "headboardHeight": "38 inches (96 cm)",
+            "platformHeight": "9 inches (23 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats",
+            "underbedClearance": "Recessed 5 inches (13 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD001",
+            "BKPBD006",
+            "BKPBD013"
+        ]
     },
     {
         "id": 213,
         "code": "BKPBD012",
-        "category": "Beds",
         "name": "Rectangular Panel Headboard Bed",
+        "slug": "rectangular-panel-headboard-bed",
+        "category": "Beds",
+        "tagline": "Architectural Geometric Grid Cushioning",
         "footer": "Customization available",
-        "price": 34990,
-        "originalPrice": 45990,
-        "discount": "24% OFF",
-        "rating": 4.9,
-        "reviews": 1040,
-        "firmness": "Geometric Panel",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Beige upholstered bed featuring a tall, geometrically divided rectangular-panel headboard and neutral bedding.",
-        "positioning": "Stately architectural elegance with symmetrical rectangular paneling and refined tailored sand linen upholstery.",
+        "price": 32990,
+        "originalPrice": 42990,
+        "discount": "23% OFF",
+        "rating": 4.8,
+        "reviews": 37,
+        "description": "An upholstered bed with a structured rectangular-panel headboard for a clean, geometric look. Each rectangular quadrant is individually upholstered and cushioned to create balanced symmetry, crisp lines, and versatile elegance.",
+        "positioning": "Created for modern apartments and contemporary master bedrooms seeking structured symmetry and tailoring.",
         "image": "./public/images/beds/bed-012.jpg",
         "images": {
             "main": "./public/images/beds/bed-012.jpg",
-            "detail": "./public/images/beds/bed-012.jpg",
-            "side": "./public/images/beds/bed-012.jpg",
-            "lifestyle": "./public/images/beds/bed-012.jpg"
+            "headboard": "./public/images/beds/bed-012-headboard.jpg",
+            "frame": "./public/images/beds/bed-012-frame.jpg",
+            "detail": "./public/images/beds/bed-012-detail.jpg",
+            "storage": "./public/images/beds/bed-012-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-012-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": ["Queen", "King"],
-        "heights": [14, 16],
-        "construction": [
-            { "name": "Rectangular Block Grid", "desc": "Deep padded geometric block layout" },
-            { "name": "Sand Linen Fabric", "desc": "Breathable tactile weave upholstery" },
-            { "name": "Structural Spine", "desc": "Triple reinforced steel-wood center beam" }
+        "sizes": [
+            {
+                "name": "Single",
+                "dimensions": "36\" × 75\" (91 × 190 cm)",
+                "diff": -4000
+            },
+            {
+                "name": "Double",
+                "dimensions": "48\" × 75\" (122 × 190 cm)",
+                "diff": -2000
+            },
+            {
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Custom grid configuration and dimensions",
+                "diff": 3000
+            }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Panel Beds",
-        "alt": "Rectangular Panel Headboard Bed - Geometric Block Upholstered Headboard"
+        "materials": [
+            "Textured Heavy Linen",
+            "Plush Velvet",
+            "Woven Tweed"
+        ],
+        "colors": [
+            {
+                "name": "Sand Cream",
+                "hex": "#F3EDE2"
+            },
+            {
+                "name": "Charcoal Grey",
+                "hex": "#505050"
+            },
+            {
+                "name": "Almond Beige",
+                "hex": "#D8CABE"
+            },
+            {
+                "name": "Muted Sage",
+                "hex": "#8A9488"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (Platform Profile)",
+                "diff": 0
+            },
+            {
+                "id": "drawers",
+                "name": "Underbed Sliding Drawers",
+                "diff": 3500
+            },
+            {
+                "id": "hydraulic",
+                "name": "German Gas-Lift Hydraulic Storage",
+                "diff": 6000
+            }
+        ],
+        "featuresList": [
+            "Geometric grid of rectangular upholstered panels offering balanced symmetry",
+            "Plush high-resilience foam padding providing ergonomic lumbar and back support",
+            "Solid kiln-dried timber frame with reinforced corner braces",
+            "Padded perimeter side rails with seamless tailored fabric wrapping",
+            "Acoustic noise-free solid wood slat support system"
+        ],
+        "specifications": {
+            "bedType": "Panel Upholstered Bed",
+            "frameConstruction": "Solid Hardwood Frame & Acoustic Foam Core",
+            "upholstery": "Textured Heavy Linen / Velvet (Stain Resistant)",
+            "headboardHeight": "49 inches (124 cm)",
+            "platformHeight": "12.5 inches (32 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats",
+            "underbedClearance": "6 inches (15 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD003",
+            "BKPBD001",
+            "BKPBD008"
+        ]
     },
-    // --- ROW 5: NEWLY ADDED BEDS (BKPBD013, BKPBD014, BKPBD015) ---
     {
         "id": 214,
         "code": "BKPBD013",
-        "category": "Beds",
         "name": "Rounded Upholstered Bed",
+        "slug": "rounded-upholstered-bed",
+        "category": "Beds",
+        "tagline": "Organic Curved Contours & Zero Corners",
         "footer": "Customization available",
-        "price": 35990,
-        "originalPrice": 46990,
+        "price": 34490,
+        "originalPrice": 44990,
         "discount": "23% OFF",
         "rating": 4.9,
-        "reviews": 980,
-        "firmness": "Rounded Silhouette",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Cream/ivory upholstered bed with softly rounded headboard and frame, layered neutral bedding, and warm ambient bedroom styling.",
-        "positioning": "Organic curves and soft architectural lines wrapped in luxurious ivory bouclé fabric on a reinforced timber frame.",
+        "reviews": 41,
+        "description": "A contemporary upholstered bed with rounded edges and a softer overall silhouette. Featuring gently curved corners throughout the headboard and perimeter frame, eliminating sharp edges for child-friendly elegance and organic warmth.",
+        "positioning": "Ideal for families and design lovers embracing curved furniture trends, organic modernism, and tactile bouclé warmth.",
         "image": "./public/images/beds/bed-013.jpg",
         "images": {
             "main": "./public/images/beds/bed-013.jpg",
-            "detail": "./public/images/beds/bed-013.jpg",
-            "side": "./public/images/beds/bed-013.jpg",
-            "lifestyle": "./public/images/beds/bed-013.jpg"
+            "headboard": "./public/images/beds/bed-013-headboard.jpg",
+            "frame": "./public/images/beds/bed-013-frame.jpg",
+            "detail": "./public/images/beds/bed-013-detail.jpg",
+            "storage": "./public/images/beds/bed-013-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-013-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": ["Queen", "King"],
-        "heights": [14, 16],
-        "construction": [
-            { "name": "Softly Curved Frame", "desc": "Curved radius edges and softly rounded upholstered surround" },
-            { "name": "Ivory Bouclé Fabric", "desc": "Premium tactile boucle with high rub-count durability" },
-            { "name": "Internal Timber Core", "desc": "Kiln-dried hardwood framework with steel reinforcements" }
+        "sizes": [
+            {
+                "name": "Double",
+                "dimensions": "48\" × 75\" (122 × 190 cm)",
+                "diff": -2000
+            },
+            {
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Custom curved radius and dimensions",
+                "diff": 3500
+            }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Curved Beds",
-        "alt": "Rounded Upholstered Bed - Cream Ivory Curved Silhouette Frame"
+        "materials": [
+            "Textured Boucle",
+            "Soft Tactile Linen",
+            "Molded Velvet"
+        ],
+        "colors": [
+            {
+                "name": "Warm Ivory",
+                "hex": "#FBF7EE"
+            },
+            {
+                "name": "Cream White",
+                "hex": "#F4EFE6"
+            },
+            {
+                "name": "Oatmeal Beige",
+                "hex": "#DED3C4"
+            },
+            {
+                "name": "Soft Taupe",
+                "hex": "#9C8D7F"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (Curved Sculptural Base)",
+                "diff": 0
+            },
+            {
+                "id": "hydraulic",
+                "name": "Curved Hydraulic Lift Base",
+                "diff": 6000
+            }
+        ],
+        "featuresList": [
+            "Seamless curved corners eliminate sharp edges, ensuring family safety and calm flow",
+            "Chunky textured bouclé or woven linen upholstery with high abrasion resistance",
+            "Internal curved multi-ply hardwood structure engineered for lifelong structural shape",
+            "Thick wrap-around padded rails that feel soft to the touch from all angles",
+            "Acoustic noise-damped solid timber slat foundation"
+        ],
+        "specifications": {
+            "bedType": "Curved Upholstered Bed",
+            "frameConstruction": "Curved Plywood & Solid Seasoned Pine Structure",
+            "upholstery": "Textured Bouclé / Tactile Linen (High Abrasion Rating)",
+            "headboardHeight": "46 inches (117 cm)",
+            "platformHeight": "13 inches (33 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats",
+            "underbedClearance": "5.5 inches (14 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD001",
+            "BKPBD010",
+            "BKPBD018"
+        ]
     },
     {
         "id": 215,
         "code": "BKPBD014",
-        "category": "Beds",
         "name": "Two-Tone Upholstered Bed",
+        "slug": "two-tone-upholstered-bed",
+        "category": "Beds",
+        "tagline": "Modern Dual-Tone Color Contrast",
         "footer": "Customization available",
-        "price": 37990,
-        "originalPrice": 48990,
-        "discount": "22% OFF",
-        "rating": 4.9,
-        "reviews": 1120,
-        "firmness": "Two-Tone Contrast",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Modern two-tone upholstered bed featuring a cream headboard with vertical channel stitching and a contrasting dark charcoal base.",
-        "positioning": "Striking architectural contrast pairing a serene cream vertical-channel headboard with an anchoring charcoal perimeter platform.",
+        "price": 33990,
+        "originalPrice": 43990,
+        "discount": "23% OFF",
+        "rating": 4.8,
+        "reviews": 32,
+        "description": "A modern upholstered bed featuring two complementary tones for added visual contrast. Seamlessly marries a lighter neutral headboard inner with a deeper contrasting border and perimeter frame, creating sophisticated depth.",
+        "positioning": "Created for design-forward interiors that appreciate graphic subtlety, layered color palettes, and bespoke upholstery tailoring.",
         "image": "./public/images/beds/bed-014.jpg",
         "images": {
             "main": "./public/images/beds/bed-014.jpg",
-            "detail": "./public/images/beds/bed-014.jpg",
-            "side": "./public/images/beds/bed-014.jpg",
-            "lifestyle": "./public/images/beds/bed-014.jpg"
+            "headboard": "./public/images/beds/bed-014-headboard.jpg",
+            "frame": "./public/images/beds/bed-014-frame.jpg",
+            "detail": "./public/images/beds/bed-014-detail.jpg",
+            "storage": "./public/images/beds/bed-014-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-014-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": ["Queen", "King"],
-        "heights": [14, 16],
-        "construction": [
-            { "name": "Dual Finish Upholstery", "desc": "Ivory linen-blend headboard paired with charcoal base" },
-            { "name": "Vertical Channel Quilting", "desc": "Precision fluted padding for lumbar relaxation" },
-            { "name": "Heavy-Duty Sub-Frame", "desc": "Industrial-grade reinforced slat system" }
+        "sizes": [
+            {
+                "name": "Single",
+                "dimensions": "36\" × 75\" (91 × 190 cm)",
+                "diff": -4000
+            },
+            {
+                "name": "Double",
+                "dimensions": "48\" × 75\" (122 × 190 cm)",
+                "diff": -2000
+            },
+            {
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Custom two-tone size and color combination",
+                "diff": 3500
+            }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Channel Beds",
-        "alt": "Two-Tone Upholstered Bed - Cream Channel Headboard with Dark Base"
+        "materials": [
+            "Dual Fabric (Linen & Velvet Accents)",
+            "Woven Tweed Combo",
+            "Linen & Leatherette"
+        ],
+        "colors": [
+            {
+                "name": "Cream & Mocha",
+                "hex": "#D7C4B7"
+            },
+            {
+                "name": "Beige & Slate",
+                "hex": "#B0A8A0"
+            },
+            {
+                "name": "Ivory & Terracotta",
+                "hex": "#C2846B"
+            },
+            {
+                "name": "Sand & Charcoal",
+                "hex": "#736C65"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (Platform Profile)",
+                "diff": 0
+            },
+            {
+                "id": "drawers",
+                "name": "Underbed Sliding Drawers",
+                "diff": 3500
+            },
+            {
+                "id": "hydraulic",
+                "name": "German Gas-Lift Hydraulic Storage",
+                "diff": 6000
+            }
+        ],
+        "featuresList": [
+            "Hand-stitched two-tone color blocking creates subtle artistic depth",
+            "Contrasting perimeter border accentuates the headboard architecture",
+            "Kiln-dried hardwood internal framework with reinforced joint plates",
+            "High-density dual-resilience foam padding for lasting ergonomic support",
+            "Solid acoustic timber slat foundation for silent sleep"
+        ],
+        "specifications": {
+            "bedType": "Two-Tone Upholstered Bed",
+            "frameConstruction": "Solid Kiln-Dried Timber & Reinforced Pine Frame",
+            "upholstery": "Dual Texture Linen & Velvet Accents (Stain Resistant)",
+            "headboardHeight": "48 inches (122 cm)",
+            "platformHeight": "12.5 inches (32 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats",
+            "underbedClearance": "6 inches (15 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD003",
+            "BKPBD012",
+            "BKPBD015"
+        ]
     },
     {
         "id": 216,
         "code": "BKPBD015",
-        "category": "Beds",
         "name": "Integrated Side Table Bed",
+        "slug": "integrated-side-table-bed",
+        "category": "Beds",
+        "tagline": "All-in-One Unified Bedside Suite",
         "footer": "Customization available",
-        "price": 42990,
-        "originalPrice": 54990,
-        "discount": "22% OFF",
+        "price": 39990,
+        "originalPrice": 52990,
+        "discount": "25% OFF",
         "rating": 4.9,
-        "reviews": 890,
-        "firmness": "Integrated Tables",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "Cream upholstered bed with an extended tall rectangular panel headboard and seamless integrated wooden bedside floating tables.",
-        "positioning": "Master-suite luxury with an all-in-one extended panel headboard and cantilevered oak floating nightstands.",
+        "reviews": 43,
+        "description": "A bed design that incorporates side-table functionality into its overall bedroom furniture layout. Features a dramatic wide-spanning upholstered headboard with cantilevered timber floating nightstands on both sides, creating a luxurious architectural hotel suite.",
+        "positioning": "Created for master bedrooms seeking a unified, custom-built look that integrates bed and bedside tables in one cohesive statement piece.",
         "image": "./public/images/beds/bed-015.jpg",
         "images": {
             "main": "./public/images/beds/bed-015.jpg",
-            "detail": "./public/images/beds/bed-015.jpg",
-            "side": "./public/images/beds/bed-015.jpg",
-            "lifestyle": "./public/images/beds/bed-015.jpg"
+            "headboard": "./public/images/beds/bed-015-headboard.jpg",
+            "frame": "./public/images/beds/bed-015-frame.jpg",
+            "detail": "./public/images/beds/bed-015-detail.jpg",
+            "storage": "./public/images/beds/bed-015-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-015-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": ["Queen", "King"],
-        "heights": [14, 16],
-        "construction": [
-            { "name": "Integrated Floating Nightstands", "desc": "Built-in oak bedside shelves with cable cutouts" },
-            { "name": "Extended Vertical Paneling", "desc": "Grand architectural headboard back-panel" },
-            { "name": "Architectural Foundation", "desc": "Triple reinforced interlocking frame architecture" }
+        "sizes": [
+            {
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (Headboard Width: 104\")",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (Headboard Width: 116\")",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Custom wall-width spanning headboard",
+                "diff": 4000
+            }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Integrated Beds",
-        "alt": "Integrated Side Table Bed - Extended Panel Headboard with Built-in Floating Tables"
+        "materials": [
+            "Textured Linen & Solid Sheesham Tables",
+            "Soft Velvet & Walnut Tables"
+        ],
+        "colors": [
+            {
+                "name": "Warm Almond",
+                "hex": "#E6D8C8"
+            },
+            {
+                "name": "Sand Cream",
+                "hex": "#F4EFE6"
+            },
+            {
+                "name": "Charcoal Taupe",
+                "hex": "#4D4640"
+            },
+            {
+                "name": "Olive Mist",
+                "hex": "#94988A"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "tables",
+                "name": "Dual Floating Nightstands (Included)",
+                "diff": 0
+            },
+            {
+                "id": "hydraulic",
+                "name": "Add Gas-Lift Hydraulic Bed Base",
+                "diff": 6000
+            }
+        ],
+        "featuresList": [
+            "Continuous wall-width headboard with two cantilevered floating wooden nightstands",
+            "Built-in cable management cutaways for seamless phone charging and bedside lamps",
+            "Solid kiln-dried hardwood platform frame with acoustic slat foundation",
+            "Floating nightstands eliminate floor legs, making underbed cleaning effortless",
+            "Deeply padded backrest panel for five-star hotel reading comfort"
+        ],
+        "specifications": {
+            "bedType": "Integrated Suite Platform Bed",
+            "frameConstruction": "Kiln-Dried Hardwood & Solid Timber Floating Nightstand Shelves",
+            "upholstery": "Premium Textured Linen / Soft Velvet",
+            "headboardHeight": "48 inches (122 cm) | Span: 104\" Queen / 116\" King",
+            "platformHeight": "13 inches (33 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats",
+            "underbedClearance": "6.5 inches (16 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD006",
+            "BKPBD011",
+            "BKPBD014"
+        ]
     },
-    // --- ROW 6: NEWLY ADDED BEDS (BKPBD016, BKPBD017, BKPBD018) ---
     {
         "id": 217,
         "code": "BKPBD016",
-        "category": "Beds",
         "name": "Four Poster Canopy Bed",
+        "slug": "four-poster-canopy-bed",
+        "category": "Beds",
+        "tagline": "Architectural Grandeur & Vertical Posts",
         "footer": "Customization available",
-        "price": 48990,
-        "originalPrice": 62990,
-        "discount": "22% OFF",
+        "price": 42990,
+        "originalPrice": 56990,
+        "discount": "25% OFF",
         "rating": 4.9,
-        "reviews": 760,
-        "firmness": "Canopy Hardwood",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "A premium dark polished hardwood four-poster canopy frame with an elegant light cream upholstered headboard and neutral bedding.",
-        "positioning": "Architectural statement canopy architecture combining dark polished hardwood posts with a plush tailored cream upholstered headboard.",
+        "reviews": 38,
+        "description": "A statement bed featuring a four-poster frame and an elegant canopy-style structure. Hand-joined from solid timber with slender vertical posts and crisp upper crossbars, creating a dramatic architectural room within a room.",
+        "positioning": "An iconic architectural centerpiece for high-ceiling master bedrooms, private estates, and luxury resort-style homes.",
         "image": "./public/images/beds/bed-016.jpg",
         "images": {
             "main": "./public/images/beds/bed-016.jpg",
-            "detail": "./public/images/beds/bed-016.jpg",
-            "side": "./public/images/beds/bed-016.jpg",
-            "lifestyle": "./public/images/beds/bed-016.jpg"
+            "headboard": "./public/images/beds/bed-016-headboard.jpg",
+            "frame": "./public/images/beds/bed-016-frame.jpg",
+            "detail": "./public/images/beds/bed-016-detail.jpg",
+            "storage": "./public/images/beds/bed-016-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-016-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": ["Queen", "King"],
-        "heights": [14, 16],
-        "construction": [
-            { "name": "Solid Hardwood Canopy", "desc": "Four full-height posts and interlocking top canopy beams" },
-            { "name": "Cream Padded Headboard", "desc": "Tailored linen-blend upholstery for comfortable reading" },
-            { "name": "Reinforced Timber Bed Base", "desc": "Kiln-dried foundation engineered for zero movement" }
+        "sizes": [
+            {
+                "name": "Queen",
+                "dimensions": "60\" × 78\" (152 × 198 cm, 84\"H)",
+                "diff": 0
+            },
+            {
+                "name": "King",
+                "dimensions": "72\" × 78\" (183 × 198 cm, 84\"H)",
+                "diff": 4500
+            },
+            {
+                "name": "Custom Size",
+                "dimensions": "Custom canopy height and room dimensions",
+                "diff": 4500
+            }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Canopy Beds",
-        "alt": "Four Poster Canopy Bed - Polished Hardwood Canopy Frame with Cream Upholstered Headboard"
+        "materials": [
+            "Solid Teak Wood",
+            "Seasoned Sheesham Timber",
+            "Architectural Steel & Timber"
+        ],
+        "colors": [
+            {
+                "name": "Honey Teak Wood",
+                "hex": "#B87333"
+            },
+            {
+                "name": "Natural Sheesham",
+                "hex": "#6F4E37"
+            },
+            {
+                "name": "Matte Black Steel",
+                "hex": "#2B2B2B"
+            },
+            {
+                "name": "Raw White Oak",
+                "hex": "#D1BC9A"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (10.5\" Open Clearance)",
+                "diff": 0
+            },
+            {
+                "id": "drawers",
+                "name": "Underbed Solid Timber Drawers (Pair)",
+                "diff": 4500
+            }
+        ],
+        "featuresList": [
+            "Four full-height vertical posts with precision-engineered upper canopy tie-beams",
+            "Handcrafted mortise-and-tenon interlocking joinery tested for zero wobble",
+            "Compatible with sheer curtains, mosquito drapes, or bare minimalist styling",
+            "10.5 inches of airy underbed clearance for easy cleaning and ventilation",
+            "Heavy-duty solid wood interlocking slat foundation supporting up to 500 kg"
+        ],
+        "specifications": {
+            "bedType": "Four Poster Canopy Bed",
+            "frameConstruction": "100% Solid Kiln-Dried Hardwood (Sheesham / Teak)",
+            "upholstery": "N/A (Hand-Polished Organic Timber)",
+            "headboardHeight": "42 inches (107 cm) | Overall Canopy Height: 84 inches (213 cm)",
+            "platformHeight": "14 inches (35 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Interlocking Slats",
+            "underbedClearance": "10.5 inches (26.5 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Solid Timber Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid wood slats included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD006",
+            "BKPBD005",
+            "BKPBD015"
+        ]
     },
     {
         "id": 218,
         "code": "BKPBD017",
-        "category": "Beds",
         "name": "Compact Single Upholstered Bed",
+        "slug": "compact-single-upholstered-bed",
+        "category": "Beds",
+        "tagline": "Space-Saving Refinement & Compact Comfort",
         "footer": "Customization available",
-        "price": 24990,
-        "originalPrice": 32990,
+        "price": 18990,
+        "originalPrice": 24990,
         "discount": "24% OFF",
         "rating": 4.8,
-        "reviews": 940,
-        "firmness": "Compact Platform",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "A compact single-size bed with a cream upholstered frame, tall vertically panelled headboard, and neutral bedding designed for smaller bedrooms.",
-        "positioning": "Refined single-bed scale with an architectural vertically channeled headboard and tailored cream linen perimeter frame.",
+        "reviews": 29,
+        "description": "A compact single upholstered bed designed for smaller bedrooms, guest rooms, or individual sleeping spaces. Scaled to maximize usable floor area while maintaining BACKSPACE's signature padded headboard and acoustic slat comfort.",
+        "positioning": "Ideal for children's bedrooms, teen sanctuaries, guest suites, and studio apartments needing refined space efficiency.",
         "image": "./public/images/beds/bed-017.jpg",
         "images": {
             "main": "./public/images/beds/bed-017.jpg",
-            "detail": "./public/images/beds/bed-017.jpg",
-            "side": "./public/images/beds/bed-017.jpg",
-            "lifestyle": "./public/images/beds/bed-017.jpg"
+            "headboard": "./public/images/beds/bed-017-headboard.jpg",
+            "frame": "./public/images/beds/bed-017-frame.jpg",
+            "detail": "./public/images/beds/bed-017-detail.jpg",
+            "storage": "./public/images/beds/bed-017-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-017-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": ["Single", "Super Single"],
-        "heights": [12, 14],
-        "construction": [
-            { "name": "Vertical Channel Crown", "desc": "Tall streamlined padded channels for back and neck support" },
-            { "name": "Compact Footprint Frame", "desc": "Slim perimeter profile maximizing floor space in smaller rooms" },
-            { "name": "Solid Timber Slats", "desc": "Heavy-duty kiln-dried internal support structure" }
+        "sizes": [
+            {
+                "name": "Standard Single",
+                "dimensions": "36\" × 75\" (91 × 190 cm)",
+                "diff": 0
+            },
+            {
+                "name": "Large Single",
+                "dimensions": "42\" × 75\" (107 × 190 cm)",
+                "diff": 2000
+            },
+            {
+                "name": "Custom Single",
+                "dimensions": "Bespoke dimensions for nook or alcove",
+                "diff": 2500
+            }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Single Beds",
-        "alt": "Compact Single Upholstered Bed - Cream Vertical Channel Single Bed Frame"
+        "materials": [
+            "Breathable Linen-Cotton",
+            "Soft Velvet",
+            "Durable Poly-Linen"
+        ],
+        "colors": [
+            {
+                "name": "Oatmeal Beige",
+                "hex": "#E3DACE"
+            },
+            {
+                "name": "Heather Grey",
+                "hex": "#9E9A95"
+            },
+            {
+                "name": "Soft Mint",
+                "hex": "#BDCBC0"
+            },
+            {
+                "name": "Warm Cream",
+                "hex": "#F4ECE1"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (Slimline Platform)",
+                "diff": 0
+            },
+            {
+                "id": "drawers",
+                "name": "Single Large Side Storage Drawer",
+                "diff": 3000
+            },
+            {
+                "id": "hydraulic",
+                "name": "Single Gas-Lift Hydraulic Storage",
+                "diff": 4500
+            }
+        ],
+        "featuresList": [
+            "Compact footprint tailored for small bedrooms, studios, and alcoves",
+            "Softly padded slimline headboard with zero wasted frame depth",
+            "Kiln-dried seasoned hardwood frame with reinforced joints",
+            "Breathable, stain-resistant fabric upholstery easy to spot-clean",
+            "Acoustic noise-damped solid timber slat foundation"
+        ],
+        "specifications": {
+            "bedType": "Compact Single Upholstered Bed",
+            "frameConstruction": "Solid Seasoned Hardwood & Reinforced Pine",
+            "upholstery": "Breathable Linen-Cotton Blend (Stain Resistant)",
+            "headboardHeight": "44 inches (112 cm)",
+            "platformHeight": "12 inches (30 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats",
+            "underbedClearance": "6 inches (15 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD018",
+            "BKPBD001",
+            "BKPBD002"
+        ]
     },
     {
         "id": 219,
         "code": "BKPBD018",
-        "category": "Beds",
         "name": "Upholstered Daybed With Bolsters",
+        "slug": "upholstered-daybed-with-bolsters",
+        "category": "Beds",
+        "tagline": "Day-to-Night Lounging & Bolster Arms",
         "footer": "Customization available",
-        "price": 31990,
-        "originalPrice": 41990,
-        "discount": "24% OFF",
+        "price": 26990,
+        "originalPrice": 35990,
+        "discount": "25% OFF",
         "rating": 4.9,
-        "reviews": 1080,
-        "firmness": "Bolster Daybed",
-        "warranty": "10 Years Solid Warranty",
-        "desc": "A premium cream upholstered daybed featuring dual rounded cylindrical bolster arm cushions, low upholstered base, and contemporary styling.",
-        "positioning": "Multifunctional luxury daybed bridging sofa lounging and restful sleep with sculptural cylindrical bolsters and low-slung base.",
+        "reviews": 36,
+        "description": "A contemporary upholstered daybed featuring rounded bolster-style sides and a low-profile base. Transitions effortlessly from a luxurious daytime lounge sofa to a comfortable nighttime bed, crowned with two cylindrical bolster arms.",
+        "positioning": "Perfect for multifunctional guest rooms, home offices, lounges, reading alcoves, and vacation residences.",
         "image": "./public/images/beds/bed-018.jpg",
         "images": {
             "main": "./public/images/beds/bed-018.jpg",
-            "detail": "./public/images/beds/bed-018.jpg",
-            "side": "./public/images/beds/bed-018.jpg",
-            "lifestyle": "./public/images/beds/bed-018.jpg"
+            "headboard": "./public/images/beds/bed-018-headboard.jpg",
+            "frame": "./public/images/beds/bed-018-frame.jpg",
+            "detail": "./public/images/beds/bed-018-detail.jpg",
+            "storage": "./public/images/beds/bed-018-storage.jpg",
+            "lifestyle": "./public/images/beds/bed-018-lifestyle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": ["Single", "Double"],
-        "heights": [12, 14],
-        "construction": [
-            { "name": "Dual Cylindrical Bolsters", "desc": "Firm high-density bolster arms tailored in textured cream fabric" },
-            { "name": "Low-Profile Platform", "desc": "Contemporary low-slung base with concealed recessed legs" },
-            { "name": "Multi-Layer Cushion Core", "desc": "Supportive hybrid seating and sleeping mattress platform" }
+        "sizes": [
+            {
+                "name": "Single Daybed",
+                "dimensions": "36\" × 75\" (91 × 190 cm)",
+                "diff": 0
+            },
+            {
+                "name": "Double Daybed",
+                "dimensions": "48\" × 75\" (122 × 190 cm)",
+                "diff": 3500
+            },
+            {
+                "name": "Custom Daybed",
+                "dimensions": "Custom lounge and daybed dimensions",
+                "diff": 3000
+            }
         ],
-        "mainCategory": "Beds",
-        "subCategory": "Daybeds",
-        "alt": "Upholstered Daybed With Bolsters - Cream Contemporary Daybed with Cylindrical Bolster Arms"
+        "materials": [
+            "Textured Boucle",
+            "Heavy Woven Linen",
+            "Plush Velvet"
+        ],
+        "colors": [
+            {
+                "name": "Warm Ivory Boucle",
+                "hex": "#FAF6EE"
+            },
+            {
+                "name": "Pebble Cream",
+                "hex": "#EAE4D8"
+            },
+            {
+                "name": "Sage Green",
+                "hex": "#939E8F"
+            },
+            {
+                "name": "Slate Taupe",
+                "hex": "#766F68"
+            }
+        ],
+        "storageOptions": [
+            {
+                "id": "none",
+                "name": "No Storage (Daybed Profile)",
+                "diff": 0
+            },
+            {
+                "id": "trundle",
+                "name": "Underbed Pull-Out Guest Trundle",
+                "diff": 5500
+            },
+            {
+                "id": "drawers",
+                "name": "Dual Slide-Out Storage Drawers",
+                "diff": 3500
+            }
+        ],
+        "featuresList": [
+            "Dual cylindrical bolster arms provide plush arm and neck lounging support",
+            "Versatile day-to-night functionality: sofa by day, supportive bed by night",
+            "Flush low-profile upholstered base with internal acoustic slatted foundation",
+            "High-density reflex foam filling that retains full contour under heavy daily use",
+            "Solid kiln-dried hardwood structural subframe engineered for zero wobbling"
+        ],
+        "specifications": {
+            "bedType": "Upholstered Daybed",
+            "frameConstruction": "Solid Kiln-Dried Hardwood & High-Density Contoured Foam",
+            "upholstery": "Textured Bouclé / Heavy Woven Linen (Soil Resistant)",
+            "headboardHeight": "34 inches (86 cm) Backrest | Bolsters 9\" Diameter",
+            "platformHeight": "13 inches (33 cm)",
+            "slatFoundation": "Solid Acoustic Hardwood Slats",
+            "underbedClearance": "5 inches (13 cm)",
+            "assembly": "Free White-Glove On-Site Assembly by BACKSPACE Experts",
+            "warranty": "10 Years Structural Frame Warranty",
+            "mattressIncluded": "No (Mattress sold separately; bolster cushions & slat base included)"
+        },
+        "relatedBedCodes": [
+            "BKPBD017",
+            "BKPBD013",
+            "BKPBD002"
+        ]
     }
 ];
 window.BED_COLLECTION_CARDS = BED_COLLECTION_CARDS;
+window.BACKSPACE_CATALOGUE = BACKSPACE_CATALOGUE.filter(p => !p.code || !p.code.startsWith('BKPBD')).concat(BED_COLLECTION_CARDS);
 
 
 function singleBedApp() {
@@ -3731,6 +4912,20 @@ function singleBedApp() {
                 return gw.wishlist.some(p => p.id === id) || this.wishlistIds.includes(id);
             }
             return this.wishlistIds.includes(id);
+        },
+        openBed(p) {
+            window.currentBedProductData = p;
+            try {
+                const gw = this.$root?._x_dataStack?.find(d => d.currentProductData !== undefined);
+                if (gw) {
+                    gw.currentProductData = p;
+                    gw.goToPage('productDetail');
+                } else {
+                    window.location.hash = '#bed-' + p.code;
+                }
+            } catch(e) {
+                window.location.hash = '#bed-' + p.code;
+            }
         },
         formatRupee(num) {
             const val = typeof num === 'number' && !isNaN(num) ? num : (parseInt(num) || 0);
@@ -4588,21 +5783,510 @@ function singleBedApp() {
 
         
 <!-- ================= PRODUCT DETAIL PAGE ================= -->
-<div x-show="currentPage === 'productDetail' && currentProductData" style="display:none;" class="bg-[#F7F4EF] min-h-screen py-20 pb-32" x-data="{ 
-    activeImg: 'main',
-    activeFaq: null,
-    selectedSize: 'Single',
-    selectedHeight: null,
-    quantity: 1,
-    get currentImage() { return this.currentProductData.images[this.activeImg]; },
-    initPDP() {
-        this.activeImg = 'main';
-        this.selectedSize = this.currentProductData.sizes[0];
-        this.selectedHeight = this.currentProductData.heights ? this.currentProductData.heights[0] : null;
-        this.quantity = 1;
-        this.activeFaq = null;
-    }
-}" x-effect="if(currentProductData) { initPDP(); }">
+<!-- ================= PRODUCT DETAIL CONTAINER ================= -->
+<div x-show="currentPage === 'productDetail' && currentProductData" style="display:none;">
+    
+<!-- ================= BED PRODUCT DETAIL PAGE (Bespoke BACKSPACE.CO Design) ================= -->
+<div x-show="isBedProduct(currentProductData)" x-data="bedProductDetailApp()" x-effect="if(currentProductData && isBedProduct(currentProductData)) syncBed(currentProductData)" class="bg-[#F7F4EF] min-h-screen pt-24 pb-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Top Breadcrumbs & Back Navigation -->
+        <div class="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[#E5DCD0] pb-4">
+            <button @click="goToPage('beds'); window.location.hash = 'beds';" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#7E7467] hover:text-[#292522] transition-colors focus:outline-none">
+                <i class="fa-solid fa-arrow-left text-xs"></i>
+                <span>BACK TO BEDS COLLECTION</span>
+            </button>
+            <nav class="flex items-center space-x-2 text-xs font-medium text-[#7E7467]">
+                <button @click="goToPage('home')" class="hover:text-[#292522]">Home</button>
+                <span>/</span>
+                <button @click="goToPage('beds'); window.location.hash = 'beds';" class="hover:text-[#292522]">Beds</button>
+                <span>/</span>
+                <span class="text-[#292522] font-semibold truncate max-w-[200px] sm:max-w-xs" x-text="bed.name"></span>
+            </nav>
+        </div>
+
+        <!-- MAIN 2-COLUMN SECTION (Inspired by Emma structure, styled in BACKSPACE.CO warm beige) -->
+        <div class="flex flex-col lg:flex-row gap-10 lg:gap-14 items-start">
+            
+            <!-- LEFT COLUMN: ~56% Image Gallery -->
+            <div class="w-full lg:w-[56%] flex flex-col gap-4 lg:sticky lg:top-28">
+                <!-- Large Main Preview -->
+                <div class="relative aspect-[4/3] rounded-[24px] overflow-hidden bg-[#EFE8DE] border border-[#E5DCD0] shadow-sm group">
+                    <img :src="currentImage" :alt="bed.name + ' - ' + currentViewLabel" class="w-full h-full object-cover transition-all duration-300">
+                    
+                    <!-- Top Badges -->
+                    <div class="absolute top-4 left-4 flex items-center gap-2 z-10">
+                        <span class="bg-[#292522] text-[#F7F4EF] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-sm">HANDCRAFTED</span>
+                        <span class="bg-[#C2846B] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-sm" x-text="discountPercent + '% OFF'"></span>
+                    </div>
+
+                    <!-- Heart Wishlist Button -->
+                    <button @click="toggleWishlist(bed)" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/95 hover:bg-white text-[#786C5E] hover:text-[#B85C38] flex items-center justify-center shadow-md transition-all focus:outline-none z-10" title="Add to Wishlist">
+                        <i :class="isInWishlist(bed.id) ? 'fa-solid fa-heart text-[#B85C38]' : 'fa-regular fa-heart text-sm text-[#6E5D4F]'"></i>
+                    </button>
+
+                    <!-- Navigation Arrow Buttons -->
+                    <button @click="prevImage()" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white text-[#292522] shadow-md flex items-center justify-center opacity-80 group-hover:opacity-100 transition-all focus:outline-none z-10" title="Previous Image">
+                        <i class="fa-solid fa-chevron-left text-sm"></i>
+                    </button>
+                    <button @click="nextImage()" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white text-[#292522] shadow-md flex items-center justify-center opacity-80 group-hover:opacity-100 transition-all focus:outline-none z-10" title="Next Image">
+                        <i class="fa-solid fa-chevron-right text-sm"></i>
+                    </button>
+
+                    <!-- Bottom Overlays: Current View Name & Counter -->
+                    <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none z-10">
+                        <span class="pointer-events-auto px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[#292522] text-xs font-serif shadow-sm flex items-center gap-1.5 border border-[#E5DCD0]">
+                            <i class="fa-solid" :class="imageViews[activeViewIndex]?.icon || 'fa-image'"></i>
+                            <span x-text="currentViewLabel"></span>
+                        </span>
+                        <span class="pointer-events-auto px-3 py-1 rounded-full bg-black/60 backdrop-blur-sm text-white text-xs font-mono font-medium shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-camera text-[10px]"></i>
+                            <span x-text="(activeViewIndex + 1) + ' / ' + imageViews.length"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Clickable Thumbnails Row -->
+                <div class="grid grid-cols-6 gap-2 sm:gap-3">
+                    <template x-for="(view, vIdx) in imageViews" :key="view.key">
+                        <button @click="activeImgKey = view.key" class="relative aspect-[4/3] rounded-[16px] overflow-hidden border-2 transition-all duration-200 bg-[#EFE8DE] focus:outline-none cursor-pointer" :class="activeImgKey === view.key ? 'border-[#292522] ring-2 ring-[#292522]/30 shadow-md scale-102' : 'border-transparent opacity-70 hover:opacity-100 hover:border-[#D5C9B8]'">
+                            <img :src="bed.images ? bed.images[view.key] : bed.image" :alt="view.label" class="w-full h-full object-cover">
+                            <!-- Active Indicator Dot -->
+                            <span x-show="activeImgKey === view.key" class="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-[#292522]"></span>
+                        </button>
+                    </template>
+                </div>
+                
+                <!-- Thumbnails Label Bar -->
+                <div class="flex items-center justify-between text-[11px] text-[#7E7467] px-1 font-serif">
+                    <span>Click thumbnail to inspect details</span>
+                    <span class="hidden sm:inline">6 High-Resolution Craftsman Views</span>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: ~44% Product Info & Customization -->
+            <div class="w-full lg:w-[44%] flex flex-col">
+                
+                <!-- Category Tag & Product Code -->
+                <div class="flex items-center justify-between text-[#7E7467] text-xs font-mono tracking-widest uppercase mb-1">
+                    <span>BACKSPACE · HANDCRAFTED BEDS</span>
+                    <span class="font-bold text-[#292522] bg-[#EFE8DE] px-2.5 py-0.5 rounded-full border border-[#E0D5C7]" x-text="bed.code"></span>
+                </div>
+
+                <!-- Product Name -->
+                <h1 class="text-3xl sm:text-4xl lg:text-[40px] font-serif font-normal text-[#292522] leading-tight my-2" x-text="bed.name"></h1>
+                
+                <!-- Star Rating & Review Count -->
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="flex text-[#C2846B] text-sm">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-[#292522]" x-text="bed.rating + ' / 5.0'"></span>
+                    <span class="text-xs text-[#7E7467]" x-text="'(' + bed.reviews + ' Verified Owner Reviews)'"></span>
+                </div>
+
+                <!-- Short Elegant Description -->
+                <p class="text-sm text-[#5C554F] leading-relaxed mb-6" x-text="bed.description"></p>
+
+                <!-- Dynamic Price Box -->
+                <div class="bg-[#F4ECE1] rounded-[22px] border border-[#E7DFD3] p-4 sm:p-5 mb-6">
+                    <div class="flex items-baseline gap-3">
+                        <span class="text-3xl sm:text-4xl font-serif font-medium text-[#292522]" x-text="'₹' + computedPrice.toLocaleString('en-IN')"></span>
+                        <span class="text-base text-[#7E7467] line-through font-sans" x-text="'₹' + computedMrp.toLocaleString('en-IN')"></span>
+                        <span class="bg-[#292522] text-[#F7F4EF] text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider" x-text="'Save ' + discountPercent + '%'"></span>
+                    </div>
+                    <p class="text-xs text-[#7E7467] mt-2 flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-check text-[#128C7E]"></i>
+                        <span>Price includes solid hardwood frame, padded headboard & acoustic slatted base.</span>
+                    </p>
+                </div>
+
+                <!-- 1. Select Bed Size -->
+                <div class="mb-5">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs uppercase tracking-widest font-bold text-[#292522]">1. Select Bed Size</span>
+                        <span class="text-xs text-[#7E7467] font-medium" x-text="bed.sizes && bed.sizes[selectedSizeIndex] ? bed.sizes[selectedSizeIndex].dimensions : ''"></span>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <template x-for="(sz, sIdx) in bed.sizes" :key="sz.name">
+                            <button @click="selectedSizeIndex = sIdx" class="px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none" :class="selectedSizeIndex === sIdx ? 'bg-[#292522] text-white shadow-sm ring-1 ring-[#292522]' : 'bg-white/80 hover:bg-white text-[#4A4036] border border-[#D5C9B8]'">
+                                <span x-text="sz.name"></span>
+                                <span x-show="sz.diff !== 0" class="text-[11px] opacity-80" x-text="(sz.diff > 0 ? ' (+' : ' (') + '₹' + Math.abs(sz.diff).toLocaleString('en-IN') + ')'"></span>
+                            </button>
+                        </template>
+                    </div>
+                    
+                    <!-- Custom Dimensions Input (Shown only when 'Custom Size' is selected) -->
+                    <div x-show="bed.sizes && bed.sizes[selectedSizeIndex] && bed.sizes[selectedSizeIndex].name === 'Custom Size'" class="mt-3 p-4 bg-white/70 rounded-xl border border-[#D5C9B8] space-y-2">
+                        <div class="text-xs font-bold text-[#292522] uppercase tracking-wider">Specify Custom Dimensions</div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] text-[#7E7467] mb-1">Length (inches)</label>
+                                <input type="number" x-model="customLength" placeholder="e.g. 80" class="w-full px-3 py-2 text-xs border border-[#D5C9B8] rounded-lg bg-white focus:outline-none focus:border-[#292522]">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-[#7E7467] mb-1">Width (inches)</label>
+                                <input type="number" x-model="customWidth" placeholder="e.g. 66" class="w-full px-3 py-2 text-xs border border-[#D5C9B8] rounded-lg bg-white focus:outline-none focus:border-[#292522]">
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-[#7E7467] italic">Our master carpenters will craft the bed structure to your exact architectural space requirements.</p>
+                    </div>
+                </div>
+
+                <!-- 2. Select Material or Finish -->
+                <div class="mb-5">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs uppercase tracking-widest font-bold text-[#292522]">2. Select Material / Finish</span>
+                        <span class="text-xs text-[#7E7467] font-medium" x-text="selectedMaterial"></span>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <template x-for="mat in bed.materials" :key="mat">
+                            <button @click="selectedMaterial = mat" class="px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none" :class="selectedMaterial === mat ? 'bg-[#292522] text-white shadow-sm ring-1 ring-[#292522]' : 'bg-white/80 hover:bg-white text-[#4A4036] border border-[#D5C9B8]'">
+                                <span x-text="mat"></span>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- 3. Select Color -->
+                <div class="mb-5">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs uppercase tracking-widest font-bold text-[#292522]">3. Select Color</span>
+                        <span class="text-xs font-semibold text-[#292522]" x-text="selectedColor ? selectedColor.name : ''"></span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <template x-for="col in bed.colors" :key="col.name">
+                            <button @click="selectedColor = col" class="group relative flex items-center gap-2 focus:outline-none" :title="col.name">
+                                <span class="w-8 h-8 rounded-full border border-black/20 shadow-inner transition-transform group-hover:scale-110 flex items-center justify-center cursor-pointer" :style="'background-color: ' + col.hex" :class="selectedColor && selectedColor.name === col.name ? 'ring-2 ring-offset-2 ring-[#292522]' : ''">
+                                    <i x-show="selectedColor && selectedColor.name === col.name" class="fa-solid fa-check text-[10px]" :class="col.hex === '#F8F5EE' || col.hex === '#F7F3EB' || col.hex === '#FAF6EE' || col.hex === '#FBF7EE' ? 'text-black' : 'text-white'"></i>
+                                </span>
+                                <span class="text-xs text-[#5C554F] hidden sm:inline" x-text="col.name"></span>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- 4. Select Storage Configuration -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs uppercase tracking-widest font-bold text-[#292522]">4. Storage Configuration</span>
+                        <span class="text-xs text-[#7E7467] font-medium" x-text="bed.storageOptions ? (bed.storageOptions.find(s => s.id === selectedStorageId)?.name || 'None') : ''"></span>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <template x-for="stg in bed.storageOptions" :key="stg.id">
+                            <button @click="selectedStorageId = stg.id" class="px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none" :class="selectedStorageId === stg.id ? 'bg-[#292522] text-white shadow-sm ring-1 ring-[#292522]' : 'bg-white/80 hover:bg-white text-[#4A4036] border border-[#D5C9B8]'">
+                                <span x-text="stg.name"></span>
+                                <span x-show="stg.diff > 0" class="text-[11px] opacity-80" x-text="' (+₹' + stg.diff.toLocaleString('en-IN') + ')'"></span>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Quantity & Purchase Buttons -->
+                <div class="pt-6 border-t border-[#E5DCD0]">
+                    <div class="flex flex-col sm:flex-row items-stretch gap-3">
+                        <!-- Quantity Selector -->
+                        <div class="flex items-center justify-between border border-[#D5C9B8] rounded-full bg-white px-4 py-3 sm:w-32 shrink-0">
+                            <button @click="if(quantity > 1) quantity--" class="w-7 h-7 rounded-full flex items-center justify-center text-[#7E7467] hover:text-[#292522] focus:outline-none" title="Decrease Quantity">
+                                <i class="fa-solid fa-minus text-xs"></i>
+                            </button>
+                            <span class="text-sm font-bold text-[#292522]" x-text="quantity"></span>
+                            <button @click="quantity++" class="w-7 h-7 rounded-full flex items-center justify-center text-[#7E7467] hover:text-[#292522] focus:outline-none" title="Increase Quantity">
+                                <i class="fa-solid fa-plus text-xs"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Add to Cart Button -->
+                        <button @click="addToCart()" class="flex-1 bg-[#292522] hover:bg-[#3D3733] text-white font-medium py-3.5 px-6 rounded-full shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wider uppercase focus:outline-none cursor-pointer">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span>ADD TO CART</span>
+                        </button>
+                        
+                        <!-- Buy Now / Order on WhatsApp Button -->
+                        <button @click="buyOnWhatsApp()" class="flex-1 bg-[#128C7E] hover:bg-[#075E54] text-white font-medium py-3.5 px-6 rounded-full shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wider uppercase focus:outline-none cursor-pointer">
+                            <i class="fa-brands fa-whatsapp text-base"></i>
+                            <span>BUY ON WHATSAPP</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Delivery & Trust Badges -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6 pt-6 border-t border-[#E5DCD0]">
+                    <div class="flex items-center gap-2.5 p-3 rounded-xl bg-[#F4ECE1] border border-[#E7DFD3]">
+                        <i class="fa-solid fa-truck-fast text-[#B85C38] text-base shrink-0"></i>
+                        <div class="text-[11px] leading-tight text-[#4A4036]">
+                            <strong class="block text-[#292522]">Free Delivery</strong>
+                            <span>7–10 Days Nationwide</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2.5 p-3 rounded-xl bg-[#F4ECE1] border border-[#E7DFD3]">
+                        <i class="fa-solid fa-wrench text-[#B85C38] text-base shrink-0"></i>
+                        <div class="text-[11px] leading-tight text-[#4A4036]">
+                            <strong class="block text-[#292522]">Free Assembly</strong>
+                            <span>White-Glove On-Site Setup</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2.5 p-3 rounded-xl bg-[#F4ECE1] border border-[#E7DFD3]">
+                        <i class="fa-solid fa-shield-halved text-[#B85C38] text-base shrink-0"></i>
+                        <div class="text-[11px] leading-tight text-[#4A4036]">
+                            <strong class="block text-[#292522]">10-Year Warranty</strong>
+                            <span>Solid Timber Structural Frame</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transparent Mattress Disclaimer Note -->
+                <div class="mt-6 p-4 rounded-2xl bg-[#EFE8DE] border border-[#E0D5C7] flex items-start gap-3">
+                    <i class="fa-solid fa-circle-info text-[#7E7467] mt-0.5 text-base shrink-0"></i>
+                    <div class="text-xs text-[#5C554F] leading-relaxed">
+                        <strong class="text-[#292522] block mb-0.5">Mattress Disclaimer:</strong>
+                        <span>Includes handcrafted bed frame, padded headboard, and acoustic solid wood slat support foundation. Mattress is sold separately. Designed to fit all standard mattresses of the selected size.</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- BELOW THE FOLD: 5 INTERACTIVE PRODUCT TABS -->
+        <div class="mt-20 pt-10 border-t border-[#E5DCD0]">
+            <!-- Tab Headers -->
+            <div class="flex border-b border-[#D5C9B8] overflow-x-auto gap-4 sm:gap-8 no-scrollbar">
+                <button @click="activeTab = 'overview'" class="pb-4 text-sm font-serif uppercase tracking-wider transition-all relative shrink-0 focus:outline-none" :class="activeTab === 'overview' ? 'text-[#292522] font-semibold' : 'text-[#7E7467] hover:text-[#292522]'">
+                    <span>Overview</span>
+                    <span x-show="activeTab === 'overview'" class="absolute bottom-0 left-0 w-full h-[2px] bg-[#292522]"></span>
+                </button>
+                <button @click="activeTab = 'features'" class="pb-4 text-sm font-serif uppercase tracking-wider transition-all relative shrink-0 focus:outline-none" :class="activeTab === 'features' ? 'text-[#292522] font-semibold' : 'text-[#7E7467] hover:text-[#292522]'">
+                    <span>Features & Benefits</span>
+                    <span x-show="activeTab === 'features'" class="absolute bottom-0 left-0 w-full h-[2px] bg-[#292522]"></span>
+                </button>
+                <button @click="activeTab = 'specs'" class="pb-4 text-sm font-serif uppercase tracking-wider transition-all relative shrink-0 focus:outline-none" :class="activeTab === 'specs' ? 'text-[#292522] font-semibold' : 'text-[#7E7467] hover:text-[#292522]'">
+                    <span>Materials & Specifications</span>
+                    <span x-show="activeTab === 'specs'" class="absolute bottom-0 left-0 w-full h-[2px] bg-[#292522]"></span>
+                </button>
+                <button @click="activeTab = 'customization'" class="pb-4 text-sm font-serif uppercase tracking-wider transition-all relative shrink-0 focus:outline-none" :class="activeTab === 'customization' ? 'text-[#292522] font-semibold' : 'text-[#7E7467] hover:text-[#292522]'">
+                    <span>Customization</span>
+                    <span x-show="activeTab === 'customization'" class="absolute bottom-0 left-0 w-full h-[2px] bg-[#292522]"></span>
+                </button>
+                <button @click="activeTab = 'care'" class="pb-4 text-sm font-serif uppercase tracking-wider transition-all relative shrink-0 focus:outline-none" :class="activeTab === 'care' ? 'text-[#292522] font-semibold' : 'text-[#7E7467] hover:text-[#292522]'">
+                    <span>Delivery & Care</span>
+                    <span x-show="activeTab === 'care'" class="absolute bottom-0 left-0 w-full h-[2px] bg-[#292522]"></span>
+                </button>
+            </div>
+
+            <!-- Tab 1: Overview -->
+            <div x-show="activeTab === 'overview'" class="py-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <div>
+                        <h3 class="text-2xl font-serif text-[#292522] mb-3">Design Vision & Heritage</h3>
+                        <p class="text-[#5C554F] text-sm leading-relaxed mb-4" x-text="bed.description"></p>
+                        <p class="text-[#5C554F] text-sm leading-relaxed" x-text="bed.positioning"></p>
+                    </div>
+                    <div class="bg-[#F4ECE1] p-6 rounded-2xl border border-[#E7DFD3]">
+                        <h4 class="text-base font-serif text-[#292522] mb-3">Key Design Highlights</h4>
+                        <ul class="space-y-2.5 text-xs text-[#5C554F]">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-[#128C7E] mt-0.5"></i>
+                                <span>Engineered with an acoustic sound-dampened timber slat platform ensuring silence throughout the night.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-[#128C7E] mt-0.5"></i>
+                                <span>High-density contoured padding provides ergonomic head and lumbar support when upright.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-[#128C7E] mt-0.5"></i>
+                                <span>Heirloom construction using kiln-dried solid hardwood that resists warping, splitting, and pest damage.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Features & Benefits -->
+            <div x-show="activeTab === 'features'" class="py-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <template x-for="(feat, fIdx) in bed.featuresList" :key="fIdx">
+                        <div class="p-5 rounded-2xl bg-[#F4ECE1] border border-[#E7DFD3]">
+                            <div class="w-8 h-8 rounded-full bg-[#292522] text-white flex items-center justify-center text-xs font-bold mb-3" x-text="fIdx + 1"></div>
+                            <p class="text-xs sm:text-sm text-[#4A4036] font-medium leading-relaxed" x-text="feat"></p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Tab 3: Materials & Specifications (Key-Value Table) -->
+            <div x-show="activeTab === 'specs'" class="py-8">
+                <div class="overflow-hidden rounded-2xl border border-[#E7DFD3] bg-[#F4ECE1]">
+                    <table class="w-full text-left text-xs sm:text-sm">
+                        <tbody class="divide-y divide-[#E7DFD3]">
+                            <tr>
+                                <th class="py-3.5 px-5 font-medium text-[#7E7467] w-1/3 bg-[#EFE8DE]/60">Product Code</th>
+                                <td class="py-3.5 px-5 font-mono font-bold text-[#292522]" x-text="bed.code"></td>
+                            </tr>
+                            <tr>
+                                <th class="py-3.5 px-5 font-medium text-[#7E7467] bg-[#EFE8DE]/60">Bed Type</th>
+                                <td class="py-3.5 px-5 text-[#292522]" x-text="bed.specifications ? bed.specifications.bedType : bed.category"></td>
+                            </tr>
+                            <tr>
+                                <th class="py-3.5 px-5 font-medium text-[#7E7467] bg-[#EFE8DE]/60">Frame Construction</th>
+                                <td class="py-3.5 px-5 text-[#292522]" x-text="bed.specifications ? bed.specifications.frameConstruction : 'Solid Kiln-Dried Hardwood'"></td>
+                            </tr>
+                            <tr>
+                                <th class="py-3.5 px-5 font-medium text-[#7E7467] bg-[#EFE8DE]/60">Upholstery / Finish</th>
+                                <td class="py-3.5 px-5 text-[#292522]" x-text="bed.specifications ? bed.specifications.upholstery : selectedMaterial"></td>
+                            </tr>
+                            <tr>
+                                <th class="py-3.5 px-5 font-medium text-[#7E7467] bg-[#EFE8DE]/60">Headboard Height</th>
+                                <td class="py-3.5 px-5 text-[#292522]" x-text="bed.specifications ? bed.specifications.headboardHeight : '48 inches'"></td>
+                            </tr>
+                            <tr>
+                                <th class="py-3.5 px-5 font-medium text-[#7E7467] bg-[#EFE8DE]/60">Platform Deck Height</th>
+                                <td class="py-3.5 px-5 text-[#292522]" x-text="bed.specifications ? bed.specifications.platformHeight : '13 inches'"></td>
+                            </tr>
+                            <tr>
+                                <th class="py-3.5 px-5 font-medium text-[#7E7467] bg-[#EFE8DE]/60">Slat Support System</th>
+                                <td class="py-3.5 px-5 text-[#292522]" x-text="bed.specifications ? bed.specifications.slatFoundation : 'Solid Acoustic Hardwood Slats'"></td>
+                            </tr>
+                            <tr>
+                                <th class="py-3.5 px-5 font-medium text-[#7E7467] bg-[#EFE8DE]/60">Underbed Clearance / Storage</th>
+                                <td class="py-3.5 px-5 text-[#292522]" x-text="bed.specifications ? bed.specifications.underbedClearance : '6 inches'"></td>
+                            </tr>
+                            <tr>
+                                <th class="py-3.5 px-5 font-medium text-[#7E7467] bg-[#EFE8DE]/60">Assembly Service</th>
+                                <td class="py-3.5 px-5 text-[#292522]" x-text="bed.specifications ? bed.specifications.assembly : 'Free White-Glove On-Site Assembly'"></td>
+                            </tr>
+                            <tr>
+                                <th class="py-3.5 px-5 font-medium text-[#7E7467] bg-[#EFE8DE]/60">Structural Warranty</th>
+                                <td class="py-3.5 px-5 text-[#292522]" x-text="bed.specifications ? bed.specifications.warranty : '10 Years Structural Frame Warranty'"></td>
+                            </tr>
+                            <tr>
+                                <th class="py-3.5 px-5 font-medium text-[#7E7467] bg-[#EFE8DE]/60">Mattress Inclusion</th>
+                                <td class="py-3.5 px-5 text-[#292522] font-semibold" x-text="bed.specifications ? bed.specifications.mattressIncluded : 'No (Mattress sold separately)'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 4: Customization -->
+            <div x-show="activeTab === 'customization'" class="py-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-serif text-[#292522]">Bespoke Customization Services</h3>
+                        <p class="text-[#5C554F] text-sm leading-relaxed">Every BACKSPACE bed can be customized to your exact bedroom architecture. Our Hyderabad and Bangalore workshops offer:</p>
+                        <ul class="space-y-2 text-xs sm:text-sm text-[#4A4036]">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-ruler-combined text-[#B85C38]"></i> <span>Custom frame lengths & widths for odd-shaped rooms or alcoves.</span></li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-arrows-up-down text-[#B85C38]"></i> <span>Headboard height adjustments for low ceilings or high master suites.</span></li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-palette text-[#B85C38]"></i> <span>Over 40+ designer upholstery fabric swatches (Linen, Velvet, Bouclé, Tweed).</span></li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-box text-[#B85C38]"></i> <span>Custom storage orientations (side drawers, front drawers, hydraulic).</span></li>
+                        </ul>
+                    </div>
+                    <div class="bg-[#F4ECE1] p-6 rounded-2xl border border-[#E7DFD3] text-center">
+                        <i class="fa-brands fa-whatsapp text-4xl text-[#128C7E] mb-3"></i>
+                        <h4 class="text-lg font-serif text-[#292522] mb-2">Request Bespoke Customization</h4>
+                        <p class="text-xs text-[#5C554F] mb-4">Chat directly with our furniture architects to share room photos, custom measurements, or request physical fabric swatches.</p>
+                        <a href="https://wa.me/916300946652?text=Hello%20BACKSPACE.CO%2C%20I%20would%20like%20to%20inquire%20about%20customizing%20a%20bed." target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-[#128C7E] hover:bg-[#075E54] text-white text-xs font-bold rounded-full shadow-sm tracking-wider uppercase transition">
+                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                            <span>CHAT WITH BED DESIGNER</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 5: Delivery & Care -->
+            <div x-show="activeTab === 'care'" class="py-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="p-6 rounded-2xl bg-[#F4ECE1] border border-[#E7DFD3]">
+                        <h3 class="text-xl font-serif text-[#292522] mb-3 flex items-center gap-2"><i class="fa-solid fa-truck text-[#B85C38]"></i> White-Glove Delivery & Installation</h3>
+                        <ul class="space-y-2.5 text-xs text-[#5C554F]">
+                            <li><strong>Dispatch:</strong> Handcrafted to order within 4–6 days; dispatched via temperature-controlled furniture freight.</li>
+                            <li><strong>Delivery:</strong> Free doorstep delivery across India within 7–10 business days.</li>
+                            <li><strong>White-Glove Assembly:</strong> Trained BACKSPACE technicians assemble the bed in your room of choice, level the frame, inspect the slats, and dispose of packaging materials at zero charge.</li>
+                        </ul>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-[#F4ECE1] border border-[#E7DFD3]">
+                        <h3 class="text-xl font-serif text-[#292522] mb-3 flex items-center gap-2"><i class="fa-solid fa-hand-sparkles text-[#B85C38]"></i> Maintenance & Care Guide</h3>
+                        <ul class="space-y-2.5 text-xs text-[#5C554F]">
+                            <li><strong>Fabric Upholstery:</strong> Lightly vacuum weekly with a soft upholstery brush attachment. For spills, blot immediately with a clean damp cloth; do not rub.</li>
+                            <li><strong>Timber Frames:</strong> Wipe down periodically with a clean, dry microfiber cloth. Polish annually with natural beeswax or teak oil.</li>
+                            <li><strong>Slatted Foundation:</strong> Inspect connector bolts once a year and tighten if needed to ensure permanent silent sleep.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RELATED PRODUCTS SECTION: YOU MAY ALSO LIKE -->
+        <div class="mt-24 pt-12 border-t border-[#E5DCD0]">
+            <div class="text-center mb-10">
+                <span class="text-xs font-mono uppercase tracking-widest text-[#7E7467] block mb-1">CURATED SELECTION</span>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif text-[#292522]">You May Also Like</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 lg:gap-8">
+                <template x-for="relBed in relatedBeds" :key="relBed.code">
+                    <div class="bg-[#F4ECE1] rounded-[28px] border border-[#E7DFD3] p-3.5 pb-5 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] transition-all duration-300 group flex flex-col cursor-pointer hover:-translate-y-1" @click="openRelatedBed(relBed)">
+                        <!-- Image Container with Rounded Borders -->
+                        <div class="relative overflow-hidden rounded-[20px] border border-white/80 bg-[#EFE8DE] shadow-sm cursor-pointer" @click="openBed(product)">
+                            <img :src="relBed.image || (relBed.images && relBed.images.main)" :alt="relBed.name" class="w-full h-auto aspect-[301/201] object-cover rounded-[18px] transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy">
+                            
+                            <!-- Heart Wishlist Button -->
+                            <button @click.stop="toggleWishlist(relBed)" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 hover:bg-white text-[#786C5E] hover:text-[#B85C38] flex items-center justify-center shadow-sm transition-all focus:outline-none z-10" title="Wishlist">
+                                <i :class="isInWishlist(relBed.id) ? 'fa-solid fa-heart text-[#B85C38]' : 'fa-regular fa-heart text-[13px] text-[#6E5D4F]'"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Card Body matching Screenshot 2 Typography & Layout -->
+                        <div class="px-2 pt-4 pb-1 flex-grow flex flex-col justify-between" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                            <div>
+                                <div class="flex items-center justify-between text-[#7E7467] text-[13px] mb-1 font-medium">
+                                    <span>Beds</span>
+                                    <span class="tracking-wide" x-text="relBed.code"></span>
+                                </div>
+                                <h3 class="text-[#2B241E] text-[22px] sm:text-[23px] lg:text-[25px] font-normal leading-snug my-2 group-hover:text-[#8B5A2B] transition-colors" x-text="relBed.name"></h3>
+                            </div>
+                            
+                            <div>
+                                <div class="w-full h-[1px] bg-[#E5DCD0] my-3.5"></div>
+                                <div class="flex items-center justify-between pt-1">
+                                    <span class="text-[#7E7467] text-[12px] sm:text-[13px] font-normal">Customization available</span>
+                                    <button @click.stop="openRelatedBed(relBed)" class="w-8 h-8 rounded-full border border-[#D5C9B8] bg-transparent hover:bg-white flex items-center justify-center text-[#4A4036] hover:text-black transition shadow-sm focus:outline-none" title="View Bed Details">
+                                        <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7V15" /></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+    <!-- ORIGINAL MATTRESS PRODUCT DETAIL PAGE (Preserved 100% for mattresses & accessories) -->
+    <div x-show="!isBedProduct(currentProductData)" class="bg-[#F7F4EF] min-h-screen py-20 pb-32" x-data="{ 
+        activeImg: 'main',
+        activeFaq: null,
+        selectedSize: 'Single',
+        selectedHeight: null,
+        quantity: 1,
+        get currentImage() { return this.currentProductData && this.currentProductData.images ? this.currentProductData.images[this.activeImg] : ''; },
+        initPDP() {
+            this.activeImg = 'main';
+            if (this.currentProductData && this.currentProductData.sizes) {
+                this.selectedSize = this.currentProductData.sizes[0];
+            }
+            this.selectedHeight = this.currentProductData && this.currentProductData.heights ? this.currentProductData.heights[0] : null;
+            this.quantity = 1;
+            this.activeFaq = null;
+        }
+    }" x-effect="if(currentProductData && !isBedProduct(currentProductData)) { initPDP(); }">
+        
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <!-- Breadcrumb & Back -->
@@ -4915,6 +6599,8 @@ function singleBedApp() {
             </div>
         </div>
     </div>
+
+    </div>
 </div>
 
 
@@ -4973,9 +6659,9 @@ function singleBedApp() {
         <div class="w-full">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 lg:gap-8">
                 <template x-for="product in filteredProducts" :key="product.id">
-                    <div class="bg-[#F4ECE1] rounded-[28px] border border-[#E7DFD3] p-3.5 pb-5 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] transition-all duration-300 group flex flex-col cursor-pointer hover:-translate-y-1" @click="currentProductData = product; goToPage('productDetail')">
+                    <div class="bg-[#F4ECE1] rounded-[28px] border border-[#E7DFD3] p-3.5 pb-5 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] transition-all duration-300 group flex flex-col cursor-pointer hover:-translate-y-1" @click="openBed(product)">
                         <!-- Image Frame with Rounded Borders -->
-                        <div class="relative overflow-hidden rounded-[20px] border border-white/80 bg-[#EFE8DE] shadow-sm">
+                        <div class="relative overflow-hidden rounded-[20px] border border-white/80 bg-[#EFE8DE] shadow-sm cursor-pointer" @click="openBed(product)">
                             <img :src="product.image || (product.images && product.images.main)" :alt="product.name" class="w-full h-auto aspect-[301/201] object-cover rounded-[18px] transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}else{this.src='./images/beds/upholstered_platform_bed.jpg';}">
                             
                             <!-- Circular Heart/Favourite Button -->
@@ -4994,7 +6680,7 @@ function singleBedApp() {
                                 </div>
                                 
                                 <!-- Elegant Product Name -->
-                                <h3 class="text-[#2B241E] text-[22px] sm:text-[23px] lg:text-[25px] font-normal leading-snug my-2 group-hover:text-[#8B5A2B] transition-colors" x-text="product.name"></h3>
+                                <h3 class="text-[#2B241E] text-[22px] sm:text-[23px] lg:text-[25px] font-normal leading-snug my-2 group-hover:text-[#8B5A2B] transition-colors cursor-pointer" @click="openBed(product)" x-text="product.name"></h3>
                             </div>
                             
                             <div>
@@ -5004,7 +6690,7 @@ function singleBedApp() {
                                 <!-- Footer: Customization available + Circular Arrow Button -->
                                 <div class="flex items-center justify-between pt-1">
                                     <span class="text-[#7E7467] text-[12px] sm:text-[13px] font-normal" x-text="product.footer || 'Customization available'">Customization available</span>
-                                    <button @click.stop="currentProductData = product; goToPage('productDetail')" class="w-8 h-8 rounded-full border border-[#D5C9B8] bg-transparent hover:bg-white flex items-center justify-center text-[#4A4036] hover:text-black transition shadow-sm focus:outline-none" title="View Bed Details">
+                                    <button @click.stop="openBed(product)" class="w-8 h-8 rounded-full border border-[#D5C9B8] bg-transparent hover:bg-white flex items-center justify-center text-[#4A4036] hover:text-black transition shadow-sm focus:outline-none" title="View Bed Details">
                                         <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7V15" /></svg>
                                     </button>
                                 </div>
@@ -5840,7 +7526,8 @@ Please share commercial catalog and bulk pricing.`)}`, '_blank')" class="w-full 
                         <div class="flex-1 overflow-y-auto p-6">
                             <template x-if="cart.length === 0"><div class="text-center py-16"><i class="fa-solid fa-cart-shopping text-4xl text-gray-300 mb-4"></i><p class="font-bold">Your cart is empty</p></div></template>
                             <template x-for="item in cart" :key="item.id">
-                                <div class="flex py-6 border-b border-gray-100"><img :src="item.image" class="h-20 w-20 rounded-xl object-cover bg-gray-50"><div class="ml-4 flex flex-1 flex-col"><div class="flex justify-between font-bold text-sm"><h3 class="" x-text="item.name"></h3><p x-text="formatPrice(item.price * item.quantity)"></p></div><div class="flex items-center justify-between mt-auto"><div class="flex border border-gray-200 rounded-lg"><button @click="updateCartQuantity(item.id, -1)" class="w-8 py-1"><i class="fa-solid fa-minus text-[10px]"></i></button><span class="w-8 text-center text-xs font-bold leading-relaxed" x-text="item.quantity"></span><button @click="updateCartQuantity(item.id, 1)" class="w-8 py-1"><i class="fa-solid fa-plus text-[10px]"></i></button></div><button @click="removeFromCart(item.id)" class="text-xs font-bold text-red-500">Remove</button></div></div></div>
+                                <div class="flex py-6 border-b border-gray-100"><img :src="item.image" class="h-20 w-20 rounded-xl object-cover bg-gray-50"><div class="ml-4 flex flex-1 flex-col"><div class="flex justify-between font-bold text-sm"><h3 class="" x-text="item.name"></h3><p x-text="formatPrice(item.price * item.quantity)"></p></div>
+<p class="text-xs text-gray-500 mt-0.5" x-show="item.size || item.color" x-text="[item.size, item.color, item.material, (item.storage && item.storage !== 'None' ? item.storage : null)].filter(Boolean).join(' · ')"></p><div class="flex items-center justify-between mt-auto"><div class="flex border border-gray-200 rounded-lg"><button @click="updateCartQuantity(item.id, -1)" class="w-8 py-1"><i class="fa-solid fa-minus text-[10px]"></i></button><span class="w-8 text-center text-xs font-bold leading-relaxed" x-text="item.quantity"></span><button @click="updateCartQuantity(item.id, 1)" class="w-8 py-1"><i class="fa-solid fa-plus text-[10px]"></i></button></div><button @click="removeFromCart(item.id)" class="text-xs font-bold text-red-500">Remove</button></div></div></div>
                             </template>
                         </div>
                         <div class="p-6 border-t border-gray-100 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.05)]" x-show="cart.length > 0">
@@ -5906,6 +7593,173 @@ Please share commercial catalog and bulk pricing.`)}`, '_blank')" class="w-full 
             }
         }
     </script>
+
+<script>
+function bedProductDetailApp() {
+    return {
+        activeImgKey: 'main',
+        selectedSizeIndex: 0,
+        selectedMaterial: 'Textured Linen',
+        selectedColor: null,
+        selectedStorageId: 'none',
+        customLength: '',
+        customWidth: '',
+        quantity: 1,
+        activeTab: 'overview',
+        imageViews: [
+            { key: 'main', label: 'Perspective View', icon: 'fa-cube' },
+            { key: 'headboard', label: 'Headboard Design', icon: 'fa-bed' },
+            { key: 'frame', label: 'Frame & Base', icon: 'fa-border-all' },
+            { key: 'detail', label: 'Craftsmanship Detail', icon: 'fa-magnifying-glass' },
+            { key: 'storage', label: 'Storage / Structure', icon: 'fa-box-archive' },
+            { key: 'lifestyle', label: 'Bedroom Setting', icon: 'fa-house' }
+        ],
+        get bed() {
+            try {
+                const root = this.$root?._x_dataStack?.find(d => d.currentProductData !== undefined);
+                if (root && root.currentProductData && isBedProduct(root.currentProductData)) {
+                    return root.currentProductData;
+                }
+            } catch(e) {}
+            return window.currentBedProductData || (window.BED_COLLECTION_CARDS && window.BED_COLLECTION_CARDS[0]);
+        },
+        get currentViewLabel() {
+            const v = this.imageViews.find(iv => iv.key === this.activeImgKey);
+            return v ? v.label : 'Product View';
+        },
+        get activeViewIndex() {
+            const idx = this.imageViews.findIndex(iv => iv.key === this.activeImgKey);
+            return idx >= 0 ? idx : 0;
+        },
+        get currentImage() {
+            if (!this.bed) return './public/images/beds/bed-001.jpg';
+            if (this.bed.images && this.bed.images[this.activeImgKey]) {
+                return this.bed.images[this.activeImgKey];
+            }
+            return this.bed.image || './public/images/beds/bed-001.jpg';
+        },
+        nextImage() {
+            const nextIdx = (this.activeViewIndex + 1) % this.imageViews.length;
+            this.activeImgKey = this.imageViews[nextIdx].key;
+        },
+        prevImage() {
+            const prevIdx = (this.activeViewIndex - 1 + this.imageViews.length) % this.imageViews.length;
+            this.activeImgKey = this.imageViews[prevIdx].key;
+        },
+        get computedPrice() {
+            if (!this.bed) return 28990;
+            const base = this.bed.price || 28990;
+            const sizeDiff = (this.bed.sizes && this.bed.sizes[this.selectedSizeIndex]) ? (this.bed.sizes[this.selectedSizeIndex].diff || 0) : 0;
+            const stg = this.bed.storageOptions ? this.bed.storageOptions.find(s => s.id === this.selectedStorageId) : null;
+            const stgDiff = stg ? (stg.diff || 0) : 0;
+            return base + sizeDiff + stgDiff;
+        },
+        get computedMrp() {
+            if (!this.bed) return 36990;
+            const base = this.bed.originalPrice || Math.round(this.computedPrice * 1.28);
+            const sizeDiff = (this.bed.sizes && this.bed.sizes[this.selectedSizeIndex]) ? (this.bed.sizes[this.selectedSizeIndex].diff || 0) : 0;
+            const stg = this.bed.storageOptions ? this.bed.storageOptions.find(s => s.id === this.selectedStorageId) : null;
+            const stgDiff = stg ? (stg.diff || 0) : 0;
+            return base + sizeDiff + stgDiff;
+        },
+        get discountPercent() {
+            if (!this.computedMrp || this.computedMrp <= this.computedPrice) return 20;
+            return Math.round(((this.computedMrp - this.computedPrice) / this.computedMrp) * 100);
+        },
+        get relatedBeds() {
+            if (!this.bed || !window.BED_COLLECTION_CARDS) return [];
+            const relatedCodes = this.bed.relatedBedCodes || [];
+            let list = window.BED_COLLECTION_CARDS.filter(b => relatedCodes.includes(b.code));
+            if (list.length < 3) {
+                const others = window.BED_COLLECTION_CARDS.filter(b => b.code !== this.bed.code && !list.some(l => l.code === b.code));
+                list = list.concat(others.slice(0, 3 - list.length));
+            }
+            return list.slice(0, 3);
+        },
+        syncBed(bed) {
+            if (!bed) return;
+            window.currentBedProductData = bed;
+            this.activeImgKey = 'main';
+            if (bed.sizes && bed.sizes.length > 0) {
+                const qIdx = bed.sizes.findIndex(s => s.name === 'Queen');
+                this.selectedSizeIndex = qIdx >= 0 ? qIdx : 0;
+            } else {
+                this.selectedSizeIndex = 0;
+            }
+            this.selectedMaterial = bed.materials && bed.materials[0] ? bed.materials[0] : 'Textured Linen';
+            this.selectedColor = bed.colors && bed.colors[0] ? bed.colors[0] : { name: 'Warm Beige', hex: '#E7DEC8' };
+            this.selectedStorageId = bed.storageOptions && bed.storageOptions[0] ? bed.storageOptions[0].id : 'none';
+            this.customLength = '';
+            this.customWidth = '';
+            this.quantity = 1;
+            this.activeTab = 'overview';
+            if (window.location.hash !== '#bed-' + bed.code) {
+                window.history.replaceState(null, '', '#bed-' + bed.code);
+            }
+        },
+        openRelatedBed(relatedBed) {
+            try {
+                const root = this.$root?._x_dataStack?.find(d => d.currentProductData !== undefined);
+                if (root) {
+                    root.currentProductData = relatedBed;
+                    root.currentPage = 'productDetail';
+                }
+            } catch(e) {}
+            this.syncBed(relatedBed);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+        addToCart() {
+            if (!this.bed) return;
+            try {
+                const root = this.$root?._x_dataStack?.find(d => d.cart !== undefined);
+                const sizeObj = this.bed.sizes ? this.bed.sizes[this.selectedSizeIndex] : { name: 'Standard' };
+                const isCustom = sizeObj && sizeObj.name === 'Custom Size';
+                const dimStr = isCustom && this.customLength && this.customWidth ? `${this.customLength}" × ${this.customWidth}" (Custom)` : (sizeObj ? sizeObj.dimensions : '');
+                const stgObj = this.bed.storageOptions ? this.bed.storageOptions.find(s => s.id === this.selectedStorageId) : null;
+                
+                const cartItem = {
+                    id: Date.now(),
+                    productId: this.bed.id,
+                    code: this.bed.code,
+                    name: this.bed.name,
+                    category: 'Beds',
+                    size: sizeObj ? sizeObj.name : 'Standard',
+                    dimensions: dimStr,
+                    material: this.selectedMaterial,
+                    color: this.selectedColor ? this.selectedColor.name : '',
+                    storage: stgObj ? stgObj.name : 'No Storage',
+                    price: this.computedPrice,
+                    quantity: this.quantity,
+                    image: (this.bed.images && this.bed.images.main) ? this.bed.images.main : this.bed.image
+                };
+                
+                if (root) {
+                    root.cart.push(cartItem);
+                    if (root.saveCart) root.saveCart();
+                    if (root.showToast) root.showToast(`✓ Added to Cart: ${this.bed.name}`);
+                    root.cartOpen = true;
+                }
+            } catch(e) {
+                console.error('Error adding to cart:', e);
+            }
+        },
+        buyOnWhatsApp() {
+            if (!this.bed) return;
+            const sizeObj = this.bed.sizes ? this.bed.sizes[this.selectedSizeIndex] : { name: 'Standard' };
+            const isCustom = sizeObj && sizeObj.name === 'Custom Size';
+            const sizeStr = isCustom && this.customLength && this.customWidth ? `Custom (${this.customLength}"L × ${this.customWidth}"W)` : `${sizeObj ? sizeObj.name : 'Standard'} (${sizeObj ? sizeObj.dimensions : ''})`;
+            const stgObj = this.bed.storageOptions ? this.bed.storageOptions.find(s => s.id === this.selectedStorageId) : null;
+            const stgStr = stgObj ? stgObj.name : 'No Storage';
+            
+            const msg = `Hello BACKSPACE.CO,\n\nI would like to place an order for the following handcrafted bed:\n\n*Product:* ${this.bed.name}\n*Product Code:* ${this.bed.code}\n*Size:* ${sizeStr}\n*Material / Finish:* ${this.selectedMaterial}\n*Color:* ${this.selectedColor ? this.selectedColor.name : 'Warm Beige'}\n*Storage Configuration:* ${stgStr}\n*Quantity:* ${this.quantity}\n*Configured Price:* ₹${this.computedPrice.toLocaleString('en-IN')} each (Total: ₹${(this.computedPrice * this.quantity).toLocaleString('en-IN')})\n\n*Package Includes:* Handcrafted bed frame, headboard, and solid acoustic slat foundation.\n*Mattress:* Sold separately.\n\nPlease confirm availability, delivery timeline, and payment instructions.`;
+            
+            window.open(`https://wa.me/916300946652?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    };
+}
+window.bedProductDetailApp = bedProductDetailApp;
+</script>
+
 </body>
 
 </html>

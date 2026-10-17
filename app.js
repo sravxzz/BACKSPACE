@@ -1,3 +1,10 @@
+
+function isBedProduct(p) {
+    if (!p) return false;
+    return p.category === 'Beds' || p.mainCategory === 'Beds' || (p.code && p.code.startsWith('BKPBD'));
+}
+window.isBedProduct = isBedProduct;
+
 const defaultProducts = [
     // --- MATTRESSES (Existing) ---
     {
@@ -95,6 +102,9 @@ const defaultProducts = [
 
 function appData() {
     return {
+        // Bed Product Check Helper
+        isBedProduct(p) { return isBedProduct(p); },
+        
         // Core State
         currentPage: 'home',
         currentProductData: null, // 'home', 'shop', 'product', 'compare', 'finder', 'guide', 'bulk', 'about', 'admin', 'profile', 'orders', 'track', 'wishlist'
@@ -178,6 +188,29 @@ function appData() {
                 this.checkScrollAnimations();
             });
             setTimeout(() => this.checkScrollAnimations(), 100);
+
+            // Hash routing listener
+            const syncFromHash = () => {
+                const h = window.location.hash || '';
+                if (h.startsWith('#bed-')) {
+                    const code = h.replace('#bed-', '').trim();
+                    const allBeds = window.BED_COLLECTION_CARDS || [];
+                    const found = allBeds.find(b => b.code.toUpperCase() === code.toUpperCase());
+                    if (found) {
+                        this.currentProductData = found;
+                        this.currentPage = 'productDetail';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                } else if (h === '#beds') {
+                    this.currentPage = 'beds';
+                    this.currentCategoryFilter = 'Beds';
+                } else if (h === '#home') {
+                    this.currentPage = 'home';
+                }
+            };
+            window.addEventListener('hashchange', syncFromHash);
+            window.addEventListener('popstate', syncFromHash);
+            setTimeout(syncFromHash, 150);
         },
 
         checkScrollAnimations() {
@@ -192,9 +225,22 @@ function appData() {
             if (page === 'beds' || category === 'Beds' || category === 'Smart Beds') {
                 this.currentPage = 'beds';
                 this.currentCategoryFilter = 'Beds';
+                if (window.location.hash !== '#beds') {
+                    window.history.pushState(null, '', '#beds');
+                }
+            } else if (page === 'productDetail') {
+                this.currentPage = 'productDetail';
+                if (this.currentProductData && isBedProduct(this.currentProductData)) {
+                    if (window.location.hash !== '#bed-' + this.currentProductData.code) {
+                        window.history.pushState(null, '', '#bed-' + this.currentProductData.code);
+                    }
+                }
             } else {
                 this.currentPage = page;
                 if(category) this.currentCategoryFilter = category;
+                if (page === 'home' && window.location.hash && window.location.hash !== '#home') {
+                    window.history.pushState(null, '', '#home');
+                }
             }
             this.mobileMenuOpen = false;
             this.hamburgerOpen = false;
@@ -326,9 +372,17 @@ function appData() {
         
         checkoutWhatsApp() {
             if(this.cart.length === 0) return;
-            let text = `Hello Backspace Go,\n\nI would like to place an order:\n\n`;
-            this.cart.forEach((item, i) => { text += `${i+1}. ${item.name}\n   Size: ${item.size}\n   Thickness: ${item.thickness}\n   Quantity: ${item.quantity}\n   Price: ₹${item.price} each\n\n`; });
-            text += `Total: ₹${this.cartTotal}\n\nPlease confirm availability and ordering details.`;
+            let text = `Hello BACKSPACE.CO,\n\nI would like to place an order:\n\n`;
+            this.cart.forEach((item, i) => {
+                text += `${i+1}. ${item.name}` + (item.code ? ` (${item.code})` : '') + `\n`;
+                if (item.size) text += `   Size: ${item.size}` + (item.dimensions ? ` (${item.dimensions})` : '') + `\n`;
+                if (item.material) text += `   Material: ${item.material}\n`;
+                if (item.color) text += `   Color: ${item.color}\n`;
+                if (item.storage && item.storage !== 'None' && item.storage !== 'none') text += `   Storage: ${item.storage}\n`;
+                if (item.thickness) text += `   Thickness: ${item.thickness}\n`;
+                text += `   Quantity: ${item.quantity}\n   Price: ₹${item.price.toLocaleString('en-IN')} each\n\n`;
+            });
+            text += `Total Order Value: ₹${this.cartTotal.toLocaleString('en-IN')}\n\nPlease confirm availability, delivery timeline, and payment instructions.`;
             window.open(`https://wa.me/916300946652?text=${encodeURIComponent(text)}`, '_blank');
         },
         buyNow() {
