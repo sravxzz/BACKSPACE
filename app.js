@@ -189,8 +189,13 @@ function appData() {
         },
 
         goToPage(page, category = null) {
-            this.currentPage = page;
-            if(category) this.currentCategoryFilter = category;
+            if (page === 'beds' || category === 'Beds' || category === 'Smart Beds') {
+                this.currentPage = 'beds';
+                this.currentCategoryFilter = 'Beds';
+            } else {
+                this.currentPage = page;
+                if(category) this.currentCategoryFilter = category;
+            }
             this.mobileMenuOpen = false;
             this.hamburgerOpen = false;
             this.searchOpen = false;
