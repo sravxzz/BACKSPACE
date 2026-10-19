@@ -1944,3 +1944,12 @@ window.BED_COLLECTION_CARDS = [
         ]
     }
 ];
+
+window.BED_GROUPS = [
+    { id: 'all', label: 'All Beds', title: 'ALL BEDS', count: 18, codes: null },
+    { id: 'upholstered', label: 'Upholstered Beds', title: 'UPHOLSTERED BEDS', count: 4, codes: ['BKPBD001', 'BKPBD003', 'BKPBD009', 'BKPBD013'] },
+    { id: 'storage', label: 'Storage Beds', title: 'STORAGE BEDS', count: 4, codes: ['BKPBD002', 'BKPBD007', 'BKPBD008', 'BKPBD015'] },
+    { id: 'wooden', label: 'Wooden & Platform Beds', title: 'WOODEN & PLATFORM BEDS', count: 3, codes: ['BKPBD006', 'BKPBD011', 'BKPBD014'] },
+    { id: 'designer', label: 'Designer Headboard Beds', title: 'DESIGNER HEADBOARD BEDS', count: 5, codes: ['BKPBD004', 'BKPBD005', 'BKPBD010', 'BKPBD012', 'BKPBD016'] },
+    { id: 'single', label: 'Single & Daybeds', title: 'SINGLE & DAYBEDS', count: 2, codes: ['BKPBD017', 'BKPBD018'] }
+];

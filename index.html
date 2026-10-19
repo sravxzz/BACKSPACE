@@ -92,8 +92,7 @@
             
             <!-- Left Section: Links + Brand -->
             <div class="flex items-center animate-nav-left shrink-0">
-                <!-- Links -->
-                <div class="flex items-center space-x-5 xl:space-x-7">
+                <div class="flex items-center space-x-6 xl:space-x-8">
                     <!-- 1. Home icon + HOME -->
                     <button @click="goToPage('home')" class="flex items-center space-x-1.5 text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none" :class="currentPage === 'home' ? 'text-brand-terracotta' : ''">
                         <i class="fa-solid fa-house text-[13px] transition-transform duration-300 group-hover:-translate-y-[1px] group-hover:text-brand-terracotta"></i>
@@ -102,19 +101,11 @@
                             <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="currentPage === 'home' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                         </span>
                     </button>
-                    
-                    <!-- 2. ALL MATTRESSES -->
-                    <button @click="goToPage('shop', 'Mattresses')" class="flex items-center space-x-1.5 text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none" :class="(currentCategoryFilter === 'Mattresses' || currentCategoryFilter === 'All Mattresses') && currentPage === 'shop' ? 'text-brand-terracotta' : ''">
-                        <span class="text-[11px] xl:text-[12px] font-bold tracking-widest uppercase relative overflow-hidden transition-colors duration-300" :class="(currentCategoryFilter === 'Mattresses' || currentCategoryFilter === 'All Mattresses') && currentPage === 'shop' ? 'text-brand-terracotta' : 'group-hover:text-brand-terracotta'">
-                            ALL MATTRESSES
-                            <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(currentCategoryFilter === 'Mattresses' || currentCategoryFilter === 'All Mattresses') && currentPage === 'shop' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
-                        </span>
-                    </button>
-                </div>
 
-                <!-- 3. BACKSPACE Brand Name immediately beside ALL MATTRESSES -->
-                <div class="flex items-center cursor-pointer group ml-5 xl:ml-8" @click="goToPage('home')">
-                    <span class="text-[24px] xl:text-[30px] font-extrabold tracking-tight text-brand-charcoal transition-all duration-500 group-hover:text-brand-terracotta group-hover:tracking-[0.02em]">BACKSPACE</span>
+                    <!-- 2. BACKSPACE Brand Name -->
+                    <div class="flex items-center cursor-pointer group" @click="goToPage('home')">
+                        <span class="text-[24px] xl:text-[30px] font-extrabold tracking-tight text-brand-charcoal transition-all duration-500 group-hover:text-brand-terracotta group-hover:tracking-[0.02em]">BACKSPACE</span>
+                    </div>
                 </div>
             </div>
 
@@ -168,19 +159,20 @@
                                     <div>
                                         <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-200">
                                             <span class="text-[11px] font-extrabold uppercase tracking-widest text-brand-charcoal">BEDS</span>
-                                            <span class="text-[9px] font-bold text-brand-terracotta bg-orange-50 px-2 py-0.5 rounded-full">Frames & Bases</span>
+                                            <span class="text-[9px] font-bold text-brand-terracotta bg-orange-50 px-2 py-0.5 rounded-full">18 Models</span>
                                         </div>
                                         <div class="w-full h-24 rounded-xl overflow-hidden mb-3 bg-gray-100">
-                                            <img src="./images/bed1.jpg" class="w-full h-full object-cover">
+                                            <img src="./public/images/beds/bed-001.jpg" class="w-full h-full object-cover" onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}">
                                         </div>
                                         <div class="space-y-1.5 text-[10px] font-medium text-gray-600">
-                                            <button @click="goToPage('beds'); openDropdown = null" class="block w-full text-left hover:text-brand-terracotta transition">Smart Motorized Bed</button>
-                                            <button @click="goToPage('beds'); openDropdown = null" class="block w-full text-left hover:text-brand-terracotta transition">Solid Wood Platform</button>
-                                            <button @click="goToPage('beds'); openDropdown = null" class="block w-full text-left hover:text-brand-terracotta transition">Upholstered Storage Bed</button>
-                                            <button @click="goToPage('beds'); openDropdown = null" class="block w-full text-left hover:text-brand-terracotta transition">Single Bed Base</button>
+                                            <button @click="goToPage('beds', 'upholstered'); openDropdown = null" class="block w-full text-left hover:text-brand-terracotta transition">Upholstered Beds</button>
+                                            <button @click="goToPage('beds', 'storage'); openDropdown = null" class="block w-full text-left hover:text-brand-terracotta transition">Storage Beds</button>
+                                            <button @click="goToPage('beds', 'wooden'); openDropdown = null" class="block w-full text-left hover:text-brand-terracotta transition">Wooden & Platform Beds</button>
+                                            <button @click="goToPage('beds', 'designer'); openDropdown = null" class="block w-full text-left hover:text-brand-terracotta transition">Designer Headboard Beds</button>
+                                            <button @click="goToPage('beds', 'single'); openDropdown = null" class="block w-full text-left hover:text-brand-terracotta transition">Single & Daybeds</button>
                                         </div>
                                     </div>
-                                    <button @click="goToPage('beds'); openDropdown = null" class="mt-4 text-[10px] font-bold text-brand-terracotta uppercase tracking-widest hover:underline flex items-center justify-between">View All <i class="fa-solid fa-arrow-right text-[8px]"></i></button>
+                                    <button @click="goToPage('beds', 'all'); openDropdown = null" class="mt-4 text-[10px] font-bold text-brand-terracotta uppercase tracking-widest hover:underline flex items-center justify-between">View All <i class="fa-solid fa-arrow-right text-[8px]"></i></button>
                                 </div>
 
                                 <!-- Pillar 3: PROTECTORS -->
@@ -283,19 +275,20 @@
                              x-transition:leave="transition ease-in duration-200" 
                              x-transition:leave-start="opacity-100 translate-y-0 scale-100" 
                              x-transition:leave-end="opacity-0 -translate-y-1.5 scale-98" 
-                             class="absolute top-full left-1/2 -translate-x-1/2 w-64 bg-[#FFFCF7] shadow-[0_15px_40px_-10px_rgba(41,37,34,0.08)] rounded-2xl border border-[#E6DFD6] p-3 z-50 origin-top" style="display:none;">
+                             class="absolute top-full left-1/2 -translate-x-1/2 w-72 bg-[#FFFCF7] shadow-[0_15px_40px_-10px_rgba(41,37,34,0.08)] rounded-2xl border border-[#E6DFD6] p-3 z-50 origin-top" style="display:none;">
                             
                             <div class="flex flex-col space-y-1">
                                 <template x-for="item in [
-                                    { name: 'ALL BEDS & FRAMES', filter: 'Beds', img: './images/bed1.jpg' },
-                                    { name: 'SMART RECLINER BEDS', filter: 'Smart Beds', img: './images/surface1.jpg' },
-                                    { name: 'SOLID WOOD PLATFORM', filter: 'Beds', img: './images/detail1.jpg' },
-                                    { name: 'UPHOLSTERED STORAGE BED', filter: 'Beds', img: './images/bed1.jpg' },
-                                    { name: 'SINGLE BED BASE', filter: 'Beds', img: './public/images/mattresses/classic-spring/angle.jpg' }
+                                    { name: 'ALL BEDS & FRAMES', filter: 'all', img: './public/images/beds/bed-001.jpg' },
+                                    { name: 'UPHOLSTERED BEDS', filter: 'upholstered', img: './public/images/beds/bed-001.jpg' },
+                                    { name: 'STORAGE BEDS', filter: 'storage', img: './public/images/beds/bed-002.jpg' },
+                                    { name: 'WOODEN & PLATFORM BEDS', filter: 'wooden', img: './public/images/beds/bed-006.jpg' },
+                                    { name: 'DESIGNER HEADBOARD BEDS', filter: 'designer', img: './public/images/beds/bed-004.jpg' },
+                                    { name: 'SINGLE & DAYBEDS', filter: 'single', img: './public/images/beds/bed-018.jpg' }
                                 ]">
-                                    <button @click="goToPage('beds'); openDropdown = null" class="flex items-center space-x-3 text-left group focus:outline-none rounded-xl p-2 hover:bg-gray-50 transition-colors duration-300">
+                                    <button @click="goToPage('beds', item.filter); openDropdown = null" class="flex items-center space-x-3 text-left group focus:outline-none rounded-xl p-2 hover:bg-gray-50 transition-colors duration-300">
                                         <div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
-                                            <img :src="item.img" class="w-full h-full object-cover transition-transform duration-400 group-hover:scale-110" loading="lazy">
+                                            <img :src="item.img" class="w-full h-full object-cover transition-transform duration-400 group-hover:scale-110" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}">
                                         </div>
                                         <span class="text-[11px] font-bold uppercase tracking-widest text-brand-charcoal group-hover:text-brand-terracotta transition-colors" x-text="item.name"></span>
                                     </button>
@@ -490,7 +483,7 @@
                     <div class="grid grid-cols-2 gap-3">
                         <template x-for="cat in [
                             { name: 'MATTRESSES', filter: 'Mattresses', img: './public/images/mattresses/orthopedic-support/thickness.jpg' },
-                            { name: 'BEDS & FRAMES', filter: 'Beds', img: './images/bed1.jpg' },
+                            { name: 'BEDS & FRAMES', filter: 'beds', isPage: true, img: './public/images/beds/bed-001.jpg' },
                             { name: 'PROTECTORS', filter: 'Protectors', img: './public/images/mattresses/comfort-foam/thickness.jpg' },
                             { name: 'PILLOWS', filter: 'Pillows', img: './public/images/mattresses/cool-gel/thickness.jpg' },
                             { name: 'MEMORY FOAM', filter: 'Memory Foam', img: './public/images/mattresses/cloud-memory-foam/thickness.jpg' },
@@ -4871,6 +4864,15 @@ function singleBedApp() {
     return {
         mobileFiltersOpen: false,
         sortBy: 'recommended',
+        selectedGroup: 'all',
+        groups: [
+            { id: 'all', label: 'All Beds', title: 'ALL BEDS', count: 18, codes: null },
+            { id: 'upholstered', label: 'Upholstered Beds', title: 'UPHOLSTERED BEDS', count: 4, codes: ['BKPBD001', 'BKPBD003', 'BKPBD009', 'BKPBD013'] },
+            { id: 'storage', label: 'Storage Beds', title: 'STORAGE BEDS', count: 4, codes: ['BKPBD002', 'BKPBD007', 'BKPBD008', 'BKPBD015'] },
+            { id: 'wooden', label: 'Wooden & Platform Beds', title: 'WOODEN & PLATFORM BEDS', count: 3, codes: ['BKPBD006', 'BKPBD011', 'BKPBD014'] },
+            { id: 'designer', label: 'Designer Headboard Beds', title: 'DESIGNER HEADBOARD BEDS', count: 5, codes: ['BKPBD004', 'BKPBD005', 'BKPBD010', 'BKPBD012', 'BKPBD016'] },
+            { id: 'single', label: 'Single & Daybeds', title: 'SINGLE & DAYBEDS', count: 2, codes: ['BKPBD017', 'BKPBD018'] }
+        ],
         filters: {
             minPrice: 1000,
             maxPrice: 49999,
@@ -4888,6 +4890,28 @@ function singleBedApp() {
                     }
                 });
             }
+            window.addEventListener('select-bed-group', (e) => {
+                if (e.detail && e.detail.group) {
+                    this.selectedGroup = e.detail.group;
+                }
+            });
+            try {
+                const gw = this.$root?._x_dataStack?.find(d => d.selectedBedGroup !== undefined);
+                if (gw && gw.selectedBedGroup) {
+                    this.selectedGroup = gw.selectedBedGroup;
+                }
+            } catch(e) {}
+        },
+        selectGroup(groupId) {
+            this.selectedGroup = groupId;
+            try {
+                const gw = this.$root?._x_dataStack?.find(d => d.selectedBedGroup !== undefined);
+                if (gw) gw.selectedBedGroup = groupId;
+            } catch(e) {}
+        },
+        get currentGroupTitle() {
+            const grp = this.groups.find(g => g.id === this.selectedGroup);
+            return grp ? grp.label : 'All Beds';
         },
         toggleWishlist(p) {
             const id = p.id;
@@ -4990,6 +5014,12 @@ function singleBedApp() {
         },
         get filteredProducts() {
             let result = Array.isArray(this.products) ? [...this.products] : [];
+            if (this.selectedGroup && this.selectedGroup !== 'all') {
+                const activeGroup = this.groups.find(g => g.id === this.selectedGroup);
+                if (activeGroup && activeGroup.codes) {
+                    result = result.filter(p => activeGroup.codes.includes(p.code));
+                }
+            }
             if (this.sortBy === 'price_low') result.sort((a, b) => a.price - b.price);
             else if (this.sortBy === 'price_high') result.sort((a, b) => b.price - a.price);
             else if (this.sortBy === 'rating') result.sort((a, b) => b.rating - a.rating);
@@ -6631,9 +6661,31 @@ function singleBedApp() {
             </div>
         </div>
 
+        <!-- Five Bed Groups + All Beds Navigation Tabs -->
+        <div class="mb-7">
+            <div class="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none no-scrollbar">
+                <template x-for="tab in groups" :key="tab.id">
+                    <button @click="selectGroup(tab.id)" 
+                            class="shrink-0 px-4 sm:px-5 py-2.5 rounded-full text-xs font-bold tracking-wide uppercase transition-all duration-300 border flex items-center gap-2 focus:outline-none"
+                            :class="selectedGroup === tab.id ? 'bg-[#292522] text-white border-[#292522] shadow-md shadow-[#292522]/10 scale-[1.02]' : 'bg-[#F4ECE1] text-[#4A4036] border-[#D5C9B8] hover:bg-[#EAE1D3] hover:text-[#292522]'">
+                        <span x-text="tab.label"></span>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full transition-colors"
+                              :class="selectedGroup === tab.id ? 'bg-white/20 text-white' : 'bg-[#E5DCD0] text-[#554D42]'"
+                              x-text="tab.count"></span>
+                    </button>
+                </template>
+            </div>
+        </div>
+
         <!-- Top Status Bar: Count + Sort (No Filter Button) -->
-        <div class="flex items-center justify-between mb-6 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-            <span class="text-xs font-bold text-gray-500 tracking-widest uppercase" x-text="filteredProducts.length + ' PRODUCTS'">18 PRODUCTS</span>
+        <div class="flex items-center justify-between mb-5 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-gray-500 tracking-widest uppercase" x-text="filteredProducts.length + ' PRODUCTS'">18 PRODUCTS</span>
+                <span x-show="selectedGroup !== 'all'" class="text-xs font-bold text-brand-terracotta tracking-wider uppercase flex items-center gap-1.5">
+                    <span>•</span>
+                    <span x-text="currentGroupTitle"></span>
+                </span>
+            </div>
             
             <div class="flex items-center gap-2">
                 <span class="text-[10px] font-bold text-gray-400 tracking-widest uppercase hidden md:inline">SORT BY:</span>
@@ -6648,10 +6700,14 @@ function singleBedApp() {
         </div>
 
         <!-- Active Filter Tag matching Screenshot 2/3 -->
-        <div class="mb-5 flex items-center">
+        <div class="mb-6 flex items-center gap-2 flex-wrap">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#E8E1D5] text-[#554D42] rounded-md text-xs font-serif shadow-sm">
                 <span>Beds</span>
                 <span class="text-[10px] text-[#7E7467] font-sans">✕</span>
+            </div>
+            <div x-show="selectedGroup !== 'all'" class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#292522] text-white rounded-md text-xs font-sans shadow-sm cursor-pointer hover:bg-black transition" @click="selectGroup('all')" title="Reset to All Beds">
+                <span x-text="currentGroupTitle"></span>
+                <span class="text-[10px] text-gray-300 font-sans hover:text-white">✕</span>
             </div>
         </div>
 

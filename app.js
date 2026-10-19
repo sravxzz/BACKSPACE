@@ -109,6 +109,7 @@ function appData() {
         currentPage: 'home',
         currentProductData: null, // 'home', 'shop', 'product', 'compare', 'finder', 'guide', 'bulk', 'about', 'admin', 'profile', 'orders', 'track', 'wishlist'
         currentCategoryFilter: 'Mattresses', // Which category to show on the shop page
+        selectedBedGroup: 'all',
         
         cartOpen: false,
         mobileMenuOpen: false,
@@ -204,6 +205,8 @@ function appData() {
                 } else if (h === '#beds') {
                     this.currentPage = 'beds';
                     this.currentCategoryFilter = 'Beds';
+                    this.selectedBedGroup = 'all';
+                    window.dispatchEvent(new CustomEvent('select-bed-group', { detail: { group: 'all' } }));
                 } else if (h === '#home') {
                     this.currentPage = 'home';
                 }
@@ -222,9 +225,13 @@ function appData() {
         },
 
         goToPage(page, category = null) {
-            if (page === 'beds' || category === 'Beds' || category === 'Smart Beds') {
+            const validBedGroups = ['all', 'upholstered', 'storage', 'wooden', 'designer', 'single'];
+            if (page === 'beds' || category === 'Beds' || category === 'Smart Beds' || (category && validBedGroups.includes(category.toLowerCase()))) {
                 this.currentPage = 'beds';
                 this.currentCategoryFilter = 'Beds';
+                const targetGroup = (category && validBedGroups.includes(category.toLowerCase())) ? category.toLowerCase() : 'all';
+                this.selectedBedGroup = targetGroup;
+                window.dispatchEvent(new CustomEvent('select-bed-group', { detail: { group: targetGroup } }));
                 if (window.location.hash !== '#beds') {
                     window.history.pushState(null, '', '#beds');
                 }
