@@ -151,6 +151,12 @@ const defaultProducts = [
         "Queen",
         "King"
     ],
+    "height": 6,
+    "heights": [
+        6,
+        8,
+        10
+    ],
     "customization": true,
     "footer": "Customization available",
     "price": null,
@@ -183,6 +189,12 @@ const defaultProducts = [
         "Double",
         "Queen",
         "King"
+    ],
+    "height": 6,
+    "heights": [
+        6,
+        8,
+        10
     ],
     "customization": true,
     "footer": "Customization available",
@@ -217,6 +229,12 @@ const defaultProducts = [
         "Queen",
         "King"
     ],
+    "height": 6,
+    "heights": [
+        6,
+        8,
+        10
+    ],
     "customization": true,
     "footer": "Customization available",
     "price": null,
@@ -249,6 +267,12 @@ const defaultProducts = [
         "Double",
         "Queen",
         "King"
+    ],
+    "height": 6,
+    "heights": [
+        6,
+        8,
+        10
     ],
     "customization": true,
     "footer": "Customization available",
@@ -283,6 +307,12 @@ const defaultProducts = [
         "Queen",
         "King"
     ],
+    "height": 6,
+    "heights": [
+        6,
+        8,
+        10
+    ],
     "customization": true,
     "footer": "Customization available",
     "price": null,
@@ -315,6 +345,12 @@ const defaultProducts = [
         "Double",
         "Queen",
         "King"
+    ],
+    "height": 6,
+    "heights": [
+        6,
+        8,
+        10
     ],
     "customization": true,
     "footer": "Customization available",
@@ -349,6 +385,12 @@ const defaultProducts = [
         "Queen",
         "King"
     ],
+    "height": 6,
+    "heights": [
+        6,
+        8,
+        10
+    ],
     "customization": true,
     "footer": "Customization available",
     "price": null,
@@ -381,6 +423,12 @@ const defaultProducts = [
         "Double",
         "Queen",
         "King"
+    ],
+    "height": 6,
+    "heights": [
+        6,
+        8,
+        10
     ],
     "customization": true,
     "footer": "Customization available",
@@ -415,6 +463,12 @@ const defaultProducts = [
         "Queen",
         "King"
     ],
+    "height": 6,
+    "heights": [
+        6,
+        8,
+        10
+    ],
     "customization": true,
     "footer": "Customization available",
     "price": null,
@@ -447,6 +501,12 @@ const defaultProducts = [
         "Double",
         "Queen",
         "King"
+    ],
+    "height": 6,
+    "heights": [
+        6,
+        8,
+        10
     ],
     "customization": true,
     "footer": "Customization available",
@@ -481,6 +541,12 @@ const defaultProducts = [
         "Queen",
         "King"
     ],
+    "height": 6,
+    "heights": [
+        6,
+        8,
+        10
+    ],
     "customization": true,
     "footer": "Customization available",
     "price": null,
@@ -513,6 +579,12 @@ const defaultProducts = [
         "Double",
         "Queen",
         "King"
+    ],
+    "height": 6,
+    "heights": [
+        6,
+        8,
+        10
     ],
     "customization": true,
     "footer": "Customization available",

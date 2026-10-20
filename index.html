@@ -1361,6 +1361,12 @@
                 "Queen",
                 "King"
         ],
+        "height": 6,
+        "heights": [
+                6,
+                8,
+                10
+        ],
         "customization": true,
         "footer": "Customization available",
         "price": null,
@@ -1393,6 +1399,12 @@
                 "Double",
                 "Queen",
                 "King"
+        ],
+        "height": 6,
+        "heights": [
+                6,
+                8,
+                10
         ],
         "customization": true,
         "footer": "Customization available",
@@ -1427,6 +1439,12 @@
                 "Queen",
                 "King"
         ],
+        "height": 6,
+        "heights": [
+                6,
+                8,
+                10
+        ],
         "customization": true,
         "footer": "Customization available",
         "price": null,
@@ -1459,6 +1477,12 @@
                 "Double",
                 "Queen",
                 "King"
+        ],
+        "height": 6,
+        "heights": [
+                6,
+                8,
+                10
         ],
         "customization": true,
         "footer": "Customization available",
@@ -1493,6 +1517,12 @@
                 "Queen",
                 "King"
         ],
+        "height": 6,
+        "heights": [
+                6,
+                8,
+                10
+        ],
         "customization": true,
         "footer": "Customization available",
         "price": null,
@@ -1525,6 +1555,12 @@
                 "Double",
                 "Queen",
                 "King"
+        ],
+        "height": 6,
+        "heights": [
+                6,
+                8,
+                10
         ],
         "customization": true,
         "footer": "Customization available",
@@ -1559,6 +1595,12 @@
                 "Queen",
                 "King"
         ],
+        "height": 6,
+        "heights": [
+                6,
+                8,
+                10
+        ],
         "customization": true,
         "footer": "Customization available",
         "price": null,
@@ -1591,6 +1633,12 @@
                 "Double",
                 "Queen",
                 "King"
+        ],
+        "height": 6,
+        "heights": [
+                6,
+                8,
+                10
         ],
         "customization": true,
         "footer": "Customization available",
@@ -1625,6 +1673,12 @@
                 "Queen",
                 "King"
         ],
+        "height": 6,
+        "heights": [
+                6,
+                8,
+                10
+        ],
         "customization": true,
         "footer": "Customization available",
         "price": null,
@@ -1657,6 +1711,12 @@
                 "Double",
                 "Queen",
                 "King"
+        ],
+        "height": 6,
+        "heights": [
+                6,
+                8,
+                10
         ],
         "customization": true,
         "footer": "Customization available",
@@ -1691,6 +1751,12 @@
                 "Queen",
                 "King"
         ],
+        "height": 6,
+        "heights": [
+                6,
+                8,
+                10
+        ],
         "customization": true,
         "footer": "Customization available",
         "price": null,
@@ -1723,6 +1789,12 @@
                 "Double",
                 "Queen",
                 "King"
+        ],
+        "height": 6,
+        "heights": [
+                6,
+                8,
+                10
         ],
         "customization": true,
         "footer": "Customization available",
@@ -6498,12 +6570,31 @@ function singleBedApp() {
         get currentImage() { return this.currentProductData && this.currentProductData.images ? this.currentProductData.images[this.activeImg] : ''; },
         initPDP() {
             this.activeImg = 'main';
-            if (this.currentProductData && this.currentProductData.sizes) {
+            if (this.currentProductData && this.currentProductData.sizes && this.currentProductData.sizes.length > 0) {
                 this.selectedSize = this.currentProductData.sizes[0];
+            } else {
+                this.selectedSize = 'Single';
             }
-            this.selectedHeight = this.currentProductData && this.currentProductData.heights ? this.currentProductData.heights[0] : null;
+            if (this.currentProductData && this.currentProductData.heights && this.currentProductData.heights.length > 0) {
+                this.selectedHeight = this.currentProductData.heights[0];
+            } else if (this.currentProductData && this.currentProductData.height) {
+                this.selectedHeight = this.currentProductData.height;
+            } else {
+                this.selectedHeight = 6;
+            }
             this.quantity = 1;
             this.activeFaq = null;
+        },
+        buyOnWhatsApp() {
+            if (!this.currentProductData) return;
+            const p = this.currentProductData;
+            const code = p.code || (p.id < 10 ? 'BKPMT00' + p.id : 'BKPMT0' + p.id);
+            const size = this.selectedSize || (p.sizes && p.sizes[0]) || 'Single';
+            const h = this.selectedHeight || p.height || 6;
+            const height = String(h).toLowerCase().includes('inch') ? h : `${h} inch`;
+            const qty = this.quantity || 1;
+            const msg = `Hi, I want to buy: ${p.name} (${code}), Size: ${size}, Height: ${height}, Qty: ${qty}`;
+            window.open(`https://wa.me/916300946652?text=${encodeURIComponent(msg)}`, '_blank');
         }
     }" x-effect="if(currentProductData && !isBedProduct(currentProductData)) { initPDP(); }">
         
@@ -6612,21 +6703,29 @@ function singleBedApp() {
                 </div>
 
                 <!-- Actions -->
-                <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                <div class="flex flex-col sm:flex-row items-stretch gap-3 mb-8">
                     <!-- Qty -->
-                    <div class="flex border-2 border-gray-100 rounded-xl bg-gray-50 sm:w-32 items-center justify-between px-2 h-14">
-                        <button @click="quantity > 1 ? quantity-- : null" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-brand-charcoal focus:outline-none"><i class="fa-solid fa-minus text-xs"></i></button>
-                        <span class="font-bold text-sm" x-text="quantity"></span>
-                        <button @click="quantity++" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-brand-charcoal focus:outline-none"><i class="fa-solid fa-plus text-xs"></i></button>
+                    <div class="flex items-center justify-between border border-[#D5C9B8] rounded-full bg-white px-4 py-3 sm:w-32 shrink-0">
+                        <button @click="if(quantity > 1) quantity--" class="w-7 h-7 rounded-full flex items-center justify-center text-[#7E7467] hover:text-[#292522] focus:outline-none" title="Decrease Quantity">
+                            <i class="fa-solid fa-minus text-xs"></i>
+                        </button>
+                        <span class="text-sm font-bold text-[#292522]" x-text="quantity"></span>
+                        <button @click="quantity++" class="w-7 h-7 rounded-full flex items-center justify-center text-[#7E7467] hover:text-[#292522] focus:outline-none" title="Increase Quantity">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                        </button>
                     </div>
                     
-                    <button @click="cart.push({ id: currentProductData.id, name: currentProductData.name, price: currentProductData.price, image: currentProductData.images.main, quantity: quantity }); currentProductData.added = true; setTimeout(() => currentProductData.added = false, 2000)" class="flex-1 bg-brand-charcoal text-white h-14 rounded-xl text-xs font-bold tracking-widest uppercase hover:bg-black transition shadow-md focus:outline-none flex items-center justify-center relative">
+                    <!-- Add to Cart Button -->
+                    <button @click="cart.push({ id: currentProductData.id, name: currentProductData.name, price: currentProductData.price, image: (currentProductData.images && currentProductData.images.main) ? currentProductData.images.main : currentProductData.image, quantity: quantity, size: selectedSize, height: selectedHeight ? (selectedHeight + ' inch') : '6 inch' }); currentProductData.added = true; if(typeof saveCart === 'function') saveCart(); setTimeout(() => currentProductData.added = false, 2000)" class="flex-1 bg-[#292522] hover:bg-[#3D3733] text-white font-medium py-3.5 px-6 rounded-full shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wider uppercase focus:outline-none cursor-pointer">
+                        <i class="fa-solid fa-bag-shopping"></i>
                         <span x-show="!currentProductData.added">ADD TO CART</span>
-                        <span x-show="currentProductData.added" class="text-green-400" style="display:none;"><i class="fa-solid fa-check mr-2"></i>ADDED TO CART</span>
+                        <span x-show="currentProductData.added" class="text-green-400 flex items-center gap-1.5" style="display:none;"><i class="fa-solid fa-check"></i>ADDED TO CART</span>
                     </button>
                     
-                    <button @click="cart.push({ id: currentProductData.id, name: currentProductData.name, price: currentProductData.price, image: currentProductData.images.main, quantity: quantity }); goToPage('home'); setTimeout(()=>cartOpen = true, 500);" class="flex-1 bg-brand-terracotta text-white h-14 rounded-xl text-xs font-bold tracking-widest uppercase hover:bg-orange-700 transition shadow-md focus:outline-none hidden md:flex items-center justify-center">
-                        ORDER NOW
+                    <!-- Buy Now / Order on WhatsApp Button -->
+                    <button @click="buyOnWhatsApp()" class="flex-1 bg-[#128C7E] hover:bg-[#075E54] text-white font-medium py-3.5 px-6 rounded-full shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wider uppercase focus:outline-none cursor-pointer">
+                        <i class="fa-brands fa-whatsapp text-base"></i>
+                        <span>BUY ON WHATSAPP</span>
                     </button>
                 </div>
 
