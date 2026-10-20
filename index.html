@@ -6783,113 +6783,113 @@ function singleBedApp() {
 <!-- ================= BEDS COLLECTION PAGE ================= -->
 <div x-show="currentPage === 'beds'" style="display:none;" class="bg-[#F4F2EF] min-h-screen pt-28 pb-32" x-data="singleBedApp()">
     <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Breadcrumbs & Category Bar -->
-        <div class="mb-6">
-            <div class="flex items-center space-x-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
-                <button @click="goToPage('home')" class="hover:text-brand-charcoal transition">HOME</button>
-                <span>/</span>
-                <span class="text-brand-terracotta">BEDS</span>
-            </div>
+        
+        <!-- Definitive Two-Column Layout: LEFT (Beds Collection) + RIGHT (Filters Sidebar) -->
+        <div class="beds-page-layout">
             
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-200 pb-6">
-                <div>
-                    <h1 class="text-3xl md:text-5xl font-extrabold text-brand-charcoal tracking-tight uppercase">BEDS COLLECTION</h1>
-                    <p class="text-sm md:text-base text-gray-500 mt-2 max-w-3xl leading-relaxed">Handcrafted luxury beds, upholstered platform frames, and custom storage divans.</p>
-                </div>
-                
-                <!-- Quick Category Switch Pills -->
-                <div class="flex flex-wrap items-center gap-2 shrink-0">
-                    <button @click="goToPage('shop', 'Mattresses')" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]">MATTRESSES</button>
-                    <button @click="goToPage('beds')" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-[#292522] text-white shadow-md">BEDS</button>
-                    <button @click="goToPage('shop', 'Protectors')" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]">PROTECTORS</button>
-                    <button @click="goToPage('shop', 'Pillows')" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]">PILLOWS</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Classified Beds Category Interface based on Screenshot 2 -->
-        <div class="mb-8 bg-[#FAF6EE] rounded-[24px] border border-[#EBE2D5] p-5 sm:p-6 shadow-sm">
-            <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-[#EBE2D5]">
-                <div class="flex items-center gap-2">
-                    <span class="text-xs sm:text-[13px] font-black text-[#D05228] uppercase tracking-wider font-sans">EXPLORE BY CATEGORY:</span>
-                    <span class="text-xs text-gray-400 font-bold hidden sm:inline">•</span>
-                    <span class="text-xs text-gray-500 font-medium hidden sm:inline">Browse handcrafted beds classified by name, size, material, and storage</span>
-                </div>
-                <button x-show="hasActiveFilters" @click="resetFilters()" class="text-xs font-bold text-[#7E7467] hover:text-[#D05228] transition uppercase tracking-wider flex items-center gap-1.5 focus:outline-none">
-                    <i class="fa-solid fa-rotate-left text-[10px]"></i>
-                    <span>View All Beds (18)</span>
-                </button>
-            </div>
-
-            <!-- 4 Classified Columns matching Screenshot 2 -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-0 md:divide-x md:divide-[#E5DDD0]">
-                <!-- Column 1: By Name -->
-                <div class="md:pr-5">
-                    <div class="mb-2.5">
-                        <span class="text-xs font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Name</span>
+            <!-- LEFT COLUMN: Beds Collection (~75-80% on Desktop) -->
+            <main class="beds-product-collection">
+                <!-- Breadcrumbs & Category Bar -->
+                <div class="mb-6">
+                    <div class="flex items-center space-x-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
+                        <button @click="goToPage('home')" class="hover:text-brand-charcoal transition">HOME</button>
+                        <span>/</span>
+                        <span class="text-brand-terracotta">BEDS</span>
                     </div>
-                    <div class="space-y-1.5">
-                        <template x-for="name in ['Boba Bed', 'Boba Move', 'Boba Move With Bed']" :key="name">
-                            <button @click="applyClassified('name', name)" 
-                                    class="block w-full text-left text-[13px] py-1 px-2 rounded-lg font-medium transition-all focus:outline-none"
-                                    :class="selectedName === name ? 'bg-[#292522] text-white font-bold shadow-sm' : 'text-[#292522] hover:text-[#D05228] hover:bg-white/60'"
-                                    x-text="name"></button>
-                        </template>
+                    
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-200 pb-6">
+                        <div>
+                            <h1 class="text-3xl md:text-5xl font-extrabold text-brand-charcoal tracking-tight uppercase">BEDS COLLECTION</h1>
+                            <p class="text-sm md:text-base text-gray-500 mt-2 max-w-3xl leading-relaxed">Handcrafted luxury beds, upholstered platform frames, and custom storage divans.</p>
+                        </div>
+                        
+                        <!-- Quick Category Switch Pills -->
+                        <div class="flex flex-wrap items-center gap-2 shrink-0">
+                            <button @click="goToPage('shop', 'Mattresses')" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]">MATTRESSES</button>
+                            <button @click="goToPage('beds')" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-[#292522] text-white shadow-md">BEDS</button>
+                            <button @click="goToPage('shop', 'Protectors')" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]">PROTECTORS</button>
+                            <button @click="goToPage('shop', 'Pillows')" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]">PILLOWS</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Column 2: By Size -->
-                <div class="md:px-5">
-                    <div class="mb-2.5">
-                        <span class="text-xs font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Size</span>
+                <!-- Classified Beds Category Interface inside the left Beds collection area (based on Screenshot 2) -->
+                <div class="mb-7 bg-[#FAF6EE] rounded-[24px] border border-[#EBE2D5] p-5 sm:p-6 shadow-sm">
+                    <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-[#EBE2D5]">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs sm:text-[13px] font-black text-[#D05228] uppercase tracking-wider font-sans">EXPLORE BY CATEGORY:</span>
+                            <span class="text-xs text-gray-400 font-bold hidden sm:inline">•</span>
+                            <span class="text-xs text-gray-500 font-medium hidden sm:inline">Browse handcrafted beds classified by name, size, material, and storage</span>
+                        </div>
+                        <button x-show="hasActiveFilters" @click="resetFilters()" class="text-xs font-bold text-[#7E7467] hover:text-[#D05228] transition uppercase tracking-wider flex items-center gap-1.5 focus:outline-none">
+                            <i class="fa-solid fa-rotate-left text-[10px]"></i>
+                            <span>View All Beds (18)</span>
+                        </button>
                     </div>
-                    <div class="space-y-1.5">
-                        <template x-for="sz in ['King', 'Queen']" :key="sz">
-                            <button @click="applyClassified('size', sz)" 
-                                    class="block w-full text-left text-[13px] py-1 px-2 rounded-lg font-medium transition-all focus:outline-none"
-                                    :class="(selectedClassifiedSize === sz || selectedSizes.includes(sz)) ? 'bg-[#292522] text-white font-bold shadow-sm' : 'text-[#292522] hover:text-[#D05228] hover:bg-white/60'"
-                                    x-text="sz"></button>
-                        </template>
+
+                    <!-- 4 Classified Columns matching Screenshot 2 -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-0 md:divide-x md:divide-[#E5DDD0]">
+                        <!-- Column 1: By Name -->
+                        <div class="md:pr-5">
+                            <div class="mb-2.5">
+                                <span class="text-xs font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Name</span>
+                            </div>
+                            <div class="space-y-1.5">
+                                <template x-for="name in ['Boba Bed', 'Boba Move', 'Boba Move With Bed']" :key="name">
+                                    <button @click="applyClassified('name', name)" 
+                                            class="block w-full text-left text-[13px] py-1 px-2 rounded-lg font-medium transition-all focus:outline-none"
+                                            :class="selectedName === name ? 'bg-[#292522] text-white font-bold shadow-sm' : 'text-[#292522] hover:text-[#D05228] hover:bg-white/60'"
+                                            x-text="name"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Column 2: By Size -->
+                        <div class="md:px-5">
+                            <div class="mb-2.5">
+                                <span class="text-xs font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Size</span>
+                            </div>
+                            <div class="space-y-1.5">
+                                <template x-for="sz in ['King', 'Queen']" :key="sz">
+                                    <button @click="applyClassified('size', sz)" 
+                                            class="block w-full text-left text-[13px] py-1 px-2 rounded-lg font-medium transition-all focus:outline-none"
+                                            :class="(selectedClassifiedSize === sz || selectedSizes.includes(sz)) ? 'bg-[#292522] text-white font-bold shadow-sm' : 'text-[#292522] hover:text-[#D05228] hover:bg-white/60'"
+                                            x-text="sz"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Column 3: By Material -->
+                        <div class="md:px-5">
+                            <div class="mb-2.5">
+                                <span class="text-xs font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Material</span>
+                            </div>
+                            <div class="space-y-1.5">
+                                <template x-for="mat in ['Solid Wood', 'Engineered Wood']" :key="mat">
+                                    <button @click="applyClassified('material', mat)" 
+                                            class="block w-full text-left text-[13px] py-1 px-2 rounded-lg font-medium transition-all focus:outline-none"
+                                            :class="selectedClassifiedMaterial === mat ? 'bg-[#292522] text-white font-bold shadow-sm' : 'text-[#292522] hover:text-[#D05228] hover:bg-white/60'"
+                                            x-text="mat"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Column 4: By Storage -->
+                        <div class="md:pl-5">
+                            <div class="mb-2.5">
+                                <span class="text-xs font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Storage</span>
+                            </div>
+                            <div class="space-y-1.5">
+                                <template x-for="st in ['Storage', 'Non Storage']" :key="st">
+                                    <button @click="applyClassified('storage', st)" 
+                                            class="block w-full text-left text-[13px] py-1 px-2 rounded-lg font-medium transition-all focus:outline-none"
+                                            :class="(selectedClassifiedStorage === st || (st === 'Storage' && selectedStorage.includes('with_storage')) || (st === 'Non Storage' && selectedStorage.includes('without_storage'))) ? 'bg-[#292522] text-white font-bold shadow-sm' : 'text-[#292522] hover:text-[#D05228] hover:bg-white/60'"
+                                            x-text="st"></button>
+                                </template>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Column 3: By Material -->
-                <div class="md:px-5">
-                    <div class="mb-2.5">
-                        <span class="text-xs font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Material</span>
-                    </div>
-                    <div class="space-y-1.5">
-                        <template x-for="mat in ['Solid Wood', 'Engineered Wood']" :key="mat">
-                            <button @click="applyClassified('material', mat)" 
-                                    class="block w-full text-left text-[13px] py-1 px-2 rounded-lg font-medium transition-all focus:outline-none"
-                                    :class="selectedClassifiedMaterial === mat ? 'bg-[#292522] text-white font-bold shadow-sm' : 'text-[#292522] hover:text-[#D05228] hover:bg-white/60'"
-                                    x-text="mat"></button>
-                        </template>
-                    </div>
-                </div>
-
-                <!-- Column 4: By Storage -->
-                <div class="md:pl-5">
-                    <div class="mb-2.5">
-                        <span class="text-xs font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Storage</span>
-                    </div>
-                    <div class="space-y-1.5">
-                        <template x-for="st in ['Storage', 'Non Storage']" :key="st">
-                            <button @click="applyClassified('storage', st)" 
-                                    class="block w-full text-left text-[13px] py-1 px-2 rounded-lg font-medium transition-all focus:outline-none"
-                                    :class="(selectedClassifiedStorage === st || (st === 'Storage' && selectedStorage.includes('with_storage')) || (st === 'Non Storage' && selectedStorage.includes('without_storage'))) ? 'bg-[#292522] text-white font-bold shadow-sm' : 'text-[#292522] hover:text-[#D05228] hover:bg-white/60'"
-                                    x-text="st"></button>
-                        </template>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main 2-Column Split: Left Products (76-78%) + Right Filters Sidebar (22-24%) -->
-        <div class="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
-            
-            <!-- LEFT COLUMN: Product Collection (~76-78% on Desktop) -->
-            <div class="w-full lg:w-[76%] xl:w-[78%] flex-1 min-w-0">
 
                 <!-- Top Status Bar: Count + Mobile Filter Button + Sort -->
                 <div class="flex items-center justify-between mb-5 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
@@ -7066,10 +7066,10 @@ function singleBedApp() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
 
-            <!-- RIGHT COLUMN: Filters Sidebar (~22-24% on Desktop) -->
-            <aside class="hidden lg:block w-[24%] xl:w-[22%] shrink-0 sticky top-28">
+            <!-- RIGHT COLUMN: Filters Sidebar (~20-25% on Desktop, Sibling to the Beds Collection) -->
+            <aside class="beds-filter-sidebar hidden lg:block shrink-0 sticky top-28">
                 <div class="bg-[#FAF6EE] rounded-[24px] border border-[#EBE2D5] p-5 xl:p-6 shadow-sm max-h-[calc(100vh-8.5rem)] overflow-y-auto scrollbar-thin">
                     <!-- Sidebar Header: FILTER: in orange-red accent -->
                     <div class="flex items-center justify-between pb-3.5 border-b border-[#EBE2D5]">

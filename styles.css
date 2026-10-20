@@ -161,3 +161,36 @@ body {
     background: #b45309;
 }
 
+/* ==========================================================================
+   Definitive Beds Page Two-Column Layout (Collection on LEFT, Sidebar on RIGHT)
+   ========================================================================== */
+.beds-page-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+@media (min-width: 1024px) {
+    .beds-page-layout {
+        grid-template-columns: minmax(0, 1fr) 280px;
+        gap: 32px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .beds-page-layout {
+        grid-template-columns: minmax(0, 1fr) 310px;
+        gap: 36px;
+    }
+}
+
+.beds-product-collection {
+    width: 100%;
+    min-width: 0;
+}
+
+.beds-filter-sidebar {
+    width: 100%;
+    min-width: 0;
+}
