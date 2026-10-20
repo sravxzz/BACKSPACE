@@ -1164,6 +1164,8 @@
         ],
         "alt": "Original 3 Layered BodyIQ Orthopedic Memory Foam Mattress",
         "code": "BKPMT001",
+        "collection": "Premium Mattress",
+        "material": "BodyIQ Memory Foam",
         "footer": "Customization available"
     },
     {
@@ -1247,6 +1249,8 @@
         ],
         "alt": "Sense BodyIQ Orthopedic Memory Foam Mattress with Cooling Tech",
         "code": "BKPMT002",
+        "collection": "Premium Mattress",
+        "material": "BodyIQ Memory Foam",
         "footer": "Customization available"
     },
     {
@@ -1330,12 +1334,15 @@
         ],
         "alt": "Flip Dual Sided Foam Mattress with Firm and Soft Sides Grey",
         "code": "BKPMT003",
+        "collection": "Premium Mattress",
+        "material": "Foam",
         "footer": "Customization available"
     },
 {
         "id": 4,
         "slug": "laxe",
         "code": "BKPMT004",
+        "collection": "Premium Mattress",
         "name": "Laxe",
         "category": "Mattresses",
         "mainCategory": "Mattresses",
@@ -1368,6 +1375,7 @@
         "id": 5,
         "slug": "boing",
         "code": "BKPMT005",
+        "collection": "Premium Mattress",
         "name": "Boing",
         "category": "Mattresses",
         "mainCategory": "Mattresses",
@@ -1400,6 +1408,7 @@
         "id": 6,
         "slug": "sense-ortho-ultra",
         "code": "BKPMT006",
+        "collection": "Premium Mattress",
         "name": "Sense Ortho Ultra",
         "category": "Mattresses",
         "mainCategory": "Mattresses",
@@ -1432,6 +1441,7 @@
         "id": 7,
         "slug": "laxe-nature-ultra",
         "code": "BKPMT007",
+        "collection": "Premium Mattress",
         "name": "Laxe Nature Ultra",
         "category": "Mattresses",
         "mainCategory": "Mattresses",
@@ -1464,6 +1474,7 @@
         "id": 8,
         "slug": "technic",
         "code": "BKPMT008",
+        "collection": "Premium Mattress",
         "name": "Technic",
         "category": "Mattresses",
         "mainCategory": "Mattresses",
@@ -1496,6 +1507,7 @@
         "id": 9,
         "slug": "technic-hybrid",
         "code": "BKPMT009",
+        "collection": "Premium Mattress",
         "name": "Technic Hybrid",
         "category": "Mattresses",
         "mainCategory": "Mattresses",
@@ -1528,6 +1540,7 @@
         "id": 10,
         "slug": "napster-mini",
         "code": "BKPMT010",
+        "collection": "Premium Mattress",
         "name": "Napster Mini",
         "category": "Mattresses",
         "mainCategory": "Mattresses",
@@ -1560,6 +1573,7 @@
         "id": 11,
         "slug": "luna-euro-top",
         "code": "BKPMT011",
+        "collection": "Luxurious Mattress",
         "name": "Luna Euro Top",
         "category": "Mattresses",
         "mainCategory": "Mattresses",
@@ -1592,6 +1606,7 @@
         "id": 12,
         "slug": "luna",
         "code": "BKPMT012",
+        "collection": "Luxurious Mattress",
         "name": "Luna",
         "category": "Mattresses",
         "mainCategory": "Mattresses",
@@ -1624,6 +1639,7 @@
         "id": 13,
         "slug": "coco",
         "code": "BKPMT013",
+        "collection": "Luxurious Mattress",
         "name": "Coco",
         "category": "Mattresses",
         "mainCategory": "Mattresses",
@@ -1656,6 +1672,7 @@
         "id": 14,
         "slug": "nature-pro",
         "code": "BKPMT014",
+        "collection": "Luxurious Mattress",
         "name": "Nature Pro",
         "category": "Mattresses",
         "mainCategory": "Mattresses",
@@ -1688,6 +1705,7 @@
         "id": 15,
         "slug": "prime",
         "code": "BKPMT015",
+        "collection": "Luxurious Mattress",
         "name": "Prime",
         "category": "Mattresses",
         "mainCategory": "Mattresses",
@@ -7289,75 +7307,43 @@ function singleBedApp() {
      x-data="{
          mobileFiltersOpen: false,
          sortBy: 'recommended',
-         filters: {
-             minPrice: 1000,
-             maxPrice: 49999,
-             sizes: [],
-             firmness: []
+         selectedCollections: [],
+         selectedMaterials: [],
+         selectedSizes: [],
+         sectionsOpen: {
+             collection: true,
+             material: true,
+             size: true
          },
-         get allProducts() {
-             return window.BACKSPACE_CATALOGUE || [];
+         toggleSection(sec) {
+             this.sectionsOpen[sec] = !this.sectionsOpen[sec];
          },
-         formatRupee(num) {
-             const val = typeof num === 'number' && !isNaN(num) ? num : (parseInt(num) || 0);
-             return '₹' + val.toLocaleString('en-IN');
+         collectionOptions: [
+             'Premium Mattress',
+             'Luxurious Mattress'
+         ],
+         materialOptions: [
+             '6D Hexagon Grid Foam',
+             'Pocket Springs',
+             'BodyIQ Memory Foam',
+             'Natural Latex',
+             'Foam (CertipurUS certified)',
+             'Rubberised Coir'
+         ],
+         sizeOptions: [
+             'Single',
+             'Double',
+             'Queen',
+             'King'
+         ],
+         get hasActiveFilters() {
+             return this.selectedCollections.length > 0 || this.selectedMaterials.length > 0 || this.selectedSizes.length > 0;
          },
-         onMinSlider(val) {
-             let num = parseInt(val);
-             if (isNaN(num)) num = 1000;
-             if (num < 1000) num = 1000;
-             if (num > 49999) num = 49999;
-             if (num > this.filters.maxPrice) {
-                 num = this.filters.maxPrice;
-             }
-             this.filters.minPrice = num;
-         },
-         onMaxSlider(val) {
-             let num = parseInt(val);
-             if (isNaN(num)) num = 49999;
-             if (num < 1000) num = 1000;
-             if (num > 49999) num = 49999;
-             if (num < this.filters.minPrice) {
-                 num = this.filters.minPrice;
-             }
-             this.filters.maxPrice = num;
-         },
-         onMinInput(val) {
-             if (val === '' || val === null || val === undefined) return;
-             let num = parseInt(val);
-             if (isNaN(num)) return;
-             if (num < 1000) num = 1000;
-             if (num > 49999) num = 49999;
-             if (num > this.filters.maxPrice) {
-                 num = this.filters.maxPrice;
-             }
-             this.filters.minPrice = num;
-         },
-         onMaxInput(val) {
-             if (val === '' || val === null || val === undefined) return;
-             let num = parseInt(val);
-             if (isNaN(num)) return;
-             if (num < 1000) num = 1000;
-             if (num > 49999) num = 49999;
-             if (num < this.filters.minPrice) {
-                 num = this.filters.minPrice;
-             }
-             this.filters.maxPrice = num;
-         },
-         sanitizePriceRange() {
-             let min = parseInt(this.filters.minPrice);
-             let max = parseInt(this.filters.maxPrice);
-             if (isNaN(min) || min < 1000) min = 1000;
-             if (isNaN(max) || max > 49999) max = 49999;
-             if (min > max) {
-                 let temp = min;
-                 min = max;
-                 max = temp;
-             }
-             if (min < 1000) min = 1000;
-             if (max > 49999) max = 49999;
-             this.filters.minPrice = min;
-             this.filters.maxPrice = max;
+         resetFilters() {
+             this.selectedCollections = [];
+             this.selectedMaterials = [];
+             this.selectedSizes = [];
+             this.sortBy = 'recommended';
          },
          get currentCat() {
              const root = this.$root?._x_dataStack?.find(d => d.currentCategoryFilter !== undefined);
@@ -7390,6 +7376,13 @@ function singleBedApp() {
              }
              return 'Discover our premium range of 100% natural latex, adaptive memory foam, orthopedic, and pocket spring mattresses with a 10-year warranty.';
          },
+         get allMattresses() {
+             let list = (window.BACKSPACE_CATALOGUE || []).slice();
+             return list.filter(p => p.mainCategory === 'Mattresses' || p.category === 'Mattresses');
+         },
+         get totalMattresses() {
+             return this.allMattresses.length || 15;
+         },
          get displayProducts() {
              let list = (window.BACKSPACE_CATALOGUE || []).slice();
              const cat = (this.currentCat || '').toLowerCase();
@@ -7402,26 +7395,53 @@ function singleBedApp() {
                  list = list.filter(p => p.mainCategory === 'Protectors' || p.category === 'PROTECTORS');
              } else if (cat.includes('pillow')) {
                  list = list.filter(p => p.mainCategory === 'Pillows' || p.category === 'PILLOWS');
-             } else if (cat.includes('memory') || cat.includes('original')) {
-                 list = list.filter(p => (p.mainCategory === 'Mattresses' || p.category === 'Mattresses') && (p.name.toLowerCase().includes('memory') || p.name.toLowerCase().includes('original') || (p.subCategory && p.subCategory.toLowerCase().includes('memory'))));
-             } else if (cat.includes('latex') || cat.includes('laxe')) {
-                 list = list.filter(p => (p.mainCategory === 'Mattresses' || p.category === 'Mattresses') && (p.name.toLowerCase().includes('latex') || p.name.toLowerCase().includes('laxe') || (p.subCategory && p.subCategory.toLowerCase().includes('latex'))));
-             } else if (cat.includes('ortho') || cat.includes('sense')) {
-                 list = list.filter(p => (p.mainCategory === 'Mattresses' || p.category === 'Mattresses') && (p.name.toLowerCase().includes('ortho') || p.name.toLowerCase().includes('sense') || (p.subCategory && p.subCategory.toLowerCase().includes('ortho'))));
-             } else if (cat.includes('spring') || cat.includes('flip')) {
-                 list = list.filter(p => (p.mainCategory === 'Mattresses' || p.category === 'Mattresses') && (p.name.toLowerCase().includes('spring') || p.name.toLowerCase().includes('flip') || (p.subCategory && p.subCategory.toLowerCase().includes('spring'))));
              } else {
                  list = list.filter(p => p.mainCategory === 'Mattresses' || p.category === 'Mattresses' || p.category === 'SINGLE');
              }
              
-             // Price filter (1000 to 49999)
-             const minP = typeof this.filters.minPrice === 'number' && !isNaN(this.filters.minPrice) ? this.filters.minPrice : 1000;
-             const maxP = typeof this.filters.maxPrice === 'number' && !isNaN(this.filters.maxPrice) ? this.filters.maxPrice : 49999;
-             list = list.filter(p => p.price == null || (p.price >= minP && p.price <= maxP));
+             // 1. COLLECTION FILTER (OR within group)
+             if (this.selectedCollections.length > 0) {
+                 list = list.filter(p => {
+                     if (!p.collection) return false;
+                     return this.selectedCollections.includes(p.collection);
+                 });
+             }
              
-             // Sizes filter
-             if (this.filters.sizes && this.filters.sizes.length > 0) {
-                 list = list.filter(p => p.sizes && p.sizes.some(s => this.filters.sizes.includes(s)));
+             // 2. MATERIAL FILTER (OR within group)
+             if (this.selectedMaterials.length > 0) {
+                 list = list.filter(p => {
+                     const mat = (p.material || p.subCategory || '').toLowerCase();
+                     return this.selectedMaterials.some(sel => {
+                         const s = sel.toLowerCase();
+                         if (s.includes('6d') || s.includes('hexagon') || s.includes('grid')) {
+                             return mat.includes('6d') || mat.includes('hexagon') || mat.includes('grid');
+                         }
+                         if (s.includes('bodyiq') || s.includes('memory foam')) {
+                             return mat.includes('bodyiq') || mat.includes('memory');
+                         }
+                         if (s.includes('latex')) {
+                             return mat.includes('latex');
+                         }
+                         if (s.includes('coir')) {
+                             return mat.includes('coir');
+                         }
+                         if (s.includes('pocket spring')) {
+                             return mat.includes('pocket spring');
+                         }
+                         if (s.includes('certipur') || s.includes('foam')) {
+                             return (mat.includes('certipur') || mat === 'foam' || mat.includes('+ foam') || mat.includes('support foam')) && !mat.includes('memory') && !mat.includes('grid');
+                         }
+                         return mat.includes(s);
+                     });
+                 });
+             }
+             
+             // 3. SIZE FILTER (OR within group)
+             if (this.selectedSizes.length > 0) {
+                 list = list.filter(p => {
+                     if (!p.sizes || !Array.isArray(p.sizes)) return false;
+                     return p.sizes.some(sz => this.selectedSizes.includes(sz));
+                 });
              }
              
              // Sort
@@ -7430,11 +7450,7 @@ function singleBedApp() {
              else if (this.sortBy === 'rating') list.sort((a,b) => (b.rating || 0) - (a.rating || 0));
              
              return list;
-         },
-                   resetFilters() {
-              this.filters = { minPrice: 1000, maxPrice: 49999, sizes: [], firmness: [] };
-              this.sortBy = 'recommended';
-          }
+         }
      }">
     <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Breadcrumbs & Category Bar -->
@@ -7461,124 +7477,81 @@ function singleBedApp() {
             </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-8">
-            <!-- LEFT FILTER SIDEBAR -->
-            <aside class="hidden lg:block w-72 shrink-0">
-                <div class="bg-[#F8F5F0] p-6 rounded-2xl shadow-sm border border-[#E6DFD6] sticky top-24">
-                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-                        <h2 class="text-sm font-extrabold text-brand-charcoal tracking-widest uppercase">FILTERS</h2>
-                        <button @click="resetFilters()" class="text-[11px] font-bold text-brand-terracotta uppercase hover:underline">RESET</button>
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
+            <!-- LEFT FILTER SIDEBAR (Desktop) -->
+            <aside class="hidden lg:block w-72 shrink-0 sticky top-28">
+                <div class="bg-[#FAF6EE] rounded-[24px] border border-[#EBE2D5] p-5 xl:p-6 shadow-sm max-h-[calc(100vh-8.5rem)] overflow-y-auto scrollbar-thin">
+                    <!-- Sidebar Header: FILTER: in orange-red accent -->
+                    <div class="flex items-center justify-between pb-3.5 border-b border-[#EBE2D5]">
+                        <h3 class="text-base sm:text-lg font-black text-[#D05228] tracking-wider uppercase font-sans">FILTER:</h3>
+                        <button @click="resetFilters()" :class="hasActiveFilters ? 'text-[#D05228] hover:underline' : 'text-[#7E7467] hover:text-[#D05228]'" class="text-xs font-bold transition uppercase tracking-wider focus:outline-none">Reset</button>
                     </div>
 
-                    <!-- Price Filter -->
-                    <div class="mb-8">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="text-sm font-bold text-brand-charcoal uppercase tracking-wider">PRICE</h3>
-                            <span class="text-[11px] font-bold text-brand-terracotta" x-text="`${formatRupee(filters.minPrice)} - ${formatRupee(filters.maxPrice)}`"></span>
-                        </div>
-
-                        <!-- Dual Range Slider (1000 - 49999) -->
-                        <div class="relative py-4 select-none">
-                            <div class="relative h-2 w-full flex items-center">
-                                <!-- Background Track -->
-                                <div class="absolute w-full h-1.5 bg-gray-200 rounded-full"></div>
-                                <!-- Active Colored Progress Track -->
-                                <div class="absolute h-1.5 bg-brand-charcoal rounded-full"
-                                     :style="`left: ${Math.max(0, Math.min(100, ((filters.minPrice - 1000) / 48999) * 100))}%; right: ${Math.max(0, Math.min(100, 100 - (((filters.maxPrice - 1000) / 48999) * 100)))}%`">
-                                </div>
-                                <!-- Min Range Handle -->
-                                <input type="range" min="1000" max="49999" step="100"
-                                       :value="filters.minPrice"
-                                       @input="onMinSlider($event.target.value)"
-                                       class="range-slider-input z-20 pointer-events-none"
-                                       aria-label="Minimum Price Slider">
-                                <!-- Max Range Handle -->
-                                <input type="range" min="1000" max="49999" step="100"
-                                       :value="filters.maxPrice"
-                                       @input="onMaxSlider($event.target.value)"
-                                       class="range-slider-input z-30 pointer-events-none"
-                                       aria-label="Maximum Price Slider">
-                            </div>
-                            <div class="flex justify-between items-center text-[10px] text-gray-400 font-semibold mt-1">
-                                <span>₹1,000</span>
-                                <span>₹49,999</span>
-                            </div>
-                        </div>
-
-                        <!-- Side-by-Side Minimum & Maximum Input Fields -->
-                        <div class="flex items-center gap-2 mt-1">
-                            <div class="flex-1">
-                                <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MINIMUM</label>
-                                <div class="relative flex items-center">
-                                    <span class="absolute left-2.5 text-xs font-semibold text-gray-500 select-none">₹</span>
-                                    <input type="number" min="1000" max="49999"
-                                           :value="filters.minPrice"
-                                           @input="onMinInput($event.target.value)"
-                                           @blur="sanitizePriceRange()"
-                                           class="w-full border border-gray-300 rounded-lg pl-6 pr-2 py-2 text-xs font-semibold text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:border-brand-charcoal focus:outline-none"
-                                           placeholder="1000">
-                                </div>
-                            </div>
-                            <span class="text-gray-400 mt-5 font-bold">-</span>
-                            <div class="flex-1">
-                                <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MAXIMUM</label>
-                                <div class="relative flex items-center">
-                                    <span class="absolute left-2.5 text-xs font-semibold text-gray-500 select-none">₹</span>
-                                    <input type="number" min="1000" max="49999"
-                                           :value="filters.maxPrice"
-                                           @input="onMaxInput($event.target.value)"
-                                           @blur="sanitizePriceRange()"
-                                           class="w-full border border-gray-300 rounded-lg pl-6 pr-2 py-2 text-xs font-semibold text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:border-brand-charcoal focus:outline-none"
-                                           placeholder="49999">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sizes Filter -->
-                    <div class="mb-8">
-                        <h3 class="text-xs font-bold text-brand-charcoal mb-3 uppercase tracking-wider">AVAILABLE SIZES</h3>
-                        <div class="space-y-2.5">
-                            <template x-for="sz in ['Single', 'Double', 'Queen', 'King', 'Standard (24x16 inch)']">
-                                <label class="flex items-center cursor-pointer group">
-                                    <input type="checkbox" :value="sz" x-model="filters.sizes" class="peer sr-only">
-                                    <div class="w-4 h-4 border-2 border-gray-300 rounded flex items-center justify-center peer-checked:bg-brand-charcoal peer-checked:border-brand-charcoal transition text-white">
-                                        <i class="fa-solid fa-check text-[9px] opacity-0 peer-checked:opacity-100"></i>
-                                    </div>
-                                    <span class="ml-2.5 text-xs text-gray-600 font-medium group-hover:text-brand-charcoal transition" x-text="sz"></span>
+                    <!-- 1. Collection Filter Group -->
+                    <div class="py-4 border-b border-[#EBE2D5]">
+                        <button @click="toggleSection('collection')" class="w-full flex items-center justify-between text-left focus:outline-none group">
+                            <span class="text-sm font-bold text-[#292522] tracking-wide">Collection</span>
+                            <i class="fa-solid fa-chevron-up text-xs text-[#D05228] transition-transform duration-300" :class="sectionsOpen.collection ? '' : 'rotate-180'"></i>
+                        </button>
+                        <div x-show="sectionsOpen.collection" x-collapse class="mt-3.5 space-y-2.5">
+                            <template x-for="item in collectionOptions" :key="item">
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" :value="item" x-model="selectedCollections" class="w-4 h-4 rounded-[2px] border-[#C5BCB0] text-[#D05228] focus:ring-0 focus:ring-offset-0 cursor-pointer accent-[#D05228]">
+                                    <span class="text-[13px] text-[#292522] font-medium leading-none group-hover:text-[#D05228] transition-colors" x-text="item"></span>
                                 </label>
                             </template>
                         </div>
                     </div>
 
-                    <!-- Category Quick Links -->
-                    <div class="pt-6 border-t border-gray-100">
-                        <h3 class="text-xs font-bold text-brand-charcoal mb-3 uppercase tracking-wider">CATEGORIES</h3>
-                        <div class="space-y-2 text-xs font-semibold text-gray-500">
-                            <button @click="currentCategoryFilter = 'Mattresses'" class="block w-full text-left hover:text-brand-terracotta" :class="currentCategoryFilter === 'Mattresses' ? 'text-brand-terracotta font-bold' : ''">• All Mattresses (15)</button>
-                            <button @click="goToPage('beds')" class="block w-full text-left hover:text-brand-terracotta" :class="currentPage === 'beds' || currentCategoryFilter === 'Beds' ? 'text-brand-terracotta font-bold' : ''">• Bed Frames & Bases (18)</button>
-                            <button @click="currentCategoryFilter = 'Protectors'" class="block w-full text-left hover:text-brand-terracotta" :class="currentCategoryFilter === 'Protectors' ? 'text-brand-terracotta font-bold' : ''">• Mattress Protectors (4)</button>
-                            <button @click="currentCategoryFilter = 'Pillows'" class="block w-full text-left hover:text-brand-terracotta" :class="currentCategoryFilter === 'Pillows' ? 'text-brand-terracotta font-bold' : ''">• Ergonomic Pillows (4)</button>
+                    <!-- 2. Material Filter Group -->
+                    <div class="py-4 border-b border-[#EBE2D5]">
+                        <button @click="toggleSection('material')" class="w-full flex items-center justify-between text-left focus:outline-none group">
+                            <span class="text-sm font-bold text-[#292522] tracking-wide">Material</span>
+                            <i class="fa-solid fa-chevron-up text-xs text-[#D05228] transition-transform duration-300" :class="sectionsOpen.material ? '' : 'rotate-180'"></i>
+                        </button>
+                        <div x-show="sectionsOpen.material" x-collapse class="mt-3.5 space-y-2.5">
+                            <template x-for="item in materialOptions" :key="item">
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" :value="item" x-model="selectedMaterials" class="w-4 h-4 rounded-[2px] border-[#C5BCB0] text-[#D05228] focus:ring-0 focus:ring-offset-0 cursor-pointer accent-[#D05228]">
+                                    <span class="text-[13px] text-[#292522] font-medium leading-none group-hover:text-[#D05228] transition-colors" x-text="item"></span>
+                                </label>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- 3. Size Filter Group -->
+                    <div class="py-4">
+                        <button @click="toggleSection('size')" class="w-full flex items-center justify-between text-left focus:outline-none group">
+                            <span class="text-sm font-bold text-[#292522] tracking-wide">Size</span>
+                            <i class="fa-solid fa-chevron-up text-xs text-[#D05228] transition-transform duration-300" :class="sectionsOpen.size ? '' : 'rotate-180'"></i>
+                        </button>
+                        <div x-show="sectionsOpen.size" x-collapse class="mt-3.5 space-y-2.5">
+                            <template x-for="item in sizeOptions" :key="item">
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" :value="item" x-model="selectedSizes" class="w-4 h-4 rounded-[2px] border-[#C5BCB0] text-[#D05228] focus:ring-0 focus:ring-offset-0 cursor-pointer accent-[#D05228]">
+                                    <span class="text-[13px] text-[#292522] font-medium leading-none group-hover:text-[#D05228] transition-colors" x-text="item"></span>
+                                </label>
+                            </template>
                         </div>
                     </div>
                 </div>
             </aside>
 
             <!-- RIGHT PRODUCT GRID -->
-            <div class="flex-1">
-                <!-- Top Status Bar: Count + Sort -->
+            <div class="flex-1 min-w-0">
+                <!-- Top Status Bar: Count + Mobile Filter Button + Sort -->
                 <div class="flex items-center justify-between mb-6 bg-[#F8F5F0] p-4 rounded-2xl shadow-sm border border-[#E6DFD6]">
-                    <div class="flex items-center space-x-2">
-                        <button @click="mobileFiltersOpen = true" class="lg:hidden flex items-center space-x-2 bg-gray-50 hover:bg-gray-100 text-brand-charcoal border border-gray-200 px-3 py-1.5 rounded-xl text-xs font-bold transition">
-                            <i class="fa-solid fa-sliders text-brand-terracotta"></i>
+                    <div class="flex items-center space-x-3">
+                        <button @click="mobileFiltersOpen = true" class="lg:hidden flex items-center space-x-2 bg-[#FAF6EE] hover:bg-[#F1EBE3] text-[#292522] border border-[#EBE2D5] px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-sm">
+                            <i class="fa-solid fa-sliders text-[#D05228]"></i>
                             <span>FILTERS</span>
                         </button>
-                        <span class="text-xs font-extrabold text-brand-charcoal uppercase tracking-wider" x-text="`${displayProducts.length} PRODUCTS FOUND`"></span>
+                        <span class="text-xs sm:text-sm font-extrabold text-brand-charcoal uppercase tracking-wider" x-text="`Showing ${displayProducts.length} of ${totalMattresses} mattresses`"></span>
                     </div>
 
                     <div class="flex items-center space-x-3">
                         <label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider hidden sm:inline">SORT BY:</label>
-                        <select x-model="sortBy" class="bg-gray-50 border border-gray-200 text-brand-charcoal text-xs font-bold rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-brand-charcoal cursor-pointer">
+                        <select x-model="sortBy" class="bg-white border border-[#E6DFD6] text-brand-charcoal text-xs font-bold rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-brand-charcoal cursor-pointer">
                             <option value="recommended">Featured / Recommended</option>
                             <option value="price_low">Price: Low to High</option>
                             <option value="price_high">Price: High to Low</option>
@@ -7587,8 +7560,21 @@ function singleBedApp() {
                     </div>
                 </div>
 
+                <!-- Empty State if no products match -->
+                <div x-show="displayProducts.length === 0" class="py-16 px-6 text-center bg-[#FAF6EE] rounded-[24px] border border-[#EBE2D5] shadow-sm my-4">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-[#EFE8DE] flex items-center justify-center text-[#D05228]">
+                        <i class="fa-solid fa-filter-circle-xmark text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-[#292522] mb-1.5 font-sans">No mattresses match these filters</h3>
+                    <p class="text-xs sm:text-sm text-gray-500 max-w-md mx-auto mb-5 font-sans">Try clearing some of your selected collections, materials, or sizes to see available mattresses.</p>
+                    <button @click="resetFilters()" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#292522] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#D05228] transition shadow-md focus:outline-none">
+                        <i class="fa-solid fa-rotate-left text-[11px]"></i>
+                        <span>Reset Filters</span>
+                    </button>
+                </div>
+
                 <!-- Product Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
+                <div x-show="displayProducts.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
                     <template x-for="p in displayProducts" :key="p.id">
                         <div class="bg-[#F4ECE1] rounded-[28px] border border-[#E7DFD3] p-3.5 pb-5 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] transition-all duration-300 group flex flex-col cursor-pointer hover:-translate-y-1"
                              @click="currentProductData = p; goToPage('productDetail')">
@@ -7647,7 +7633,7 @@ function singleBedApp() {
     <!-- MOBILE FILTER DRAWER (Shop Page) -->
     <div x-show="mobileFiltersOpen" class="fixed inset-0 z-50 flex lg:hidden" style="display:none;">
         <div x-show="mobileFiltersOpen" class="fixed inset-0 bg-black/60 backdrop-blur-sm" @click="mobileFiltersOpen = false" x-transition.opacity></div>
-        <div class="relative ml-auto w-full max-w-xs bg-white h-full shadow-2xl z-10 flex flex-col transform"
+        <div class="relative ml-auto w-full max-w-xs bg-[#FAF6EE] h-full shadow-2xl z-10 flex flex-col transform"
              x-show="mobileFiltersOpen"
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="translate-x-full"
@@ -7656,96 +7642,67 @@ function singleBedApp() {
              x-transition:leave-start="translate-x-0"
              x-transition:leave-end="translate-x-full">
             
-            <div class="p-4 border-b border-gray-100 flex items-center justify-between">
-                <span class="text-sm font-extrabold uppercase tracking-widest text-brand-charcoal">FILTERS</span>
-                <button @click="mobileFiltersOpen = false" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-brand-charcoal focus:outline-none">
-                    <i class="fa-solid fa-xmark"></i>
+            <div class="p-4 border-b border-[#EBE2D5] flex items-center justify-between">
+                <h3 class="text-base font-black text-[#D05228] tracking-wider uppercase font-sans">FILTER:</h3>
+                <button @click="mobileFiltersOpen = false" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-[#D05228] focus:outline-none">
+                    <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
             
-            <div class="flex-1 overflow-y-auto p-4 hide-scroll">
-                <!-- Price Filter -->
-                <div class="mb-8">
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-sm font-bold text-brand-charcoal uppercase tracking-wider">PRICE</h3>
-                        <span class="text-[11px] font-bold text-brand-terracotta" x-text="`${formatRupee(filters.minPrice)} - ${formatRupee(filters.maxPrice)}`"></span>
-                    </div>
-
-                    <!-- Dual Range Slider (1000 - 49999) -->
-                    <div class="relative py-4 select-none">
-                        <div class="relative h-2 w-full flex items-center">
-                            <div class="absolute w-full h-1.5 bg-gray-200 rounded-full"></div>
-                            <div class="absolute h-1.5 bg-brand-charcoal rounded-full"
-                                 :style="`left: ${Math.max(0, Math.min(100, ((filters.minPrice - 1000) / 48999) * 100))}%; right: ${Math.max(0, Math.min(100, 100 - (((filters.maxPrice - 1000) / 48999) * 100)))}%`">
-                            </div>
-                            <input type="range" min="1000" max="49999" step="100"
-                                   :value="filters.minPrice"
-                                   @input="onMinSlider($event.target.value)"
-                                   class="range-slider-input z-20 pointer-events-none"
-                                   aria-label="Minimum Price Slider">
-                            <input type="range" min="1000" max="49999" step="100"
-                                   :value="filters.maxPrice"
-                                   @input="onMaxSlider($event.target.value)"
-                                   class="range-slider-input z-30 pointer-events-none"
-                                   aria-label="Maximum Price Slider">
-                        </div>
-                        <div class="flex justify-between items-center text-[10px] text-gray-400 font-semibold mt-1">
-                            <span>₹1,000</span>
-                            <span>₹49,999</span>
-                        </div>
-                    </div>
-
-                    <!-- Side-by-Side Minimum & Maximum Input Fields -->
-                    <div class="flex items-center gap-2 mt-1">
-                        <div class="flex-1">
-                            <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MINIMUM</label>
-                            <div class="relative flex items-center">
-                                <span class="absolute left-2.5 text-xs font-semibold text-gray-500 select-none">₹</span>
-                                <input type="number" min="1000" max="49999"
-                                       :value="filters.minPrice"
-                                       @input="onMinInput($event.target.value)"
-                                       @blur="sanitizePriceRange()"
-                                       class="w-full border border-gray-300 rounded-lg pl-6 pr-2 py-2 text-xs font-semibold text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:border-brand-charcoal focus:outline-none"
-                                       placeholder="1000">
-                            </div>
-                        </div>
-                        <span class="text-gray-400 mt-5 font-bold">-</span>
-                        <div class="flex-1">
-                            <label class="text-[10px] text-gray-500 font-bold uppercase block mb-1">MAXIMUM</label>
-                            <div class="relative flex items-center">
-                                <span class="absolute left-2.5 text-xs font-semibold text-gray-500 select-none">₹</span>
-                                <input type="number" min="1000" max="49999"
-                                       :value="filters.maxPrice"
-                                       @input="onMaxInput($event.target.value)"
-                                       @blur="sanitizePriceRange()"
-                                       class="w-full border border-gray-300 rounded-lg pl-6 pr-2 py-2 text-xs font-semibold text-brand-charcoal focus:ring-1 focus:ring-brand-charcoal focus:border-brand-charcoal focus:outline-none"
-                                       placeholder="49999">
-                            </div>
-                        </div>
+            <div class="flex-1 overflow-y-auto p-5 scrollbar-thin">
+                <!-- 1. Collection Filter Group -->
+                <div class="pb-4 border-b border-[#EBE2D5]">
+                    <button @click="toggleSection('collection')" class="w-full flex items-center justify-between text-left focus:outline-none group">
+                        <span class="text-sm font-bold text-[#292522] tracking-wide">Collection</span>
+                        <i class="fa-solid fa-chevron-up text-xs text-[#D05228] transition-transform duration-300" :class="sectionsOpen.collection ? '' : 'rotate-180'"></i>
+                    </button>
+                    <div x-show="sectionsOpen.collection" x-collapse class="mt-3.5 space-y-2.5">
+                        <template x-for="item in collectionOptions" :key="item">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" :value="item" x-model="selectedCollections" class="w-4 h-4 rounded-[2px] border-[#C5BCB0] text-[#D05228] focus:ring-0 focus:ring-offset-0 cursor-pointer accent-[#D05228]">
+                                <span class="text-[13px] text-[#292522] font-medium leading-none group-hover:text-[#D05228] transition-colors" x-text="item"></span>
+                            </label>
+                        </template>
                     </div>
                 </div>
 
-                <!-- Sizes Filter -->
-                <div class="mb-8">
-                    <h3 class="text-xs font-bold text-brand-charcoal mb-3 uppercase tracking-wider">AVAILABLE SIZES</h3>
-                    <div class="space-y-2.5">
-                        <template x-for="sz in ['Single', 'Double', 'Queen', 'King', 'Standard (24x16 inch)']">
-                            <label class="flex items-center cursor-pointer group">
-                                <input type="checkbox" :value="sz" x-model="filters.sizes" class="peer sr-only">
-                                <div class="w-4 h-4 border-2 border-gray-300 rounded flex items-center justify-center peer-checked:bg-brand-charcoal peer-checked:border-brand-charcoal transition text-white">
-                                    <i class="fa-solid fa-check text-[9px] opacity-0 peer-checked:opacity-100"></i>
-                                </div>
-                                <span class="ml-2.5 text-xs text-gray-600 font-medium group-hover:text-brand-charcoal transition" x-text="sz"></span>
+                <!-- 2. Material Filter Group -->
+                <div class="py-4 border-b border-[#EBE2D5]">
+                    <button @click="toggleSection('material')" class="w-full flex items-center justify-between text-left focus:outline-none group">
+                        <span class="text-sm font-bold text-[#292522] tracking-wide">Material</span>
+                        <i class="fa-solid fa-chevron-up text-xs text-[#D05228] transition-transform duration-300" :class="sectionsOpen.material ? '' : 'rotate-180'"></i>
+                    </button>
+                    <div x-show="sectionsOpen.material" x-collapse class="mt-3.5 space-y-2.5">
+                        <template x-for="item in materialOptions" :key="item">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" :value="item" x-model="selectedMaterials" class="w-4 h-4 rounded-[2px] border-[#C5BCB0] text-[#D05228] focus:ring-0 focus:ring-offset-0 cursor-pointer accent-[#D05228]">
+                                <span class="text-[13px] text-[#292522] font-medium leading-none group-hover:text-[#D05228] transition-colors" x-text="item"></span>
+                            </label>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- 3. Size Filter Group -->
+                <div class="py-4">
+                    <button @click="toggleSection('size')" class="w-full flex items-center justify-between text-left focus:outline-none group">
+                        <span class="text-sm font-bold text-[#292522] tracking-wide">Size</span>
+                        <i class="fa-solid fa-chevron-up text-xs text-[#D05228] transition-transform duration-300" :class="sectionsOpen.size ? '' : 'rotate-180'"></i>
+                    </button>
+                    <div x-show="sectionsOpen.size" x-collapse class="mt-3.5 space-y-2.5">
+                        <template x-for="item in sizeOptions" :key="item">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" :value="item" x-model="selectedSizes" class="w-4 h-4 rounded-[2px] border-[#C5BCB0] text-[#D05228] focus:ring-0 focus:ring-offset-0 cursor-pointer accent-[#D05228]">
+                                <span class="text-[13px] text-[#292522] font-medium leading-none group-hover:text-[#D05228] transition-colors" x-text="item"></span>
                             </label>
                         </template>
                     </div>
                 </div>
             </div>
 
-            <!-- Footer Buttons -->
-            <div class="p-4 border-t border-gray-100 flex gap-3">
-                <button @click="resetFilters()" class="w-1/3 border border-gray-300 text-brand-charcoal py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-gray-50 transition">RESET</button>
-                <button @click="mobileFiltersOpen = false" class="flex-1 bg-brand-charcoal text-white py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-black transition">APPLY</button>
+            <!-- Footer Buttons in Drawer -->
+            <div class="p-4 border-t border-[#EBE2D5] bg-[#FAF6EE] flex gap-3">
+                <button @click="resetFilters()" class="flex-1 py-2.5 rounded-xl border border-[#D5C9B8] bg-white text-xs font-bold uppercase tracking-wider text-[#292522] hover:bg-gray-50 transition">Reset</button>
+                <button @click="mobileFiltersOpen = false" class="flex-1 py-2.5 rounded-xl bg-[#292522] hover:bg-[#D05228] text-white text-xs font-bold uppercase tracking-wider shadow-md transition" x-text="'View ' + displayProducts.length + ' Mattresses'">Apply</button>
             </div>
         </div>
     </div>
