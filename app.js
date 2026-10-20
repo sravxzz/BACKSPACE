@@ -6,18 +6,117 @@ function isBedProduct(p) {
 window.isBedProduct = isBedProduct;
 
 const defaultProducts = [
-    // --- MATTRESSES (Existing) ---
+    // --- MATTRESSES (3 Signature Products) ---
     {
-        id: 1, name: 'Smart Ortho Bed / Comfort Foam', tagline: 'Everyday Comfort', description: 'High-density foam mattress.', category: 'Mattresses', subcategory: 'Ortho Range', material: 'High-Density Foam', firmness: 'Medium Firm', warranty: '5 Years', image: './public/images/products/p01_ortho_support.jpg', images: ['./public/images/products/p01_ortho_support.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Double', 'Queen', 'King'], thicknesses: ['6 inch'], prices: { 'Single': { price: 8999, mrp: 12999 }, 'Double': { price: 10999, mrp: 14999 }, 'Queen': { price: 11999, mrp: 16999 }, 'King': { price: 13999, mrp: 19999 } }, discount: '30% OFF', offer: 'NEW', stock: 20, sku: 'BS-CF-001', featured: true, cooling: 'Standard', support: 'Contouring', reviews: [{ id: 1, name: 'Rahul S.', rating: 5, text: '(Demo Review) Excellent comfort.' }]
+        id: 1,
+        name: 'Original – 3 Layered BodyIQ Orthopedic Memory Foam Mattress',
+        tagline: 'BodyIQ Orthopedic Comfort',
+        description: 'Original 3-layered orthopedic memory foam mattress with adaptive BodyIQ contouring for healthy spinal alignment and pressure point relief.',
+        category: 'Mattresses',
+        subcategory: 'Memory Foam',
+        material: 'BodyIQ Memory Foam',
+        firmness: 'Medium Firm',
+        warranty: '10 Years Warranty + 100 Night Trial',
+        badge: 'New Launch',
+        discount: '51% OFF',
+        price: 5638,
+        originalPrice: 11599,
+        mrp: 11599,
+        feature1: 'Memory Foam',
+        feature2: 'Orthopedic Support + High comfort',
+        feature1Icon: 'fa-solid fa-cloud',
+        feature2Icon: 'fa-solid fa-shield-heart',
+        image: './public/images/mattresses/cloud-memory-foam/main.jpg',
+        images: ['./public/images/mattresses/cloud-memory-foam/main.jpg', './public/images/mattresses/cloud-memory-foam/detail.jpg', './public/images/mattresses/cloud-memory-foam/thickness.jpg', './public/images/mattresses/cloud-memory-foam/angle.jpg'],
+        sizes: ['Single', 'Double', 'Queen', 'King'],
+        thicknesses: ['6 inch', '8 inch', '10 inch'],
+        prices: {
+            'Single': { price: 5638, mrp: 11599 },
+            'Double': { price: 8199, mrp: 16732 },
+            'Queen': { price: 9299, mrp: 18977 },
+            'King': { price: 10499, mrp: 21426 }
+        },
+        offer: 'NEW LAUNCH',
+        stock: 25,
+        sku: 'BS-MAT-001',
+        featured: true,
+        cooling: 'High',
+        support: 'Orthopedic Contouring',
+        reviews: []
     },
     {
-        id: 2, name: 'Smart Ortho Pro / Premium Latex', tagline: 'Natural Luxury', description: 'Ultimate luxury with natural latex.', category: 'Mattresses', subcategory: 'Luxury Range', material: 'Natural Latex', firmness: 'Medium Firm', warranty: '7 Years', image: './public/images/products/p02_ortho_comfort.jpg', images: ['./public/images/products/p02_ortho_comfort.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Queen', 'King'], thicknesses: ['6 inch'], prices: { 'Single': { price: 14999, mrp: 19999 }, 'Queen': { price: 21999, mrp: 28999 }, 'King': { price: 24999, mrp: 32999 } }, discount: '25% OFF', offer: 'BEST SELLER', stock: 10, sku: 'BS-PL-002', featured: true, cooling: 'High', support: 'Responsive', reviews: []
+        id: 2,
+        name: 'Sense – BodyIQ Orthopedic Memory Foam Mattress with Cooling Tech',
+        tagline: 'Cooling Orthopedic Alignment',
+        description: 'Sense orthopedic memory foam mattress featuring active cooling technology and BodyIQ dynamic pressure-relieving contours.',
+        category: 'Mattresses',
+        subcategory: 'Cooling Gel',
+        material: 'Memory Foam with Cooling Tech',
+        firmness: 'Medium Firm',
+        warranty: '10 Years Warranty + 100 Night Trial',
+        badge: 'New Launch',
+        discount: '55% OFF',
+        price: 6429,
+        originalPrice: 14299,
+        mrp: 14299,
+        feature1: 'Memory Foam with Cooling Tech',
+        feature2: 'Ortho Support + Spine alignment',
+        feature1Icon: 'fa-solid fa-snowflake',
+        feature2Icon: 'fa-solid fa-bone',
+        image: './public/images/mattresses/cool-gel/main.jpg',
+        images: ['./public/images/mattresses/cool-gel/main.jpg', './public/images/mattresses/cool-gel/detail.jpg', './public/images/mattresses/cool-gel/thickness.jpg', './public/images/mattresses/cool-gel/angle.jpg'],
+        sizes: ['Single', 'Double', 'Queen', 'King'],
+        thicknesses: ['6 inch', '8 inch', '10 inch'],
+        prices: {
+            'Single': { price: 6429, mrp: 14299 },
+            'Double': { price: 9449, mrp: 20999 },
+            'Queen': { price: 10799, mrp: 23999 },
+            'King': { price: 12149, mrp: 26999 }
+        },
+        offer: 'NEW LAUNCH',
+        stock: 20,
+        sku: 'BS-MAT-002',
+        featured: true,
+        cooling: 'High',
+        support: 'Ortho Spine Alignment',
+        reviews: []
     },
     {
-        id: 3, name: 'Smart Ortho Pro Shotek', tagline: 'Spinal Alignment', description: 'Firm support for back pain relief.', category: 'Mattresses', subcategory: 'Ortho Range', material: 'Support Foam', firmness: 'Firm', warranty: '5 Years', image: './public/images/products/p03_ortho_hybrid.jpg', images: ['./public/images/products/p03_ortho_hybrid.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Double', 'Queen', 'King'], thicknesses: ['6 inch'], prices: { 'Single': { price: 11999, mrp: 15999 } }, discount: '25% OFF', offer: 'COOLEST', stock: 15, sku: 'BS-OS-003', featured: true, cooling: 'Standard', support: 'Firm Orthopedic', reviews: []
-    },
-    {
-        id: 4, name: 'Smart Ortho Royal / Cloud Foam', tagline: 'Zero Gravity', description: 'Plush memory foam.', category: 'Mattresses', subcategory: 'Ultra Luxury Range', material: 'Memory Foam', firmness: 'Medium Soft', warranty: '5 Years', images: ['./public/images/mattresses/cloud-memory-foam/main.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Double', 'Queen', 'King'], thicknesses: ['6 inch'], prices: { 'Single': { price: 12999, mrp: 17999 } }, discount: '27% OFF', offer: 'TOP RATED', stock: 25, sku: 'BS-CM-004', featured: true, cooling: 'Medium', support: 'Plush Contouring', reviews: []
+        id: 3,
+        name: 'Flip – Dual Sided Foam Mattress with Firm & Soft Sides – Grey',
+        tagline: 'Dual-Sided Reversible Comfort',
+        description: 'Dual-sided flippable mattress with high-density support foam, allowing you to choose between firm orthopedic support or soft cushioning.',
+        category: 'Mattresses',
+        subcategory: 'Orthopedic',
+        material: 'High-density support foam',
+        firmness: 'Dual Sided (Firm / Soft)',
+        warranty: '5 Years Warranty',
+        badge: 'New Launch',
+        discount: '37% OFF',
+        price: 4091,
+        originalPrice: 6499,
+        mrp: 6499,
+        feature1: 'High-density support foam',
+        feature2: 'Firm support or soft comfort in one',
+        feature1Icon: 'fa-solid fa-cubes-stacked',
+        feature2Icon: 'fa-solid fa-repeat',
+        image: './public/images/mattresses/comfort-foam/main.jpg',
+        images: ['./public/images/mattresses/comfort-foam/main.jpg', './public/images/mattresses/comfort-foam/detail.jpg', './public/images/mattresses/comfort-foam/thickness.jpg', './public/images/mattresses/comfort-foam/angle.jpg'],
+        sizes: ['Single', 'Double', 'Queen', 'King'],
+        thicknesses: ['5 inch', '6 inch', '8 inch'],
+        prices: {
+            'Single': { price: 4091, mrp: 6499 },
+            'Double': { price: 5984, mrp: 9499 },
+            'Queen': { price: 6929, mrp: 10999 },
+            'King': { price: 7874, mrp: 12499 }
+        },
+        offer: 'NEW LAUNCH',
+        stock: 30,
+        sku: 'BS-MAT-003',
+        featured: true,
+        cooling: 'Standard',
+        support: 'Dual Sided Support',
+        reviews: []
     },
     
     // --- ELITE SOFA ---
@@ -161,6 +260,7 @@ function appData() {
         },
         
         init() {
+            window.currentCategoryFilter = this.currentCategoryFilter;
             if (typeof window !== 'undefined' && window.BACKSPACE_CATALOGUE && window.BACKSPACE_CATALOGUE.length > 0) {
                 this.allProducts = window.BACKSPACE_CATALOGUE;
                 this.products = window.BACKSPACE_CATALOGUE;
@@ -266,7 +366,10 @@ function appData() {
                 }
             } else {
                 this.currentPage = page;
-                if(category) this.currentCategoryFilter = category;
+                if(category) {
+                    this.currentCategoryFilter = category;
+                    window.currentCategoryFilter = category;
+                }
                 if (page === 'home' && window.location.hash && window.location.hash !== '#home') {
                     window.history.pushState(null, '', '#home');
                 }

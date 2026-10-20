@@ -220,14 +220,16 @@
 
                     <!-- 5. MATTRESSES -->
                     <div class="relative h-full flex items-center" @mouseenter="openDropdown = 'mattresses'" @mouseleave="openDropdown = null">
-                        <button @click="openDropdown = (openDropdown === 'mattresses' ? null : 'mattresses')" 
+                        <button @click="goToPage('shop', 'Mattresses'); openDropdown = null; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" 
                                 class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none py-2 px-3 rounded-t-xl" 
                                 :class="openDropdown === 'mattresses' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : ((currentCategoryFilter === 'Mattresses' && currentPage === 'shop') ? 'text-brand-terracotta' : '')">
                             <span class="relative overflow-hidden py-1">
                                 MATTRESSES
                                 <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(currentCategoryFilter === 'Mattresses' && currentPage === 'shop' || openDropdown === 'mattresses') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                             </span>
-                            <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'mattresses' ? 'rotate-180 text-brand-terracotta' : ''"></i>
+                            <span @click.stop="openDropdown = (openDropdown === 'mattresses' ? null : 'mattresses')" class="p-1 cursor-pointer" title="Toggle Mattresses Menu">
+                                <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'mattresses' ? 'rotate-180 text-brand-terracotta' : ''"></i>
+                            </span>
                         </button>
                         
                         <!-- 4-Column Mattresses Mega-Menu matching Screenshot 1 -->
@@ -1083,775 +1085,246 @@
         const BACKSPACE_CATALOGUE = [
     {
         "id": 1,
-        "name": "BACKSPACE Ortho Support Mattress",
-        "rating": 4.7,
-        "reviews": 27938,
-        "price": 16890,
-        "originalPrice": 26990,
-        "discount": "37% OFF",
-        "firmness": "Firm",
-        "warranty": "10 Years Warranty + 100 Night Trial",
-        "desc": "Orthopaedic support-focused mattress with pressure-relieving comfort foam and zoned support construction.",
-        "positioning": "A firm support-focused mattress designed for sleepers who prefer a stable sleeping surface and balanced body support.",
-        "features": [
-            "Pressure-relieving comfort foam",
-            "Supportive construction",
-            "Zoned support design",
-            "Firm sleeping feel",
-            "Breathable sleeping surface",
-            "Long-lasting everyday construction"
-        ],
-        "color": "WHITE",
-        "height": 6,
-        "category": "SINGLE",
-        "images": {
-            "main": "./public/images/products/p01_ortho_support.jpg",
-            "detail": "./public/images/mattresses/cool-gel/detail.jpg",
-            "side": "./public/images/mattresses/cool-gel/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+        "name": "Original – 3 Layered BodyIQ Orthopedic Memory Foam Mattress",
+        "badge": "New Launch",
+        "discount": "51% OFF",
+        "price": 5638,
+        "originalPrice": 11599,
+        "mrp": 11599,
+        "feature1": "Memory Foam",
+        "feature2": "Orthopedic Support + High comfort",
+        "feature1Icon": "fa-solid fa-cloud",
+        "feature2Icon": "fa-solid fa-shield-heart",
         "sizes": [
             "Single",
-            "Queen",
-            "King",
-            "Custom Size"
-        ],
-        "heights": [
-            6,
-            8,
-            10
-        ],
-        "construction": [
-            {
-                "name": "Comfort Surface",
-                "desc": "Breathable premium cover"
-            },
-            {
-                "name": "Pressure Relief",
-                "desc": "Adaptive comfort foam"
-            },
-            {
-                "name": "Core Support",
-                "desc": "High-density orthopedic base"
-            }
-        ],
-        "mainCategory": "Mattresses",
-        "subCategory": "Orthopedic",
-        "alt": "BACKSPACE Ortho Support Mattress - Firm Orthopedic Spine Alignment",
-        "image": "./public/images/products/p01_ortho_support.jpg"
-    },
-    {
-        "id": 2,
-        "name": "BACKSPACE Ortho Comfort Mattress",
-        "rating": 4.9,
-        "reviews": 29760,
-        "price": 14590,
-        "originalPrice": 17060,
-        "discount": "14% OFF",
-        "firmness": "Medium Firm",
-        "warranty": "10 Years Warranty + 100 Night Trial",
-        "desc": "Balanced back support with pressure-relieving comfort foam and resilient support construction.",
-        "positioning": "A balanced medium-firm mattress that provides both cushioning comfort and reliable body support for everyday sleep.",
-        "features": [
-            "Balanced support",
-            "Pressure-relieving comfort layer",
-            "Resilient support construction",
-            "Medium-firm sleeping feel",
-            "Everyday comfort",
-            "Supportive body alignment"
-        ],
-        "color": "BLUE",
-        "height": 8,
-        "category": "SINGLE",
-        "images": {
-            "main": "./public/images/products/p02_ortho_comfort.jpg",
-            "detail": "./public/images/mattresses/orthopedic-support/detail.jpg",
-            "side": "./public/images/mattresses/orthopedic-support/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Queen",
-            "King",
-            "Custom Size"
-        ],
-        "heights": [
-            6,
-            8,
-            10
-        ],
-        "construction": [
-            {
-                "name": "Comfort Surface",
-                "desc": "Soft quilted fabric layer"
-            },
-            {
-                "name": "Comfort Layer",
-                "desc": "Pressure-relieving foam"
-            },
-            {
-                "name": "Core Support",
-                "desc": "Resilient base construction"
-            }
-        ],
-        "mainCategory": "Mattresses",
-        "subCategory": "Orthopedic",
-        "alt": "BACKSPACE Ortho Comfort Mattress - Plush Pressure Relief & Comfort",
-        "image": "./public/images/products/p02_ortho_comfort.jpg"
-    },
-    {
-        "id": 3,
-        "name": "BACKSPACE Ortho Hybrid Mattress",
-        "rating": 4.8,
-        "reviews": 26267,
-        "price": 23290,
-        "originalPrice": 35820,
-        "discount": "35% OFF",
-        "firmness": "Firm",
-        "warranty": "10 Years Warranty + 100 Night Trial",
-        "desc": "Supportive comfort foam combined with pocket-coil construction and resilient support layers.",
-        "positioning": "An advanced hybrid design combining the contouring comfort of foam with the responsive support of a pocket-coil inspired core.",
-        "features": [
-            "Hybrid construction",
-            "Comfort foam",
-            "Pocket-coil-inspired support",
-            "Resilient support layers",
-            "Responsive support",
-            "Firm sleeping feel"
-        ],
-        "color": "WHITE",
-        "height": 8,
-        "category": "KING",
-        "images": {
-            "main": "./public/images/products/p03_ortho_hybrid.jpg",
-            "detail": "./public/images/mattresses/cloud-memory-foam/detail.jpg",
-            "side": "./public/images/mattresses/cloud-memory-foam/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Queen",
-            "King",
-            "Custom Size"
-        ],
-        "heights": [
-            8,
-            10,
-            12
-        ],
-        "construction": [
-            {
-                "name": "Comfort Surface",
-                "desc": "Premium breathable knit"
-            },
-            {
-                "name": "Comfort Layer",
-                "desc": "Adaptive support foam"
-            },
-            {
-                "name": "Responsive Core",
-                "desc": "Pocket-coil inspired support system"
-            },
-            {
-                "name": "Base Layer",
-                "desc": "Durable foundational foam"
-            }
-        ],
-        "mainCategory": "Mattresses",
-        "subCategory": "Spring",
-        "alt": "BACKSPACE Ortho Hybrid Mattress - Premium Pocket Spring & Memory Foam",
-        "image": "./public/images/products/p03_ortho_hybrid.jpg"
-    },
-    {
-        "id": 4,
-        "name": "BACKSPACE Luxe Cooling Mattress",
-        "rating": 4.8,
-        "reviews": 18471,
-        "price": 19890,
-        "originalPrice": 32320,
-        "discount": "38% OFF",
-        "firmness": "Medium Soft",
-        "warranty": "10 Years Warranty + 100 Night Trial",
-        "desc": "Premium comfort layer with resilient support foam and a comfortable breathable sleeping surface.",
-        "positioning": "A luxurious medium-soft mattress featuring cooling-oriented technology for a relaxed and temperature-balanced sleep.",
-        "features": [
-            "Comfort-focused construction",
-            "Breathable surface",
-            "Resilient support foam",
-            "Cooling-oriented design",
-            "Soft cushioning",
-            "Relaxed sleeping feel"
-        ],
-        "color": "WHITE",
-        "height": 10,
-        "category": "QUEEN",
-        "images": {
-            "main": "./public/images/products/p04_luxe_cooling.jpg",
-            "detail": "./public/images/mattresses/essential-budget/detail.jpg",
-            "side": "./public/images/mattresses/essential-budget/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Queen",
-            "King",
-            "Custom Size"
-        ],
-        "heights": [
-            8,
-            10,
-            12
-        ],
-        "construction": [
-            {
-                "name": "Cooling Surface",
-                "desc": "Temperature-regulating fabric"
-            },
-            {
-                "name": "Plush Comfort",
-                "desc": "Soft cushioning foam"
-            },
-            {
-                "name": "Core Support",
-                "desc": "Resilient structural base"
-            }
-        ],
-        "mainCategory": "Mattresses",
-        "subCategory": "Cooling Gel",
-        "alt": "BACKSPACE Luxe Cooling Mattress - Cool Hydro-Gel Thermal Relief",
-        "image": "./public/images/products/p04_luxe_cooling.jpg"
-    },
-    {
-        "id": 5,
-        "name": "BACKSPACE Ortho Cooling Mattress",
-        "rating": 4.8,
-        "reviews": 17398,
-        "price": 19890,
-        "originalPrice": 35150,
-        "discount": "43% OFF",
-        "firmness": "Firm",
-        "warranty": "10 Years Warranty + 100 Night Trial",
-        "desc": "Enhanced cooling comfort combined with supportive construction and pressure-relieving foam.",
-        "positioning": "Firm orthopedic support meets advanced cooling technology, designed for sleepers who run hot but need uncompromising support.",
-        "features": [
-            "Cooling-oriented construction",
-            "Supportive layers",
-            "Pressure-relieving comfort foam",
-            "Firm support",
-            "Breathable sleeping surface",
-            "Everyday durability"
-        ],
-        "color": "BLUE",
-        "height": 8,
-        "category": "SINGLE",
-        "images": {
-            "main": "./public/images/products/p05_ortho_cooling.jpg",
-            "detail": "./public/images/mattresses/classic-spring/detail.jpg",
-            "side": "./public/images/mattresses/classic-spring/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Queen",
-            "King",
-            "Custom Size"
-        ],
-        "heights": [
-            6,
-            8,
-            10
-        ],
-        "construction": [
-            {
-                "name": "Cooling Surface",
-                "desc": "Breathable thermal-regulating cover"
-            },
-            {
-                "name": "Support Layer",
-                "desc": "Firm pressure-relieving foam"
-            },
-            {
-                "name": "Core Base",
-                "desc": "High-density durability layer"
-            }
-        ],
-        "mainCategory": "Mattresses",
-        "subCategory": "Cooling Gel",
-        "alt": "BACKSPACE Ortho Cooling Mattress - Ventilated Temperature Regulating Foam",
-        "image": "./public/images/products/p05_ortho_cooling.jpg"
-    },
-    {
-        "id": 6,
-        "name": "BACKSPACE Luxe Comfort Mattress",
-        "rating": 4.8,
-        "reviews": 17583,
-        "price": 16890,
-        "originalPrice": 27320,
-        "discount": "38% OFF",
-        "firmness": "Soft",
-        "warranty": "10 Years Warranty + 100 Night Trial",
-        "desc": "Comfort-focused construction with a soft cushioning layer and resilient support foam.",
-        "positioning": "A plush, soft mattress that gently contours to your body, offering a deeply relaxed premium sleeping experience.",
-        "features": [
-            "Soft cushioning",
-            "Comfort-focused construction",
-            "Resilient support foam",
-            "Relaxed sleeping surface",
-            "Premium comfort feel",
-            "Everyday support"
-        ],
-        "color": "WHITE",
-        "height": 6,
-        "category": "DIVAN",
-        "images": {
-            "main": "./public/images/products/p06_luxe_comfort.jpg",
-            "detail": "./public/images/mattresses/cool-gel/detail.jpg",
-            "side": "./public/images/mattresses/cool-gel/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Queen",
-            "King",
-            "Custom Size"
-        ],
-        "heights": [
-            6,
-            8
-        ],
-        "construction": [
-            {
-                "name": "Plush Surface",
-                "desc": "Ultra-soft premium cover"
-            },
-            {
-                "name": "Cloud Layer",
-                "desc": "Deep cushioning foam"
-            },
-            {
-                "name": "Core Support",
-                "desc": "Stabilizing base foam"
-            }
-        ],
-        "mainCategory": "Mattresses",
-        "subCategory": "Single Bed",
-        "alt": "BACKSPACE Luxe Comfort Mattress - Multi-Layer Cloud Luxury Cushion",
-        "image": "./public/images/products/p06_luxe_comfort.jpg"
-    },
-    {
-        "id": 7,
-        "name": "BACKSPACE Ortho Royale Mattress",
-        "rating": 4.8,
-        "reviews": 16642,
-        "price": 40990,
-        "originalPrice": 61990,
-        "discount": "34% OFF",
-        "firmness": "Medium Firm",
-        "warranty": "12 Years Warranty + 100 Night Trial",
-        "desc": "Premium body support with natural latex comfort and zoned support construction.",
-        "positioning": "Our flagship orthopedic mattress, crafted with premium natural-latex-inspired materials for ultimate restorative support.",
-        "features": [
-            "Premium body support",
-            "Natural-latex-inspired comfort layer",
-            "Zoned support",
-            "Medium-firm feel",
-            "Premium construction",
-            "Long-term everyday comfort"
-        ],
-        "color": "BLACK",
-        "height": 12,
-        "category": "KING",
-        "images": {
-            "main": "./public/images/products/p07_ortho_royale.jpg",
-            "detail": "./public/images/mattresses/comfort-foam/detail.jpg",
-            "side": "./public/images/mattresses/comfort-foam/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Queen",
-            "King",
-            "Custom Size"
-        ],
-        "heights": [
-            10,
-            12
-        ],
-        "construction": [
-            {
-                "name": "Luxury Surface",
-                "desc": "Premium organic-feel cover"
-            },
-            {
-                "name": "Royale Comfort",
-                "desc": "Natural-latex-inspired layer"
-            },
-            {
-                "name": "Zoned Core",
-                "desc": "Advanced multi-zone support system"
-            }
-        ],
-        "mainCategory": "Mattresses",
-        "subCategory": "Orthopedic",
-        "alt": "BACKSPACE Ortho Royale Mattress - High Density Ortho Support Foam",
-        "image": "./public/images/products/p07_ortho_royale.jpg"
-    },
-    {
-        "id": 8,
-        "name": "BACKSPACE Luxe Royale Mattress",
-        "rating": 4.9,
-        "reviews": 24989,
-        "price": 40990,
-        "originalPrice": 61990,
-        "discount": "34% OFF",
-        "firmness": "Luxury Soft",
-        "warranty": "12 Years Warranty + 100 Night Trial",
-        "desc": "Premium comfort layer with natural latex and advanced body-support construction.",
-        "positioning": "A hotel-grade luxury soft mattress that envelopes you in comfort while maintaining exceptional underlying support.",
-        "features": [
-            "Premium comfort layer",
-            "Natural-latex-inspired material",
-            "Soft luxury feel",
-            "Advanced support construction",
-            "Premium surface",
-            "Luxury sleeping experience"
-        ],
-        "color": "WHITE",
-        "height": 12,
-        "category": "QUEEN",
-        "images": {
-            "main": "./public/images/products/p08_luxe_royale.jpg",
-            "detail": "./public/images/mattresses/luxury-latex/detail.jpg",
-            "side": "./public/images/mattresses/luxury-latex/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Queen",
-            "King",
-            "Custom Size"
-        ],
-        "heights": [
-            10,
-            12
-        ],
-        "construction": [
-            {
-                "name": "Luxury Surface",
-                "desc": "Silky premium quilted cover"
-            },
-            {
-                "name": "Cloud Comfort",
-                "desc": "Ultra-plush latex-inspired foam"
-            },
-            {
-                "name": "Royale Core",
-                "desc": "Adaptive support foundation"
-            }
-        ],
-        "mainCategory": "Mattresses",
-        "subCategory": "Single Bed",
-        "alt": "BACKSPACE Luxe Royale Mattress - 100% Organic Natural Tree Latex",
-        "image": "./public/images/products/p08_luxe_royale.jpg"
-    },
-    {
-        "id": 9,
-        "name": "BACKSPACE Ortho Cool Mattress",
-        "rating": 4.8,
-        "reviews": 26140,
-        "price": 17590,
-        "originalPrice": 21060,
-        "discount": "16% OFF",
-        "firmness": "Medium Firm",
-        "warranty": "10 Years Warranty + 100 Night Trial",
-        "desc": "Supportive orthopedic construction with enhanced cooling comfort and resilient support layers.",
-        "positioning": "A perfect balance of medium-firm orthopedic support and active cooling technologies for a refreshing sleep.",
-        "features": [
-            "Supportive orthopedic construction",
-            "Cooling-oriented surface",
-            "Resilient support",
-            "Balanced firmness",
-            "Pressure-relieving comfort",
-            "Everyday support"
-        ],
-        "color": "RED",
-        "height": 8,
-        "category": "SINGLE",
-        "images": {
-            "main": "./public/images/products/p09_ortho_cool.jpg",
-            "detail": "./public/images/mattresses/premium-latex/detail.jpg",
-            "side": "./public/images/mattresses/premium-latex/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Queen",
-            "King",
-            "Custom Size"
-        ],
-        "heights": [
-            6,
-            8,
-            10
-        ],
-        "construction": [
-            {
-                "name": "Cooling Surface",
-                "desc": "Breathable ice-feel fabric"
-            },
-            {
-                "name": "Support Layer",
-                "desc": "Adaptive medium-firm foam"
-            },
-            {
-                "name": "Core Base",
-                "desc": "Durable support foundation"
-            }
-        ],
-        "mainCategory": "Mattresses",
-        "subCategory": "Cooling Gel",
-        "alt": "BACKSPACE Ortho Cool Mattress - Cool Touch Surface with Zoned Contouring",
-        "image": "./public/images/products/p09_ortho_cool.jpg"
-    },
-    {
-        "id": 10,
-        "name": "BACKSPACE Grid Support Mattress",
-        "rating": 4.9,
-        "reviews": 17839,
-        "price": 9990,
-        "originalPrice": 12490,
-        "discount": "20% OFF",
-        "firmness": "Medium Firm",
-        "warranty": "10 Years Warranty + 100 Night Trial",
-        "desc": "Balanced body support with pressure-relieving comfort and resilient support construction.",
-        "positioning": "Innovative grid-inspired construction designed to dynamically adapt to your body shape and sleeping position.",
-        "features": [
-            "Grid-inspired comfort construction",
-            "Pressure-relieving support",
-            "Resilient support layer",
-            "Balanced firmness",
-            "Modern construction",
-            "Everyday comfort"
-        ],
-        "color": "RED",
-        "height": 5,
-        "category": "SINGLE",
-        "images": {
-            "main": "./public/images/products/p10_grid_support.jpg",
-            "detail": "./public/images/mattresses/cloud-memory-foam/detail.jpg",
-            "side": "./public/images/mattresses/cloud-memory-foam/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Queen",
-            "King",
-            "Custom Size"
-        ],
-        "heights": [
-            5,
-            6,
-            8
-        ],
-        "construction": [
-            {
-                "name": "Grid Surface",
-                "desc": "Dynamic grid-patterned comfort"
-            },
-            {
-                "name": "Transition Layer",
-                "desc": "Pressure-absorbing foam"
-            },
-            {
-                "name": "Core Base",
-                "desc": "Sturdy base foundation"
-            }
-        ],
-        "mainCategory": "Mattresses",
-        "subCategory": "Single Bed",
-        "alt": "BACKSPACE Grid Support Mattress - Patented Hyper-Elastic Polymer Grid",
-        "image": "./public/images/products/p10_grid_support.jpg"
-    },
-    {
-        "id": 11,
-        "name": "BACKSPACE Junior Comfort Mattress",
-        "rating": 4.9,
-        "reviews": 4720,
-        "price": 25900,
-        "originalPrice": 51800,
-        "discount": "50% OFF",
-        "firmness": "Firm",
-        "warranty": "10 Years",
-        "desc": "Designed for growing children with resilient support foam and a practical water-resistant cover.",
-        "positioning": "A dedicated mattress crafted for the developing support needs of growing children and teenagers.",
-        "features": [
-            "Designed for growing children",
-            "Resilient support foam",
-            "Practical protective cover",
-            "Firm supportive feel",
-            "Comfortable sleeping surface",
-            "Everyday durability"
-        ],
-        "color": "BLUE",
-        "height": 5,
-        "category": "SINGLE",
-        "images": {
-            "main": "./public/images/products/p11_junior_comfort.jpg",
-            "detail": "./public/images/mattresses/comfort-foam/detail.jpg",
-            "side": "./public/images/mattresses/comfort-foam/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Custom Size"
-        ],
-        "heights": [
-            5,
-            6
-        ],
-        "construction": [
-            {
-                "name": "Protective Surface",
-                "desc": "Durable practical cover"
-            },
-            {
-                "name": "Junior Support",
-                "desc": "Firm developing-spine support foam"
-            },
-            {
-                "name": "Core Base",
-                "desc": "Long-lasting foundation"
-            }
-        ],
-        "mainCategory": "Mattresses",
-        "subCategory": "Single Bed",
-        "alt": "BACKSPACE Junior Comfort Mattress - Resilient Youth Ergonomic Bedding",
-        "image": "./public/images/products/p11_junior_comfort.jpg"
-    },
-    {
-        "id": 12,
-        "name": "BACKSPACE Recliner Comfort Mattress",
-        "rating": 4.8,
-        "reviews": 1681,
-        "price": 14500,
-        "originalPrice": 25000,
-        "discount": "42% OFF",
-        "firmness": "Medium Firm",
-        "warranty": "10-Year Mattress Warranty, 2-Year Motor Warranty where applicable",
-        "desc": "Flexible comfort construction designed for compatible reclining applications with zoned body support.",
-        "positioning": "An expertly articulated mattress designed to flex seamlessly with adjustable beds and recliners without compromising support.",
-        "features": [
-            "Flexible construction",
-            "Recliner-compatible design",
-            "Zoned body support",
-            "Medium-firm feel",
-            "Comfortable cushioning",
-            "Flexible application"
-        ],
-        "color": "BLACK",
-        "height": 6,
-        "category": "SINGLE",
-        "images": {
-            "main": "./public/images/products/p12_recliner_comfort.jpg",
-            "detail": "./public/images/mattresses/essential-budget/detail.jpg",
-            "side": "./public/images/mattresses/essential-budget/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
-        },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
+            "Double",
             "Queen",
             "King"
         ],
+        "prices": {
+            "Single": {
+                "price": 5638,
+                "mrp": 11599
+            },
+            "Double": {
+                "price": 8199,
+                "mrp": 16732
+            },
+            "Queen": {
+                "price": 9299,
+                "mrp": 18977
+            },
+            "King": {
+                "price": 10499,
+                "mrp": 21426
+            }
+        },
+        "firmness": "Medium Firm",
+        "warranty": "10 Years Warranty + 100 Night Trial",
+        "desc": "Original 3-layered orthopedic memory foam mattress with adaptive BodyIQ contouring for healthy spinal alignment and pressure point relief.",
+        "positioning": "A balanced orthopedic memory foam mattress engineered with 3 distinct comfort and support layers to relieve spinal pressure while providing plush body-contouring comfort.",
+        "features": [
+            "3-Layered BodyIQ Orthopedic Construction",
+            "High-density adaptive memory foam layer",
+            "Zero motion transfer for undisturbed sleep",
+            "Breathable bamboo knitted zippered cover",
+            "Zoned ergonomic spinal alignment core",
+            "10 Years Solid Warranty + 100 Night Trial"
+        ],
+        "color": "WHITE",
+        "height": 6,
         "heights": [
+            6,
+            8,
+            10
+        ],
+        "category": "Mattresses",
+        "mainCategory": "Mattresses",
+        "subCategory": "Memory Foam",
+        "image": "./public/images/mattresses/cloud-memory-foam/main.jpg",
+        "images": {
+            "main": "./public/images/mattresses/cloud-memory-foam/main.jpg",
+            "detail": "./public/images/mattresses/cloud-memory-foam/detail.jpg",
+            "side": "./public/images/mattresses/cloud-memory-foam/thickness.jpg",
+            "angle": "./public/images/mattresses/cloud-memory-foam/angle.jpg"
+        },
+        "construction": [
+            {
+                "name": "Breathable Cover",
+                "desc": "Hypoallergenic knitted top"
+            },
+            {
+                "name": "BodyIQ Memory Foam",
+                "desc": "Pressure-relieving contour layer"
+            },
+            {
+                "name": "High Resilience Base",
+                "desc": "Ergonomic orthopedic core"
+            }
+        ],
+        "alt": "Original 3 Layered BodyIQ Orthopedic Memory Foam Mattress"
+    },
+    {
+        "id": 2,
+        "name": "Sense – BodyIQ Orthopedic Memory Foam Mattress with Cooling Tech",
+        "badge": "New Launch",
+        "discount": "55% OFF",
+        "price": 6429,
+        "originalPrice": 14299,
+        "mrp": 14299,
+        "feature1": "Memory Foam with Cooling Tech",
+        "feature2": "Ortho Support + Spine alignment",
+        "feature1Icon": "fa-solid fa-snowflake",
+        "feature2Icon": "fa-solid fa-bone",
+        "sizes": [
+            "Single",
+            "Double",
+            "Queen",
+            "King"
+        ],
+        "prices": {
+            "Single": {
+                "price": 6429,
+                "mrp": 14299
+            },
+            "Double": {
+                "price": 9449,
+                "mrp": 20999
+            },
+            "Queen": {
+                "price": 10799,
+                "mrp": 23999
+            },
+            "King": {
+                "price": 12149,
+                "mrp": 26999
+            }
+        },
+        "firmness": "Medium Firm",
+        "warranty": "10 Years Warranty + 100 Night Trial",
+        "desc": "Sense orthopedic memory foam mattress featuring active cooling technology and BodyIQ dynamic pressure-relieving contours.",
+        "positioning": "Designed for sleepers who sleep warm and need therapeutic spinal support. Integrates cooling gel-infused foam with high-density orthopedic support.",
+        "features": [
+            "Advanced Cooling Tech with thermal regulation",
+            "BodyIQ orthopedic memory foam cushioning",
+            "Precision spine alignment support core",
+            "Air-circulating 3D mesh border",
+            "Cool-touch jacquard fabric finish",
+            "10 Years Solid Warranty + 100 Night Trial"
+        ],
+        "color": "BLUE",
+        "height": 8,
+        "heights": [
+            6,
+            8,
+            10
+        ],
+        "category": "Mattresses",
+        "mainCategory": "Mattresses",
+        "subCategory": "Cooling Gel",
+        "image": "./public/images/mattresses/cool-gel/main.jpg",
+        "images": {
+            "main": "./public/images/mattresses/cool-gel/main.jpg",
+            "detail": "./public/images/mattresses/cool-gel/detail.jpg",
+            "side": "./public/images/mattresses/cool-gel/thickness.jpg",
+            "angle": "./public/images/mattresses/cool-gel/angle.jpg"
+        },
+        "construction": [
+            {
+                "name": "Cool-Touch Surface",
+                "desc": "Heat-dissipating cover fabric"
+            },
+            {
+                "name": "Cooling Tech Foam",
+                "desc": "Hydro-gel infused memory foam"
+            },
+            {
+                "name": "Ortho Spine Base",
+                "desc": "Zoned orthopedic support foundation"
+            }
+        ],
+        "alt": "Sense BodyIQ Orthopedic Memory Foam Mattress with Cooling Tech"
+    },
+    {
+        "id": 3,
+        "name": "Flip – Dual Sided Foam Mattress with Firm & Soft Sides – Grey",
+        "badge": "New Launch",
+        "discount": "37% OFF",
+        "price": 4091,
+        "originalPrice": 6499,
+        "mrp": 6499,
+        "feature1": "High-density support foam",
+        "feature2": "Firm support or soft comfort in one",
+        "feature1Icon": "fa-solid fa-cubes-stacked",
+        "feature2Icon": "fa-solid fa-repeat",
+        "sizes": [
+            "Single",
+            "Double",
+            "Queen",
+            "King"
+        ],
+        "prices": {
+            "Single": {
+                "price": 4091,
+                "mrp": 6499
+            },
+            "Double": {
+                "price": 5984,
+                "mrp": 9499
+            },
+            "Queen": {
+                "price": 6929,
+                "mrp": 10999
+            },
+            "King": {
+                "price": 7874,
+                "mrp": 12499
+            }
+        },
+        "firmness": "Dual Sided (Firm / Soft)",
+        "warranty": "5 Years Warranty",
+        "desc": "Dual-sided flippable mattress with high-density support foam, allowing you to choose between firm orthopedic support or soft cushioning.",
+        "positioning": "A versatile 2-in-1 reversible sleep system featuring a medium-soft plush surface on one side and a supportive firm surface on the other, wrapped in an ultra-durable tailored grey border.",
+        "features": [
+            "Reversible Dual-Sided Firm & Soft comfort",
+            "High-density support foam foundation",
+            "Tailored grey upholstered border fabric",
+            "Quilted breathable double-jacquard sleep surfaces",
+            "Long-lasting shape retention technology",
+            "5 Years Solid Warranty"
+        ],
+        "color": "GREY",
+        "height": 6,
+        "heights": [
+            5,
             6,
             8
         ],
-        "construction": [
-            {
-                "name": "Flex Surface",
-                "desc": "Stretchable premium cover"
-            },
-            {
-                "name": "Articulating Core",
-                "desc": "Segmented flex-support foam"
-            }
-        ],
+        "category": "Mattresses",
         "mainCategory": "Mattresses",
-        "subCategory": "Single Bed",
-        "alt": "BACKSPACE Recliner Comfort Mattress - Flexible Motorized Bed Articulation",
-        "image": "./public/images/products/p12_recliner_comfort.jpg"
-    },
-    {
-        "id": 13,
-        "name": "BACKSPACE Grand Comfort Mattress",
-        "rating": 4.9,
-        "reviews": 5627,
-        "price": 12430,
-        "originalPrice": 21068,
-        "discount": "41% OFF",
-        "firmness": "Medium Soft",
-        "warranty": "10 Years on Mattress, 5 Years on Topper where applicable",
-        "desc": "Premium natural-fiber comfort layer combined with advanced body-support construction.",
-        "positioning": "A grand sleeping experience featuring exceptional natural-fiber-inspired comfort and advanced structural support.",
-        "features": [
-            "Premium natural-fiber-inspired comfort layer",
-            "Advanced body-support construction",
-            "Medium-soft feel",
-            "Premium cushioning",
-            "Comfort-focused design",
-            "Everyday durability"
-        ],
-        "color": "WHITE",
-        "height": 10,
-        "category": "KING",
+        "subCategory": "Orthopedic",
+        "image": "./public/images/mattresses/comfort-foam/main.jpg",
         "images": {
-            "main": "./public/images/products/p13_grand_comfort.jpg",
-            "detail": "./public/images/mattresses/classic-spring/detail.jpg",
-            "side": "./public/images/mattresses/classic-spring/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
+            "main": "./public/images/mattresses/comfort-foam/main.jpg",
+            "detail": "./public/images/mattresses/comfort-foam/detail.jpg",
+            "side": "./public/images/mattresses/comfort-foam/thickness.jpg",
+            "angle": "./public/images/mattresses/comfort-foam/angle.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Queen",
-            "King",
-            "Custom Size"
-        ],
-        "heights": [
-            8,
-            10,
-            12
-        ],
         "construction": [
             {
-                "name": "Grand Surface",
-                "desc": "Plush natural-fiber-inspired cover"
+                "name": "Soft Comfort Side",
+                "desc": "Plush contouring foam top"
             },
             {
-                "name": "Comfort Topper",
-                "desc": "Deep cushioning layer"
+                "name": "High-Density Core",
+                "desc": "Resilient structural foam core"
             },
             {
-                "name": "Core Base",
-                "desc": "Advanced structural foundation"
+                "name": "Firm Support Side",
+                "desc": "High-density orthopedic firm base"
             }
         ],
-        "mainCategory": "Mattresses",
-        "subCategory": "Single Bed",
-        "alt": "BACKSPACE Grand Comfort Mattress - Plush Pillow Top Hotel Comfort",
-        "image": "./public/images/products/p13_grand_comfort.jpg"
+        "alt": "Flip Dual Sided Foam Mattress with Firm and Soft Sides Grey"
     },
     {
         "id": 201,
@@ -6608,7 +6081,7 @@ function singleBedApp() {
 
 
     <!-- ORIGINAL MATTRESS PRODUCT DETAIL PAGE (Preserved 100% for mattresses & accessories) -->
-    <div x-show="!isBedProduct(currentProductData)" class="bg-[#F7F4EF] min-h-screen py-20 pb-32" x-data="{ 
+    <div x-show="currentPage === 'productDetail' && currentProductData && !isBedProduct(currentProductData)" class="bg-[#F7F4EF] min-h-screen py-20 pb-32" x-data="{ 
         activeImg: 'main',
         activeFaq: null,
         selectedSize: 'Single',
@@ -7238,7 +6711,7 @@ function singleBedApp() {
                             <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-[#FAF6EE] flex items-center justify-center text-[#D05228]">
                                 <i class="fa-solid fa-bed text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-[#292522] mb-2 font-serif" x-text="selectedName ? 'No products match "' + selectedName + '"' : 'No beds match your selected filters.'"></h3>
+                            <h3 class="text-xl font-bold text-[#292522] mb-2 font-serif" x-text="selectedName ? ('No products match \'' + selectedName + '\'') : 'No beds match your selected filters.'"></h3>
                             <p class="text-sm text-[#7E7467] mb-6 max-w-md mx-auto" x-text="selectedName ? 'The Boba series is not part of the BACKSPACE.CO catalog. Discover our 18 handcrafted signature bed designs.' : 'Try adjusting your price range, material, size, or discount criteria to see more handcrafted beds.'"></p>
                             <button @click="resetFilters()" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#292522] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#D05228] transition-colors shadow-md focus:outline-none">
                                 <i class="fa-solid fa-rotate-left"></i>
@@ -7481,8 +6954,13 @@ function singleBedApp() {
              this.filters.minPrice = min;
              this.filters.maxPrice = max;
          },
+         get currentCat() {
+             const root = this.$root?._x_dataStack?.find(d => d.currentCategoryFilter !== undefined);
+             if (root && root.currentCategoryFilter) return root.currentCategoryFilter;
+             return (typeof currentCategoryFilter !== 'undefined' ? currentCategoryFilter : '') || 'Mattresses';
+         },
          get categoryTitle() {
-             const cat = (currentCategoryFilter || '').toLowerCase();
+             const cat = (this.currentCat || '').toLowerCase();
              if (cat.includes('bed') && !cat.includes('single bed') && !cat.includes('mattress')) return 'BEDS & FRAMES';
              if (cat.includes('protector') || cat.includes('waterproof')) return 'MATTRESS PROTECTORS';
              if (cat.includes('pillow')) return 'PILLOWS';
@@ -7495,7 +6973,7 @@ function singleBedApp() {
              return 'MATTRESSES';
          },
          get categoryDesc() {
-             const cat = (currentCategoryFilter || '').toLowerCase();
+             const cat = (this.currentCat || '').toLowerCase();
              if (cat.includes('bed') && !cat.includes('single bed') && !cat.includes('mattress')) {
                  return 'Engineered solid wood bed frames, motorized smart recliner beds, and durable foundation bases built for lifetime structural integrity.';
              }
@@ -7508,8 +6986,8 @@ function singleBedApp() {
              return 'Discover our premium range of 100% natural latex, adaptive memory foam, orthopedic, and pocket spring mattresses with a 10-year warranty.';
          },
          get displayProducts() {
-             let list = (allProducts || []).slice();
-             const cat = (currentCategoryFilter || '').toLowerCase();
+             let list = (window.BACKSPACE_CATALOGUE || []).slice();
+             const cat = (this.currentCat || '').toLowerCase();
              
              if (cat === 'all') {
                  // show all products
@@ -7519,32 +6997,32 @@ function singleBedApp() {
                  list = list.filter(p => p.mainCategory === 'Protectors' || p.category === 'PROTECTORS');
              } else if (cat.includes('pillow')) {
                  list = list.filter(p => p.mainCategory === 'Pillows' || p.category === 'PILLOWS');
-             } else if (cat.includes('memory')) {
-                 list = list.filter(p => (p.mainCategory === 'Mattresses' || p.category === 'SINGLE') && (p.name.toLowerCase().includes('memory') || p.name.toLowerCase().includes('cloud') || (p.subCategory && p.subCategory.toLowerCase().includes('memory'))));
-             } else if (cat.includes('latex')) {
-                 list = list.filter(p => (p.mainCategory === 'Mattresses' || p.category === 'SINGLE') && (p.name.toLowerCase().includes('latex') || (p.subCategory && p.subCategory.toLowerCase().includes('latex'))));
-             } else if (cat.includes('ortho')) {
-                 list = list.filter(p => (p.mainCategory === 'Mattresses' || p.category === 'SINGLE') && (p.name.toLowerCase().includes('ortho') || (p.subCategory && p.subCategory.toLowerCase().includes('ortho'))));
-             } else if (cat.includes('spring')) {
-                 list = list.filter(p => (p.mainCategory === 'Mattresses' || p.category === 'SINGLE') && (p.name.toLowerCase().includes('spring') || p.name.toLowerCase().includes('hybrid') || (p.subCategory && p.subCategory.toLowerCase().includes('spring'))));
+             } else if (cat.includes('memory') || cat.includes('original')) {
+                 list = list.filter(p => (p.mainCategory === 'Mattresses' || p.category === 'Mattresses') && (p.name.toLowerCase().includes('memory') || p.name.toLowerCase().includes('original') || (p.subCategory && p.subCategory.toLowerCase().includes('memory'))));
+             } else if (cat.includes('latex') || cat.includes('laxe')) {
+                 list = list.filter(p => (p.mainCategory === 'Mattresses' || p.category === 'Mattresses') && (p.name.toLowerCase().includes('latex') || p.name.toLowerCase().includes('laxe') || (p.subCategory && p.subCategory.toLowerCase().includes('latex'))));
+             } else if (cat.includes('ortho') || cat.includes('sense')) {
+                 list = list.filter(p => (p.mainCategory === 'Mattresses' || p.category === 'Mattresses') && (p.name.toLowerCase().includes('ortho') || p.name.toLowerCase().includes('sense') || (p.subCategory && p.subCategory.toLowerCase().includes('ortho'))));
+             } else if (cat.includes('spring') || cat.includes('flip')) {
+                 list = list.filter(p => (p.mainCategory === 'Mattresses' || p.category === 'Mattresses') && (p.name.toLowerCase().includes('spring') || p.name.toLowerCase().includes('flip') || (p.subCategory && p.subCategory.toLowerCase().includes('spring'))));
              } else {
-                 list = list.filter(p => p.mainCategory === 'Mattresses' || p.category === 'SINGLE');
+                 list = list.filter(p => p.mainCategory === 'Mattresses' || p.category === 'Mattresses' || p.category === 'SINGLE');
              }
              
-                           // Price filter (1000 to 49999)
-              const minP = typeof this.filters.minPrice === 'number' && !isNaN(this.filters.minPrice) ? this.filters.minPrice : 1000;
-              const maxP = typeof this.filters.maxPrice === 'number' && !isNaN(this.filters.maxPrice) ? this.filters.maxPrice : 49999;
-              list = list.filter(p => p.price >= minP && p.price <= maxP);
+             // Price filter (1000 to 49999)
+             const minP = typeof this.filters.minPrice === 'number' && !isNaN(this.filters.minPrice) ? this.filters.minPrice : 1000;
+             const maxP = typeof this.filters.maxPrice === 'number' && !isNaN(this.filters.maxPrice) ? this.filters.maxPrice : 49999;
+             list = list.filter(p => p.price >= minP && p.price <= maxP);
              
              // Sizes filter
-             if (this.filters.sizes.length > 0) {
+             if (this.filters.sizes && this.filters.sizes.length > 0) {
                  list = list.filter(p => p.sizes && p.sizes.some(s => this.filters.sizes.includes(s)));
              }
              
              // Sort
              if (this.sortBy === 'price_low') list.sort((a,b) => a.price - b.price);
              else if (this.sortBy === 'price_high') list.sort((a,b) => b.price - a.price);
-             else if (this.sortBy === 'rating') list.sort((a,b) => b.rating - a.rating);
+             else if (this.sortBy === 'rating') list.sort((a,b) => (b.rating || 0) - (a.rating || 0));
              
              return list;
          },
@@ -7672,7 +7150,7 @@ function singleBedApp() {
                     <div class="pt-6 border-t border-gray-100">
                         <h3 class="text-xs font-bold text-brand-charcoal mb-3 uppercase tracking-wider">CATEGORIES</h3>
                         <div class="space-y-2 text-xs font-semibold text-gray-500">
-                            <button @click="currentCategoryFilter = 'Mattresses'" class="block w-full text-left hover:text-brand-terracotta" :class="currentCategoryFilter === 'Mattresses' ? 'text-brand-terracotta font-bold' : ''">• All Mattresses (13)</button>
+                            <button @click="currentCategoryFilter = 'Mattresses'" class="block w-full text-left hover:text-brand-terracotta" :class="currentCategoryFilter === 'Mattresses' ? 'text-brand-terracotta font-bold' : ''">• All Mattresses (3)</button>
                             <button @click="goToPage('beds')" class="block w-full text-left hover:text-brand-terracotta" :class="currentPage === 'beds' || currentCategoryFilter === 'Beds' ? 'text-brand-terracotta font-bold' : ''">• Bed Frames & Bases (18)</button>
                             <button @click="currentCategoryFilter = 'Protectors'" class="block w-full text-left hover:text-brand-terracotta" :class="currentCategoryFilter === 'Protectors' ? 'text-brand-terracotta font-bold' : ''">• Mattress Protectors (4)</button>
                             <button @click="currentCategoryFilter = 'Pillows'" class="block w-full text-left hover:text-brand-terracotta" :class="currentCategoryFilter === 'Pillows' ? 'text-brand-terracotta font-bold' : ''">• Ergonomic Pillows (4)</button>
@@ -7705,66 +7183,86 @@ function singleBedApp() {
                 </div>
 
                 <!-- Product Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <template x-for="p in displayProducts" :key="p.id">
-                        <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1">
+                        <div class="bg-[#FFFCF7] rounded-2xl border border-[#E6DFD6] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1"
+                             x-data="{ activeSize: 'Single' }">
                             <!-- Image Header -->
                             <div class="relative aspect-[4/3] bg-[#F1EBE3] overflow-hidden cursor-pointer" @click="currentProductData = p; goToPage('productDetail')">
-                                <img :src="p.image || p.images.main" onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}else{this.src='./images/products/p01_ortho_support.jpg';}" :alt="p.name" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
-                                <span class="absolute top-3 left-3 bg-brand-charcoal text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-widest shadow-sm" x-text="p.discount || 'FEATURED'"></span>
-                                <span x-show="p.firmness" class="absolute top-3 right-3 bg-white/90 backdrop-blur text-brand-charcoal text-[9px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm" x-text="p.firmness"></span>
+                                <img :src="p.image || (p.images && p.images.main)" 
+                                     onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}else{this.src='./public/images/mattresses/cloud-memory-foam/main.jpg';}" 
+                                     :alt="p.name" 
+                                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                     loading="lazy">
+                                
+                                <!-- Badge: 'New Launch' -->
+                                <span class="absolute top-3 left-3 bg-[#292522] text-[#FAF6EE] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-sm" x-text="p.badge || 'New Launch'"></span>
+                                
+                                <!-- Wishlist Icon Button -->
+                                <button type="button" @click.stop="toggleWishlist(p)" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 hover:bg-white text-[#786C5E] hover:text-[#B85C38] flex items-center justify-center shadow-sm transition-all focus:outline-none z-10" title="Wishlist">
+                                    <i :class="isInWishlist(p.id) ? 'fa-solid fa-heart text-[#D05228]' : 'fa-regular fa-heart text-[13px] text-[#292522]'"></i>
+                                </button>
                             </div>
 
                             <!-- Body Info -->
                             <div class="p-5 flex-1 flex flex-col justify-between">
                                 <div>
-                                    <div class="flex items-center space-x-1 text-orange-400 text-xs mb-2">
-                                        <i class="fa-solid fa-star"></i>
-                                        <span class="text-xs font-extrabold text-brand-charcoal ml-1" x-text="p.rating"></span>
-                                        <span class="text-[10px] text-gray-400" x-text="`(${p.reviews.toLocaleString()} reviews)`"></span>
+                                    <!-- Product Name (max 2 lines) -->
+                                    <h3 class="font-bold text-base text-[#292522] group-hover:text-[#D05228] transition-colors line-clamp-2 leading-snug mb-3 cursor-pointer min-h-[44px]" 
+                                        @click="currentProductData = p; goToPage('productDetail')" 
+                                        x-text="p.name"></h3>
+                                    
+                                    <!-- Price Line: Selling Price + Struck-through MRP + Discount Pill -->
+                                    <div class="flex items-baseline flex-wrap gap-2 mb-3.5">
+                                        <span class="text-xl sm:text-2xl font-black text-[#D05228]" 
+                                              x-text="'₹' + (p.prices && p.prices[activeSize] ? p.prices[activeSize].price.toLocaleString('en-IN') : p.price.toLocaleString('en-IN'))"></span>
+                                        <span class="text-xs sm:text-sm font-medium text-gray-400 line-through" 
+                                              x-text="'₹' + (p.prices && p.prices[activeSize] ? p.prices[activeSize].mrp.toLocaleString('en-IN') : (p.originalPrice || p.mrp).toLocaleString('en-IN'))"></span>
+                                        <span class="text-[11px] font-black text-[#D05228] bg-[#FDF0EB] border border-[#F5C4B1] px-2 py-0.5 rounded-md uppercase tracking-wider" 
+                                              x-text="p.discount"></span>
                                     </div>
-                                    
-                                    <h3 class="font-bold text-base text-brand-charcoal group-hover:text-brand-terracotta transition-colors line-clamp-1 mb-1.5 cursor-pointer" @click="currentProductData = p; goToPage('productDetail')" x-text="p.name"></h3>
-                                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-4" x-text="p.desc"></p>
-                                    
-                                    <!-- Specs -->
-                                    <div class="bg-[#F4F2EF] rounded-xl p-3 mb-4 space-y-1 text-[11px] text-[#77716B] border border-[#E6DFD6]/50">
-                                        <div class="flex justify-between">
-                                            <span class="font-medium text-gray-400">Material:</span>
-                                            <span class="font-bold text-brand-charcoal truncate max-w-[160px]" x-text="p.construction ? p.construction[0].name : 'Premium Foam'"></span>
+
+                                    <!-- Two Feature Lines with Small Icons -->
+                                    <div class="space-y-2 mb-4 text-xs text-[#524B45]">
+                                        <div class="flex items-center gap-2">
+                                            <i :class="p.feature1Icon || 'fa-solid fa-layer-group'" class="text-[#D05228] text-[11px] w-4 text-center shrink-0"></i>
+                                            <span class="font-medium truncate" x-text="p.feature1 || (p.construction ? p.construction[0].name : 'Adaptive Comfort')"></span>
                                         </div>
-                                        <div class="flex justify-between" x-show="p.height">
-                                            <span class="font-medium text-gray-400">Thickness:</span>
-                                            <span class="font-bold text-brand-charcoal" x-text="`${p.height} Inches`"></span>
-                                        </div>
-                                        <div class="flex justify-between">
-                                            <span class="font-medium text-gray-400">Available:</span>
-                                            <span class="font-bold text-brand-charcoal truncate max-w-[160px]" x-text="(p.sizes || []).slice(0,3).join(', ')"></span>
+                                        <div class="flex items-center gap-2">
+                                            <i :class="p.feature2Icon || 'fa-solid fa-shield-halved'" class="text-[#D05228] text-[11px] w-4 text-center shrink-0"></i>
+                                            <span class="font-medium truncate" x-text="p.feature2 || (p.construction && p.construction[1] ? p.construction[1].name : 'Orthopedic Core Support')"></span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Price & Action Buttons -->
+                                <!-- Sizes & Action Footer -->
                                 <div>
-                                    <div class="flex items-baseline space-x-2 mb-4">
-                                        <span class="text-xl font-extrabold text-brand-charcoal" x-text="`₹${p.price.toLocaleString('en-IN')}`"></span>
-                                        <span x-show="p.originalPrice" class="text-xs font-medium text-gray-400 line-through" x-text="`₹${p.originalPrice.toLocaleString('en-IN')}`"></span>
+                                    <!-- Size Chips (One selectable at a time) -->
+                                    <div class="pt-3 border-t border-[#E6DFD6]/70">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">SELECT SIZE</span>
+                                            <span class="text-[10px] font-bold text-[#D05228] uppercase" x-text="activeSize"></span>
+                                        </div>
+                                        <div class="grid grid-cols-4 gap-1.5">
+                                            <template x-for="sz in (p.sizes || ['Single', 'Double', 'Queen', 'King'])" :key="sz">
+                                                <button type="button"
+                                                        @click.stop="activeSize = sz"
+                                                        class="py-1.5 px-1 rounded-lg text-xs font-bold transition-all text-center focus:outline-none border"
+                                                        :class="activeSize === sz ? 'bg-[#292522] text-white border-[#292522] shadow-xs' : 'bg-[#FAF6EE] text-[#524B45] border-[#E6DFD6] hover:border-gray-400 hover:bg-white'">
+                                                    <span x-text="sz"></span>
+                                                </button>
+                                            </template>
+                                        </div>
                                     </div>
 
-                                    <div class="grid grid-cols-2 gap-2">
-                                        <button @click="currentProductData = p; goToPage('productDetail')" class="w-full bg-gray-100 hover:bg-gray-200 text-brand-charcoal py-2.5 rounded-xl text-xs font-bold tracking-wider uppercase transition text-center">
-                                            VIEW DETAILS
+                                    <!-- Action Buttons: View Details & Order -->
+                                    <div class="mt-4 pt-3 border-t border-[#E6DFD6]/70 grid grid-cols-2 gap-2">
+                                        <button type="button" @click="currentProductData = p; goToPage('productDetail')" class="w-full bg-[#FAF6EE] hover:bg-[#F0EBE1] text-[#292522] py-2.5 rounded-xl text-xs font-bold tracking-wider uppercase transition border border-[#D5C9B8] text-center">
+                                            View Details
                                         </button>
-                                        <button @click="window.open(`https://wa.me/916300946652?text=${encodeURIComponent(`Hello Backspace Go,
-
-I want to order:
-Product: ${p.name}
-Category: ${p.mainCategory || p.category}
-Price: ₹${p.price}
-
-Please confirm availability and delivery timelines.`)}`, '_blank')" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-2.5 rounded-xl text-xs font-bold tracking-wider uppercase transition shadow-sm flex items-center justify-center space-x-1.5">
+                                        <button type="button" @click="window.open(`https://wa.me/916300946652?text=${encodeURIComponent(`Hello Backspace Go,\n\nI want to order:\nProduct: ${p.name}\nSize: ${activeSize}\nPrice: ₹${p.prices && p.prices[activeSize] ? p.prices[activeSize].price : p.price}\n\nPlease confirm availability and delivery timelines.`)}`, '_blank')" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-2.5 rounded-xl text-xs font-bold tracking-wider uppercase transition shadow-xs flex items-center justify-center space-x-1.5">
                                             <i class="fa-brands fa-whatsapp text-sm"></i>
-                                            <span>BUY NOW</span>
+                                            <span>Order</span>
                                         </button>
                                     </div>
                                 </div>
