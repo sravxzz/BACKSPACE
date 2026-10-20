@@ -7303,7 +7303,7 @@ function singleBedApp() {
 
 
 <!-- ================= PRODUCT COLLECTION / SHOP PAGE ================= -->
-<div x-show="currentPage === 'shop'" style="display:none;" class="bg-[#F4F2EF] min-h-screen py-10 pb-32" 
+<div x-show="currentPage === 'shop'" style="display:none;" class="bg-[#F4F2EF] min-h-screen pt-4 sm:pt-6 pb-32" 
      x-data="{
          mobileFiltersOpen: false,
          sortBy: 'recommended',
@@ -7453,29 +7453,39 @@ function singleBedApp() {
          }
      }">
     <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Breadcrumbs & Category Bar -->
-        <div class="mb-6">
-            <div class="flex items-center space-x-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
-                <button @click="goToPage('home')" class="hover:text-brand-charcoal transition">HOME</button>
-                <span>/</span>
-                <span class="text-brand-terracotta" x-text="categoryTitle"></span>
+        <!-- Mattresses Page Header (Breadcrumbs and Category Pill Tabs removed) -->
+        <template x-if="currentCat === 'Mattresses'">
+            <div class="mb-6 pb-4 border-b border-[#E6DFD6]">
+                <h1 class="text-3xl md:text-5xl font-extrabold text-brand-charcoal tracking-tight uppercase" x-text="categoryTitle">MATTRESSES</h1>
+                <p class="text-sm md:text-base text-gray-500 mt-2 max-w-3xl leading-relaxed" x-text="categoryDesc"></p>
             </div>
-            
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-200 pb-6">
-                <div>
-                    <h1 class="text-3xl md:text-5xl font-extrabold text-brand-charcoal tracking-tight uppercase" x-text="categoryTitle"></h1>
-                    <p class="text-sm md:text-base text-gray-500 mt-2 max-w-3xl leading-relaxed" x-text="categoryDesc"></p>
+        </template>
+
+        <!-- Other Pages Header (Shared with Protectors and Pillows) -->
+        <template x-if="currentCat !== 'Mattresses'">
+            <div class="mb-6">
+                <div class="flex items-center space-x-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
+                    <button @click="goToPage('home')" class="hover:text-brand-charcoal transition">HOME</button>
+                    <span>/</span>
+                    <span class="text-brand-terracotta" x-text="categoryTitle"></span>
                 </div>
                 
-                <!-- Quick Category Switch Pills -->
-                <div class="flex flex-wrap items-center gap-2 shrink-0">
-                    <button @click="currentCategoryFilter = 'Mattresses'" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300" :class="currentCategoryFilter === 'Mattresses' ? 'bg-[#292522] text-white shadow-md' : 'bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]'">MATTRESSES</button>
-                    <button @click="goToPage('beds')" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300" :class="(currentPage === 'beds' || currentCategoryFilter === 'Beds') ? 'bg-[#292522] text-white shadow-md' : 'bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]'">BEDS</button>
-                    <button @click="currentCategoryFilter = 'Protectors'" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300" :class="currentCategoryFilter === 'Protectors' ? 'bg-[#292522] text-white shadow-md' : 'bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]'">PROTECTORS</button>
-                    <button @click="currentCategoryFilter = 'Pillows'" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300" :class="currentCategoryFilter === 'Pillows' ? 'bg-[#292522] text-white shadow-md' : 'bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]'">PILLOWS</button>
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-200 pb-6">
+                    <div>
+                        <h1 class="text-3xl md:text-5xl font-extrabold text-brand-charcoal tracking-tight uppercase" x-text="categoryTitle"></h1>
+                        <p class="text-sm md:text-base text-gray-500 mt-2 max-w-3xl leading-relaxed" x-text="categoryDesc"></p>
+                    </div>
+                    
+                    <!-- Quick Category Switch Pills -->
+                    <div class="flex flex-wrap items-center gap-2 shrink-0">
+                        <button @click="currentCategoryFilter = 'Mattresses'" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300" :class="currentCategoryFilter === 'Mattresses' ? 'bg-[#292522] text-white shadow-md' : 'bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]'">MATTRESSES</button>
+                        <button @click="goToPage('beds')" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300" :class="(currentPage === 'beds' || currentCategoryFilter === 'Beds') ? 'bg-[#292522] text-white shadow-md' : 'bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]'">BEDS</button>
+                        <button @click="currentCategoryFilter = 'Protectors'" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300" :class="currentCategoryFilter === 'Protectors' ? 'bg-[#292522] text-white shadow-md' : 'bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]'">PROTECTORS</button>
+                        <button @click="currentCategoryFilter = 'Pillows'" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300" :class="currentCategoryFilter === 'Pillows' ? 'bg-[#292522] text-white shadow-md' : 'bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]'">PILLOWS</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </template>
 
         <div class="flex flex-col lg:flex-row gap-8 items-start">
             <!-- LEFT FILTER SIDEBAR (Desktop) -->
