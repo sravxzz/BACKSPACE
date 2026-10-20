@@ -207,6 +207,7 @@ function appData() {
                     this.currentCategoryFilter = 'Beds';
                     this.selectedBedGroup = 'all';
                     window.dispatchEvent(new CustomEvent('select-bed-group', { detail: { group: 'all' } }));
+                    window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
                 } else if (h === '#home') {
                     this.currentPage = 'home';
                 }
@@ -233,6 +234,7 @@ function appData() {
             this.searchOpen = false;
             this.activeMegaMenu = null;
             window.dispatchEvent(new CustomEvent('select-bed-classified', { detail: { type, value } }));
+            window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
             if (window.location.hash !== '#beds') {
                 window.history.pushState(null, '', '#beds');
             }
@@ -273,6 +275,7 @@ function appData() {
             this.hamburgerOpen = false;
             this.searchOpen = false;
             this.activeMegaMenu = null;
+            window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
             window.scrollTo({ top: 0, behavior: 'smooth' });
             setTimeout(() => this.checkScrollAnimations(), 100);
         },
