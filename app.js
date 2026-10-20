@@ -213,6 +213,7 @@ function appData() {
             };
             window.addEventListener('hashchange', syncFromHash);
             window.addEventListener('popstate', syncFromHash);
+            syncFromHash();
             setTimeout(syncFromHash, 150);
         },
 
@@ -242,6 +243,7 @@ function appData() {
             if (page === 'beds' || category === 'Beds' || category === 'Smart Beds') {
                 this.currentPage = 'beds';
                 this.currentCategoryFilter = 'Beds';
+                this.mobileMenuOpen = false;
                 if (category && typeof category === 'object' && category.type) {
                     window.dispatchEvent(new CustomEvent('select-bed-classified', { detail: category }));
                 } else if (category && typeof category === 'string' && category.toLowerCase() !== 'beds' && category.toLowerCase() !== 'all') {
@@ -252,6 +254,7 @@ function appData() {
                 if (window.location.hash !== '#beds') {
                     window.history.pushState(null, '', '#beds');
                 }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             } else if (page === 'productDetail') {
                 this.currentPage = 'productDetail';
                 if (this.currentProductData && isBedProduct(this.currentProductData)) {

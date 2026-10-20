@@ -5956,6 +5956,7 @@ function singleBedApp() {
         </div>
     </div>
 </section>
+</div>
 
         
 <!-- ================= PRODUCT DETAIL PAGE ================= -->
@@ -6810,12 +6811,12 @@ function singleBedApp() {
         <!-- Definitive Two-Column Layout: LEFT (Filters Sidebar) + RIGHT (Beds Collection) -->
         <div class="beds-page-layout">
             <!-- LEFT COLUMN: Filters Sidebar (Sibling 1 on Desktop) -->
-            <aside class="beds-filter-sidebar hidden lg:block shrink-0 sticky top-28">
+            <aside class="beds-filter-sidebar shrink-0 sticky top-28">
                 <div class="bg-[#FAF6EE] rounded-[24px] border border-[#EBE2D5] p-5 xl:p-6 shadow-sm max-h-[calc(100vh-8.5rem)] overflow-y-auto scrollbar-thin">
                     <!-- Sidebar Header: FILTER: in orange-red accent -->
                     <div class="flex items-center justify-between pb-3.5 border-b border-[#EBE2D5]">
                         <h3 class="text-base sm:text-lg font-black text-[#D05228] tracking-wider uppercase font-sans">FILTER:</h3>
-                        <button x-show="hasActiveFilters" @click="resetFilters()" class="text-xs font-bold text-[#7E7467] hover:text-[#D05228] transition uppercase tracking-wider focus:outline-none">Reset</button>
+                        <button @click="resetFilters()" :class="hasActiveFilters ? 'text-[#D05228] hover:underline' : 'text-[#7E7467] hover:text-[#D05228]'" class="text-xs font-bold transition uppercase tracking-wider focus:outline-none">Reset</button>
                     </div>
 
                     <!-- 1. Price Filter Group -->
@@ -7037,7 +7038,7 @@ function singleBedApp() {
                     
                     <div class="flex items-center gap-3">
                         <!-- Mobile Filter Button (Visible only on mobile/tablet) -->
-                        <button @click="mobileFiltersOpen = true" class="lg:hidden inline-flex items-center gap-2 px-3.5 py-2 bg-[#292522] text-white rounded-lg text-xs font-bold uppercase tracking-wider shadow-sm hover:bg-black transition">
+                        <button @click="mobileFiltersOpen = true" class="md:hidden inline-flex items-center gap-2 px-3.5 py-2 bg-[#292522] text-white rounded-lg text-xs font-bold uppercase tracking-wider shadow-sm hover:bg-black transition">
                             <i class="fa-solid fa-sliders text-[11px] text-[#D05228]"></i>
                             <span>FILTER</span>
                             <span x-show="activeFiltersCount > 0" class="w-4 h-4 rounded-full bg-[#D05228] text-white text-[9px] flex items-center justify-center font-bold" x-text="activeFiltersCount"></span>
@@ -7185,7 +7186,7 @@ function singleBedApp() {
     </div>
 
     <!-- Mobile Filters Slide-Over Drawer -->
-    <div x-show="mobileFiltersOpen" style="display:none;" class="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true">
+    <div x-show="mobileFiltersOpen" style="display:none;" class="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true">
         <!-- Backdrop -->
         <div x-show="mobileFiltersOpen" 
              x-transition:enter="ease-out duration-300" 
