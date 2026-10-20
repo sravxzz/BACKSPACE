@@ -224,14 +224,31 @@ function appData() {
             });
         },
 
+        selectBedCategory(type, value) {
+            this.currentPage = 'beds';
+            this.currentCategoryFilter = 'Beds';
+            this.mobileMenuOpen = false;
+            this.hamburgerOpen = false;
+            this.searchOpen = false;
+            this.activeMegaMenu = null;
+            window.dispatchEvent(new CustomEvent('select-bed-classified', { detail: { type, value } }));
+            if (window.location.hash !== '#beds') {
+                window.history.pushState(null, '', '#beds');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+
         goToPage(page, category = null) {
-            const validBedGroups = ['all', 'upholstered', 'storage', 'wooden', 'designer', 'single'];
-            if (page === 'beds' || category === 'Beds' || category === 'Smart Beds' || (category && validBedGroups.includes(category.toLowerCase()))) {
+            if (page === 'beds' || category === 'Beds' || category === 'Smart Beds') {
                 this.currentPage = 'beds';
                 this.currentCategoryFilter = 'Beds';
-                const targetGroup = (category && validBedGroups.includes(category.toLowerCase())) ? category.toLowerCase() : 'all';
-                this.selectedBedGroup = targetGroup;
-                window.dispatchEvent(new CustomEvent('select-bed-group', { detail: { group: targetGroup } }));
+                if (category && typeof category === 'object' && category.type) {
+                    window.dispatchEvent(new CustomEvent('select-bed-classified', { detail: category }));
+                } else if (category && typeof category === 'string' && category.toLowerCase() !== 'beds' && category.toLowerCase() !== 'all') {
+                    window.dispatchEvent(new CustomEvent('select-bed-classified', { detail: { type: 'category', value: category } }));
+                } else {
+                    window.dispatchEvent(new CustomEvent('select-bed-classified', { detail: { type: 'all' } }));
+                }
                 if (window.location.hash !== '#beds') {
                     window.history.pushState(null, '', '#beds');
                 }
@@ -256,6 +273,8 @@ function appData() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             setTimeout(() => this.checkScrollAnimations(), 100);
         },
+
+        
 
         openProduct(product) {
             this.selectedProduct = product;

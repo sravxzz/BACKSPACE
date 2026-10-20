@@ -258,9 +258,11 @@
                         </div>
                     </div>
 
-                    <!-- 6. BEDS -->
+                                        <!-- 6. BEDS -->
                     <div class="relative h-full flex items-center" @mouseenter="openDropdown = 'beds'" @mouseleave="openDropdown = null">
-                        <button @click="goToPage('beds'); openDropdown = null" class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none" :class="(currentPage === 'beds' || (currentCategoryFilter === 'Beds' && currentPage === 'shop')) ? 'text-brand-terracotta' : ''">
+                        <button @click="goToPage('beds'); openDropdown = null" 
+                                class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none py-2 px-3 rounded-t-xl" 
+                                :class="openDropdown === 'beds' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : ((currentPage === 'beds' || (currentCategoryFilter === 'Beds' && currentPage === 'shop')) ? 'text-brand-terracotta' : '')">
                             <span class="relative overflow-hidden py-1">
                                 BEDS
                                 <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(currentPage === 'beds' || (currentCategoryFilter === 'Beds' && currentPage === 'shop')) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
@@ -268,31 +270,61 @@
                             <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'beds' ? 'rotate-180 text-brand-terracotta' : ''"></i>
                         </button>
                         
+                        <!-- Classified Beds 4-Column Dropdown Menu matching Screenshot 2 -->
                         <div x-show="openDropdown === 'beds'" @click.outside="openDropdown = null" 
                              x-transition:enter="transition cubic-bezier(0.2, 0, 0, 1) duration-300" 
-                             x-transition:enter-start="opacity-0 -translate-y-1.5 scale-98" 
+                             x-transition:enter-start="opacity-0 -translate-y-2 scale-98" 
                              x-transition:enter-end="opacity-100 translate-y-0 scale-100" 
                              x-transition:leave="transition ease-in duration-200" 
                              x-transition:leave-start="opacity-100 translate-y-0 scale-100" 
-                             x-transition:leave-end="opacity-0 -translate-y-1.5 scale-98" 
-                             class="absolute top-full left-1/2 -translate-x-1/2 w-72 bg-[#FFFCF7] shadow-[0_15px_40px_-10px_rgba(41,37,34,0.08)] rounded-2xl border border-[#E6DFD6] p-3 z-50 origin-top" style="display:none;">
+                             x-transition:leave-end="opacity-0 -translate-y-2 scale-98" 
+                             class="absolute top-full left-1/2 -translate-x-1/2 w-[720px] lg:w-[780px] max-w-[95vw] bg-[#FAF6EE] shadow-[0_20px_50px_-15px_rgba(41,37,34,0.18)] rounded-[22px] border-2 border-[#292522] p-6 lg:p-7 z-50 origin-top" style="display:none;">
                             
-                            <div class="flex flex-col space-y-1">
-                                <template x-for="item in [
-                                    { name: 'ALL BEDS & FRAMES', filter: 'all', img: './public/images/beds/bed-001.jpg' },
-                                    { name: 'UPHOLSTERED BEDS', filter: 'upholstered', img: './public/images/beds/bed-001.jpg' },
-                                    { name: 'STORAGE BEDS', filter: 'storage', img: './public/images/beds/bed-002.jpg' },
-                                    { name: 'WOODEN & PLATFORM BEDS', filter: 'wooden', img: './public/images/beds/bed-006.jpg' },
-                                    { name: 'DESIGNER HEADBOARD BEDS', filter: 'designer', img: './public/images/beds/bed-004.jpg' },
-                                    { name: 'SINGLE & DAYBEDS', filter: 'single', img: './public/images/beds/bed-018.jpg' }
-                                ]">
-                                    <button @click="goToPage('beds', item.filter); openDropdown = null" class="flex items-center space-x-3 text-left group focus:outline-none rounded-xl p-2 hover:bg-gray-50 transition-colors duration-300">
-                                        <div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
-                                            <img :src="item.img" class="w-full h-full object-cover transition-transform duration-400 group-hover:scale-110" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}">
-                                        </div>
-                                        <span class="text-[11px] font-bold uppercase tracking-widest text-brand-charcoal group-hover:text-brand-terracotta transition-colors" x-text="item.name"></span>
-                                    </button>
-                                </template>
+                            <div class="grid grid-cols-4 gap-0 divide-x divide-[#E5DDD0]">
+                                <!-- Column 1: By Name -->
+                                <div class="pr-5">
+                                    <div class="mb-3">
+                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Name</span>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <button @click="selectBedCategory('name', 'Boba Bed'); openDropdown = null" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Boba Bed</button>
+                                        <button @click="selectBedCategory('name', 'Boba Move'); openDropdown = null" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Boba Move</button>
+                                        <button @click="selectBedCategory('name', 'Boba Move With Bed'); openDropdown = null" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Boba Move With Bed</button>
+                                    </div>
+                                </div>
+
+                                <!-- Column 2: By Size -->
+                                <div class="px-5">
+                                    <div class="mb-3">
+                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Size</span>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <button @click="selectBedCategory('size', 'King'); openDropdown = null" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">King</button>
+                                        <button @click="selectBedCategory('size', 'Queen'); openDropdown = null" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Queen</button>
+                                    </div>
+                                </div>
+
+                                <!-- Column 3: By Material -->
+                                <div class="px-5">
+                                    <div class="mb-3">
+                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Material</span>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <button @click="selectBedCategory('material', 'Solid Wood'); openDropdown = null" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Solid Wood</button>
+                                        <button @click="selectBedCategory('material', 'Engineered Wood'); openDropdown = null" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Engineered Wood</button>
+                                    </div>
+                                </div>
+
+                                <!-- Column 4: By Storage -->
+                                <div class="pl-5">
+                                    <div class="mb-3">
+                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Storage</span>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <button @click="selectBedCategory('storage', 'Storage'); openDropdown = null" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Storage</button>
+                                        <button @click="selectBedCategory('storage', 'Non Storage'); openDropdown = null" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Non Storage</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -4864,15 +4896,20 @@ function singleBedApp() {
     return {
         mobileFiltersOpen: false,
         sortBy: 'recommended',
-        selectedGroup: 'all',
-        groups: window.BED_GROUPS || [
-            { id: 'all', label: 'All Beds', title: 'ALL BEDS', count: 18, codes: null },
-            { id: 'upholstered', label: 'Upholstered Beds', title: 'UPHOLSTERED BEDS', count: 4, codes: ['BKPBD001', 'BKPBD003', 'BKPBD009', 'BKPBD013'] },
-            { id: 'storage', label: 'Storage Beds', title: 'STORAGE BEDS', count: 4, codes: ['BKPBD002', 'BKPBD007', 'BKPBD008', 'BKPBD015'] },
-            { id: 'wooden', label: 'Wooden & Platform Beds', title: 'WOODEN & PLATFORM BEDS', count: 3, codes: ['BKPBD006', 'BKPBD011', 'BKPBD014'] },
-            { id: 'designer', label: 'Designer Headboard Beds', title: 'DESIGNER HEADBOARD BEDS', count: 5, codes: ['BKPBD004', 'BKPBD005', 'BKPBD010', 'BKPBD012', 'BKPBD016'] },
-            { id: 'single', label: 'Single & Daybeds', title: 'SINGLE & DAYBEDS', count: 2, codes: ['BKPBD017', 'BKPBD018'] }
-        ],
+        
+        // Classified Categories (from Screenshot 2)
+        selectedName: null,
+        selectedClassifiedSize: null,
+        selectedClassifiedMaterial: null,
+        selectedClassifiedStorage: null,
+
+        // Sidebar Filters (from Screenshot 1)
+        selectedPrices: [],
+        selectedMaterials: [],
+        selectedStorage: [],
+        selectedSizes: [],
+        selectedDiscounts: [],
+
         sectionsOpen: {
             price: true,
             material: true,
@@ -4883,13 +4920,10 @@ function singleBedApp() {
         toggleSection(sec) {
             this.sectionsOpen[sec] = !this.sectionsOpen[sec];
         },
-        selectedPrices: [],
-        selectedMaterials: [],
-        selectedStorage: [],
-        selectedSizes: [],
-        selectedDiscounts: [],
+
         products: BED_COLLECTION_CARDS,
         wishlistIds: [],
+
         init() {
             if (Array.isArray(this.products)) {
                 this.products.forEach(p => {
@@ -4898,52 +4932,83 @@ function singleBedApp() {
                     }
                 });
             }
-            window.addEventListener('select-bed-group', (e) => {
-                if (e.detail && e.detail.group) {
-                    this.selectedGroup = e.detail.group;
+            window.addEventListener('select-bed-classified', (e) => {
+                if (e.detail) {
+                    this.applyClassified(e.detail.type, e.detail.value);
                 }
             });
-            try {
-                const gw = this.$root?._x_dataStack?.find(d => d.selectedBedGroup !== undefined);
-                if (gw && gw.selectedBedGroup) {
-                    this.selectedGroup = gw.selectedBedGroup;
+            window.addEventListener('select-bed-group', (e) => {
+                if (e.detail && e.detail.group === 'all') {
+                    this.resetFilters();
                 }
-            } catch(e) {}
+            });
         },
-        selectGroup(groupId) {
-            this.selectedGroup = groupId;
-            try {
-                const gw = this.$root?._x_dataStack?.find(d => d.selectedBedGroup !== undefined);
-                if (gw) gw.selectedBedGroup = groupId;
-            } catch(e) {}
+
+        applyClassified(type, value) {
+            if (type === 'all') {
+                this.resetFilters();
+                return;
+            }
+            if (type === 'name') {
+                this.selectedName = (this.selectedName === value) ? null : value;
+            } else if (type === 'size') {
+                if (this.selectedClassifiedSize === value) {
+                    this.selectedClassifiedSize = null;
+                    this.selectedSizes = this.selectedSizes.filter(s => s !== value);
+                } else {
+                    this.selectedClassifiedSize = value;
+                    if (!this.selectedSizes.includes(value)) {
+                        this.selectedSizes.push(value);
+                    }
+                }
+            } else if (type === 'material') {
+                this.selectedClassifiedMaterial = (this.selectedClassifiedMaterial === value) ? null : value;
+            } else if (type === 'storage') {
+                const sidebarVal = (value === 'Storage' ? 'with_storage' : 'without_storage');
+                if (this.selectedClassifiedStorage === value) {
+                    this.selectedClassifiedStorage = null;
+                    this.selectedStorage = this.selectedStorage.filter(s => s !== sidebarVal);
+                } else {
+                    this.selectedClassifiedStorage = value;
+                    this.selectedStorage = [sidebarVal];
+                }
+            }
         },
-        get currentGroupTitle() {
-            const grp = this.groups.find(g => g.id === this.selectedGroup);
-            return grp ? grp.label : 'All Beds';
-        },
+
         get activeFiltersCount() {
-            return this.selectedPrices.length + 
-                   this.selectedMaterials.length + 
-                   this.selectedStorage.length + 
-                   this.selectedSizes.length + 
-                   this.selectedDiscounts.length + 
-                   (this.selectedGroup !== 'all' ? 1 : 0);
+            return (this.selectedName ? 1 : 0) +
+                   (this.selectedClassifiedMaterial ? 1 : 0) +
+                   (this.selectedClassifiedSize && !this.selectedSizes.includes(this.selectedClassifiedSize) ? 1 : 0) +
+                   this.selectedPrices.length +
+                   this.selectedMaterials.length +
+                   this.selectedStorage.length +
+                   this.selectedSizes.length +
+                   this.selectedDiscounts.length;
         },
+
         get hasActiveFilters() {
-            return this.activeFiltersCount > 0;
+            return this.activeFiltersCount > 0 ||
+                   Boolean(this.selectedName || this.selectedClassifiedSize || this.selectedClassifiedMaterial || this.selectedClassifiedStorage);
         },
+
         resetFilters() {
+            this.selectedName = null;
+            this.selectedClassifiedSize = null;
+            this.selectedClassifiedMaterial = null;
+            this.selectedClassifiedStorage = null;
             this.selectedPrices = [];
             this.selectedMaterials = [];
             this.selectedStorage = [];
             this.selectedSizes = [];
             this.selectedDiscounts = [];
-            this.selectedGroup = 'all';
             this.sortBy = 'recommended';
-            try {
-                const gw = this.$root?._x_dataStack?.find(d => d.selectedBedGroup !== undefined);
-                if (gw) gw.selectedBedGroup = 'all';
-            } catch(e) {}
+        },
+
+        removeNameFilter() {
+            this.selectedName = null;
+        },
+        removeClassifiedMaterial() {
+            this.selectedClassifiedMaterial = null;
         },
         removePriceFilter(p) {
             this.selectedPrices = this.selectedPrices.filter(item => item !== p);
@@ -4953,13 +5018,16 @@ function singleBedApp() {
         },
         removeStorageFilter(st) {
             this.selectedStorage = this.selectedStorage.filter(item => item !== st);
+            this.selectedClassifiedStorage = null;
         },
         removeSizeFilter(s) {
             this.selectedSizes = this.selectedSizes.filter(item => item !== s);
+            if (this.selectedClassifiedSize === s) this.selectedClassifiedSize = null;
         },
         removeDiscountFilter(d) {
             this.selectedDiscounts = this.selectedDiscounts.filter(item => item !== d);
         },
+
         toggleWishlist(p) {
             const id = p.id;
             const idx = this.wishlistIds.indexOf(id);
@@ -4984,6 +5052,7 @@ function singleBedApp() {
             }
             return this.wishlistIds.includes(id);
         },
+
         openBed(p) {
             window.currentBedProductData = p;
             try {
@@ -4998,22 +5067,85 @@ function singleBedApp() {
                 window.location.hash = '#bed-' + p.code;
             }
         },
+
         formatRupee(num) {
             const val = typeof num === 'number' && !isNaN(num) ? num : (parseInt(num) || 0);
             return '₹' + val.toLocaleString('en-IN');
         },
+
         get filteredProducts() {
             let result = Array.isArray(this.products) ? [...this.products] : [];
-            
-            // 1. Bed Group
-            if (this.selectedGroup && this.selectedGroup !== 'all') {
-                const activeGroup = this.groups.find(g => g.id === this.selectedGroup);
-                if (activeGroup && activeGroup.codes) {
-                    result = result.filter(p => activeGroup.codes.includes(p.code));
-                }
+
+            // 1. Filter By Name (Screenshot 2: Boba Bed, Boba Move, Boba Move With Bed)
+            if (this.selectedName) {
+                const query = this.selectedName.toLowerCase().trim();
+                result = result.filter(p => {
+                    const name = (p.name || '').toLowerCase();
+                    const code = (p.code || '').toLowerCase();
+                    return name.includes(query) || code.includes(query);
+                });
             }
 
-            // 2. Price Filter
+            // 2. Filter By Size (Screenshot 2 & Sidebar: King, Queen, Single, Double)
+            const activeSizes = new Set(this.selectedSizes);
+            if (this.selectedClassifiedSize) activeSizes.add(this.selectedClassifiedSize);
+            if (activeSizes.size > 0) {
+                const sizesList = Array.from(activeSizes);
+                result = result.filter(p => {
+                    return sizesList.some(sz => {
+                        const target = sz.toLowerCase();
+                        return p.sizes && p.sizes.some(s => {
+                            const name = (typeof s === 'string' ? s : (s.name || '')).toLowerCase();
+                            return name.includes(target);
+                        });
+                    });
+                });
+            }
+
+            // 3. Filter By Material (Screenshot 2: Solid Wood, Engineered Wood / Sidebar: Metal, Solid Wood & Engineered Wood)
+            if (this.selectedClassifiedMaterial) {
+                result = result.filter(p => {
+                    const frame = ((p.specifications && p.specifications.frameConstruction) || p.material || '').toLowerCase();
+                    if (this.selectedClassifiedMaterial === 'Solid Wood') {
+                        return (frame.includes('hardwood') || frame.includes('sheesham') || frame.includes('teak') || frame.includes('timber') || frame.includes('pine') || frame.includes('solid')) && !frame.includes('engineered') && !frame.includes('plywood');
+                    } else if (this.selectedClassifiedMaterial === 'Engineered Wood') {
+                        return frame.includes('engineered') || frame.includes('plywood') || ['BKPBD002', 'BKPBD008', 'BKPBD013'].includes(p.code);
+                    }
+                    return true;
+                });
+            }
+            if (this.selectedMaterials.length > 0) {
+                result = result.filter(p => {
+                    return this.selectedMaterials.some(mat => {
+                        const frame = ((p.specifications && p.specifications.frameConstruction) || p.material || '').toLowerCase();
+                        if (mat === 'metal') {
+                            const hasHydraulic = p.storageOptions && p.storageOptions.some(o => /hydraulic|steel/i.test(o.id || o.name || ''));
+                            return frame.includes('steel') || frame.includes('metal') || hasHydraulic || ['BKPBD005', 'BKPBD007'].includes(p.code);
+                        } else if (mat === 'wood') {
+                            return true; // Solid Wood & Engineered Wood
+                        }
+                        return false;
+                    });
+                });
+            }
+
+            // 4. Filter By Storage (Screenshot 2: Storage, Non Storage / Sidebar: With Storage, Without Storage)
+            const activeStorage = new Set(this.selectedStorage);
+            if (this.selectedClassifiedStorage === 'Storage') activeStorage.add('with_storage');
+            if (this.selectedClassifiedStorage === 'Non Storage') activeStorage.add('without_storage');
+            if (activeStorage.size > 0) {
+                const storageList = Array.from(activeStorage);
+                result = result.filter(p => {
+                    const isStorage = ['BKPBD002', 'BKPBD007', 'BKPBD008', 'BKPBD015'].includes(p.code) || (p.name && p.name.toLowerCase().includes('storage'));
+                    return storageList.some(st => {
+                        if (st === 'with_storage') return isStorage;
+                        if (st === 'without_storage') return !isStorage;
+                        return false;
+                    });
+                });
+            }
+
+            // 5. Filter By Price (Sidebar: 20001-50000, 50001-above)
             if (this.selectedPrices.length > 0) {
                 result = result.filter(p => {
                     return this.selectedPrices.some(range => {
@@ -5027,49 +5159,7 @@ function singleBedApp() {
                 });
             }
 
-            // 3. Material Filter
-            if (this.selectedMaterials.length > 0) {
-                result = result.filter(p => {
-                    return this.selectedMaterials.some(mat => {
-                        if (mat === 'metal') {
-                            const frame = (p.specifications && p.specifications.frameConstruction ? p.specifications.frameConstruction : '').toLowerCase();
-                            const hasHydraulic = p.storageOptions && p.storageOptions.some(o => /hydraulic|steel/i.test(o.id || o.name || ''));
-                            return frame.includes('steel') || frame.includes('metal') || hasHydraulic || ['BKPBD001', 'BKPBD002', 'BKPBD003', 'BKPBD004', 'BKPBD005', 'BKPBD007', 'BKPBD008', 'BKPBD009', 'BKPBD010', 'BKPBD011', 'BKPBD012', 'BKPBD013', 'BKPBD014', 'BKPBD015', 'BKPBD017'].includes(p.code);
-                        } else if (mat === 'wood') {
-                            const frame = (p.specifications && p.specifications.frameConstruction ? p.specifications.frameConstruction : '').toLowerCase();
-                            return frame.includes('wood') || frame.includes('timber') || frame.includes('sheesham') || frame.includes('teak') || frame.includes('pine') || frame.includes('plywood') || true;
-                        }
-                        return false;
-                    });
-                });
-            }
-
-            // 4. Storage Type Filter
-            if (this.selectedStorage.length > 0) {
-                result = result.filter(p => {
-                    return this.selectedStorage.some(st => {
-                        const isStorage = ['BKPBD002', 'BKPBD007', 'BKPBD008', 'BKPBD015'].includes(p.code) || (p.name && p.name.toLowerCase().includes('storage'));
-                        if (st === 'with_storage') return isStorage;
-                        if (st === 'without_storage') return !isStorage;
-                        return false;
-                    });
-                });
-            }
-
-            // 5. Size Filter
-            if (this.selectedSizes.length > 0) {
-                result = result.filter(p => {
-                    return this.selectedSizes.some(sz => {
-                        const target = sz.toLowerCase();
-                        return p.sizes && p.sizes.some(s => {
-                            const name = (s.name || s || '').toLowerCase();
-                            return name.includes(target);
-                        });
-                    });
-                });
-            }
-
-            // 6. Discount Filter
+            // 6. Filter By Discount (Sidebar: 10, 20, 30, 40)
             if (this.selectedDiscounts.length > 0) {
                 result = result.filter(p => {
                     const discountVal = parseFloat(p.discount) || (p.originalPrice && p.price ? Math.round((p.originalPrice - p.price) / p.originalPrice * 100) : 0);
@@ -5087,6 +5177,7 @@ function singleBedApp() {
 
             return result;
         },
+
         addToCart(product) {
             const rootData = this.$root?._x_dataStack?.find(d => d.cart !== undefined);
             const targetCart = rootData ? rootData.cart : (this.cart = this.cart || []);
@@ -6703,7 +6794,7 @@ function singleBedApp() {
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-200 pb-6">
                 <div>
                     <h1 class="text-3xl md:text-5xl font-extrabold text-brand-charcoal tracking-tight uppercase">BEDS COLLECTION</h1>
-                    <p class="text-sm md:text-base text-gray-500 mt-2 max-w-3xl leading-relaxed">Explore our handcrafted collection of luxury upholstered platform beds, divans, and solid wood frames.</p>
+                    <p class="text-sm md:text-base text-gray-500 mt-2 max-w-3xl leading-relaxed">Handcrafted luxury beds, upholstered platform frames, and custom storage divans.</p>
                 </div>
                 
                 <!-- Quick Category Switch Pills -->
@@ -6716,19 +6807,81 @@ function singleBedApp() {
             </div>
         </div>
 
-        <!-- Five Bed Groups + All Beds Navigation Tabs -->
-        <div class="mb-6">
-            <div class="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none no-scrollbar">
-                <template x-for="tab in groups" :key="tab.id">
-                    <button @click="selectGroup(tab.id)" 
-                            class="shrink-0 px-4 sm:px-5 py-2.5 rounded-full text-xs font-bold tracking-wide uppercase transition-all duration-300 border flex items-center gap-2 focus:outline-none"
-                            :class="selectedGroup === tab.id ? 'bg-[#292522] text-white border-[#292522] shadow-md shadow-[#292522]/10 scale-[1.02]' : 'bg-[#F4ECE1] text-[#4A4036] border-[#D5C9B8] hover:bg-[#EAE1D3] hover:text-[#292522]'">
-                        <span x-text="tab.label"></span>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full transition-colors"
-                              :class="selectedGroup === tab.id ? 'bg-white/20 text-white' : 'bg-[#E5DCD0] text-[#554D42]'"
-                              x-text="tab.count"></span>
-                    </button>
-                </template>
+        <!-- Classified Beds Category Interface based on Screenshot 2 -->
+        <div class="mb-8 bg-[#FAF6EE] rounded-[24px] border border-[#EBE2D5] p-5 sm:p-6 shadow-sm">
+            <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-[#EBE2D5]">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs sm:text-[13px] font-black text-[#D05228] uppercase tracking-wider font-sans">EXPLORE BY CATEGORY:</span>
+                    <span class="text-xs text-gray-400 font-bold hidden sm:inline">•</span>
+                    <span class="text-xs text-gray-500 font-medium hidden sm:inline">Browse handcrafted beds classified by name, size, material, and storage</span>
+                </div>
+                <button x-show="hasActiveFilters" @click="resetFilters()" class="text-xs font-bold text-[#7E7467] hover:text-[#D05228] transition uppercase tracking-wider flex items-center gap-1.5 focus:outline-none">
+                    <i class="fa-solid fa-rotate-left text-[10px]"></i>
+                    <span>View All Beds (18)</span>
+                </button>
+            </div>
+
+            <!-- 4 Classified Columns matching Screenshot 2 -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-0 md:divide-x md:divide-[#E5DDD0]">
+                <!-- Column 1: By Name -->
+                <div class="md:pr-5">
+                    <div class="mb-2.5">
+                        <span class="text-xs font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Name</span>
+                    </div>
+                    <div class="space-y-1.5">
+                        <template x-for="name in ['Boba Bed', 'Boba Move', 'Boba Move With Bed']" :key="name">
+                            <button @click="applyClassified('name', name)" 
+                                    class="block w-full text-left text-[13px] py-1 px-2 rounded-lg font-medium transition-all focus:outline-none"
+                                    :class="selectedName === name ? 'bg-[#292522] text-white font-bold shadow-sm' : 'text-[#292522] hover:text-[#D05228] hover:bg-white/60'"
+                                    x-text="name"></button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Column 2: By Size -->
+                <div class="md:px-5">
+                    <div class="mb-2.5">
+                        <span class="text-xs font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Size</span>
+                    </div>
+                    <div class="space-y-1.5">
+                        <template x-for="sz in ['King', 'Queen']" :key="sz">
+                            <button @click="applyClassified('size', sz)" 
+                                    class="block w-full text-left text-[13px] py-1 px-2 rounded-lg font-medium transition-all focus:outline-none"
+                                    :class="(selectedClassifiedSize === sz || selectedSizes.includes(sz)) ? 'bg-[#292522] text-white font-bold shadow-sm' : 'text-[#292522] hover:text-[#D05228] hover:bg-white/60'"
+                                    x-text="sz"></button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Column 3: By Material -->
+                <div class="md:px-5">
+                    <div class="mb-2.5">
+                        <span class="text-xs font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Material</span>
+                    </div>
+                    <div class="space-y-1.5">
+                        <template x-for="mat in ['Solid Wood', 'Engineered Wood']" :key="mat">
+                            <button @click="applyClassified('material', mat)" 
+                                    class="block w-full text-left text-[13px] py-1 px-2 rounded-lg font-medium transition-all focus:outline-none"
+                                    :class="selectedClassifiedMaterial === mat ? 'bg-[#292522] text-white font-bold shadow-sm' : 'text-[#292522] hover:text-[#D05228] hover:bg-white/60'"
+                                    x-text="mat"></button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Column 4: By Storage -->
+                <div class="md:pl-5">
+                    <div class="mb-2.5">
+                        <span class="text-xs font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Storage</span>
+                    </div>
+                    <div class="space-y-1.5">
+                        <template x-for="st in ['Storage', 'Non Storage']" :key="st">
+                            <button @click="applyClassified('storage', st)" 
+                                    class="block w-full text-left text-[13px] py-1 px-2 rounded-lg font-medium transition-all focus:outline-none"
+                                    :class="(selectedClassifiedStorage === st || (st === 'Storage' && selectedStorage.includes('with_storage')) || (st === 'Non Storage' && selectedStorage.includes('without_storage'))) ? 'bg-[#292522] text-white font-bold shadow-sm' : 'text-[#292522] hover:text-[#D05228] hover:bg-white/60'"
+                                    x-text="st"></button>
+                        </template>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -6740,12 +6893,32 @@ function singleBedApp() {
 
                 <!-- Top Status Bar: Count + Mobile Filter Button + Sort -->
                 <div class="flex items-center justify-between mb-5 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3 flex-wrap">
                         <span class="text-xs font-bold text-gray-500 tracking-widest uppercase" x-text="filteredProducts.length + ' PRODUCTS'">18 PRODUCTS</span>
-                        <span x-show="selectedGroup !== 'all'" class="text-xs font-bold text-brand-terracotta tracking-wider uppercase flex items-center gap-1.5">
-                            <span>•</span>
-                            <span x-text="currentGroupTitle"></span>
-                        </span>
+                        <template x-if="selectedName">
+                            <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase flex items-center gap-1.5">
+                                <span>•</span>
+                                <span>Name: <span x-text="selectedName"></span></span>
+                            </span>
+                        </template>
+                        <template x-if="selectedClassifiedSize">
+                            <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase flex items-center gap-1.5">
+                                <span>•</span>
+                                <span>Size: <span x-text="selectedClassifiedSize"></span></span>
+                            </span>
+                        </template>
+                        <template x-if="selectedClassifiedMaterial">
+                            <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase flex items-center gap-1.5">
+                                <span>•</span>
+                                <span>Material: <span x-text="selectedClassifiedMaterial"></span></span>
+                            </span>
+                        </template>
+                        <template x-if="selectedClassifiedStorage">
+                            <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase flex items-center gap-1.5">
+                                <span>•</span>
+                                <span>Storage: <span x-text="selectedClassifiedStorage"></span></span>
+                            </span>
+                        </template>
                     </div>
                     
                     <div class="flex items-center gap-3">
@@ -6769,54 +6942,68 @@ function singleBedApp() {
                     </div>
                 </div>
 
-                <!-- Active Filter Tags matching Reference 3 -->
+                <!-- Active Filter Tags matching Screenshot 1 & 4 -->
                 <div class="mb-6 flex items-center gap-2 flex-wrap">
                     <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#E8E1D5] text-[#554D42] rounded-md text-xs font-serif shadow-sm">
                         <span>Beds</span>
-                        <span class="text-[10px] text-[#7E7467] font-sans">✕</span>
                     </div>
-                    <!-- Active Group Tag -->
-                    <div x-show="selectedGroup !== 'all'" class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#292522] text-white rounded-md text-xs font-sans shadow-sm cursor-pointer hover:bg-black transition" @click="selectGroup('all')" title="Reset to All Beds">
-                        <span x-text="currentGroupTitle"></span>
-                        <span class="text-[10px] text-gray-300 font-sans hover:text-white">✕</span>
-                    </div>
-                    <!-- Price Filter Tags -->
+                    
+                    <!-- Active Name Tag -->
+                    <template x-if="selectedName">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#292522] text-white rounded-md text-xs font-sans shadow-sm cursor-pointer hover:bg-black transition" @click="selectedName = null">
+                            <span>Name: <span x-text="selectedName"></span></span>
+                            <span class="text-[10px] text-gray-300 hover:text-white">✕</span>
+                        </div>
+                    </template>
+                    
+                    <!-- Active Size Tags -->
+                    <template x-for="s in selectedSizes" :key="s">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF6EE] text-[#292522] border border-[#EBE2D5] rounded-md text-xs font-sans shadow-sm cursor-pointer hover:border-[#D05228] transition" @click="removeSizeFilter(s)">
+                            <span>Size: <span x-text="s"></span></span>
+                            <span class="text-[10px] text-gray-400 hover:text-black">✕</span>
+                        </div>
+                    </template>
+                    
+                    <!-- Active Material Tags -->
+                    <template x-if="selectedClassifiedMaterial">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF6EE] text-[#292522] border border-[#EBE2D5] rounded-md text-xs font-sans shadow-sm cursor-pointer hover:border-[#D05228] transition" @click="selectedClassifiedMaterial = null">
+                            <span>Material: <span x-text="selectedClassifiedMaterial"></span></span>
+                            <span class="text-[10px] text-gray-400 hover:text-black">✕</span>
+                        </div>
+                    </template>
+                    <template x-for="m in selectedMaterials" :key="m">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF6EE] text-[#292522] border border-[#EBE2D5] rounded-md text-xs font-sans shadow-sm cursor-pointer hover:border-[#D05228] transition" @click="removeMaterialFilter(m)">
+                            <span x-text="m === 'metal' ? 'Material: Metal' : 'Material: Solid Wood & Engineered Wood'"></span>
+                            <span class="text-[10px] text-gray-400 hover:text-black">✕</span>
+                        </div>
+                    </template>
+                    
+                    <!-- Active Storage Tags -->
+                    <template x-for="st in selectedStorage" :key="st">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF6EE] text-[#292522] border border-[#EBE2D5] rounded-md text-xs font-sans shadow-sm cursor-pointer hover:border-[#D05228] transition" @click="removeStorageFilter(st)">
+                            <span x-text="st === 'with_storage' ? 'Storage: With Storage' : 'Storage: Without Storage'"></span>
+                            <span class="text-[10px] text-gray-400 hover:text-black">✕</span>
+                        </div>
+                    </template>
+                    
+                    <!-- Active Price Tags -->
                     <template x-for="p in selectedPrices" :key="p">
                         <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF6EE] text-[#292522] border border-[#EBE2D5] rounded-md text-xs font-sans shadow-sm cursor-pointer hover:border-[#D05228] transition" @click="removePriceFilter(p)">
                             <span x-text="p === '20001-50000' ? '₹ 20001 – ₹ 50000' : '₹ 50001 & Above'"></span>
                             <span class="text-[10px] text-gray-400 hover:text-black">✕</span>
                         </div>
                     </template>
-                    <!-- Material Filter Tags -->
-                    <template x-for="m in selectedMaterials" :key="m">
-                        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF6EE] text-[#292522] border border-[#EBE2D5] rounded-md text-xs font-sans shadow-sm cursor-pointer hover:border-[#D05228] transition" @click="removeMaterialFilter(m)">
-                            <span x-text="m === 'metal' ? 'Metal' : 'Solid Wood & Engineered Wood'"></span>
-                            <span class="text-[10px] text-gray-400 hover:text-black">✕</span>
-                        </div>
-                    </template>
-                    <!-- Storage Filter Tags -->
-                    <template x-for="st in selectedStorage" :key="st">
-                        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF6EE] text-[#292522] border border-[#EBE2D5] rounded-md text-xs font-sans shadow-sm cursor-pointer hover:border-[#D05228] transition" @click="removeStorageFilter(st)">
-                            <span x-text="st === 'with_storage' ? 'With Storage' : 'Without Storage'"></span>
-                            <span class="text-[10px] text-gray-400 hover:text-black">✕</span>
-                        </div>
-                    </template>
-                    <!-- Size Filter Tags -->
-                    <template x-for="s in selectedSizes" :key="s">
-                        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF6EE] text-[#292522] border border-[#EBE2D5] rounded-md text-xs font-sans shadow-sm cursor-pointer hover:border-[#D05228] transition" @click="removeSizeFilter(s)">
-                            <span x-text="s"></span>
-                            <span class="text-[10px] text-gray-400 hover:text-black">✕</span>
-                        </div>
-                    </template>
-                    <!-- Discount Filter Tags -->
+                    
+                    <!-- Active Discount Tags -->
                     <template x-for="d in selectedDiscounts" :key="d">
                         <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF6EE] text-[#292522] border border-[#EBE2D5] rounded-md text-xs font-sans shadow-sm cursor-pointer hover:border-[#D05228] transition" @click="removeDiscountFilter(d)">
                             <span x-text="d + '% & Above'"></span>
                             <span class="text-[10px] text-gray-400 hover:text-black">✕</span>
                         </div>
                     </template>
+                    
                     <!-- Clear All Link -->
-                    <button x-show="hasActiveFilters" @click="resetFilters()" class="text-xs text-[#D05228] hover:underline font-bold tracking-wider ml-1">
+                    <button x-show="hasActiveFilters" @click="resetFilters()" class="text-xs text-[#D05228] hover:underline font-bold tracking-wider ml-1 focus:outline-none">
                         Clear All
                     </button>
                 </div>
@@ -6836,7 +7023,7 @@ function singleBedApp() {
                                     </button>
                                 </div>
                                 
-                                <!-- Card Body matching Reference 3 Typography & Layout -->
+                                <!-- Card Body matching Screenshot 4 Typography & Layout -->
                                 <div class="px-2 pt-4 pb-1 flex-grow flex flex-col justify-between" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
                                     <div>
                                         <!-- Category & Product Code -->
@@ -6865,15 +7052,16 @@ function singleBedApp() {
                             </div>
                         </template>
 
-                        <!-- Clean Empty State if no filters match -->
+                        <!-- Clean Empty State if no filters or brand name match -->
                         <div x-show="filteredProducts.length === 0" class="col-span-full py-16 text-center bg-white/70 rounded-3xl border border-[#EBE2D5] p-8 my-4">
                             <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-[#FAF6EE] flex items-center justify-center text-[#D05228]">
                                 <i class="fa-solid fa-bed text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-[#292522] mb-2 font-serif">No beds match your selected filters.</h3>
-                            <p class="text-sm text-[#7E7467] mb-6 max-w-md mx-auto">Try adjusting your price range, material, size, or discount criteria to see more handcrafted beds.</p>
-                            <button @click="resetFilters()" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#292522] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#D05228] transition-colors shadow-md">
-                                <span>Reset All Filters</span>
+                            <h3 class="text-xl font-bold text-[#292522] mb-2 font-serif" x-text="selectedName ? 'No products match "' + selectedName + '"' : 'No beds match your selected filters.'"></h3>
+                            <p class="text-sm text-[#7E7467] mb-6 max-w-md mx-auto" x-text="selectedName ? 'The Boba series is not part of the BACKSPACE.CO catalog. Discover our 18 handcrafted signature bed designs.' : 'Try adjusting your price range, material, size, or discount criteria to see more handcrafted beds.'"></p>
+                            <button @click="resetFilters()" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#292522] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#D05228] transition-colors shadow-md focus:outline-none">
+                                <i class="fa-solid fa-rotate-left"></i>
+                                <span>View All 18 Beds</span>
                             </button>
                         </div>
                     </div>
@@ -6886,7 +7074,7 @@ function singleBedApp() {
                     <!-- Sidebar Header: FILTER: in orange-red accent -->
                     <div class="flex items-center justify-between pb-3.5 border-b border-[#EBE2D5]">
                         <h3 class="text-base sm:text-lg font-black text-[#D05228] tracking-wider uppercase font-sans">FILTER:</h3>
-                        <button x-show="hasActiveFilters" @click="resetFilters()" class="text-xs font-bold text-[#7E7467] hover:text-[#D05228] transition uppercase tracking-wider">Reset</button>
+                        <button x-show="hasActiveFilters" @click="resetFilters()" class="text-xs font-bold text-[#7E7467] hover:text-[#D05228] transition uppercase tracking-wider focus:outline-none">Reset</button>
                     </div>
 
                     <!-- 1. Price Filter Group -->
@@ -6999,7 +7187,7 @@ function singleBedApp() {
         </div>
     </div>
 
-    <!-- Mobile Filters Slide-Over Drawer (Visible only when mobileFiltersOpen is true on mobile/tablet) -->
+    <!-- Mobile Filters Slide-Over Drawer -->
     <div x-show="mobileFiltersOpen" style="display:none;" class="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true">
         <!-- Backdrop -->
         <div x-show="mobileFiltersOpen" 
