@@ -9,6 +9,8 @@ const defaultProducts = [
     // --- MATTRESSES (3 Signature Products) ---
     {
         id: 1,
+        code: 'BKPMT001',
+        footer: 'Customization available',
         name: 'Original – 3 Layered BodyIQ Orthopedic Memory Foam Mattress',
         tagline: 'BodyIQ Orthopedic Comfort',
         description: 'Original 3-layered orthopedic memory foam mattress with adaptive BodyIQ contouring for healthy spinal alignment and pressure point relief.',
@@ -46,6 +48,8 @@ const defaultProducts = [
     },
     {
         id: 2,
+        code: 'BKPMT002',
+        footer: 'Customization available',
         name: 'Sense – BodyIQ Orthopedic Memory Foam Mattress with Cooling Tech',
         tagline: 'Cooling Orthopedic Alignment',
         description: 'Sense orthopedic memory foam mattress featuring active cooling technology and BodyIQ dynamic pressure-relieving contours.',
@@ -83,6 +87,8 @@ const defaultProducts = [
     },
     {
         id: 3,
+        code: 'BKPMT003',
+        footer: 'Customization available',
         name: 'Flip – Dual Sided Foam Mattress with Firm & Soft Sides – Grey',
         tagline: 'Dual-Sided Reversible Comfort',
         description: 'Dual-sided flippable mattress with high-density support foam, allowing you to choose between firm orthopedic support or soft cushioning.',

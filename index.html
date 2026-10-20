@@ -1162,7 +1162,9 @@
                 "desc": "Ergonomic orthopedic core"
             }
         ],
-        "alt": "Original 3 Layered BodyIQ Orthopedic Memory Foam Mattress"
+        "alt": "Original 3 Layered BodyIQ Orthopedic Memory Foam Mattress",
+        "code": "BKPMT001",
+        "footer": "Customization available"
     },
     {
         "id": 2,
@@ -1243,7 +1245,9 @@
                 "desc": "Zoned orthopedic support foundation"
             }
         ],
-        "alt": "Sense BodyIQ Orthopedic Memory Foam Mattress with Cooling Tech"
+        "alt": "Sense BodyIQ Orthopedic Memory Foam Mattress with Cooling Tech",
+        "code": "BKPMT002",
+        "footer": "Customization available"
     },
     {
         "id": 3,
@@ -1324,7 +1328,9 @@
                 "desc": "High-density orthopedic firm base"
             }
         ],
-        "alt": "Flip Dual Sided Foam Mattress with Firm and Soft Sides Grey"
+        "alt": "Flip Dual Sided Foam Mattress with Firm and Soft Sides Grey",
+        "code": "BKPMT003",
+        "footer": "Customization available"
     },
     {
         "id": 201,
@@ -7183,86 +7189,51 @@ function singleBedApp() {
                 </div>
 
                 <!-- Product Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
                     <template x-for="p in displayProducts" :key="p.id">
-                        <div class="bg-[#FFFCF7] rounded-2xl border border-[#E6DFD6] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1"
-                             x-data="{ activeSize: 'Single' }">
-                            <!-- Image Header -->
-                            <div class="relative aspect-[4/3] bg-[#F1EBE3] overflow-hidden cursor-pointer" @click="currentProductData = p; goToPage('productDetail')">
-                                <img :src="p.image || (p.images && p.images.main)" 
-                                     onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}else{this.src='./public/images/mattresses/cloud-memory-foam/main.jpg';}" 
-                                     :alt="p.name" 
-                                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                                     loading="lazy">
+                        <div class="bg-[#F4ECE1] rounded-[28px] border border-[#E7DFD3] p-3.5 pb-5 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] transition-all duration-300 group flex flex-col cursor-pointer hover:-translate-y-1"
+                             @click="currentProductData = p; goToPage('productDetail')">
+                            <!-- Image Frame with Rounded Borders -->
+                            <div class="relative overflow-hidden rounded-[20px] border border-white/80 bg-[#EFE8DE] shadow-sm cursor-pointer"
+                                 @click="currentProductData = p; goToPage('productDetail')">
+                                <img :src="p.image || (p.images && p.images.main)" :alt="p.name"
+                                     class="w-full h-auto aspect-[301/201] object-cover rounded-[18px] transition-transform duration-700 ease-out group-hover:scale-105"
+                                     loading="lazy"
+                                     onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}else{this.src='./public/images/mattresses/cloud-memory-foam/main.jpg';}">
                                 
-                                <!-- Badge: 'New Launch' -->
-                                <span class="absolute top-3 left-3 bg-[#292522] text-[#FAF6EE] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-sm" x-text="p.badge || 'New Launch'"></span>
-                                
-                                <!-- Wishlist Icon Button -->
-                                <button type="button" @click.stop="toggleWishlist(p)" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 hover:bg-white text-[#786C5E] hover:text-[#B85C38] flex items-center justify-center shadow-sm transition-all focus:outline-none z-10" title="Wishlist">
-                                    <i :class="isInWishlist(p.id) ? 'fa-solid fa-heart text-[#D05228]' : 'fa-regular fa-heart text-[13px] text-[#292522]'"></i>
+                                <!-- Circular Heart/Favourite Button -->
+                                <button type="button" @click.stop="toggleWishlist(p)"
+                                        class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 hover:bg-white text-[#786C5E] hover:text-[#B85C38] flex items-center justify-center shadow-sm transition-all focus:outline-none z-10"
+                                        title="Wishlist">
+                                    <i :class="isInWishlist(p.id) ? 'fa-solid fa-heart text-[#B85C38]' : 'fa-regular fa-heart text-[13px] text-[#6E5D4F]'"></i>
                                 </button>
                             </div>
-
-                            <!-- Body Info -->
-                            <div class="p-5 flex-1 flex flex-col justify-between">
+                            
+                            <!-- Card Body matching Beds Typography & Layout -->
+                            <div class="px-2 pt-4 pb-1 flex-grow flex flex-col justify-between" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
                                 <div>
-                                    <!-- Product Name (max 2 lines) -->
-                                    <h3 class="font-bold text-base text-[#292522] group-hover:text-[#D05228] transition-colors line-clamp-2 leading-snug mb-3 cursor-pointer min-h-[44px]" 
-                                        @click="currentProductData = p; goToPage('productDetail')" 
-                                        x-text="p.name"></h3>
+                                    <!-- Category & Product Code -->
+                                    <div class="flex items-center justify-between text-[#7E7467] text-[13px] mb-1 font-medium">
+                                        <span x-text="p.category || 'Mattresses'">Mattresses</span>
+                                        <span class="tracking-wide" x-text="p.code || ('BKPMT00' + p.id)">BKPMT001</span>
+                                    </div>
                                     
-                                    <!-- Price Line: Selling Price + Struck-through MRP + Discount Pill -->
-                                    <div class="flex items-baseline flex-wrap gap-2 mb-3.5">
-                                        <span class="text-xl sm:text-2xl font-black text-[#D05228]" 
-                                              x-text="'₹' + (p.prices && p.prices[activeSize] ? p.prices[activeSize].price.toLocaleString('en-IN') : p.price.toLocaleString('en-IN'))"></span>
-                                        <span class="text-xs sm:text-sm font-medium text-gray-400 line-through" 
-                                              x-text="'₹' + (p.prices && p.prices[activeSize] ? p.prices[activeSize].mrp.toLocaleString('en-IN') : (p.originalPrice || p.mrp).toLocaleString('en-IN'))"></span>
-                                        <span class="text-[11px] font-black text-[#D05228] bg-[#FDF0EB] border border-[#F5C4B1] px-2 py-0.5 rounded-md uppercase tracking-wider" 
-                                              x-text="p.discount"></span>
-                                    </div>
-
-                                    <!-- Two Feature Lines with Small Icons -->
-                                    <div class="space-y-2 mb-4 text-xs text-[#524B45]">
-                                        <div class="flex items-center gap-2">
-                                            <i :class="p.feature1Icon || 'fa-solid fa-layer-group'" class="text-[#D05228] text-[11px] w-4 text-center shrink-0"></i>
-                                            <span class="font-medium truncate" x-text="p.feature1 || (p.construction ? p.construction[0].name : 'Adaptive Comfort')"></span>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <i :class="p.feature2Icon || 'fa-solid fa-shield-halved'" class="text-[#D05228] text-[11px] w-4 text-center shrink-0"></i>
-                                            <span class="font-medium truncate" x-text="p.feature2 || (p.construction && p.construction[1] ? p.construction[1].name : 'Orthopedic Core Support')"></span>
-                                        </div>
-                                    </div>
+                                    <!-- Elegant Product Name -->
+                                    <h3 class="text-[#2B241E] text-[22px] sm:text-[23px] lg:text-[25px] font-normal leading-snug my-2 group-hover:text-[#8B5A2B] transition-colors cursor-pointer"
+                                        @click="currentProductData = p; goToPage('productDetail')" x-text="p.name"></h3>
                                 </div>
-
-                                <!-- Sizes & Action Footer -->
+                                
                                 <div>
-                                    <!-- Size Chips (One selectable at a time) -->
-                                    <div class="pt-3 border-t border-[#E6DFD6]/70">
-                                        <div class="flex items-center justify-between mb-2">
-                                            <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">SELECT SIZE</span>
-                                            <span class="text-[10px] font-bold text-[#D05228] uppercase" x-text="activeSize"></span>
-                                        </div>
-                                        <div class="grid grid-cols-4 gap-1.5">
-                                            <template x-for="sz in (p.sizes || ['Single', 'Double', 'Queen', 'King'])" :key="sz">
-                                                <button type="button"
-                                                        @click.stop="activeSize = sz"
-                                                        class="py-1.5 px-1 rounded-lg text-xs font-bold transition-all text-center focus:outline-none border"
-                                                        :class="activeSize === sz ? 'bg-[#292522] text-white border-[#292522] shadow-xs' : 'bg-[#FAF6EE] text-[#524B45] border-[#E6DFD6] hover:border-gray-400 hover:bg-white'">
-                                                    <span x-text="sz"></span>
-                                                </button>
-                                            </template>
-                                        </div>
-                                    </div>
-
-                                    <!-- Action Buttons: View Details & Order -->
-                                    <div class="mt-4 pt-3 border-t border-[#E6DFD6]/70 grid grid-cols-2 gap-2">
-                                        <button type="button" @click="currentProductData = p; goToPage('productDetail')" class="w-full bg-[#FAF6EE] hover:bg-[#F0EBE1] text-[#292522] py-2.5 rounded-xl text-xs font-bold tracking-wider uppercase transition border border-[#D5C9B8] text-center">
-                                            View Details
-                                        </button>
-                                        <button type="button" @click="window.open(`https://wa.me/916300946652?text=${encodeURIComponent(`Hello Backspace Go,\n\nI want to order:\nProduct: ${p.name}\nSize: ${activeSize}\nPrice: ₹${p.prices && p.prices[activeSize] ? p.prices[activeSize].price : p.price}\n\nPlease confirm availability and delivery timelines.`)}`, '_blank')" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-2.5 rounded-xl text-xs font-bold tracking-wider uppercase transition shadow-xs flex items-center justify-center space-x-1.5">
-                                            <i class="fa-brands fa-whatsapp text-sm"></i>
-                                            <span>Order</span>
+                                    <!-- Thin Horizontal Divider -->
+                                    <div class="w-full h-[1px] bg-[#E5DCD0] my-3.5"></div>
+                                    
+                                    <!-- Footer: Customization available + Circular Arrow Button -->
+                                    <div class="flex items-center justify-between pt-1">
+                                        <span class="text-[#7E7467] text-[12px] sm:text-[13px] font-normal" x-text="p.footer || 'Customization available'">Customization available</span>
+                                        <button type="button" @click.stop="currentProductData = p; goToPage('productDetail')"
+                                                class="w-8 h-8 rounded-full border border-[#D5C9B8] bg-transparent hover:bg-white flex items-center justify-center text-[#4A4036] hover:text-black transition shadow-sm focus:outline-none"
+                                                title="View Mattress Details">
+                                            <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7V15" /></svg>
                                         </button>
                                     </div>
                                 </div>
