@@ -1108,120 +1108,142 @@
                 x-data="heroCarousel()"
                 @mouseenter="pause()"
                 @mouseleave="play()"
-                @touchstart="pause()"
-                @touchend="play()"
+                @focusin="pause()"
+                @focusout="play()"
+                @touchstart.passive="pause()"
+                @touchend.passive="play()"
+                @keydown.window="handleKeydown($event)"
+                aria-label="Featured Collections Carousel"
             >
                 <!-- Carousel Container -->
                 <div 
                     x-ref="container"
-                    class="flex overflow-x-auto snap-x snap-mandatory hide-scroll h-[80vh] md:h-[600px] lg:h-[700px] scroll-smooth"
+                    class="hero-carousel-container flex overflow-x-auto snap-x snap-mandatory hide-scroll h-[80vh] min-h-[520px] md:h-[600px] lg:h-[700px] scroll-smooth"
                     @scroll.debounce.50ms="updateCurrentSlide"
                 >
-                    <!-- Slide 1 -->
+                    <!-- Slide 1: Mattresses -->
                     <div class="snap-start flex-shrink-0 w-full relative h-full flex items-center">
-                        <img src="./public/images/mattresses/premium-latex/main.jpg" class="absolute inset-0 w-full h-full object-cover opacity-80" alt="Premium Mattress">
-                        <div class="absolute inset-0 bg-gradient-to-r from-brand-charcoal/90 via-brand-charcoal/50 to-transparent"></div>
-                        <div class="max-w-7xl mx-auto px-6 relative z-10 w-full mt-16 md:mt-0">
+                        <picture>
+                            <source media="(max-width: 768px)" srcset="./public/images/hero-mattress-mobile.webp">
+                            <img 
+                                src="./public/images/hero-mattress.webp" 
+                                alt="BACKSPACE handcrafted premium mattresses" 
+                                fetchpriority="high" 
+                                loading="eager" 
+                                class="absolute inset-0 w-full h-full object-cover"
+                            >
+                        </picture>
+                        <div class="absolute inset-0 hero-gradient-overlay pointer-events-none"></div>
+                        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 w-full mt-16 md:mt-0 flex items-center">
                             <div class="max-w-xl text-left">
-                                <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold mb-4 leading-tight text-white opacity-0 transition-all duration-700 transform translate-y-8" :class="{ 'opacity-100 translate-y-0': currentSlide === 0 }">BETTER SLEEP.<br>BRIGHTER YOU.</h1>
-                                <p class="text-lg md:text-xl text-gray-200 mb-6 font-light opacity-0 transition-all duration-700 delay-100 transform translate-y-4" :class="{ 'opacity-100 translate-y-0': currentSlide === 0 }">Premium mattresses designed for<br>comfort, support and better sleep.</p>
-                                
-                                <div class="flex flex-wrap gap-4 mb-8 opacity-0 transition-all duration-700 delay-200 transform translate-y-4" :class="{ 'opacity-100 translate-y-0': currentSlide === 0 }">
-                                    <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20">
-                                        <i class="fa-solid fa-cloud text-brand-terracotta text-sm"></i>
-                                        <span class="text-[10px] md:text-xs font-bold tracking-widest uppercase text-white">Superior Comfort</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20">
-                                        <i class="fa-solid fa-shield-halved text-brand-terracotta text-sm"></i>
-                                        <span class="text-[10px] md:text-xs font-bold tracking-widest uppercase text-white">Long Lasting</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20">
-                                        <i class="fa-solid fa-moon text-brand-terracotta text-sm"></i>
-                                        <span class="text-[10px] md:text-xs font-bold tracking-widest uppercase text-white">Better Sleep</span>
-                                    </div>
-                                </div>
-                                
-                                <button @click="goToPage('shop', 'Mattresses')" class="bg-brand-terracotta text-white px-8 py-4 text-sm font-bold tracking-widest uppercase rounded-full hover:bg-orange-700 transition shadow-lg opacity-0 duration-700 delay-300 transform translate-y-4" :class="{ 'opacity-100 translate-y-0': currentSlide === 0 }">SHOP MATTRESSES <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                                <div class="hero-anim-item text-[#D05228] font-bold text-xs md:text-sm tracking-[0.22em] uppercase mb-2 md:mb-3 opacity-0 transform translate-y-6 duration-700 ease-out" :class="{ 'opacity-100 translate-y-0': currentSlide === 0 }">MATTRESSES</div>
+                                <h1 class="hero-anim-item hero-headline text-white mb-3 md:mb-4 opacity-0 transform translate-y-6 duration-700 delay-100 ease-out" :class="{ 'opacity-100 translate-y-0': currentSlide === 0 }">Sleep that feels like home</h1>
+                                <p class="hero-anim-item text-base md:text-[17px] text-[#F1EBE3]/90 font-light leading-relaxed mb-6 md:mb-8 opacity-0 transform translate-y-6 duration-700 delay-200 ease-out" :class="{ 'opacity-100 translate-y-0': currentSlide === 0 }">Orthopaedic, memory foam and pocket spring mattresses</p>
+                                <button @click="goToPage('shop', 'Mattresses')" class="hero-anim-item hero-pill-btn group/btn inline-flex items-center px-7 py-3.5 md:px-8 md:py-4 rounded-full text-xs md:text-sm font-semibold tracking-wider uppercase opacity-0 transform translate-y-6 duration-700 delay-300 ease-out focus:outline-none focus:ring-2 focus:ring-white/60 shadow-lg" :class="{ 'opacity-100 translate-y-0': currentSlide === 0 }">
+                                    Shop Mattresses <i class="fa-solid fa-arrow-right ml-2.5 text-xs transition-transform duration-300 group-hover/btn:translate-x-1"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Slide 2 -->
+                    <!-- Slide 2: Beds -->
                     <div class="snap-start flex-shrink-0 w-full relative h-full flex items-center">
-                        <img src="./public/images/mattresses/orthopedic-support/main.jpg" class="absolute inset-0 w-full h-full object-cover opacity-80" alt="Orthopedic Mattress">
-                        <div class="absolute inset-0 bg-gradient-to-r md:bg-gradient-to-l from-brand-charcoal/90 via-brand-charcoal/50 to-transparent"></div>
-                        <div class="max-w-7xl mx-auto px-6 relative z-10 w-full mt-16 md:mt-0 flex justify-start md:justify-end">
-                            <div class="max-w-xl text-left md:text-right">
-                                <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold mb-4 leading-tight text-white opacity-0 transition-all duration-700 transform translate-y-8" :class="{ 'opacity-100 translate-y-0': currentSlide === 1 }">PREMIUM COMFORT<br>FOR EVERY SLEEPER</h1>
-                                <p class="text-lg md:text-xl text-gray-200 mb-6 font-light opacity-0 transition-all duration-700 delay-100 transform translate-y-4" :class="{ 'opacity-100 translate-y-0': currentSlide === 1 }">Comfort &bull; Support &bull; Durability</p>
-                                
-                                <div class="flex flex-wrap gap-3 mb-8 md:justify-end opacity-0 transition-all duration-700 delay-200 transform translate-y-4" :class="{ 'opacity-100 translate-y-0': currentSlide === 1 }">
-                                    <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-2 rounded-xl border border-white/20">
-                                        <i class="fa-solid fa-bone text-brand-terracotta text-xs"></i>
-                                        <span class="text-[9px] md:text-[10px] font-bold tracking-widest uppercase text-white">Orthopaedic Support</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-2 rounded-xl border border-white/20">
-                                        <i class="fa-solid fa-wind text-brand-terracotta text-xs"></i>
-                                        <span class="text-[9px] md:text-[10px] font-bold tracking-widest uppercase text-white">Breathable Comfort</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-2 rounded-xl border border-white/20">
-                                        <i class="fa-solid fa-bug-slash text-brand-terracotta text-xs"></i>
-                                        <span class="text-[9px] md:text-[10px] font-bold tracking-widest uppercase text-white">Dust Resistant</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-2 rounded-xl border border-white/20">
-                                        <i class="fa-solid fa-shield-halved text-brand-terracotta text-xs"></i>
-                                        <span class="text-[9px] md:text-[10px] font-bold tracking-widest uppercase text-white">Long Lasting</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-2 rounded-xl border border-white/20">
-                                        <i class="fa-solid fa-moon text-brand-terracotta text-xs"></i>
-                                        <span class="text-[9px] md:text-[10px] font-bold tracking-widest uppercase text-white">Better Sleep</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-2 rounded-xl border border-white/20">
-                                        <i class="fa-solid fa-ruler-combined text-brand-terracotta text-xs"></i>
-                                        <span class="text-[9px] md:text-[10px] font-bold tracking-widest uppercase text-white">Multiple Sizes</span>
-                                    </div>
-                                </div>
-                                
-                                <button @click="goToPage('shop', 'Mattresses')" class="bg-white text-brand-charcoal px-8 py-4 text-sm font-bold tracking-widest uppercase rounded-full hover:bg-gray-100 transition shadow-lg opacity-0 duration-700 delay-300 transform translate-y-4" :class="{ 'opacity-100 translate-y-0': currentSlide === 1 }">SHOP MATTRESSES <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                        <picture>
+                            <source media="(max-width: 768px)" srcset="./public/images/hero-beds-mobile.webp">
+                            <img 
+                                src="./public/images/hero-beds.webp" 
+                                alt="BACKSPACE upholstered platform beds and storage divans" 
+                                loading="lazy" 
+                                class="absolute inset-0 w-full h-full object-cover"
+                            >
+                        </picture>
+                        <div class="absolute inset-0 hero-gradient-overlay pointer-events-none"></div>
+                        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 w-full mt-16 md:mt-0 flex items-center">
+                            <div class="max-w-xl text-left">
+                                <div class="hero-anim-item text-[#D05228] font-bold text-xs md:text-sm tracking-[0.22em] uppercase mb-2 md:mb-3 opacity-0 transform translate-y-6 duration-700 ease-out" :class="{ 'opacity-100 translate-y-0': currentSlide === 1 }">BEDS</div>
+                                <h2 class="hero-anim-item hero-headline text-white mb-3 md:mb-4 opacity-0 transform translate-y-6 duration-700 delay-100 ease-out" :class="{ 'opacity-100 translate-y-0': currentSlide === 1 }">Beds crafted to be the heart of your room</h2>
+                                <p class="hero-anim-item text-base md:text-[17px] text-[#F1EBE3]/90 font-light leading-relaxed mb-6 md:mb-8 opacity-0 transform translate-y-6 duration-700 delay-200 ease-out" :class="{ 'opacity-100 translate-y-0': currentSlide === 1 }">Upholstered platform beds and storage divans, made to your size</p>
+                                <button @click="goToPage('beds')" class="hero-anim-item hero-pill-btn group/btn inline-flex items-center px-7 py-3.5 md:px-8 md:py-4 rounded-full text-xs md:text-sm font-semibold tracking-wider uppercase opacity-0 transform translate-y-6 duration-700 delay-300 ease-out focus:outline-none focus:ring-2 focus:ring-white/60 shadow-lg" :class="{ 'opacity-100 translate-y-0': currentSlide === 1 }">
+                                    Explore Beds <i class="fa-solid fa-arrow-right ml-2.5 text-xs transition-transform duration-300 group-hover/btn:translate-x-1"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Slide 3 -->
-                    <div class="snap-start flex-shrink-0 w-full relative h-full flex items-center justify-center text-center">
-                        <img src="./public/images/mattresses/luxury-latex/main.jpg" class="absolute inset-0 w-full h-full object-cover opacity-80" alt="Luxury Latex Mattress">
-                        <div class="absolute inset-0 bg-gradient-to-t from-brand-charcoal/90 via-brand-charcoal/30 to-brand-charcoal/30"></div>
-                        <div class="max-w-3xl mx-auto px-6 relative z-10 w-full mt-16 md:mt-0 flex flex-col items-center">
-                            <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 leading-tight text-white opacity-0 transition-all duration-700 transform translate-y-8" :class="{ 'opacity-100 translate-y-0': currentSlide === 2 }">SMART COMFORT.<br>BETTER NIGHTS.</h1>
-                            <button @click="goToPage('shop', 'Mattresses')" class="bg-brand-terracotta text-white px-8 py-4 text-sm font-bold tracking-widest uppercase rounded-full hover:bg-orange-700 transition shadow-lg opacity-0 duration-700 delay-200 transform translate-y-4" :class="{ 'opacity-100 translate-y-0': currentSlide === 2 }">EXPLORE MATTRESSES <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                    <!-- Slide 3: Protectors -->
+                    <div class="snap-start flex-shrink-0 w-full relative h-full flex items-center">
+                        <picture>
+                            <source media="(max-width: 768px)" srcset="./public/images/hero-protectors-mobile.webp">
+                            <img 
+                                src="./public/images/hero-protectors.webp" 
+                                alt="BACKSPACE waterproof and breathable mattress protectors" 
+                                loading="lazy" 
+                                class="absolute inset-0 w-full h-full object-cover"
+                            >
+                        </picture>
+                        <div class="absolute inset-0 hero-gradient-overlay pointer-events-none"></div>
+                        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 w-full mt-16 md:mt-0 flex items-center">
+                            <div class="max-w-xl text-left">
+                                <div class="hero-anim-item text-[#D05228] font-bold text-xs md:text-sm tracking-[0.22em] uppercase mb-2 md:mb-3 opacity-0 transform translate-y-6 duration-700 ease-out" :class="{ 'opacity-100 translate-y-0': currentSlide === 2 }">PROTECTORS</div>
+                                <h2 class="hero-anim-item hero-headline text-white mb-3 md:mb-4 opacity-0 transform translate-y-6 duration-700 delay-100 ease-out" :class="{ 'opacity-100 translate-y-0': currentSlide === 2 }">Protect the comfort you love</h2>
+                                <p class="hero-anim-item text-base md:text-[17px] text-[#F1EBE3]/90 font-light leading-relaxed mb-6 md:mb-8 opacity-0 transform translate-y-6 duration-700 delay-200 ease-out" :class="{ 'opacity-100 translate-y-0': currentSlide === 2 }">Waterproof, breathable and hypoallergenic protectors</p>
+                                <button @click="goToPage('shop', 'Protectors')" class="hero-anim-item hero-pill-btn group/btn inline-flex items-center px-7 py-3.5 md:px-8 md:py-4 rounded-full text-xs md:text-sm font-semibold tracking-wider uppercase opacity-0 transform translate-y-6 duration-700 delay-300 ease-out focus:outline-none focus:ring-2 focus:ring-white/60 shadow-lg" :class="{ 'opacity-100 translate-y-0': currentSlide === 2 }">
+                                    Shop Protectors <i class="fa-solid fa-arrow-right ml-2.5 text-xs transition-transform duration-300 group-hover/btn:translate-x-1"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Slide 4 -->
+                    <!-- Slide 4: Pillows -->
                     <div class="snap-start flex-shrink-0 w-full relative h-full flex items-center">
-                        <img src="./public/images/mattresses/cool-gel/main.jpg" class="absolute inset-0 w-full h-full object-cover opacity-80" alt="Memory Foam Mattress">
-                        <div class="absolute inset-0 bg-gradient-to-r from-brand-charcoal/90 via-brand-charcoal/40 to-transparent"></div>
-                        <div class="max-w-7xl mx-auto px-6 relative z-10 w-full mt-16 md:mt-0">
+                        <picture>
+                            <source media="(max-width: 768px)" srcset="./public/images/hero-pillows-mobile.webp">
+                            <img 
+                                src="./public/images/hero-pillows.webp" 
+                                alt="BACKSPACE ergonomic sleeping pillows" 
+                                loading="lazy" 
+                                class="absolute inset-0 w-full h-full object-cover"
+                            >
+                        </picture>
+                        <div class="absolute inset-0 hero-gradient-overlay pointer-events-none"></div>
+                        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 w-full mt-16 md:mt-0 flex items-center">
                             <div class="max-w-xl text-left">
-                                <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 leading-tight text-white opacity-0 transition-all duration-700 transform translate-y-8" :class="{ 'opacity-100 translate-y-0': currentSlide === 3 }">FIND YOUR<br>PERFECT COMFORT</h1>
-                                <button @click="goToPage('shop', 'Mattresses')" class="bg-white text-brand-charcoal px-8 py-4 text-sm font-bold tracking-widest uppercase rounded-full hover:bg-gray-100 transition shadow-lg opacity-0 duration-700 delay-200 transform translate-y-4" :class="{ 'opacity-100 translate-y-0': currentSlide === 3 }">FIND YOUR MATTRESS <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                                <div class="hero-anim-item text-[#D05228] font-bold text-xs md:text-sm tracking-[0.22em] uppercase mb-2 md:mb-3 opacity-0 transform translate-y-6 duration-700 ease-out" :class="{ 'opacity-100 translate-y-0': currentSlide === 3 }">PILLOWS</div>
+                                <h2 class="hero-anim-item hero-headline text-white mb-3 md:mb-4 opacity-0 transform translate-y-6 duration-700 delay-100 ease-out" :class="{ 'opacity-100 translate-y-0': currentSlide === 3 }">Rest your head on softer mornings</h2>
+                                <p class="hero-anim-item text-base md:text-[17px] text-[#F1EBE3]/90 font-light leading-relaxed mb-6 md:mb-8 opacity-0 transform translate-y-6 duration-700 delay-200 ease-out" :class="{ 'opacity-100 translate-y-0': currentSlide === 3 }">Pillows for every kind of sleeper</p>
+                                <button @click="goToPage('shop', 'Pillows')" class="hero-anim-item hero-pill-btn group/btn inline-flex items-center px-7 py-3.5 md:px-8 md:py-4 rounded-full text-xs md:text-sm font-semibold tracking-wider uppercase opacity-0 transform translate-y-6 duration-700 delay-300 ease-out focus:outline-none focus:ring-2 focus:ring-white/60 shadow-lg" :class="{ 'opacity-100 translate-y-0': currentSlide === 3 }">
+                                    Shop Pillows <i class="fa-solid fa-arrow-right ml-2.5 text-xs transition-transform duration-300 group-hover/btn:translate-x-1"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Navigation Arrows -->
-                <button @click="prev()" class="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/30 backdrop-blur-md border border-white/20 text-white rounded-full flex items-center justify-center transition opacity-0 group-hover:opacity-100 z-20 focus:outline-none">
-                    <i class="fa-solid fa-chevron-left"></i>
+                <button 
+                    @click="prev()" 
+                    aria-label="Previous slide"
+                    class="absolute left-4 md:left-6 top-1/2 transform -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-black/25 hover:bg-black/50 active:scale-95 backdrop-blur-md border border-white/20 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 z-20 focus:outline-none focus:ring-2 focus:ring-white/60"
+                >
+                    <i class="fa-solid fa-chevron-left text-sm md:text-base"></i>
                 </button>
-                <button @click="next()" class="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/30 backdrop-blur-md border border-white/20 text-white rounded-full flex items-center justify-center transition opacity-0 group-hover:opacity-100 z-20 focus:outline-none">
-                    <i class="fa-solid fa-chevron-right"></i>
+                <button 
+                    @click="next()" 
+                    aria-label="Next slide"
+                    class="absolute right-4 md:right-6 top-1/2 transform -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-black/25 hover:bg-black/50 active:scale-95 backdrop-blur-md border border-white/20 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 z-20 focus:outline-none focus:ring-2 focus:ring-white/60"
+                >
+                    <i class="fa-solid fa-chevron-right text-sm md:text-base"></i>
                 </button>
 
                 <!-- Pagination Dots -->
-                <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
-                    <template x-for="i in [0,1,2,3]">
-                        <button @click="scrollTo(i)" class="w-2.5 h-2.5 rounded-full transition-all duration-300 focus:outline-none" :class="currentSlide === i ? 'bg-brand-terracotta w-8' : 'bg-white/50 hover:bg-white'"></button>
+                <div class="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 flex items-center space-x-2.5 z-20">
+                    <template x-for="(slide, i) in [0, 1, 2, 3]" :key="i">
+                        <button 
+                            @click="scrollTo(i)" 
+                            :aria-label="'Go to slide ' + (i + 1)"
+                            class="h-2.5 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/60" 
+                            :class="currentSlide === i ? 'bg-[#D05228] w-8' : 'bg-[#F7F4EF]/50 hover:bg-[#F7F4EF]/80 w-2.5'"
+                        ></button>
                     </template>
                 </div>
             </section>
@@ -8584,44 +8606,63 @@ Please share commercial catalog and bulk pricing.`)}`, '_blank')" class="w-full 
                     this.play();
                 },
                 next() {
+                    this.pause();
                     this.currentSlide = (this.currentSlide === this.slides - 1) ? 0 : this.currentSlide + 1;
                     this.updateScroll();
+                    this.play();
                 },
                 prev() {
+                    this.pause();
                     this.currentSlide = (this.currentSlide === 0) ? this.slides - 1 : this.currentSlide - 1;
                     this.updateScroll();
+                    this.play();
                 },
                 scrollTo(index) {
+                    this.pause();
                     this.currentSlide = index;
                     this.updateScroll();
+                    this.play();
                 },
                 updateScroll() {
                     const container = this.$refs.container;
+                    if (!container) return;
                     const slideWidth = container.clientWidth;
+                    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                     container.scrollTo({
                         left: this.currentSlide * slideWidth,
-                        behavior: 'smooth'
+                        behavior: prefersReduced ? 'auto' : 'smooth'
                     });
                 },
                 updateCurrentSlide() {
                     const container = this.$refs.container;
+                    if (!container) return;
                     const slideWidth = container.clientWidth;
+                    if (!slideWidth) return;
                     const scrollLeft = container.scrollLeft;
                     const newIndex = Math.round(scrollLeft / slideWidth);
-                    if (this.currentSlide !== newIndex) {
+                    if (this.currentSlide !== newIndex && newIndex >= 0 && newIndex < this.slides) {
                         this.currentSlide = newIndex;
                     }
                 },
                 play() {
                     this.pause();
                     this.interval = setInterval(() => {
-                        this.next();
-                    }, 5000);
+                        this.currentSlide = (this.currentSlide === this.slides - 1) ? 0 : this.currentSlide + 1;
+                        this.updateScroll();
+                    }, 6000);
                 },
                 pause() {
                     if (this.interval) {
                         clearInterval(this.interval);
                         this.interval = null;
+                    }
+                },
+                handleKeydown(e) {
+                    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+                    if (e.key === 'ArrowLeft') {
+                        this.prev();
+                    } else if (e.key === 'ArrowRight') {
+                        this.next();
                     }
                 }
             }

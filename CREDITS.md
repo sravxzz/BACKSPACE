@@ -32,3 +32,15 @@ All 9 mattress protector product images are specifically curated to represent th
 | `BKPPR007` | Zippered Mattress Encasement | `protector-07.jpg` | 301:201 | 903×603 | White protective cover with zipper closure | [https://unsplash.com/photos/1623743758497-60936e7dccc5](https://unsplash.com/photos/white-and-blue-textile-on-white-surface-PUlsGV5KtHk) | Unsplash License (Free commercial & non-commercial use) |
 | `BKPPR008` | Microfiber Hypoallergenic Protector | `protector-08.jpg` | 301:201 | 903×603 | Ultra-smooth brushed microfiber surface | [https://unsplash.com/photos/1706192048397-71ce1148d24f](https://unsplash.com/photos/a-close-up-of-a-white-fabric--iQjzzyTl4Y) | Unsplash License (Free commercial & non-commercial use) |
 | `BKPPR009` | Kids Waterproof Mattress Protector | `protector-09.jpg` | 301:201 | 903×603 | Clean white baby crib / toddler mattress cover | [https://commons.wikimedia.org/wiki/File:Materacyk.JPG](https://commons.wikimedia.org/wiki/File:Materacyk.JPG) | Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) |
+
+## Homepage Hero Carousel Imagery
+
+All 4 hero carousel images represent BACKSPACE.CO's primary product categories: Mattresses, Beds, Protectors, and Pillows. All imagery is high-resolution, free of watermarks or logos, and licensed under permissive licenses (Unsplash License, Pexels License, or project distribution asset) allowing commercial use.
+
+| Category | Headline | Filenames (Desktop / Mobile) | Source URL / Asset | Photographer / Attribution | License |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Mattresses** | Sleep that feels like home | `hero-mattress.webp` (1920×900)<br>`hero-mattress-mobile.webp` (800×1000) | Project distribution asset (`public/images/mattresses/orthopedic-support/main.jpg`) | BACKSPACE Brand Asset | Permissive commercial license |
+| **Beds** | Beds crafted to be the heart of your room | `hero-beds.webp` (1920×900)<br>`hero-beds-mobile.webp` (800×1000) | [https://unsplash.com/photos/1560185128-e173042f79dd](https://unsplash.com/photos/1560185128-e173042f79dd) | Francesca Tosolini | Unsplash License (Free commercial & non-commercial use) |
+| **Protectors** | Protect the comfort you love | `hero-protectors.webp` (1920×900)<br>`hero-protectors-mobile.webp` (800×1000) | [https://unsplash.com/photos/1759176170879-6bd7073ab4f4](https://unsplash.com/photos/1759176170879-6bd7073ab4f4) | Unsplash Community Asset | Unsplash License (Free commercial & non-commercial use) |
+| **Pillows** | Rest your head on softer mornings | `hero-pillows.webp` (1920×900)<br>`hero-pillows-mobile.webp` (800×1000) | [https://www.pexels.com/photo/11036444/](https://www.pexels.com/photo/11036444/) | Polina Kovaleva | Pexels License (Free commercial & non-commercial use) |
+
