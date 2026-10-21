@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BACKSPACE.CO | Premium Comfort</title>
+    <link rel="icon" type="image/png" href="./public/images/favicon.png">
+    <link rel="shortcut icon" href="./favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -68,8 +70,8 @@
             </button>
             
             <!-- Logo -->
-            <div class="flex-grow flex justify-center cursor-pointer group" @click="goToPage('home')">
-                <span class="text-2xl font-bold tracking-tighter text-brand-charcoal transition-colors group-hover:text-brand-terracotta" >BACKSPACE</span>
+            <div class="flex-grow flex justify-center cursor-pointer group" @click="goToPage('home')" role="button" aria-label="Backspace Home">
+                <img src="./public/images/backspace-logo.png" alt="Backspace" class="h-7 sm:h-8 w-auto object-contain transition-opacity group-hover:opacity-85">
             </div>
             
             <!-- Right Icons -->
@@ -102,9 +104,9 @@
                         </span>
                     </button>
 
-                    <!-- 2. BACKSPACE Brand Name -->
-                    <div class="flex items-center cursor-pointer group" @click="goToPage('home')">
-                        <span class="text-[24px] xl:text-[30px] font-extrabold tracking-tight text-brand-charcoal transition-all duration-500 group-hover:text-brand-terracotta group-hover:tracking-[0.02em]">BACKSPACE</span>
+                    <!-- 2. BACKSPACE Brand Logo -->
+                    <div class="flex items-center cursor-pointer group" @click="goToPage('home')" role="button" aria-label="Backspace Home">
+                        <img src="./public/images/backspace-logo.png" alt="Backspace" class="h-9 xl:h-10 w-auto object-contain transition-opacity duration-300 group-hover:opacity-85">
                     </div>
                 </div>
             </div>
@@ -618,9 +620,9 @@
             
             <!-- 2. TOP HEADER INSIDE THE MENU -->
             <div class="p-4 border-b border-white/10 flex justify-between items-center bg-[#151312]">
-                <div class="flex items-center">
-                    <button @click="hamburgerOpen = false" class="text-white hover:text-brand-terracotta mr-4"><i class="fa-solid fa-xmark text-2xl"></i></button>
-                    <span class="text-xl font-bold text-white tracking-tighter">BACKSPACE.CO</span>
+                <div class="flex items-center cursor-pointer" @click="hamburgerOpen = false; goToPage('home')" role="button" aria-label="Backspace Home">
+                    <button @click.stop="hamburgerOpen = false" class="text-white hover:text-brand-terracotta mr-4"><i class="fa-solid fa-xmark text-2xl"></i></button>
+                    <img src="./public/images/backspace-logo.png" alt="Backspace" class="h-6 w-auto object-contain brightness-0 invert">
                 </div>
                 <div class="flex items-center space-x-4">
                     <button @click="callSupport()" class="text-white hover:text-brand-terracotta transition"><i class="fa-solid fa-phone text-lg"></i></button>
@@ -1231,8 +1233,8 @@
         <!-- HEADER -->
         <div class="mb-8 border-b border-gray-200 pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-                <h1 class="text-3xl md:text-4xl font-extrabold text-brand-charcoal tracking-tight uppercase">BEDS COLLECTION</h1>
-                <p class="text-sm md:text-base text-gray-500 mt-2 max-w-3xl leading-relaxed">Handcrafted luxury beds, upholstered platform frames, and custom storage divans.</p>
+                <h1 class="collection-page-heading">Beds Collection</h1>
+                <p class="collection-page-desc">Handcrafted luxury beds, upholstered platform frames, and custom storage divans.</p>
             </div>
             
             <div class="flex items-center gap-4">
@@ -7273,8 +7275,8 @@ function singleBedApp() {
     <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Beds Collection Header -->
         <div class="mb-6 pb-4 border-b border-[#E6DFD6]">
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-brand-charcoal tracking-tight uppercase">BEDS COLLECTION</h1>
-            <p class="text-sm md:text-base text-gray-500 mt-2 max-w-3xl leading-relaxed">Handcrafted luxury beds, upholstered platform frames, and custom storage divans.</p>
+            <h1 class="collection-page-heading">Beds Collection</h1>
+            <p class="collection-page-desc">Handcrafted luxury beds, upholstered platform frames, and custom storage divans.</p>
         </div>
 
         <!-- Definitive Two-Column Layout: LEFT (Filters Sidebar) + RIGHT (Beds Collection) -->
@@ -7846,16 +7848,16 @@ function singleBedApp() {
          },
          get categoryTitle() {
              const cat = (this.currentCat || '').toLowerCase();
-             if (cat.includes('bed') && !cat.includes('single bed') && !cat.includes('mattress')) return 'BEDS & FRAMES';
-             if (cat.includes('protector') || cat.includes('waterproof')) return 'MATTRESS PROTECTORS';
-             if (cat.includes('pillow')) return 'PILLOWS';
-             if (cat.includes('memory')) return 'MEMORY FOAM MATTRESSES';
-             if (cat.includes('latex')) return 'NATURAL LATEX MATTRESSES';
-             if (cat.includes('ortho')) return 'ORTHOPEDIC MATTRESSES';
-             if (cat.includes('spring')) return 'POCKET SPRING MATTRESSES';
-             if (cat.includes('single bed') || cat === 'single') return 'SINGLE BED MATTRESSES';
-             if (cat === 'all') return 'COMPLETE PRODUCT CATALOGUE';
-             return 'MATTRESSES';
+             if (cat.includes('bed') && !cat.includes('single bed') && !cat.includes('mattress')) return 'Beds & Frames';
+             if (cat.includes('protector') || cat.includes('waterproof')) return 'Mattress Protectors';
+             if (cat.includes('pillow')) return 'Pillows';
+             if (cat.includes('memory')) return 'Memory Foam Mattresses';
+             if (cat.includes('latex')) return 'Natural Latex Mattresses';
+             if (cat.includes('ortho')) return 'Orthopedic Mattresses';
+             if (cat.includes('spring')) return 'Pocket Spring Mattresses';
+             if (cat.includes('single bed') || cat === 'single') return 'Single Bed Mattresses';
+             if (cat === 'all') return 'Complete Product Catalogue';
+             return 'Mattresses';
          },
          get categoryDesc() {
              const cat = (this.currentCat || '').toLowerCase();
@@ -7969,39 +7971,11 @@ function singleBedApp() {
          }
      }">
     <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Mattresses Page Header (Breadcrumbs and Category Pill Tabs removed) -->
-        <template x-if="currentCat === 'Mattresses' || currentCat.toLowerCase().includes('protector') || currentCat.toLowerCase().includes('pillow')">
-            <div class="mb-6 pb-4 border-b border-[#E6DFD6]">
-                <h1 class="text-3xl md:text-5xl font-extrabold text-brand-charcoal tracking-tight uppercase" x-text="categoryTitle">MATTRESSES</h1>
-                <p class="text-sm md:text-base text-gray-500 mt-2 max-w-3xl leading-relaxed" x-text="categoryDesc"></p>
-            </div>
-        </template>
-
-        <!-- Other Pages Header (Shared with Protectors and Pillows) -->
-        <template x-if="currentCat !== 'Mattresses' && !currentCat.toLowerCase().includes('protector') && !currentCat.toLowerCase().includes('pillow')">
-            <div class="mb-6">
-                <div class="flex items-center space-x-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
-                    <button @click="goToPage('home')" class="hover:text-brand-charcoal transition">HOME</button>
-                    <span>/</span>
-                    <span class="text-brand-terracotta" x-text="categoryTitle"></span>
-                </div>
-                
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-200 pb-6">
-                    <div>
-                        <h1 class="text-3xl md:text-5xl font-extrabold text-brand-charcoal tracking-tight uppercase" x-text="categoryTitle"></h1>
-                        <p class="text-sm md:text-base text-gray-500 mt-2 max-w-3xl leading-relaxed" x-text="categoryDesc"></p>
-                    </div>
-                    
-                    <!-- Quick Category Switch Pills -->
-                    <div class="flex flex-wrap items-center gap-2 shrink-0">
-                        <button @click="currentCategoryFilter = 'Mattresses'" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300" :class="currentCategoryFilter === 'Mattresses' ? 'bg-[#292522] text-white shadow-md' : 'bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]'">MATTRESSES</button>
-                        <button @click="goToPage('beds')" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300" :class="(currentPage === 'beds' || currentCategoryFilter === 'Beds') ? 'bg-[#292522] text-white shadow-md' : 'bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]'">BEDS</button>
-                        <button @click="currentCategoryFilter = 'Protectors'" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300" :class="currentCategoryFilter === 'Protectors' ? 'bg-[#292522] text-white shadow-md' : 'bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]'">PROTECTORS</button>
-                        <button @click="currentCategoryFilter = 'Pillows'" class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300" :class="currentCategoryFilter === 'Pillows' ? 'bg-[#292522] text-white shadow-md' : 'bg-[#FFFCF7] text-[#77716B] hover:bg-[#F1EBE3] border border-[#E6DFD6]'">PILLOWS</button>
-                    </div>
-                </div>
-            </div>
-        </template>
+        <!-- Collection & Catalogue Page Header -->
+        <div class="mb-6 pb-4 border-b border-[#E6DFD6]">
+            <h1 class="collection-page-heading" x-text="categoryTitle">Complete Product Catalogue</h1>
+            <p class="collection-page-desc" x-text="categoryDesc"></p>
+        </div>
 
         <div class="flex flex-col lg:flex-row gap-8 items-start">
             <!-- LEFT FILTER SIDEBAR (Desktop) -->
@@ -8556,7 +8530,7 @@ Please share commercial catalog and bulk pricing.`)}`, '_blank')" class="w-full 
     <footer class="bg-[#1c1917] text-white pt-20 pb-10 border-t-[8px] border-brand-terracotta mt-auto">
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-                <div><h2 class="text-2xl font-bold mb-4">BACKSPACE.CO</h2><p class="text-gray-400 text-sm mb-6">Premium comfort engineered for Indian homes.</p><div class="flex space-x-4"><a href="https://wa.me/916300946652" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#25D366] transition"><i class="fa-brands fa-whatsapp"></i></a></div></div>
+                <div><div class="cursor-pointer inline-block mb-4" @click="goToPage('home')" role="button" aria-label="Backspace Home"><img src="./public/images/backspace-logo.png" alt="Backspace" class="h-8 w-auto object-contain brightness-0 invert opacity-95 hover:opacity-100 transition-opacity"></div><p class="text-gray-400 text-sm mb-6">Premium comfort engineered for Indian homes.</p><div class="flex space-x-4"><a href="https://wa.me/916300946652" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#25D366] transition"><i class="fa-brands fa-whatsapp"></i></a></div></div>
                 <div><h4 class="font-bold mb-6 text-gray-500 uppercase tracking-widest text-xs">Quick Access</h4><ul class="space-y-3 text-sm text-gray-300"><li><button @click="goToPage('track')" class="hover:text-white transition">Track Order</button></li><li><button @click="goToPage('wishlist')" class="hover:text-white transition">Wishlist</button></li><li><button @click="goToPage('orders')" class="hover:text-white transition">My Orders</button></li><li><button @click="goToPage('profile')" class="hover:text-white transition">My Profile</button></li></ul></div>
                 <div><h4 class="font-bold mb-6 text-gray-500 uppercase tracking-widest text-xs">Help & Support</h4><ul class="space-y-3 text-sm text-gray-300"><li><button @click="callSupport()" class="hover:text-white transition">Call Us</button></li><li><button @click="waSupport()" class="hover:text-white transition">WhatsApp Support</button></li><li><button @click="goToPage('bulk')" class="hover:text-white transition">Bulk Orders</button></li><li><button @click="goToPage('about')" class="hover:text-white transition">FAQ / Ratings</button></li></ul></div>
                 <div><h4 class="font-bold mb-6 text-gray-500 uppercase tracking-widest text-xs">Contact</h4><ul class="space-y-3 text-sm text-gray-300"><li><i class="fa-solid fa-phone w-6 text-brand-terracotta"></i> 6300946652</li><li><i class="fa-brands fa-instagram w-6 text-brand-terracotta"></i> @backspace.go</li><li><i class="fa-solid fa-location-dot w-6 text-brand-terracotta"></i> Khammam Store</li></ul></div>
