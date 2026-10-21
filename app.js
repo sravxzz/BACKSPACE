@@ -810,12 +810,33 @@ function appData() {
             this.mobileMenuOpen = false;
             this.hamburgerOpen = false;
             this.searchOpen = false;
+            this.openDropdown = null;
             this.activeMegaMenu = null;
             window.dispatchEvent(new CustomEvent('select-bed-classified', { detail: { type, value } }));
             window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
             if (window.location.hash !== '#beds') {
                 window.history.pushState(null, '', '#beds');
             }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+
+        openBedByCode(code) {
+            const allBeds = window.BED_COLLECTION_CARDS || [];
+            const found = allBeds.find(b => (b.code || '').toUpperCase() === (code || '').toUpperCase());
+            if (found) {
+                window.currentBedProductData = found;
+                this.currentProductData = found;
+                this.currentPage = 'productDetail';
+                if (window.location.hash !== '#bed-' + found.code) {
+                    window.history.pushState(null, '', '#bed-' + found.code);
+                }
+            } else {
+                this.goToPage('beds');
+            }
+            this.openDropdown = null;
+            this.hamburgerOpen = false;
+            this.mobileMenuOpen = false;
+            window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
             window.scrollTo({ top: 0, behavior: 'smooth' });
         },
 

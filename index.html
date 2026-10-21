@@ -58,7 +58,7 @@
     <a href="https://wa.me/916300946652" target="_blank" class="fixed bottom-6 right-6 z-[90] bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-lg hover:scale-110 transition-transform animate-pulse-soft"><i class="fa-brands fa-whatsapp"></i></a>
 
     <!-- Header System -->
-    <header class="fixed w-full z-50 transition-all duration-300" :class="scrollY > 20 ? 'bg-[#F7F4EF]/95 shadow-sm backdrop-blur-md border-b border-[#E6DFD6]' : 'bg-[#F7F4EF] border-b border-[#E6DFD6]/60'" x-data="{ openDropdown: null, scrollY: 0 }" @scroll.window="scrollY = window.scrollY" @keydown.escape="openDropdown = null" @close-all-dropdowns.window="openDropdown = null" @page-changed.window="openDropdown = null" @hashchange.window="if(window.location.hash === '#beds') openDropdown = null">
+    <header class="fixed w-full z-50 transition-all duration-300" :class="scrollY > 20 ? 'bg-[#F7F4EF]/95 shadow-sm backdrop-blur-md border-b border-[#E6DFD6]' : 'bg-[#F7F4EF] border-b border-[#E6DFD6]/60'" x-data="{ openDropdown: null, scrollY: 0 }" @scroll.window="scrollY = window.scrollY" @keydown.escape.window="openDropdown = null" @close-all-dropdowns.window="openDropdown = null" @page-changed.window="openDropdown = null" @hashchange.window="if(window.location.hash === '#beds') openDropdown = null">
         
         <!-- ================= MOBILE HEADER (Preserved) ================= -->
         <div class="lg:hidden flex justify-between items-center h-16 px-4 sm:px-6 border-b border-gray-100">
@@ -333,66 +333,81 @@
                     </div>
 
                                         <!-- 6. BEDS -->
-                    <div class="relative h-full flex items-center" @mouseenter="if(currentPage !== 'beds' && window.location.hash !== '#beds') openDropdown = 'beds'" @mouseleave="openDropdown = null">
-                        <button @click="goToPage('beds'); openDropdown = null; window.location.hash = '#beds'; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" 
+                    <div class="relative h-full flex items-center" @mouseenter="openDropdown = 'beds'" @mouseleave="openDropdown = null">
+                        <button @click="openDropdown = (openDropdown === 'beds' ? null : 'beds')" 
                                 class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none py-2 px-3 rounded-t-xl" 
-                                :class="(openDropdown === 'beds' && currentPage !== 'beds' && window.location.hash !== '#beds') ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : ((currentPage === 'beds' || window.location.hash === '#beds' || (currentCategoryFilter === 'Beds' && currentPage === 'shop')) ? 'text-brand-terracotta' : '')">
+                                :class="openDropdown === 'beds' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : ((currentPage === 'beds' || window.location.hash === '#beds' || (currentCategoryFilter === 'Beds' && currentPage === 'shop')) ? 'text-brand-terracotta' : '')">
                             <span class="relative overflow-hidden py-1">
                                 BEDS
-                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(currentPage === 'beds' || window.location.hash === '#beds' || (currentCategoryFilter === 'Beds' && currentPage === 'shop')) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
+                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(currentPage === 'beds' || window.location.hash === '#beds' || (currentCategoryFilter === 'Beds' && currentPage === 'shop') || openDropdown === 'beds') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                             </span>
-                            <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="(openDropdown === 'beds' && currentPage !== 'beds' && window.location.hash !== '#beds') ? 'rotate-180 text-brand-terracotta' : ''"></i>
+                            <span class="p-1 cursor-pointer" title="Toggle Beds Menu">
+                                <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'beds' ? 'rotate-180 text-brand-terracotta' : ''"></i>
+                            </span>
                         </button>
                         
-                        <!-- Classified Beds 4-Column Dropdown Menu matching Screenshot 2 -->
-                        <div x-show="openDropdown === 'beds' && currentPage !== 'beds' && window.location.hash !== '#beds'" 
-                             :style="(currentPage === 'beds' || window.location.hash === '#beds' || openDropdown !== 'beds') ? 'display: none !important;' : ''"
+                        <!-- 4-Column Beds Mega-Menu -->
+                        <div x-show="openDropdown === 'beds'" 
                              @click.outside="openDropdown = null" 
-                             class="absolute top-full left-1/2 -translate-x-1/2 w-[720px] lg:w-[780px] max-w-[95vw] bg-[#FAF6EE] shadow-[0_20px_50px_-15px_rgba(41,37,34,0.18)] rounded-[22px] border-2 border-[#292522] p-6 lg:p-7 z-50 origin-top" style="display:none;">
+                             @keydown.escape.window="openDropdown = null"
+                             x-transition:enter="transition cubic-bezier(0.2, 0, 0, 1) duration-250" 
+                             x-transition:enter-start="opacity-0 -translate-y-2 scale-98" 
+                             x-transition:enter-end="opacity-100 translate-y-0 scale-100" 
+                             x-transition:leave="transition ease-in duration-150" 
+                             x-transition:leave-start="opacity-100 translate-y-0 scale-100" 
+                             x-transition:leave-end="opacity-0 -translate-y-2 scale-98" 
+                             class="absolute top-full left-1/2 -translate-x-1/2 w-[880px] lg:w-[940px] xl:w-[980px] max-w-[95vw] bg-[#FAF6EE] shadow-[0_25px_60px_-15px_rgba(41,37,34,0.18)] rounded-[22px] border-2 border-[#292522] p-6 lg:p-7 xl:p-8 z-50 origin-top text-left" style="display:none;">
                             
-                            <div class="grid grid-cols-4 gap-0 divide-x divide-[#E5DDD0]">
+                            <div class="grid grid-cols-[1.45fr_0.85fr_1.1fr_1.6fr] gap-0 divide-x divide-[#E5DDD0]">
                                 <!-- Column 1: By Name -->
-                                <div class="pr-5">
-                                    <div class="mb-3">
-                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Name</span>
+                                <div class="pr-5 lg:pr-6">
+                                    <div class="mb-3.5">
+                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans tracking-wide">By Name</span>
                                     </div>
-                                    <div class="space-y-2">
-                                        <button @click="selectBedCategory('name', 'Boba Bed'); openDropdown = null; window.location.hash = '#beds'; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Boba Bed</button>
-                                        <button @click="selectBedCategory('name', 'Boba Move'); openDropdown = null; window.location.hash = '#beds'; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Boba Move</button>
-                                        <button @click="selectBedCategory('name', 'Boba Move With Bed'); openDropdown = null; window.location.hash = '#beds'; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Boba Move With Bed</button>
+                                    <div class="space-y-0.5">
+                                        <button @click="openBedByCode('BKPBD001'); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none">Upholstered Platform Bed</button>
+                                        <button @click="openBedByCode('BKPBD002'); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none">Floor Divan Storage Bed</button>
+                                        <button @click="openBedByCode('BKPBD003'); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none">Horizontal Channel Headboard Bed</button>
+                                        <button @click="openBedByCode('BKPBD004'); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none">Diamond Tufted Headboard Bed</button>
+                                        <button @click="openBedByCode('BKPBD005'); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none">Chesterfield Rolled Headboard Bed</button>
+                                        <button @click="openBedByCode('BKPBD006'); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none">Polished Wood Frame Bed</button>
+                                        <button @click="goToPage('beds'); selectBedCategory('all', null); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] font-semibold text-[#D05228] hover:text-[#B84218] h-9 sm:h-10 flex items-center transition-colors focus:outline-none border-t border-[#E5DDD0] mt-1 pt-1">View All Beds &rarr;</button>
                                     </div>
                                 </div>
 
                                 <!-- Column 2: By Size -->
-                                <div class="px-5">
-                                    <div class="mb-3">
-                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Size</span>
+                                <div class="px-5 lg:px-6">
+                                    <div class="mb-3.5">
+                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans tracking-wide">By Size</span>
                                     </div>
-                                    <div class="space-y-2">
-                                        <button @click="selectBedCategory('size', 'King'); openDropdown = null; window.location.hash = '#beds'; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">King</button>
-                                        <button @click="selectBedCategory('size', 'Queen'); openDropdown = null; window.location.hash = '#beds'; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Queen</button>
+                                    <div class="space-y-0.5">
+                                        <template x-for="sz in ['Single', 'Double', 'Queen', 'King', 'Custom Size']" :key="sz">
+                                            <button @click="selectBedCategory('size', sz); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none" x-text="sz"></button>
+                                        </template>
                                     </div>
                                 </div>
 
-                                <!-- Column 3: By Material -->
-                                <div class="px-5">
-                                    <div class="mb-3">
-                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Material</span>
+                                <!-- Column 3: By Finish / Material -->
+                                <div class="px-5 lg:px-6">
+                                    <div class="mb-3.5">
+                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans tracking-wide">By Finish / Material</span>
                                     </div>
-                                    <div class="space-y-2">
-                                        <button @click="selectBedCategory('material', 'Solid Wood'); openDropdown = null; window.location.hash = '#beds'; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Solid Wood</button>
-                                        <button @click="selectBedCategory('material', 'Engineered Wood'); openDropdown = null; window.location.hash = '#beds'; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Engineered Wood</button>
+                                    <div class="space-y-0.5">
+                                        <template x-for="mat in ['Textured Linen', 'Plush Velvet', 'Organic Boucle']" :key="mat">
+                                            <button @click="selectBedCategory('material', mat); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none" x-text="mat"></button>
+                                        </template>
                                     </div>
                                 </div>
 
                                 <!-- Column 4: By Storage -->
-                                <div class="pl-5">
-                                    <div class="mb-3">
-                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans">By Storage</span>
+                                <div class="pl-5 lg:px-6">
+                                    <div class="mb-3.5">
+                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans tracking-wide">By Storage</span>
                                     </div>
-                                    <div class="space-y-2">
-                                        <button @click="selectBedCategory('storage', 'Storage'); openDropdown = null; window.location.hash = '#beds'; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Storage</button>
-                                        <button @click="selectBedCategory('storage', 'Non Storage'); openDropdown = null; window.location.hash = '#beds'; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" class="block w-full text-left text-[13px] text-[#292522] hover:text-[#D05228] font-medium py-1 transition-colors focus:outline-none">Non Storage</button>
+                                    <div class="space-y-0.5">
+                                        <template x-for="stg in ['No Storage (Minimal Platform)', 'Built-in Underbed Drawers', 'German Gas-Lift Hydraulic Storage']" :key="stg">
+                                            <button @click="selectBedCategory('storage', stg); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none" x-text="stg"></button>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -771,6 +786,74 @@
                                     { name: 'King', size: 'King' }
                                 ]" :key="item.name">
                                     <button @click="hamburgerOpen = false; goToPage('shop', 'Protectors'); window.dispatchEvent(new CustomEvent('select-protector-filter', { detail: { size: item.size } }));" class="block w-full text-left py-1 hover:text-brand-terracotta transition" x-text="item.name"></button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9.6. BEDS MEGA-MENU ACCORDION (Mobile) -->
+                <div class="px-4 mb-6" x-data="{ openBedGroup: null }">
+                    <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden p-2">
+                        <div class="px-3 py-2 flex items-center justify-between border-b border-white/10">
+                            <span class="text-xs font-bold uppercase tracking-widest text-brand-terracotta flex items-center gap-2">
+                                <i class="fa-solid fa-bed text-xs"></i> Beds Menu
+                            </span>
+                            <button @click="hamburgerOpen = false; goToPage('beds'); selectBedCategory('all', null);" class="text-[10px] font-bold text-gray-400 hover:text-white uppercase tracking-wider">All Beds &rarr;</button>
+                        </div>
+                        
+                        <!-- 1. By Name Accordion -->
+                        <div class="border-b border-white/5">
+                            <button @click="openBedGroup = (openBedGroup === 'name' ? null : 'name')" class="w-full px-3 py-2.5 flex items-center justify-between text-left text-xs font-bold tracking-wide uppercase text-white hover:text-brand-terracotta transition">
+                                <span>By Name</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 transition-transform duration-300" :class="openBedGroup === 'name' ? 'rotate-180 text-brand-terracotta' : ''"></i>
+                            </button>
+                            <div x-show="openBedGroup === 'name'" x-collapse class="px-3 pb-2 space-y-1 text-xs text-gray-300">
+                                <button @click="hamburgerOpen = false; openBedByCode('BKPBD001');" class="block w-full text-left py-1 hover:text-brand-terracotta transition">Upholstered Platform Bed</button>
+                                <button @click="hamburgerOpen = false; openBedByCode('BKPBD002');" class="block w-full text-left py-1 hover:text-brand-terracotta transition">Floor Divan Storage Bed</button>
+                                <button @click="hamburgerOpen = false; openBedByCode('BKPBD003');" class="block w-full text-left py-1 hover:text-brand-terracotta transition">Horizontal Channel Headboard Bed</button>
+                                <button @click="hamburgerOpen = false; openBedByCode('BKPBD004');" class="block w-full text-left py-1 hover:text-brand-terracotta transition">Diamond Tufted Headboard Bed</button>
+                                <button @click="hamburgerOpen = false; openBedByCode('BKPBD005');" class="block w-full text-left py-1 hover:text-brand-terracotta transition">Chesterfield Rolled Headboard Bed</button>
+                                <button @click="hamburgerOpen = false; openBedByCode('BKPBD006');" class="block w-full text-left py-1 hover:text-brand-terracotta transition">Polished Wood Frame Bed</button>
+                                <button @click="hamburgerOpen = false; goToPage('beds'); selectBedCategory('all', null);" class="block w-full text-left py-1 font-semibold text-brand-terracotta hover:underline transition">View All Beds &rarr;</button>
+                            </div>
+                        </div>
+
+                        <!-- 2. By Size Accordion -->
+                        <div class="border-b border-white/5">
+                            <button @click="openBedGroup = (openBedGroup === 'size' ? null : 'size')" class="w-full px-3 py-2.5 flex items-center justify-between text-left text-xs font-bold tracking-wide uppercase text-white hover:text-brand-terracotta transition">
+                                <span>By Size</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 transition-transform duration-300" :class="openBedGroup === 'size' ? 'rotate-180 text-brand-terracotta' : ''"></i>
+                            </button>
+                            <div x-show="openBedGroup === 'size'" x-collapse class="px-3 pb-2 space-y-1 text-xs text-gray-300">
+                                <template x-for="sz in ['Single', 'Double', 'Queen', 'King', 'Custom Size']" :key="sz">
+                                    <button @click="hamburgerOpen = false; selectBedCategory('size', sz);" class="block w-full text-left py-1 hover:text-brand-terracotta transition" x-text="sz"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- 3. By Finish / Material Accordion -->
+                        <div class="border-b border-white/5">
+                            <button @click="openBedGroup = (openBedGroup === 'material' ? null : 'material')" class="w-full px-3 py-2.5 flex items-center justify-between text-left text-xs font-bold tracking-wide uppercase text-white hover:text-brand-terracotta transition">
+                                <span>By Finish / Material</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 transition-transform duration-300" :class="openBedGroup === 'material' ? 'rotate-180 text-brand-terracotta' : ''"></i>
+                            </button>
+                            <div x-show="openBedGroup === 'material'" x-collapse class="px-3 pb-2 space-y-1 text-xs text-gray-300">
+                                <template x-for="mat in ['Textured Linen', 'Plush Velvet', 'Organic Boucle']" :key="mat">
+                                    <button @click="hamburgerOpen = false; selectBedCategory('material', mat);" class="block w-full text-left py-1 hover:text-brand-terracotta transition" x-text="mat"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- 4. By Storage Accordion -->
+                        <div>
+                            <button @click="openBedGroup = (openBedGroup === 'storage' ? null : 'storage')" class="w-full px-3 py-2.5 flex items-center justify-between text-left text-xs font-bold tracking-wide uppercase text-white hover:text-brand-terracotta transition">
+                                <span>By Storage</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 transition-transform duration-300" :class="openBedGroup === 'storage' ? 'rotate-180 text-brand-terracotta' : ''"></i>
+                            </button>
+                            <div x-show="openBedGroup === 'storage'" x-collapse class="px-3 pb-2 space-y-1 text-xs text-gray-300">
+                                <template x-for="stg in ['No Storage (Minimal Platform)', 'Built-in Underbed Drawers', 'German Gas-Lift Hydraulic Storage']" :key="stg">
+                                    <button @click="hamburgerOpen = false; selectBedCategory('storage', stg);" class="block w-full text-left py-1 hover:text-brand-terracotta transition" x-text="stg"></button>
                                 </template>
                             </div>
                         </div>
@@ -5242,20 +5325,14 @@ function singleBedApp() {
             } else if (type === 'material') {
                 this.selectedClassifiedMaterial = (this.selectedClassifiedMaterial === value) ? null : value;
             } else if (type === 'storage') {
-                const sidebarVal = (value === 'Storage' ? 'with_storage' : 'without_storage');
-                if (this.selectedClassifiedStorage === value) {
-                    this.selectedClassifiedStorage = null;
-                    this.selectedStorage = this.selectedStorage.filter(s => s !== sidebarVal);
-                } else {
-                    this.selectedClassifiedStorage = value;
-                    this.selectedStorage = [sidebarVal];
-                }
+                this.selectedClassifiedStorage = (this.selectedClassifiedStorage === value) ? null : value;
             }
         },
 
         get activeFiltersCount() {
             return (this.selectedName ? 1 : 0) +
                    (this.selectedClassifiedMaterial ? 1 : 0) +
+                   (this.selectedClassifiedStorage ? 1 : 0) +
                    (this.selectedClassifiedSize && !this.selectedSizes.includes(this.selectedClassifiedSize) ? 1 : 0) +
                    this.selectedPrices.length +
                    this.selectedMaterials.length +
@@ -5380,16 +5457,25 @@ function singleBedApp() {
                 });
             }
 
-            // 3. Filter By Material (Screenshot 2: Solid Wood, Engineered Wood / Sidebar: Metal, Solid Wood & Engineered Wood)
+            // 3. Filter By Material (Dropdown: Textured Linen, Plush Velvet, Organic Boucle / Sidebar: Metal, Wood)
             if (this.selectedClassifiedMaterial) {
+                const targetMat = this.selectedClassifiedMaterial.toLowerCase();
+                const keyword = targetMat.includes('linen') ? 'linen' :
+                                targetMat.includes('velvet') ? 'velvet' :
+                                targetMat.includes('boucle') ? 'boucle' : targetMat;
                 result = result.filter(p => {
+                    if (p.materials && p.materials.some(m => m.toLowerCase().includes(keyword))) {
+                        return true;
+                    }
                     const frame = ((p.specifications && p.specifications.frameConstruction) || p.material || '').toLowerCase();
+                    const upholstery = ((p.specifications && p.specifications.upholstery) || '').toLowerCase();
+                    if (upholstery.includes(keyword) || frame.includes(keyword)) return true;
                     if (this.selectedClassifiedMaterial === 'Solid Wood') {
                         return (frame.includes('hardwood') || frame.includes('sheesham') || frame.includes('teak') || frame.includes('timber') || frame.includes('pine') || frame.includes('solid')) && !frame.includes('engineered') && !frame.includes('plywood');
                     } else if (this.selectedClassifiedMaterial === 'Engineered Wood') {
                         return frame.includes('engineered') || frame.includes('plywood') || ['BKPBD002', 'BKPBD008', 'BKPBD013'].includes(p.code);
                     }
-                    return true;
+                    return false;
                 });
             }
             if (this.selectedMaterials.length > 0) {
@@ -5407,10 +5493,31 @@ function singleBedApp() {
                 });
             }
 
-            // 4. Filter By Storage (Screenshot 2: Storage, Non Storage / Sidebar: With Storage, Without Storage)
+            // 4. Filter By Storage (Dropdown: No Storage (Minimal Platform), Built-in Underbed Drawers, German Gas-Lift Hydraulic Storage / Sidebar: With Storage, Without Storage)
+            if (this.selectedClassifiedStorage) {
+                const targetStorage = this.selectedClassifiedStorage.toLowerCase();
+                result = result.filter(p => {
+                    if (p.storageOptions && Array.isArray(p.storageOptions)) {
+                        return p.storageOptions.some(st => {
+                            const stName = (typeof st === 'string' ? st : (st.name || '')).toLowerCase();
+                            const stId = (typeof st === 'string' ? '' : (st.id || '')).toLowerCase();
+                            if (targetStorage.includes('no storage') || targetStorage.includes('minimal platform') || targetStorage.includes('non storage')) {
+                                return stName.includes('no storage') || stName.includes('platform') || stId === 'none';
+                            } else if (targetStorage.includes('drawer')) {
+                                return stName.includes('drawer') || stId.includes('drawer');
+                            } else if (targetStorage.includes('hydraulic') || targetStorage.includes('gas-lift')) {
+                                return stName.includes('hydraulic') || stName.includes('gas-lift') || stId.includes('hydraulic');
+                            }
+                            return stName.includes(targetStorage);
+                        });
+                    }
+                    if (targetStorage.includes('no storage') || targetStorage.includes('minimal platform') || targetStorage.includes('non storage')) {
+                        return !['BKPBD002', 'BKPBD007', 'BKPBD008', 'BKPBD015'].includes(p.code);
+                    }
+                    return false;
+                });
+            }
             const activeStorage = new Set(this.selectedStorage);
-            if (this.selectedClassifiedStorage === 'Storage') activeStorage.add('with_storage');
-            if (this.selectedClassifiedStorage === 'Non Storage') activeStorage.add('without_storage');
             if (activeStorage.size > 0) {
                 const storageList = Array.from(activeStorage);
                 result = result.filter(p => {
@@ -7317,6 +7424,14 @@ function singleBedApp() {
                         </div>
                     </template>
                     
+                    <!-- Active Classified Storage Tag -->
+                    <template x-if="selectedClassifiedStorage">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF6EE] text-[#292522] border border-[#EBE2D5] rounded-md text-xs font-sans shadow-sm cursor-pointer hover:border-[#D05228] transition" @click="selectedClassifiedStorage = null">
+                            <span>Storage: <span x-text="selectedClassifiedStorage"></span></span>
+                            <span class="text-[10px] text-gray-400 hover:text-black">✕</span>
+                        </div>
+                    </template>
+
                     <!-- Active Storage Tags -->
                     <template x-for="st in selectedStorage" :key="st">
                         <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF6EE] text-[#292522] border border-[#EBE2D5] rounded-md text-xs font-sans shadow-sm cursor-pointer hover:border-[#D05228] transition" @click="removeStorageFilter(st)">
