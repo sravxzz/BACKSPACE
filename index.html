@@ -7764,6 +7764,9 @@ function singleBedApp() {
          get hasActiveFilters() {
              return this.selectedCollections.length > 0 || this.selectedMaterials.length > 0 || this.selectedSizes.length > 0;
          },
+         get activeFiltersCount() {
+             return this.selectedCollections.length + this.selectedMaterials.length + this.selectedSizes.length;
+         },
          resetFilters() {
              this.selectedCollections = [];
              this.selectedMaterials = [];
@@ -7888,6 +7891,13 @@ function singleBedApp() {
              if (this.sortBy === 'price_low') list.sort((a,b) => (a.price || 0) - (b.price || 0));
              else if (this.sortBy === 'price_high') list.sort((a,b) => (b.price || 0) - (a.price || 0));
              else if (this.sortBy === 'rating') list.sort((a,b) => (b.rating || 0) - (a.rating || 0));
+             else if (this.sortBy === 'discount') {
+                 list.sort((a,b) => {
+                     const da = parseFloat(a.discount) || (a.originalPrice && a.price ? Math.round((a.originalPrice - a.price) / a.originalPrice * 100) : 0);
+                     const db = parseFloat(b.discount) || (b.originalPrice && b.price ? Math.round((b.originalPrice - b.price) / b.originalPrice * 100) : 0);
+                     return db - da;
+                 });
+             }
              
              return list;
          }
@@ -7989,24 +7999,30 @@ function singleBedApp() {
 
             <!-- RIGHT PRODUCT GRID -->
             <div class="flex-1 min-w-0">
-                <!-- Top Status Bar: Count + Mobile Filter Button + Sort -->
-                <div class="flex items-center justify-between mb-6 bg-[#F8F5F0] p-4 rounded-2xl shadow-sm border border-[#E6DFD6]">
-                    <div class="flex items-center space-x-3">
-                        <button @click="mobileFiltersOpen = true" class="lg:hidden flex items-center space-x-2 bg-[#FAF6EE] hover:bg-[#F1EBE3] text-[#292522] border border-[#EBE2D5] px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-sm">
-                            <i class="fa-solid fa-sliders text-[#D05228]"></i>
-                            <span>FILTERS</span>
-                        </button>
-                        <span class="text-xs sm:text-sm font-extrabold text-brand-charcoal uppercase tracking-wider" x-text="isProtectorCat ? `Showing ${displayProducts.length} of ${allProtectors.length} protectors` : `Showing ${displayProducts.length} of ${totalMattresses} mattresses`"></span>
+                <!-- Top Status Bar: Count + Mobile Filter Button + Sort (matching Beds Toolbar) -->
+                <div class="flex items-center justify-between mb-5 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <span class="text-xs font-bold text-gray-500 tracking-widest uppercase" x-text="displayProducts.length + ' PRODUCTS'">15 PRODUCTS</span>
                     </div>
 
-                    <div class="flex items-center space-x-3">
-                        <label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider hidden sm:inline">SORT BY:</label>
-                        <select x-model="sortBy" class="bg-white border border-[#E6DFD6] text-brand-charcoal text-xs font-bold rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-brand-charcoal cursor-pointer">
-                            <option value="recommended">Featured / Recommended</option>
-                            <option value="price_low">Price: Low to High</option>
-                            <option value="price_high">Price: High to Low</option>
-                            <option value="rating">Highest Customer Rating</option>
-                        </select>
+                    <div class="flex items-center gap-3">
+                        <!-- Mobile Filter Button (Visible only on mobile/tablet) -->
+                        <button @click="mobileFiltersOpen = true" class="lg:hidden inline-flex items-center gap-2 px-3.5 py-2 bg-[#292522] text-white rounded-lg text-xs font-bold uppercase tracking-wider shadow-sm hover:bg-black transition">
+                            <i class="fa-solid fa-sliders text-[11px] text-[#D05228]"></i>
+                            <span>FILTER</span>
+                            <span x-show="hasActiveFilters" class="w-4 h-4 rounded-full bg-[#D05228] text-white text-[9px] flex items-center justify-center font-bold" x-text="activeFiltersCount"></span>
+                        </button>
+
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-bold text-gray-400 tracking-widest uppercase hidden md:inline">SORT BY:</span>
+                            <select x-model="sortBy" class="border border-gray-200 rounded-lg p-2 text-sm text-brand-charcoal font-medium focus:outline-none focus:border-brand-charcoal cursor-pointer bg-white">
+                                <option value="recommended">Recommended</option>
+                                <option value="price_low">Price: Low to High</option>
+                                <option value="price_high">Price: High to Low</option>
+                                <option value="rating">Rating</option>
+                                <option value="discount">Discount</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
