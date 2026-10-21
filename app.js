@@ -785,6 +785,7 @@ function appData() {
                     this.currentCategoryFilter = 'Beds';
                     this.selectedBedGroup = 'all';
                     window.dispatchEvent(new CustomEvent('select-bed-group', { detail: { group: 'all' } }));
+                    window.dispatchEvent(new CustomEvent('select-bed-classified', { detail: { type: 'all' } }));
                     window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
                 } else if (h === '#home') {
                     this.currentPage = 'home';

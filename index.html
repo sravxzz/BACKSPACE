@@ -334,14 +334,14 @@
 
                                         <!-- 6. BEDS -->
                     <div class="relative h-full flex items-center" @mouseenter="openDropdown = 'beds'" @mouseleave="openDropdown = null">
-                        <button @click="openDropdown = (openDropdown === 'beds' ? null : 'beds')" 
+                        <button @click="goToPage('beds'); selectBedCategory('all', null); openDropdown = null; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" 
                                 class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none py-2 px-3 rounded-t-xl" 
                                 :class="openDropdown === 'beds' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : ((currentPage === 'beds' || window.location.hash === '#beds' || (currentCategoryFilter === 'Beds' && currentPage === 'shop')) ? 'text-brand-terracotta' : '')">
                             <span class="relative overflow-hidden py-1">
                                 BEDS
                                 <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(currentPage === 'beds' || window.location.hash === '#beds' || (currentCategoryFilter === 'Beds' && currentPage === 'shop') || openDropdown === 'beds') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                             </span>
-                            <span class="p-1 cursor-pointer" title="Toggle Beds Menu">
+                            <span @click.stop="openDropdown = (openDropdown === 'beds' ? null : 'beds')" class="p-1 cursor-pointer" title="Toggle Beds Menu">
                                 <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'beds' ? 'rotate-180 text-brand-terracotta' : ''"></i>
                             </span>
                         </button>
@@ -371,7 +371,6 @@
                                         <button @click="openBedByCode('BKPBD004'); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none">Diamond Tufted Headboard Bed</button>
                                         <button @click="openBedByCode('BKPBD005'); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none">Chesterfield Rolled Headboard Bed</button>
                                         <button @click="openBedByCode('BKPBD006'); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none">Polished Wood Frame Bed</button>
-                                        <button @click="goToPage('beds'); selectBedCategory('all', null); openDropdown = null;" class="block w-full text-left text-[13px] sm:text-[14px] font-semibold text-[#D05228] hover:text-[#B84218] h-9 sm:h-10 flex items-center transition-colors focus:outline-none border-t border-[#E5DDD0] mt-1 pt-1">View All Beds &rarr;</button>
                                     </div>
                                 </div>
 
@@ -858,10 +857,10 @@
                 <div class="px-4 mb-6" x-data="{ openBedGroup: null }">
                     <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden p-2">
                         <div class="px-3 py-2 flex items-center justify-between border-b border-white/10">
-                            <span class="text-xs font-bold uppercase tracking-widest text-brand-terracotta flex items-center gap-2">
+                            <button @click="hamburgerOpen = false; goToPage('beds'); selectBedCategory('all', null);" class="text-xs font-bold uppercase tracking-widest text-brand-terracotta flex items-center gap-2 hover:text-white transition focus:outline-none">
                                 <i class="fa-solid fa-bed text-xs"></i> Beds Menu
-                            </span>
-                            <button @click="hamburgerOpen = false; goToPage('beds'); selectBedCategory('all', null);" class="text-[10px] font-bold text-gray-400 hover:text-white uppercase tracking-wider">All Beds &rarr;</button>
+                            </button>
+                            <button @click="hamburgerOpen = false; goToPage('beds'); selectBedCategory('all', null);" class="text-[10px] font-bold text-gray-400 hover:text-white uppercase tracking-wider focus:outline-none">All Beds &rarr;</button>
                         </div>
                         
                         <!-- 1. By Name Accordion -->
@@ -877,7 +876,6 @@
                                 <button @click="hamburgerOpen = false; openBedByCode('BKPBD004');" class="block w-full text-left py-1 hover:text-brand-terracotta transition">Diamond Tufted Headboard Bed</button>
                                 <button @click="hamburgerOpen = false; openBedByCode('BKPBD005');" class="block w-full text-left py-1 hover:text-brand-terracotta transition">Chesterfield Rolled Headboard Bed</button>
                                 <button @click="hamburgerOpen = false; openBedByCode('BKPBD006');" class="block w-full text-left py-1 hover:text-brand-terracotta transition">Polished Wood Frame Bed</button>
-                                <button @click="hamburgerOpen = false; goToPage('beds'); selectBedCategory('all', null);" class="block w-full text-left py-1 font-semibold text-brand-terracotta hover:underline transition">View All Beds &rarr;</button>
                             </div>
                         </div>
 
