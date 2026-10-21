@@ -401,38 +401,69 @@
 
                     <!-- 7. PROTECTORS -->
                     <div class="relative h-full flex items-center" @mouseenter="openDropdown = 'protectors'" @mouseleave="openDropdown = null">
-                        <button @click="goToPage('shop', 'Protectors'); openDropdown = null" class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none" :class="currentCategoryFilter === 'Protectors' && currentPage === 'shop' ? 'text-brand-terracotta' : ''">
+                        <button @click="goToPage('shop', 'Protectors'); window.dispatchEvent(new CustomEvent('select-protector-filter', { detail: { type: 'all' } })); openDropdown = null; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" 
+                                class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none py-2 px-3 rounded-t-xl" 
+                                :class="openDropdown === 'protectors' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : ((currentCategoryFilter === 'Protectors' && currentPage === 'shop') ? 'text-brand-terracotta' : '')">
                             <span class="relative overflow-hidden py-1">
                                 PROTECTORS
-                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="currentCategoryFilter === 'Protectors' && currentPage === 'shop' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
+                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(currentCategoryFilter === 'Protectors' && currentPage === 'shop' || openDropdown === 'protectors') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                             </span>
-                            <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'protectors' ? 'rotate-180 text-brand-terracotta' : ''"></i>
+                            <span @click.stop="openDropdown = (openDropdown === 'protectors' ? null : 'protectors')" class="p-1 cursor-pointer" title="Toggle Protectors Menu">
+                                <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'protectors' ? 'rotate-180 text-brand-terracotta' : ''"></i>
+                            </span>
                         </button>
                         
+                        <!-- 2-Column Protectors Mega-Menu matching Mattresses Mega-Menu -->
                         <div x-show="openDropdown === 'protectors'" @click.outside="openDropdown = null" 
-                             x-transition:enter="transition cubic-bezier(0.2, 0, 0, 1) duration-300" 
-                             x-transition:enter-start="opacity-0 -translate-y-1.5 scale-98" 
+                             x-transition:enter="transition cubic-bezier(0.2, 0, 0, 1) duration-250" 
+                             x-transition:enter-start="opacity-0 -translate-y-2 scale-98" 
                              x-transition:enter-end="opacity-100 translate-y-0 scale-100" 
-                             x-transition:leave="transition ease-in duration-200" 
+                             x-transition:leave="transition ease-in duration-150" 
                              x-transition:leave-start="opacity-100 translate-y-0 scale-100" 
-                             x-transition:leave-end="opacity-0 -translate-y-1.5 scale-98" 
-                             class="absolute top-full left-1/2 -translate-x-1/2 w-64 bg-[#FFFCF7] shadow-[0_15px_40px_-10px_rgba(41,37,34,0.08)] rounded-2xl border border-[#E6DFD6] p-3 z-50 origin-top" style="display:none;">
+                             x-transition:leave-end="opacity-0 -translate-y-2 scale-98" 
+                             class="absolute top-full left-1/2 -translate-x-1/2 w-[540px] max-w-[95vw] bg-[#FAF6EE] shadow-[0_25px_60px_-15px_rgba(41,37,34,0.18)] rounded-[22px] border-2 border-[#292522] p-6 lg:p-7 z-50 origin-top text-left" style="display:none;">
                             
-                            <div class="flex flex-col space-y-1">
-                                <template x-for="item in [
-                                    { name: 'ALL PROTECTORS', filter: 'Protectors', img: './public/images/mattresses/comfort-foam/thickness.jpg' },
-                                    { name: 'WATERPROOF BAMBOO', filter: 'Waterproof', img: './public/images/mattresses/cloud-memory-foam/thickness.jpg' },
-                                    { name: 'PREMIUM QUILTED COVER', filter: 'Protectors', img: './images/close_up_texture_1790608850802.jpg' },
-                                    { name: 'ANTI-ALLERGEN SHIELD', filter: 'Protectors', img: './public/images/assets/texture.jpg' },
-                                    { name: 'COOL-TOUCH BREATHABLE', filter: 'Protectors', img: './public/images/mattresses/cool-gel/thickness.jpg' }
-                                ]">
-                                    <button @click="goToPage('shop', item.filter); openDropdown = null" class="flex items-center space-x-3 text-left group focus:outline-none rounded-xl p-2 hover:bg-gray-50 transition-colors duration-300">
-                                        <div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
-                                            <img :src="item.img" class="w-full h-full object-cover transition-transform duration-400 group-hover:scale-110" loading="lazy">
-                                        </div>
-                                        <span class="text-[11px] font-bold uppercase tracking-widest text-brand-charcoal group-hover:text-brand-terracotta transition-colors" x-text="item.name"></span>
-                                    </button>
-                                </template>
+                            <div class="grid grid-cols-[1.3fr_0.9fr] gap-0 divide-x divide-[#E5DDD0]">
+                                <!-- Column 1: Protector Types -->
+                                <div class="pr-5 lg:pr-6">
+                                    <div class="mb-3.5">
+                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans tracking-wide">Protector Types</span>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <template x-for="item in [
+                                            { name: 'All Protectors', type: 'all' },
+                                            { name: 'Waterproof Bamboo', type: 'Waterproof Bamboo' },
+                                            { name: 'Premium Quilted Cover', type: 'Premium Quilted Cover' },
+                                            { name: 'Anti-Allergen Shield', type: 'Anti-Allergen Shield' },
+                                            { name: 'Cool-Touch Breathable', type: 'Cool-Touch Breathable' },
+                                            { name: 'Fitted Terry Cotton', type: 'Fitted Terry Cotton' },
+                                            { name: 'Zippered Encasement', type: 'Zippered Encasement' }
+                                        ]" :key="item.name">
+                                            <button @click="goToPage('shop', 'Protectors'); window.dispatchEvent(new CustomEvent('select-protector-filter', { detail: { type: item.type } })); openDropdown = null; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" 
+                                                    class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none" 
+                                                    x-text="item.name"></button>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <!-- Column 2: By Size -->
+                                <div class="pl-5 lg:pl-6">
+                                    <div class="mb-3.5">
+                                        <span class="text-xs sm:text-[13px] font-bold text-[#D05228] pb-1 border-b border-[#E5DDD0] inline-block font-sans tracking-wide">By Size</span>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <template x-for="item in [
+                                            { name: 'Single', size: 'Single' },
+                                            { name: 'Double', size: 'Double' },
+                                            { name: 'Queen', size: 'Queen' },
+                                            { name: 'King', size: 'King' }
+                                        ]" :key="item.name">
+                                            <button @click="goToPage('shop', 'Protectors'); window.dispatchEvent(new CustomEvent('select-protector-filter', { detail: { size: item.size } })); openDropdown = null; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" 
+                                                    class="block w-full text-left text-[13px] sm:text-[14px] text-[#292522] hover:text-[#D05228] font-normal h-9 sm:h-10 flex items-center transition-colors focus:outline-none" 
+                                                    x-text="item.name"></button>
+                                        </template>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -689,6 +720,57 @@
                                     { name: 'Rubberised Coir', filter: 'Orthopedic' }
                                 ]" :key="item.name">
                                     <button @click="hamburgerOpen = false; goToPage('shop', item.filter)" class="block w-full text-left py-1 hover:text-brand-terracotta transition" x-text="item.name"></button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9.5. PROTECTORS MEGA-MENU ACCORDION (Mobile) -->
+                <div class="px-4 mb-6" x-data="{ openProtectorGroup: null }">
+                    <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden p-2">
+                        <div class="px-3 py-2 flex items-center justify-between border-b border-white/10">
+                            <span class="text-xs font-bold uppercase tracking-widest text-brand-terracotta flex items-center gap-2">
+                                <i class="fa-solid fa-shield-halved text-xs"></i> Protectors Menu
+                            </span>
+                            <button @click="hamburgerOpen = false; goToPage('shop', 'Protectors'); window.dispatchEvent(new CustomEvent('select-protector-filter', { detail: { type: 'all' } }));" class="text-[10px] font-bold text-gray-400 hover:text-white uppercase tracking-wider">All Protectors &rarr;</button>
+                        </div>
+                        
+                        <!-- 1. Protector Types Accordion -->
+                        <div class="border-b border-white/5">
+                            <button @click="openProtectorGroup = (openProtectorGroup === 'types' ? null : 'types')" class="w-full px-3 py-2.5 flex items-center justify-between text-left text-xs font-bold tracking-wide uppercase text-white hover:text-brand-terracotta transition">
+                                <span>Protector Types</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 transition-transform duration-300" :class="openProtectorGroup === 'types' ? 'rotate-180 text-brand-terracotta' : ''"></i>
+                            </button>
+                            <div x-show="openProtectorGroup === 'types'" x-collapse class="px-3 pb-2 space-y-1 text-xs text-gray-300">
+                                <template x-for="item in [
+                                    { name: 'All Protectors', type: 'all' },
+                                    { name: 'Waterproof Bamboo', type: 'Waterproof Bamboo' },
+                                    { name: 'Premium Quilted Cover', type: 'Premium Quilted Cover' },
+                                    { name: 'Anti-Allergen Shield', type: 'Anti-Allergen Shield' },
+                                    { name: 'Cool-Touch Breathable', type: 'Cool-Touch Breathable' },
+                                    { name: 'Fitted Terry Cotton', type: 'Fitted Terry Cotton' },
+                                    { name: 'Zippered Encasement', type: 'Zippered Encasement' }
+                                ]" :key="item.name">
+                                    <button @click="hamburgerOpen = false; goToPage('shop', 'Protectors'); window.dispatchEvent(new CustomEvent('select-protector-filter', { detail: { type: item.type } }));" class="block w-full text-left py-1 hover:text-brand-terracotta transition" x-text="item.name"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- 2. By Size Accordion -->
+                        <div>
+                            <button @click="openProtectorGroup = (openProtectorGroup === 'size' ? null : 'size')" class="w-full px-3 py-2.5 flex items-center justify-between text-left text-xs font-bold tracking-wide uppercase text-white hover:text-brand-terracotta transition">
+                                <span>By Size</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 transition-transform duration-300" :class="openProtectorGroup === 'size' ? 'rotate-180 text-brand-terracotta' : ''"></i>
+                            </button>
+                            <div x-show="openProtectorGroup === 'size'" x-collapse class="px-3 pb-2 space-y-1 text-xs text-gray-300">
+                                <template x-for="item in [
+                                    { name: 'Single', size: 'Single' },
+                                    { name: 'Double', size: 'Double' },
+                                    { name: 'Queen', size: 'Queen' },
+                                    { name: 'King', size: 'King' }
+                                ]" :key="item.name">
+                                    <button @click="hamburgerOpen = false; goToPage('shop', 'Protectors'); window.dispatchEvent(new CustomEvent('select-protector-filter', { detail: { size: item.size } }));" class="block w-full text-left py-1 hover:text-brand-terracotta transition" x-text="item.name"></button>
                                 </template>
                             </div>
                         </div>
@@ -2042,16 +2124,15 @@
     },
     {
         "id": 301,
-        "name": "BACKSPACE 100% Waterproof Bamboo Mattress Protector",
-        "rating": 4.9,
-        "reviews": 8450,
-        "price": 1490,
-        "originalPrice": 2490,
-        "discount": "40% OFF",
-        "firmness": "Soft",
-        "warranty": "2 Years Waterproof Warranty",
-        "desc": "Ultra-soft organic bamboo terry mattress protector with medical-grade noiseless TPU waterproof barrier protecting against spills and stains.",
-        "positioning": "Breathable, whisper-quiet waterproof barrier that keeps your mattress spotless without plastic rustling sounds.",
+        "code": "BKPPR001",
+        "slug": "waterproof-bamboo-mattress-protector",
+        "name": "Waterproof Bamboo Mattress Protector",
+        "category": "Protectors",
+        "mainCategory": "Protectors",
+        "subCategory": "Waterproof Bamboo",
+        "material": "Bamboo fabric + waterproof layer",
+        "desc": "Breathable bamboo fabric with 100% waterproof barrier against spills and stains.",
+        "positioning": "Breathable bamboo fabric with 100% waterproof barrier against spills and stains.",
         "features": [
             "100% Waterproof breathable TPU membrane",
             "Silky soft organic bamboo terry surface",
@@ -2060,59 +2141,34 @@
             "Machine washable and dryer safe",
             "Naturally hypoallergenic & dust mite barrier"
         ],
-        "color": "WHITE",
-        "height": 8,
-        "category": "PROTECTORS",
-        "mainCategory": "Protectors",
-        "subCategory": "Waterproof",
+        "image": "./public/images/protectors/protector-01.jpg",
         "images": {
-            "main": "./public/images/products/p18_bamboo_waterproof_protector.jpg",
-            "detail": "./images/close_up_texture_1790608850802.jpg",
-            "side": "./public/images/assets/texture.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
+            "main": "./public/images/protectors/protector-01.jpg",
+            "detail": "./public/images/protectors/protector-01.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Double",
-            "Queen",
-            "King"
-        ],
-        "heights": [
-            6,
-            8,
-            10,
-            12
-        ],
-        "construction": [
-            {
-                "name": "Bamboo Terry",
-                "desc": "Absorbent hypoallergenic surface"
-            },
-            {
-                "name": "TPU Layer",
-                "desc": "Liquid impermeable micro-pores"
-            },
-            {
-                "name": "Elastic Skirt",
-                "desc": "360-degree snug grip skirt"
-            }
-        ],
-        "alt": "BACKSPACE 100% Waterproof Bamboo Mattress Protector - TPU Membrane",
-        "image": "./public/images/products/p18_bamboo_waterproof_protector.jpg"
+        "sizes": ["Single", "Double", "Queen", "King"],
+        "heights": [6, 8, 10, 12],
+        "customization": true,
+        "footer": "Customization available",
+        "price": null,
+        "originalPrice": null,
+        "mrp": null,
+        "prices": null,
+        "discount": null,
+        "rating": null,
+        "reviews": null
     },
     {
         "id": 302,
-        "name": "BACKSPACE Premium Quilted Fitted Mattress Cover",
-        "rating": 4.8,
-        "reviews": 4620,
-        "price": 1990,
-        "originalPrice": 2990,
-        "discount": "33% OFF",
-        "firmness": "Plush",
-        "warranty": "2 Years Warranty",
-        "desc": "Plush microfiber quilted mattress cover adding an extra cushioning comfort layer while securing the mattress with full elastic skirt.",
-        "positioning": "Rejuvenates your mattress with pillow-top comfort and shields the surface from everyday wear and tear.",
+        "code": "BKPPR002",
+        "slug": "premium-quilted-mattress-protector",
+        "name": "Premium Quilted Mattress Protector",
+        "category": "Protectors",
+        "mainCategory": "Protectors",
+        "subCategory": "Premium Quilted Cover",
+        "material": "Quilted cotton blend",
+        "desc": "Plush diamond-quilted surface with hypoallergenic filling for extra cushion and protection.",
+        "positioning": "Plush diamond-quilted surface with hypoallergenic filling for extra cushion and protection.",
         "features": [
             "Diamond quilted plush microfiber padding",
             "300TC breathable cotton outer fabric",
@@ -2121,59 +2177,34 @@
             "Anti-shift fitted contour design",
             "Easy machine wash care"
         ],
-        "color": "WHITE",
-        "height": 8,
-        "category": "PROTECTORS",
-        "mainCategory": "Protectors",
-        "subCategory": "Quilted Cover",
+        "image": "./public/images/protectors/protector-02.jpg",
         "images": {
-            "main": "./public/images/products/p19_quilted_fitted_cover.jpg",
-            "detail": "./public/images/mattresses/cloud-memory-foam/thickness.jpg",
-            "side": "./public/images/assets/texture.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
+            "main": "./public/images/protectors/protector-02.jpg",
+            "detail": "./public/images/protectors/protector-02.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Double",
-            "Queen",
-            "King"
-        ],
-        "heights": [
-            6,
-            8,
-            10,
-            12
-        ],
-        "construction": [
-            {
-                "name": "Cotton Casing",
-                "desc": "Soft 300 Thread Count cotton"
-            },
-            {
-                "name": "Quilted Polyfill",
-                "desc": "Hypoallergenic cushioning layer"
-            },
-            {
-                "name": "Fitted Hem",
-                "desc": "Reinforced elastic border"
-            }
-        ],
-        "alt": "BACKSPACE Premium Quilted Fitted Mattress Cover - 300TC Breathable Cotton",
-        "image": "./public/images/products/p19_quilted_fitted_cover.jpg"
+        "sizes": ["Single", "Double", "Queen", "King"],
+        "heights": [6, 8, 10, 12],
+        "customization": true,
+        "footer": "Customization available",
+        "price": null,
+        "originalPrice": null,
+        "mrp": null,
+        "prices": null,
+        "discount": null,
+        "rating": null,
+        "reviews": null
     },
     {
         "id": 303,
-        "name": "BACKSPACE Anti-Allergen Dust Mite Shield",
-        "rating": 4.8,
-        "reviews": 3280,
-        "price": 1790,
-        "originalPrice": 2690,
-        "discount": "33% OFF",
-        "firmness": "Medium",
-        "warranty": "2 Years Warranty",
-        "desc": "High-density micro-weave barrier mattress protector designed specifically for allergy, asthma, and dust mite sensitive sleepers.",
-        "positioning": "Laboratory tested pore size prevents allergens, dander, and bed bugs from penetrating into the mattress core.",
+        "code": "BKPPR003",
+        "slug": "anti-allergen-shield-mattress-protector",
+        "name": "Anti-Allergen Shield Mattress Protector",
+        "category": "Protectors",
+        "mainCategory": "Protectors",
+        "subCategory": "Anti-Allergen Shield",
+        "material": "Hypoallergenic fabric",
+        "desc": "Tightly woven barrier protecting against dust mites, allergens, and bacteria.",
+        "positioning": "Tightly woven barrier protecting against dust mites, allergens, and bacteria.",
         "features": [
             "Dense micro-filament allergen barrier",
             "Anti-dust mite certified construction",
@@ -2182,59 +2213,34 @@
             "Odor-neutralizing fabric treatment",
             "Doctor recommended for allergy sufferers"
         ],
-        "color": "WHITE",
-        "height": 8,
-        "category": "PROTECTORS",
-        "mainCategory": "Protectors",
-        "subCategory": "Anti-Allergen",
+        "image": "./public/images/protectors/protector-03.jpg",
         "images": {
-            "main": "./public/images/products/p20_dust_mite_shield.jpg",
-            "detail": "./images/close_up_texture_1790608850802.jpg",
-            "side": "./public/images/mattresses/comfort-foam/thickness.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
+            "main": "./public/images/protectors/protector-03.jpg",
+            "detail": "./public/images/protectors/protector-03.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Double",
-            "Queen",
-            "King"
-        ],
-        "heights": [
-            6,
-            8,
-            10,
-            12
-        ],
-        "construction": [
-            {
-                "name": "Micro-Weave",
-                "desc": "Pore size under 5 microns"
-            },
-            {
-                "name": "Protective Shield",
-                "desc": "Repels dust, pollen and dander"
-            },
-            {
-                "name": "Breathable Base",
-                "desc": "Allows air circulation without heat buildup"
-            }
-        ],
-        "alt": "BACKSPACE Anti-Allergen Dust Mite Shield - Micro-Filament Barrier",
-        "image": "./public/images/products/p20_dust_mite_shield.jpg"
+        "sizes": ["Single", "Double", "Queen", "King"],
+        "heights": [6, 8, 10, 12],
+        "customization": true,
+        "footer": "Customization available",
+        "price": null,
+        "originalPrice": null,
+        "mrp": null,
+        "prices": null,
+        "discount": null,
+        "rating": null,
+        "reviews": null
     },
     {
         "id": 304,
-        "name": "BACKSPACE Cool-Touch Breathable Mattress Protector",
-        "rating": 4.9,
-        "reviews": 2940,
-        "price": 2290,
-        "originalPrice": 3490,
-        "discount": "34% OFF",
-        "firmness": "Cooling",
-        "warranty": "2 Years Warranty",
-        "desc": "Phase-change cooling fabric protector that draws away excess heat while providing water-resistant surface protection.",
-        "positioning": "Perfect for warm Indian climates and hot sleepers wanting fresh coolness and hygiene every night.",
+        "code": "BKPPR004",
+        "slug": "cool-touch-breathable-mattress-protector",
+        "name": "Cool-Touch Breathable Mattress Protector",
+        "category": "Protectors",
+        "mainCategory": "Protectors",
+        "subCategory": "Cool-Touch Breathable",
+        "material": "Breathable cooling fabric",
+        "desc": "Advanced heat-dissipating fabric keeping you cool and sweat-free all night.",
+        "positioning": "Advanced heat-dissipating fabric keeping you cool and sweat-free all night.",
         "features": [
             "Instant cool-touch silk fiber blend",
             "Phase-change thermal heat dissipation",
@@ -2243,45 +2249,202 @@
             "Deep pocket stretch skirt fits up to 14 in",
             "Silky soft next-to-skin touch"
         ],
-        "color": "ICE BLUE",
-        "height": 8,
-        "category": "PROTECTORS",
-        "mainCategory": "Protectors",
-        "subCategory": "Cooling",
+        "image": "./public/images/protectors/protector-04.jpg",
         "images": {
-            "main": "./public/images/products/p21_cool_breathable_protector.jpg",
-            "detail": "./images/close_up_texture_1790608850802.jpg",
-            "side": "./public/images/assets/texture.jpg",
-            "lifestyle": "./images/backspace-premium-sleeper.jpg"
+            "main": "./public/images/protectors/protector-04.jpg",
+            "detail": "./public/images/protectors/protector-04.jpg"
         },
-        "video": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        "sizes": [
-            "Single",
-            "Queen",
-            "King"
+        "sizes": ["Single", "Double", "Queen", "King"],
+        "heights": [6, 8, 10, 12],
+        "customization": true,
+        "footer": "Customization available",
+        "price": null,
+        "originalPrice": null,
+        "mrp": null,
+        "prices": null,
+        "discount": null,
+        "rating": null,
+        "reviews": null
+    },
+    {
+        "id": 305,
+        "code": "BKPPR005",
+        "slug": "fitted-terry-cotton-mattress-protector",
+        "name": "Fitted Terry Cotton Mattress Protector",
+        "category": "Protectors",
+        "mainCategory": "Protectors",
+        "subCategory": "Fitted Terry Cotton",
+        "material": "Terry cotton + waterproof backing",
+        "desc": "Soft, absorbent loop-terry surface with a silent waterproof TPU underside.",
+        "positioning": "Soft, absorbent loop-terry surface with a silent waterproof TPU underside.",
+        "features": [
+            "Absorbent pure loop-terry surface",
+            "Silent micro-porous waterproof underside",
+            "Deep stretch skirt for mattress depths up to 12 in",
+            "Machine washable with anti-shrink finish",
+            "Certified non-toxic, hypoallergenic comfort",
+            "Breathable heat-releasing barrier"
         ],
-        "heights": [
-            6,
-            8,
-            10,
-            12
+        "image": "./public/images/protectors/protector-05.jpg",
+        "images": {
+            "main": "./public/images/protectors/protector-05.jpg",
+            "detail": "./public/images/protectors/protector-05.jpg"
+        },
+        "sizes": ["Single", "Double", "Queen", "King"],
+        "heights": [6, 8, 10, 12],
+        "customization": true,
+        "footer": "Customization available",
+        "price": null,
+        "originalPrice": null,
+        "mrp": null,
+        "prices": null,
+        "discount": null,
+        "rating": null,
+        "reviews": null
+    },
+    {
+        "id": 306,
+        "code": "BKPPR006",
+        "slug": "elastic-strap-mattress-protector",
+        "name": "Elastic Strap Mattress Protector",
+        "category": "Protectors",
+        "mainCategory": "Protectors",
+        "subCategory": "Elastic Strap",
+        "material": "Microfiber + elastic straps",
+        "desc": "Lightweight, easy-to-remove protector secured by heavy-duty corner elastic bands.",
+        "positioning": "Lightweight, easy-to-remove protector secured by heavy-duty corner elastic bands.",
+        "features": [
+            "Reinforced 4-corner wide elastic anchor bands",
+            "Ultra-easy quick slip-on and removal",
+            "Breathable quilted microfiber top layer",
+            "Compact folding for convenient laundering",
+            "Non-slip anchor design prevents shifting",
+            "Adapts smoothly to mattresses 6 to 14 in"
         ],
-        "construction": [
-            {
-                "name": "Ice Silk Top",
-                "desc": "Conductive thermal yarn"
-            },
-            {
-                "name": "Airflow Mesh",
-                "desc": "Accelerates heat release"
-            },
-            {
-                "name": "Fitted Skirt",
-                "desc": "Snug hold for zero bunching"
-            }
+        "image": "./public/images/protectors/protector-06.jpg",
+        "images": {
+            "main": "./public/images/protectors/protector-06.jpg",
+            "detail": "./public/images/protectors/protector-06.jpg"
+        },
+        "sizes": ["Single", "Double", "Queen", "King"],
+        "heights": [6, 8, 10, 12],
+        "customization": true,
+        "footer": "Customization available",
+        "price": null,
+        "originalPrice": null,
+        "mrp": null,
+        "prices": null,
+        "discount": null,
+        "rating": null,
+        "reviews": null
+    },
+    {
+        "id": 307,
+        "code": "BKPPR007",
+        "slug": "zippered-mattress-encasement",
+        "name": "Zippered Mattress Encasement",
+        "category": "Protectors",
+        "mainCategory": "Protectors",
+        "subCategory": "Zippered Encasement",
+        "material": "Zippered full cover",
+        "desc": "Complete 360-degree six-sided zipped protection against bed bugs, dust, and spills.",
+        "positioning": "Complete 360-degree six-sided zipped protection against bed bugs, dust, and spills.",
+        "features": [
+            "360-degree 6-sided complete mattress wrap",
+            "Micro-zipper with hook-and-loop velcro lock flap",
+            "Bed bug proof and dust mite impenetrable",
+            "Full liquid containment on all surfaces",
+            "Stretchable knit sidewalls with heavy-duty zipper",
+            "Medical-grade hygienic protection"
         ],
-        "alt": "BACKSPACE Cool-Touch Breathable Mattress Protector - Ice Silk Surface",
-        "image": "./public/images/products/p21_cool_breathable_protector.jpg"
+        "image": "./public/images/protectors/protector-07.jpg",
+        "images": {
+            "main": "./public/images/protectors/protector-07.jpg",
+            "detail": "./public/images/protectors/protector-07.jpg"
+        },
+        "sizes": ["Single", "Double", "Queen", "King"],
+        "heights": [6, 8, 10, 12],
+        "customization": true,
+        "footer": "Customization available",
+        "price": null,
+        "originalPrice": null,
+        "mrp": null,
+        "prices": null,
+        "discount": null,
+        "rating": null,
+        "reviews": null
+    },
+    {
+        "id": 308,
+        "code": "BKPPR008",
+        "slug": "microfiber-hypoallergenic-protector",
+        "name": "Microfiber Hypoallergenic Protector",
+        "category": "Protectors",
+        "mainCategory": "Protectors",
+        "subCategory": "Microfiber",
+        "material": "Microfiber",
+        "desc": "Ultra-soft brushed microfiber surface with silent breathable barrier.",
+        "positioning": "Ultra-soft brushed microfiber surface with silent breathable barrier.",
+        "features": [
+            "Brushed double-soft microfiber surface",
+            "Feather-light noiseless protective core",
+            "Antimicrobial and odor-resistant treatment",
+            "Smooth silk-like touch under sheets",
+            "Fast drying machine washable weave",
+            "Snug 360-degree elastic grip contour"
+        ],
+        "image": "./public/images/protectors/protector-08.jpg",
+        "images": {
+            "main": "./public/images/protectors/protector-08.jpg",
+            "detail": "./public/images/protectors/protector-08.jpg"
+        },
+        "sizes": ["Single", "Double", "Queen", "King"],
+        "heights": [6, 8, 10, 12],
+        "customization": true,
+        "footer": "Customization available",
+        "price": null,
+        "originalPrice": null,
+        "mrp": null,
+        "prices": null,
+        "discount": null,
+        "rating": null,
+        "reviews": null
+    },
+    {
+        "id": 309,
+        "code": "BKPPR009",
+        "slug": "kids-waterproof-mattress-protector",
+        "name": "Kids Waterproof Mattress Protector",
+        "category": "Protectors",
+        "mainCategory": "Protectors",
+        "subCategory": "Kids Waterproof",
+        "material": "Waterproof soft fabric",
+        "desc": "Extra-absorbent, stain-resistant protector designed for cribs, toddlers, and twin beds.",
+        "positioning": "Extra-absorbent, stain-resistant protector designed for cribs, toddlers, and twin beds.",
+        "features": [
+            "BPA-free, phthalate-free, child-safe membrane",
+            "Extra-thick liquid absorbing inner core",
+            "Stain-release technology for effortless washing",
+            "Hypoallergenic skin-sensitive soft velour top",
+            "Silent TPU backing with zero crinkle sounds",
+            "Tailored for crib, toddler, and twin mattress sizes"
+        ],
+        "image": "./public/images/protectors/protector-09.jpg",
+        "images": {
+            "main": "./public/images/protectors/protector-09.jpg",
+            "detail": "./public/images/protectors/protector-09.jpg"
+        },
+        "sizes": ["Single", "Double", "Queen", "King"],
+        "heights": [6, 8, 10, 12],
+        "customization": true,
+        "footer": "Customization available",
+        "price": null,
+        "originalPrice": null,
+        "mrp": null,
+        "prices": null,
+        "discount": null,
+        "rating": null,
+        "reviews": null
     },
     {
         "id": 401,
@@ -6602,8 +6765,8 @@ function singleBedApp() {
         
         <!-- Breadcrumb & Back -->
         <div class="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
-            <button @click="goToPage(currentProductData && (currentProductData.category === 'Beds' || currentProductData.mainCategory === 'Beds') ? 'beds' : 'home')" class="text-xs font-bold text-gray-500 uppercase tracking-widest hover:text-brand-terracotta transition flex items-center gap-2">
-                <i class="fa-solid fa-arrow-left"></i> <span x-text="currentProductData && (currentProductData.category === 'Beds' || currentProductData.mainCategory === 'Beds') ? 'BACK TO BEDS' : 'BACK TO HOME'"></span>
+            <button @click="if(currentProductData && (currentProductData.category === 'Beds' || currentProductData.mainCategory === 'Beds')) { goToPage('beds'); } else if(currentProductData && (currentProductData.category === 'Protectors' || currentProductData.mainCategory === 'Protectors')) { goToPage('shop', 'Protectors'); } else if(currentProductData && (currentProductData.category === 'Mattresses' || currentProductData.mainCategory === 'Mattresses')) { goToPage('shop', 'Mattresses'); } else { goToPage('home'); }" class="text-xs font-bold text-gray-500 uppercase tracking-widest hover:text-brand-terracotta transition flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> <span x-text="currentProductData && (currentProductData.category === 'Beds' || currentProductData.mainCategory === 'Beds') ? 'BACK TO BEDS' : ((currentProductData && (currentProductData.category === 'Protectors' || currentProductData.mainCategory === 'Protectors')) ? 'BACK TO PROTECTORS' : ((currentProductData && (currentProductData.category === 'Mattresses' || currentProductData.mainCategory === 'Mattresses')) ? 'BACK TO MATTRESSES' : 'BACK TO HOME'))"></span>
             </button>
         </div>
 
@@ -7417,18 +7580,66 @@ function singleBedApp() {
          toggleSection(sec) {
              this.sectionsOpen[sec] = !this.sectionsOpen[sec];
          },
-         collectionOptions: [
-             'Premium Mattress',
-             'Luxurious Mattress'
-         ],
-         materialOptions: [
-             '6D Hexagon Grid Foam',
-             'Pocket Springs',
-             'BodyIQ Memory Foam',
-             'Natural Latex',
-             'Foam (CertipurUS certified)',
-             'Rubberised Coir'
-         ],
+         init() {
+             window.addEventListener('select-protector-filter', (e) => {
+                 this.resetFilters();
+                 if (e.detail) {
+                     if (e.detail.type && e.detail.type !== 'all') {
+                         this.selectedCollections = [e.detail.type];
+                     }
+                     if (e.detail.size) {
+                         this.selectedSizes = [e.detail.size];
+                     }
+                 }
+             });
+         },
+         get isProtectorCat() {
+             const cat = (this.currentCat || '').toLowerCase();
+             return cat.includes('protector') || cat.includes('waterproof');
+         },
+         get collectionHeading() {
+             return this.isProtectorCat ? 'Protector Types' : 'Collection';
+         },
+         get collectionOptions() {
+             if (this.isProtectorCat) {
+                 return [
+                     'Waterproof Bamboo',
+                     'Premium Quilted Cover',
+                     'Anti-Allergen Shield',
+                     'Cool-Touch Breathable',
+                     'Fitted Terry Cotton',
+                     'Elastic Strap',
+                     'Zippered Encasement'
+                 ];
+             }
+             return [
+                 'Premium Mattress',
+                 'Luxurious Mattress'
+             ];
+         },
+         get materialOptions() {
+             if (this.isProtectorCat) {
+                 return [
+                     'Bamboo fabric + waterproof layer',
+                     'Quilted cotton blend',
+                     'Hypoallergenic fabric',
+                     'Breathable cooling fabric',
+                     'Terry cotton + waterproof backing',
+                     'Microfiber + elastic straps',
+                     'Zippered full cover',
+                     'Microfiber',
+                     'Waterproof soft fabric'
+                 ];
+             }
+             return [
+                 '6D Hexagon Grid Foam',
+                 'Pocket Springs',
+                 'BodyIQ Memory Foam',
+                 'Natural Latex',
+                 'Foam (CertipurUS certified)',
+                 'Rubberised Coir'
+             ];
+         },
          sizeOptions: [
              'Single',
              'Double',
@@ -7479,6 +7690,10 @@ function singleBedApp() {
              let list = (window.BACKSPACE_CATALOGUE || []).slice();
              return list.filter(p => p.mainCategory === 'Mattresses' || p.category === 'Mattresses');
          },
+         get allProtectors() {
+             let list = (window.BACKSPACE_CATALOGUE || []).slice();
+             return list.filter(p => p.mainCategory === 'Protectors' || p.category === 'Protectors' || p.category === 'PROTECTORS');
+         },
          get totalMattresses() {
              return this.allMattresses.length || 15;
          },
@@ -7491,16 +7706,24 @@ function singleBedApp() {
              } else if (cat.includes('bed') && !cat.includes('single bed') && !cat.includes('mattress')) {
                  list = list.filter(p => p.mainCategory === 'Beds' || p.category === 'BEDS');
              } else if (cat.includes('protector') || cat.includes('waterproof')) {
-                 list = list.filter(p => p.mainCategory === 'Protectors' || p.category === 'PROTECTORS');
+                 list = list.filter(p => p.mainCategory === 'Protectors' || p.category === 'Protectors' || p.category === 'PROTECTORS');
              } else if (cat.includes('pillow')) {
                  list = list.filter(p => p.mainCategory === 'Pillows' || p.category === 'PILLOWS');
              } else {
                  list = list.filter(p => p.mainCategory === 'Mattresses' || p.category === 'Mattresses' || p.category === 'SINGLE');
              }
              
-             // 1. COLLECTION FILTER (OR within group)
+             // 1. COLLECTION / TYPE FILTER (OR within group)
              if (this.selectedCollections.length > 0) {
                  list = list.filter(p => {
+                     if (this.isProtectorCat) {
+                         return this.selectedCollections.some(sel => {
+                             const s = sel.toLowerCase();
+                             return (p.name && p.name.toLowerCase().includes(s)) ||
+                                    (p.subCategory && p.subCategory.toLowerCase().includes(s)) ||
+                                    (p.collection && p.collection.toLowerCase().includes(s));
+                         });
+                     }
                      if (!p.collection) return false;
                      return this.selectedCollections.includes(p.collection);
                  });
@@ -7512,6 +7735,9 @@ function singleBedApp() {
                      const mat = (p.material || p.subCategory || '').toLowerCase();
                      return this.selectedMaterials.some(sel => {
                          const s = sel.toLowerCase();
+                         if (this.isProtectorCat) {
+                             return mat.includes(s) || s.includes(mat);
+                         }
                          if (s.includes('6d') || s.includes('hexagon') || s.includes('grid')) {
                              return mat.includes('6d') || mat.includes('hexagon') || mat.includes('grid');
                          }
@@ -7553,7 +7779,7 @@ function singleBedApp() {
      }">
     <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Mattresses Page Header (Breadcrumbs and Category Pill Tabs removed) -->
-        <template x-if="currentCat === 'Mattresses'">
+        <template x-if="currentCat === 'Mattresses' || currentCat.toLowerCase().includes('protector')">
             <div class="mb-6 pb-4 border-b border-[#E6DFD6]">
                 <h1 class="text-3xl md:text-5xl font-extrabold text-brand-charcoal tracking-tight uppercase" x-text="categoryTitle">MATTRESSES</h1>
                 <p class="text-sm md:text-base text-gray-500 mt-2 max-w-3xl leading-relaxed" x-text="categoryDesc"></p>
@@ -7561,7 +7787,7 @@ function singleBedApp() {
         </template>
 
         <!-- Other Pages Header (Shared with Protectors and Pillows) -->
-        <template x-if="currentCat !== 'Mattresses'">
+        <template x-if="currentCat !== 'Mattresses' && !currentCat.toLowerCase().includes('protector')">
             <div class="mb-6">
                 <div class="flex items-center space-x-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
                     <button @click="goToPage('home')" class="hover:text-brand-charcoal transition">HOME</button>
@@ -7599,7 +7825,7 @@ function singleBedApp() {
                     <!-- 1. Collection Filter Group -->
                     <div class="py-4 border-b border-[#EBE2D5]">
                         <button @click="toggleSection('collection')" class="w-full flex items-center justify-between text-left focus:outline-none group">
-                            <span class="text-sm font-bold text-[#292522] tracking-wide">Collection</span>
+                            <span class="text-sm font-bold text-[#292522] tracking-wide" x-text="collectionHeading">Collection</span>
                             <i class="fa-solid fa-chevron-up text-xs text-[#D05228] transition-transform duration-300" :class="sectionsOpen.collection ? '' : 'rotate-180'"></i>
                         </button>
                         <div x-show="sectionsOpen.collection" x-collapse class="mt-3.5 space-y-2.5">
@@ -7655,7 +7881,7 @@ function singleBedApp() {
                             <i class="fa-solid fa-sliders text-[#D05228]"></i>
                             <span>FILTERS</span>
                         </button>
-                        <span class="text-xs sm:text-sm font-extrabold text-brand-charcoal uppercase tracking-wider" x-text="`Showing ${displayProducts.length} of ${totalMattresses} mattresses`"></span>
+                        <span class="text-xs sm:text-sm font-extrabold text-brand-charcoal uppercase tracking-wider" x-text="isProtectorCat ? `Showing ${displayProducts.length} of ${allProtectors.length} protectors` : `Showing ${displayProducts.length} of ${totalMattresses} mattresses`"></span>
                     </div>
 
                     <div class="flex items-center space-x-3">
@@ -7674,8 +7900,8 @@ function singleBedApp() {
                     <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-[#EFE8DE] flex items-center justify-center text-[#D05228]">
                         <i class="fa-solid fa-filter-circle-xmark text-2xl"></i>
                     </div>
-                    <h3 class="text-lg sm:text-xl font-bold text-[#292522] mb-1.5 font-sans">No mattresses match these filters</h3>
-                    <p class="text-xs sm:text-sm text-gray-500 max-w-md mx-auto mb-5 font-sans">Try clearing some of your selected collections, materials, or sizes to see available mattresses.</p>
+                    <h3 class="text-lg sm:text-xl font-bold text-[#292522] mb-1.5 font-sans" x-text="isProtectorCat ? 'No protectors match these filters' : 'No mattresses match these filters'">No mattresses match these filters</h3>
+                    <p class="text-xs sm:text-sm text-gray-500 max-w-md mx-auto mb-5 font-sans" x-text="isProtectorCat ? 'Try clearing some of your selected filters to see available protectors.' : 'Try clearing some of your selected collections, materials, or sizes to see available mattresses.'"></p>
                     <button @click="resetFilters()" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#292522] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#D05228] transition shadow-md focus:outline-none">
                         <i class="fa-solid fa-rotate-left text-[11px]"></i>
                         <span>Reset Filters</span>
@@ -7762,7 +7988,7 @@ function singleBedApp() {
                 <!-- 1. Collection Filter Group -->
                 <div class="pb-4 border-b border-[#EBE2D5]">
                     <button @click="toggleSection('collection')" class="w-full flex items-center justify-between text-left focus:outline-none group">
-                        <span class="text-sm font-bold text-[#292522] tracking-wide">Collection</span>
+                        <span class="text-sm font-bold text-[#292522] tracking-wide" x-text="collectionHeading">Collection</span>
                         <i class="fa-solid fa-chevron-up text-xs text-[#D05228] transition-transform duration-300" :class="sectionsOpen.collection ? '' : 'rotate-180'"></i>
                     </button>
                     <div x-show="sectionsOpen.collection" x-collapse class="mt-3.5 space-y-2.5">
@@ -7811,7 +8037,7 @@ function singleBedApp() {
             <!-- Footer Buttons in Drawer -->
             <div class="p-4 border-t border-[#EBE2D5] bg-[#FAF6EE] flex gap-3">
                 <button @click="resetFilters()" class="flex-1 py-2.5 rounded-xl border border-[#D5C9B8] bg-white text-xs font-bold uppercase tracking-wider text-[#292522] hover:bg-gray-50 transition">Reset</button>
-                <button @click="mobileFiltersOpen = false" class="flex-1 py-2.5 rounded-xl bg-[#292522] hover:bg-[#D05228] text-white text-xs font-bold uppercase tracking-wider shadow-md transition" x-text="'View ' + displayProducts.length + ' Mattresses'">Apply</button>
+                <button @click="mobileFiltersOpen = false" class="flex-1 py-2.5 rounded-xl bg-[#292522] hover:bg-[#D05228] text-white text-xs font-bold uppercase tracking-wider shadow-md transition" x-text="isProtectorCat ? ('View ' + displayProducts.length + ' Protectors') : ('View ' + displayProducts.length + ' Mattresses')">Apply</button>
             </div>
         </div>
     </div>
