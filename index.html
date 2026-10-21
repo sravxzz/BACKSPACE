@@ -58,7 +58,7 @@
     <a href="https://wa.me/916300946652" target="_blank" class="fixed bottom-6 right-6 z-[90] bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-lg hover:scale-110 transition-transform animate-pulse-soft"><i class="fa-brands fa-whatsapp"></i></a>
 
     <!-- Header System -->
-    <header class="fixed w-full z-50 transition-all duration-300" :class="scrollY > 20 ? 'bg-[#F7F4EF]/95 shadow-sm backdrop-blur-md border-b border-[#E6DFD6]' : 'bg-[#F7F4EF] border-b border-[#E6DFD6]/60'" x-data="{ openDropdown: null, scrollY: 0 }" @scroll.window="scrollY = window.scrollY" @keydown.escape.window="openDropdown = null" @close-all-dropdowns.window="openDropdown = null" @page-changed.window="openDropdown = null" @hashchange.window="if(window.location.hash === '#beds') openDropdown = null">
+    <header class="fixed w-full z-50 transition-all duration-300" :class="scrollY > 20 ? 'bg-[#F7F4EF]/95 shadow-sm backdrop-blur-md border-b border-[#E6DFD6]' : 'bg-[#F7F4EF] border-b border-[#E6DFD6]/60'" x-data="{ openDropdown: null, scrollY: 0 }" @scroll.window="scrollY = window.scrollY" @keydown.escape.window="openDropdown = null" @close-all-dropdowns.window="openDropdown = null" @page-changed.window="openDropdown = null" @hashchange.window="openDropdown = null" @popstate.window="openDropdown = null">
         
         <!-- ================= MOBILE HEADER (Preserved) ================= -->
         <div class="lg:hidden flex justify-between items-center h-16 px-4 sm:px-6 border-b border-gray-100">
@@ -115,10 +115,10 @@
                     
                     <!-- 4. ALL CATEGORIES -->
                     <div class="relative h-full flex items-center" @mouseenter="openDropdown = 'all'" @mouseleave="openDropdown = null">
-                        <button @click="goToPage('shop', 'All'); openDropdown = null" class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none" :class="currentCategoryFilter === 'All' && currentPage === 'shop' ? 'text-brand-terracotta' : ''">
+                        <button @click="goToPage('shop', 'All'); openDropdown = null" class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none" :class="openDropdown === 'all' ? 'text-brand-terracotta' : (isNavItemActive('all') ? 'text-brand-terracotta' : '')">
                             <span class="relative overflow-hidden py-1">
                                 ALL CATEGORIES
-                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="currentCategoryFilter === 'All' && currentPage === 'shop' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
+                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(isNavItemActive('all') || openDropdown === 'all') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                             </span>
                             <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'all' ? 'rotate-180 text-brand-terracotta' : ''"></i>
                         </button>
@@ -222,10 +222,10 @@
                     <div class="relative h-full flex items-center" @mouseenter="openDropdown = 'mattresses'" @mouseleave="openDropdown = null">
                         <button @click="goToPage('shop', 'Mattresses'); openDropdown = null; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" 
                                 class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none py-2 px-3 rounded-t-xl" 
-                                :class="openDropdown === 'mattresses' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : ((currentCategoryFilter === 'Mattresses' && currentPage === 'shop') ? 'text-brand-terracotta' : '')">
+                                :class="openDropdown === 'mattresses' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : (isNavItemActive('mattresses') ? 'text-brand-terracotta' : '')">
                             <span class="relative overflow-hidden py-1">
                                 MATTRESSES
-                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(currentCategoryFilter === 'Mattresses' && currentPage === 'shop' || openDropdown === 'mattresses') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
+                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(isNavItemActive('mattresses') || openDropdown === 'mattresses') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                             </span>
                             <span @click.stop="openDropdown = (openDropdown === 'mattresses' ? null : 'mattresses')" class="p-1 cursor-pointer" title="Toggle Mattresses Menu">
                                 <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'mattresses' ? 'rotate-180 text-brand-terracotta' : ''"></i>
@@ -336,10 +336,10 @@
                     <div class="relative h-full flex items-center" @mouseenter="openDropdown = 'beds'" @mouseleave="openDropdown = null">
                         <button @click="goToPage('beds'); selectBedCategory('all', null); openDropdown = null; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" 
                                 class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none py-2 px-3 rounded-t-xl" 
-                                :class="openDropdown === 'beds' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : ((currentPage === 'beds' || window.location.hash === '#beds' || (currentCategoryFilter === 'Beds' && currentPage === 'shop')) ? 'text-brand-terracotta' : '')">
+                                :class="openDropdown === 'beds' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : (isNavItemActive('beds') ? 'text-brand-terracotta' : '')">
                             <span class="relative overflow-hidden py-1">
                                 BEDS
-                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(currentPage === 'beds' || window.location.hash === '#beds' || (currentCategoryFilter === 'Beds' && currentPage === 'shop') || openDropdown === 'beds') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
+                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(isNavItemActive('beds') || openDropdown === 'beds') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                             </span>
                             <span @click.stop="openDropdown = (openDropdown === 'beds' ? null : 'beds')" class="p-1 cursor-pointer" title="Toggle Beds Menu">
                                 <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'beds' ? 'rotate-180 text-brand-terracotta' : ''"></i>
@@ -417,10 +417,10 @@
                     <div class="relative h-full flex items-center" @mouseenter="openDropdown = 'protectors'" @mouseleave="openDropdown = null">
                         <button @click="goToPage('shop', 'Protectors'); window.dispatchEvent(new CustomEvent('select-protector-filter', { detail: { type: 'all' } })); openDropdown = null; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" 
                                 class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none py-2 px-3 rounded-t-xl" 
-                                :class="openDropdown === 'protectors' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : ((currentCategoryFilter === 'Protectors' && currentPage === 'shop') ? 'text-brand-terracotta' : '')">
+                                :class="openDropdown === 'protectors' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : (isNavItemActive('protectors') ? 'text-brand-terracotta' : '')">
                             <span class="relative overflow-hidden py-1">
                                 PROTECTORS
-                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(currentCategoryFilter === 'Protectors' && currentPage === 'shop' || openDropdown === 'protectors') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
+                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(isNavItemActive('protectors') || openDropdown === 'protectors') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                             </span>
                             <span @click.stop="openDropdown = (openDropdown === 'protectors' ? null : 'protectors')" class="p-1 cursor-pointer" title="Toggle Protectors Menu">
                                 <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'protectors' ? 'rotate-180 text-brand-terracotta' : ''"></i>
@@ -486,10 +486,10 @@
                     <div class="relative h-full flex items-center" @mouseenter="openDropdown = 'pillows'" @mouseleave="openDropdown = null">
                         <button @click="goToPage('shop', 'Pillows'); openDropdown = null; window.dispatchEvent(new CustomEvent('close-all-dropdowns'));" 
                                 class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none py-2 px-3 rounded-t-xl" 
-                                :class="openDropdown === 'pillows' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : ((currentCategoryFilter === 'Pillows' && currentPage === 'shop') ? 'text-brand-terracotta' : '')">
+                                :class="openDropdown === 'pillows' ? 'bg-[#FAF6EE] text-[#D05228] border-t-2 border-x-2 border-[#292522]' : (isNavItemActive('pillows') ? 'text-brand-terracotta' : '')">
                             <span class="relative overflow-hidden py-1">
                                 PILLOWS
-                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(currentCategoryFilter === 'Pillows' && currentPage === 'shop' || openDropdown === 'pillows') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
+                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(isNavItemActive('pillows') || openDropdown === 'pillows') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                             </span>
                             <span @click.stop="openDropdown = (openDropdown === 'pillows' ? null : 'pillows')" class="p-1 cursor-pointer" title="Toggle Pillows Menu">
                                 <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'pillows' ? 'rotate-180 text-brand-terracotta' : ''"></i>
@@ -545,10 +545,10 @@
 
                     <!-- 9. SUPPORT -->
                     <div class="relative h-full flex items-center" @mouseenter="openDropdown = 'support'" @mouseleave="openDropdown = null">
-                        <button @click="goToPage('support'); openDropdown = null" class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none" :class="currentPage === 'support' ? 'text-brand-terracotta' : ''">
+                        <button @click="goToPage('support'); openDropdown = null" class="flex items-center space-x-1 text-[11px] xl:text-[12px] font-bold tracking-wide uppercase text-brand-charcoal hover:text-brand-terracotta transition group focus:outline-none" :class="openDropdown === 'support' ? 'text-brand-terracotta' : (isNavItemActive('support') ? 'text-brand-terracotta' : '')">
                             <span class="relative overflow-hidden py-1">
                                 SUPPORT
-                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="currentPage === 'support' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
+                                <span class="absolute bottom-0 left-0 w-full h-[2px] bg-brand-terracotta transition-transform duration-300 origin-left" :class="(isNavItemActive('support') || openDropdown === 'support') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                             </span>
                             <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300" :class="openDropdown === 'support' ? 'rotate-180 text-brand-terracotta' : ''"></i>
                         </button>
@@ -652,18 +652,18 @@
                 <div class="px-4 mb-6">
                     <div class="grid grid-cols-2 gap-3">
                         <template x-for="cat in [
-                            { name: 'MATTRESSES', filter: 'Mattresses', img: './public/images/mattresses/orthopedic-support/thickness.jpg' },
-                            { name: 'BEDS & FRAMES', filter: 'beds', isPage: true, img: './public/images/beds/bed-001.jpg' },
-                            { name: 'PROTECTORS', filter: 'Protectors', img: './public/images/mattresses/comfort-foam/thickness.jpg' },
-                            { name: 'PILLOWS', filter: 'Pillows', img: './public/images/mattresses/cool-gel/thickness.jpg' },
-                            { name: 'MEMORY FOAM', filter: 'Memory Foam', img: './public/images/mattresses/cloud-memory-foam/thickness.jpg' },
-                            { name: 'SUPPORT & FAQ', filter: 'support', isPage: true, img: './public/images/mattresses/luxury-latex/detail.jpg' }
+                            { name: 'MATTRESSES', key: 'mattresses', filter: 'Mattresses', img: './public/images/mattresses/orthopedic-support/thickness.jpg' },
+                            { name: 'BEDS & FRAMES', key: 'beds', filter: 'beds', isPage: true, img: './public/images/beds/bed-001.jpg' },
+                            { name: 'PROTECTORS', key: 'protectors', filter: 'Protectors', img: './public/images/mattresses/comfort-foam/thickness.jpg' },
+                            { name: 'PILLOWS', key: 'pillows', filter: 'Pillows', img: './public/images/mattresses/cool-gel/thickness.jpg' },
+                            { name: 'MEMORY FOAM', key: 'memory_foam', filter: 'Memory Foam', img: './public/images/mattresses/cloud-memory-foam/thickness.jpg' },
+                            { name: 'SUPPORT & FAQ', key: 'support', filter: 'support', isPage: true, img: './public/images/mattresses/luxury-latex/detail.jpg' }
                         ]">
-                            <button @click="hamburgerOpen = false; cat.isPage ? goToPage(cat.filter) : goToPage('shop', cat.filter)" class="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 hover:bg-white/10 transition group active:scale-95">
-                                <div class="w-14 h-14 rounded-full bg-black/30 overflow-hidden group-hover:scale-110 transition">
-                                    <img :src="cat.img" class="w-full h-full object-cover opacity-70">
+                            <button @click="hamburgerOpen = false; cat.isPage ? goToPage(cat.filter) : goToPage('shop', cat.filter)" class="rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition group active:scale-95" :class="isNavItemActive(cat.key) ? 'bg-brand-terracotta/20 border-2 border-brand-terracotta text-brand-terracotta' : 'bg-white/5 border border-white/10 hover:bg-white/10 text-white'">
+                                <div class="w-14 h-14 rounded-full bg-black/30 overflow-hidden group-hover:scale-110 transition" :class="isNavItemActive(cat.key) ? 'ring-2 ring-brand-terracotta' : ''">
+                                    <img :src="cat.img" class="w-full h-full object-cover" :class="isNavItemActive(cat.key) ? 'opacity-100' : 'opacity-70'">
                                 </div>
-                                <span class="font-bold text-[10px] tracking-widest uppercase text-center text-white" x-text="cat.name"></span>
+                                <span class="font-bold text-[10px] tracking-widest uppercase text-center" :class="isNavItemActive(cat.key) ? 'text-brand-terracotta font-extrabold' : 'text-white'" x-text="cat.name"></span>
                             </button>
                         </template>
                     </div>

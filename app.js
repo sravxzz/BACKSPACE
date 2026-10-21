@@ -5,6 +5,25 @@ function isBedProduct(p) {
 }
 window.isBedProduct = isBedProduct;
 
+function isProtectorProduct(p) {
+    if (!p) return false;
+    return p.category === 'Protectors' || p.mainCategory === 'Protectors' || (p.code && p.code.startsWith('BKPPR'));
+}
+window.isProtectorProduct = isProtectorProduct;
+
+function isPillowProduct(p) {
+    if (!p) return false;
+    return p.category === 'PILLOWS' || p.category === 'Pillows' || p.mainCategory === 'Pillows' || (p.code && p.code.startsWith('BKPPL')) || (p.name && p.name.toLowerCase().includes('pillow'));
+}
+window.isPillowProduct = isPillowProduct;
+
+function isMattressProduct(p) {
+    if (!p) return false;
+    if (isBedProduct(p) || isProtectorProduct(p) || isPillowProduct(p)) return false;
+    return p.category === 'Mattresses' || p.mainCategory === 'Mattresses' || (p.code && p.code.startsWith('BKPMT')) || (p.id >= 1 && p.id <= 15);
+}
+window.isMattressProduct = isMattressProduct;
+
 const defaultProducts = [
     // --- MATTRESSES (3 Signature Products) ---
     {
@@ -681,6 +700,45 @@ function appData() {
     return {
         // Bed Product Check Helper
         isBedProduct(p) { return isBedProduct(p); },
+        isProtectorProduct(p) { return isProtectorProduct(p); },
+        isPillowProduct(p) { return isPillowProduct(p); },
+        isMattressProduct(p) { return isMattressProduct(p); },
+
+        isNavItemActive(item) {
+            const page = this.currentPage;
+            const cat = this.currentCategoryFilter;
+            const prod = this.currentProductData;
+            
+            if (page === 'productDetail' && prod) {
+                if (item === 'beds') return isBedProduct(prod);
+                if (item === 'mattresses') return isMattressProduct(prod);
+                if (item === 'protectors') return isProtectorProduct(prod);
+                if (item === 'pillows') return isPillowProduct(prod);
+                return false;
+            }
+            
+            if (item === 'beds') {
+                return page === 'beds' || (page === 'shop' && (cat === 'Beds' || cat === 'Smart Beds'));
+            }
+            
+            if (page === 'shop') {
+                if (item === 'mattresses') {
+                    const mattressFilters = ['Mattresses', 'Latex', 'Spring', 'Orthopedic', 'Single Bed', 'Comfort Foam'];
+                    return mattressFilters.includes(cat);
+                }
+                if (item === 'memory_foam') return cat === 'Memory Foam';
+                if (item === 'protectors') return cat === 'Protectors';
+                if (item === 'pillows') return cat === 'Pillows' || cat === 'PILLOWS';
+                if (item === 'all') return cat === 'All';
+                return false;
+            }
+            
+            if (item === 'support') {
+                return page === 'support';
+            }
+            
+            return false;
+        },
         
         // Core State
         currentPage: 'home',
@@ -774,7 +832,17 @@ function appData() {
                 if (h.startsWith('#bed-')) {
                     const code = h.replace('#bed-', '').trim();
                     const allBeds = window.BED_COLLECTION_CARDS || [];
-                    const found = allBeds.find(b => b.code.toUpperCase() === code.toUpperCase());
+                    const found = allBeds.find(b => (b.code || '').toUpperCase() === code.toUpperCase());
+                    if (found) {
+                        this.currentProductData = found;
+                        this.currentPage = 'productDetail';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                } else if (h.startsWith('#mattress-') || h.startsWith('#protector-') || h.startsWith('#pillow-')) {
+                    const parts = h.split('-');
+                    const code = parts.slice(1).join('-').trim();
+                    const allProducts = (window.BACKSPACE_CATALOGUE || []).concat(this.products || []);
+                    const found = allProducts.find(p => (p.code || '').toUpperCase() === code.toUpperCase() || String(p.id) === code);
                     if (found) {
                         this.currentProductData = found;
                         this.currentPage = 'productDetail';
@@ -787,8 +855,30 @@ function appData() {
                     window.dispatchEvent(new CustomEvent('select-bed-group', { detail: { group: 'all' } }));
                     window.dispatchEvent(new CustomEvent('select-bed-classified', { detail: { type: 'all' } }));
                     window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
-                } else if (h === '#home') {
+                } else if (h === '#mattresses') {
+                    this.currentPage = 'shop';
+                    this.currentCategoryFilter = 'Mattresses';
+                    window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
+                } else if (h === '#protectors') {
+                    this.currentPage = 'shop';
+                    this.currentCategoryFilter = 'Protectors';
+                    window.dispatchEvent(new CustomEvent('select-protector-filter', { detail: { type: 'all' } }));
+                    window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
+                } else if (h === '#pillows') {
+                    this.currentPage = 'shop';
+                    this.currentCategoryFilter = 'Pillows';
+                    window.dispatchEvent(new CustomEvent('select-pillow-filter', { detail: { size: null } }));
+                    window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
+                } else if (h === '#support') {
+                    this.currentPage = 'support';
+                    window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
+                } else if (h === '#shop') {
+                    this.currentPage = 'shop';
+                    this.currentCategoryFilter = 'All';
+                    window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
+                } else if (h === '#home' || h === '') {
                     this.currentPage = 'home';
+                    window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
                 }
             };
             window.addEventListener('hashchange', syncFromHash);
@@ -863,15 +953,48 @@ function appData() {
                     if (window.location.hash !== '#bed-' + this.currentProductData.code) {
                         window.history.pushState(null, '', '#bed-' + this.currentProductData.code);
                     }
+                } else if (this.currentProductData && isProtectorProduct(this.currentProductData)) {
+                    const c = this.currentProductData.code || this.currentProductData.id;
+                    if (window.location.hash !== '#protector-' + c) {
+                        window.history.pushState(null, '', '#protector-' + c);
+                    }
+                } else if (this.currentProductData && isPillowProduct(this.currentProductData)) {
+                    const c = this.currentProductData.code || this.currentProductData.id;
+                    if (window.location.hash !== '#pillow-' + c) {
+                        window.history.pushState(null, '', '#pillow-' + c);
+                    }
+                } else if (this.currentProductData) {
+                    const c = this.currentProductData.code || this.currentProductData.id;
+                    if (window.location.hash !== '#mattress-' + c) {
+                        window.history.pushState(null, '', '#mattress-' + c);
+                    }
                 }
             } else {
                 this.currentPage = page;
-                if(category) {
+                if (category) {
                     this.currentCategoryFilter = category;
                     window.currentCategoryFilter = category;
                 }
-                if (page === 'home' && window.location.hash && window.location.hash !== '#home') {
-                    window.history.pushState(null, '', '#home');
+                if (page === 'home') {
+                    if (window.location.hash && window.location.hash !== '#home') {
+                        window.history.pushState(null, '', window.location.pathname);
+                    }
+                } else if (page === 'shop') {
+                    let targetHash = '#shop';
+                    if (category === 'Mattresses') targetHash = '#mattresses';
+                    else if (category === 'Protectors') targetHash = '#protectors';
+                    else if (category === 'Pillows' || category === 'PILLOWS') targetHash = '#pillows';
+                    if (window.location.hash !== targetHash) {
+                        window.history.pushState(null, '', targetHash);
+                    }
+                } else if (page === 'support') {
+                    if (window.location.hash !== '#support') {
+                        window.history.pushState(null, '', '#support');
+                    }
+                } else {
+                    if (window.location.hash && window.location.hash.startsWith('#bed')) {
+                        window.history.pushState(null, '', '#' + page);
+                    }
                 }
             }
             this.mobileMenuOpen = false;
