@@ -6850,22 +6850,15 @@ function singleBedApp() {
 <div x-show="currentPage === 'productDetail' && currentProductData" style="display:none;">
     
 <!-- ================= BED PRODUCT DETAIL PAGE (Bespoke BACKSPACE.CO Design) ================= -->
-<div x-show="isBedProduct(currentProductData)" x-data="bedProductDetailApp()" x-effect="if(currentProductData && isBedProduct(currentProductData)) syncBed(currentProductData)" class="bg-[#F7F4EF] min-h-screen pt-24 pb-32">
+<div x-show="isBedProduct(currentProductData)" x-data="bedProductDetailApp()" x-effect="if(currentProductData && isBedProduct(currentProductData)) syncBed(currentProductData)" class="bg-[#F7F4EF] min-h-screen pt-6 pb-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <!-- Top Breadcrumbs & Back Navigation -->
-        <div class="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[#E5DCD0] pb-4">
+        <!-- Top Back Navigation -->
+        <div class="mb-6 flex items-center border-b border-[#E5DCD0] pb-3">
             <button @click="goToPage('beds'); window.location.hash = 'beds';" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#7E7467] hover:text-[#292522] transition-colors focus:outline-none">
                 <i class="fa-solid fa-arrow-left text-xs"></i>
                 <span>BACK TO BEDS COLLECTION</span>
             </button>
-            <nav class="flex items-center space-x-2 text-xs font-medium text-[#7E7467]">
-                <button @click="goToPage('home')" class="hover:text-[#292522]">Home</button>
-                <span>/</span>
-                <button @click="goToPage('beds'); window.location.hash = 'beds';" class="hover:text-[#292522]">Beds</button>
-                <span>/</span>
-                <span class="text-[#292522] font-semibold truncate max-w-[200px] sm:max-w-xs" x-text="bed.name"></span>
-            </nav>
         </div>
 
         <!-- MAIN 2-COLUMN SECTION (Inspired by Emma structure, styled in BACKSPACE.CO warm beige) -->
@@ -7332,7 +7325,7 @@ function singleBedApp() {
 
 
     <!-- ORIGINAL MATTRESS PRODUCT DETAIL PAGE (Preserved 100% for mattresses & accessories) -->
-    <div x-show="currentPage === 'productDetail' && currentProductData && !isBedProduct(currentProductData)" class="bg-[#F7F4EF] min-h-screen py-20 pb-32" x-data="{ 
+    <div x-show="currentPage === 'productDetail' && currentProductData && !isBedProduct(currentProductData)" class="bg-[#F7F4EF] min-h-screen pt-6 pb-32" x-data="{ 
         activeImg: 'main',
         activeFaq: null,
         selectedSize: 'Single',
@@ -7371,10 +7364,10 @@ function singleBedApp() {
         
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <!-- Breadcrumb & Back -->
-        <div class="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
-            <button @click="if(currentProductData && (currentProductData.category === 'Beds' || currentProductData.mainCategory === 'Beds')) { goToPage('beds'); } else if(currentProductData && (currentProductData.category === 'Protectors' || currentProductData.mainCategory === 'Protectors')) { goToPage('shop', 'Protectors'); } else if(currentProductData && (currentProductData.category === 'PILLOWS' || currentProductData.mainCategory === 'Pillows' || (currentProductData.name && currentProductData.name.toLowerCase().includes('pillow')))) { goToPage('shop', 'Pillows'); } else if(currentProductData && (currentProductData.category === 'Mattresses' || currentProductData.mainCategory === 'Mattresses')) { goToPage('shop', 'Mattresses'); } else { goToPage('home'); }" class="text-xs font-bold text-gray-500 uppercase tracking-widest hover:text-brand-terracotta transition flex items-center gap-2">
-                <i class="fa-solid fa-arrow-left"></i> <span x-text="currentProductData && (currentProductData.category === 'Beds' || currentProductData.mainCategory === 'Beds') ? 'BACK TO BEDS' : ((currentProductData && (currentProductData.category === 'Protectors' || currentProductData.mainCategory === 'Protectors')) ? 'BACK TO PROTECTORS' : ((currentProductData && (currentProductData.category === 'PILLOWS' || currentProductData.mainCategory === 'Pillows' || (currentProductData.name && currentProductData.name.toLowerCase().includes('pillow')))) ? 'BACK TO PILLOWS' : ((currentProductData && (currentProductData.category === 'Mattresses' || currentProductData.mainCategory === 'Mattresses')) ? 'BACK TO MATTRESSES' : 'BACK TO HOME')))"></span>
+        <!-- Back Navigation -->
+        <div class="mb-6 flex items-center border-b border-[#E5DCD0] pb-3">
+            <button @click="if(currentProductData && (currentProductData.category === 'Beds' || currentProductData.mainCategory === 'Beds')) { goToPage('beds'); } else if(currentProductData && (currentProductData.category === 'Protectors' || currentProductData.mainCategory === 'Protectors')) { goToPage('shop', 'Protectors'); } else if(currentProductData && (currentProductData.category === 'PILLOWS' || currentProductData.mainCategory === 'Pillows' || (currentProductData.name && currentProductData.name.toLowerCase().includes('pillow')))) { goToPage('shop', 'Pillows'); } else if(currentProductData && (currentProductData.category === 'Mattresses' || currentProductData.mainCategory === 'Mattresses')) { goToPage('shop', 'Mattresses'); } else { goToPage('home'); }" class="text-xs font-bold uppercase tracking-widest text-[#7E7467] hover:text-[#292522] transition-colors flex items-center gap-2 focus:outline-none">
+                <i class="fa-solid fa-arrow-left text-xs"></i> <span x-text="currentProductData && (currentProductData.category === 'Beds' || currentProductData.mainCategory === 'Beds') ? 'BACK TO BEDS COLLECTION' : ((currentProductData && (currentProductData.category === 'Protectors' || currentProductData.mainCategory === 'Protectors')) ? 'BACK TO PROTECTORS COLLECTION' : ((currentProductData && (currentProductData.category === 'PILLOWS' || currentProductData.mainCategory === 'Pillows' || (currentProductData.name && currentProductData.name.toLowerCase().includes('pillow')))) ? 'BACK TO PILLOWS COLLECTION' : ((currentProductData && (currentProductData.category === 'Mattresses' || currentProductData.mainCategory === 'Mattresses')) ? 'BACK TO MATTRESSES COLLECTION' : 'BACK TO HOME')))"></span>
             </button>
         </div>
 
