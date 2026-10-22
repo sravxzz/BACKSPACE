@@ -1,26 +1,26 @@
 
 function isBedProduct(p) {
     if (!p) return false;
-    return p.category === 'Beds' || p.mainCategory === 'Beds' || (p.code && p.code.startsWith('BKPBD'));
+    return p.category === 'Beds' || p.mainCategory === 'Beds' || (p.code && (p.code.startsWith('BSP-BED') || p.code.startsWith('BKPBD')));
 }
 window.isBedProduct = isBedProduct;
 
 function isProtectorProduct(p) {
     if (!p) return false;
-    return p.category === 'Protectors' || p.mainCategory === 'Protectors' || (p.code && p.code.startsWith('BKPPR'));
+    return p.category === 'Protectors' || p.mainCategory === 'Protectors' || (p.code && (p.code.startsWith('BSP-PRO') || p.code.startsWith('BKPPR')));
 }
 window.isProtectorProduct = isProtectorProduct;
 
 function isPillowProduct(p) {
     if (!p) return false;
-    return p.category === 'PILLOWS' || p.category === 'Pillows' || p.mainCategory === 'Pillows' || (p.code && p.code.startsWith('BKPPL')) || (p.name && p.name.toLowerCase().includes('pillow'));
+    return p.category === 'PILLOWS' || p.category === 'Pillows' || p.mainCategory === 'Pillows' || (p.code && (p.code.startsWith('BSP-PIL') || p.code.startsWith('BKPPL'))) || (p.name && p.name.toLowerCase().includes('pillow'));
 }
 window.isPillowProduct = isPillowProduct;
 
 function isMattressProduct(p) {
     if (!p) return false;
     if (isBedProduct(p) || isProtectorProduct(p) || isPillowProduct(p)) return false;
-    return p.category === 'Mattresses' || p.mainCategory === 'Mattresses' || (p.code && p.code.startsWith('BKPMT')) || (p.id >= 1 && p.id <= 15);
+    return p.category === 'Mattresses' || p.mainCategory === 'Mattresses' || (p.code && (p.code.startsWith('BSP-MAT') || p.code.startsWith('BKPMT'))) || (p.id >= 1 && p.id <= 15);
 }
 window.isMattressProduct = isMattressProduct;
 
@@ -28,7 +28,7 @@ const defaultProducts = [
     // --- MATTRESSES (3 Signature Products) ---
     {
         id: 1,
-        code: 'BKPMT001',
+        code: 'BSP-MAT-001', oldCode: 'BKPMT001',
         collection: 'Premium Mattress',
         material: 'BodyIQ Memory Foam',
         footer: 'Customization available',
@@ -69,7 +69,7 @@ const defaultProducts = [
     },
     {
         id: 2,
-        code: 'BKPMT002',
+        code: 'BSP-MAT-002', oldCode: 'BKPMT002',
         collection: 'Premium Mattress',
         footer: 'Customization available',
         name: 'BACKSPACE Sense – BodyIQ Orthopedic Memory Foam Mattress with Cooling Tech',
@@ -109,7 +109,7 @@ const defaultProducts = [
     },
     {
         id: 3,
-        code: 'BKPMT003',
+        code: 'BSP-MAT-003', oldCode: 'BKPMT003',
         collection: 'Premium Mattress',
         footer: 'Customization available',
         name: 'BACKSPACE Flip – Dual Sided Foam Mattress with Firm & Soft Sides – Grey',
@@ -150,7 +150,7 @@ const defaultProducts = [
 {
     "id": 4,
     "slug": "laxe",
-    "code": "BKPMT004",
+    "code": "BSP-MAT-004", "oldCode": "BKPMT004",
         "collection": "Premium Mattress",
     "name": "Laxe",
     "category": "Mattresses",
@@ -189,7 +189,7 @@ const defaultProducts = [
 {
     "id": 5,
     "slug": "boing",
-    "code": "BKPMT005",
+    "code": "BSP-MAT-005", "oldCode": "BKPMT005",
         "collection": "Premium Mattress",
     "name": "Boing",
     "category": "Mattresses",
@@ -228,7 +228,7 @@ const defaultProducts = [
 {
     "id": 6,
     "slug": "sense-ortho-ultra",
-    "code": "BKPMT006",
+    "code": "BSP-MAT-006", "oldCode": "BKPMT006",
         "collection": "Premium Mattress",
     "name": "Sense Ortho Ultra",
     "category": "Mattresses",
@@ -267,7 +267,7 @@ const defaultProducts = [
 {
     "id": 7,
     "slug": "laxe-nature-ultra",
-    "code": "BKPMT007",
+    "code": "BSP-MAT-007", "oldCode": "BKPMT007",
         "collection": "Premium Mattress",
     "name": "Laxe Nature Ultra",
     "category": "Mattresses",
@@ -306,7 +306,7 @@ const defaultProducts = [
 {
     "id": 8,
     "slug": "technic",
-    "code": "BKPMT008",
+    "code": "BSP-MAT-008", "oldCode": "BKPMT008",
         "collection": "Premium Mattress",
     "name": "Technic",
     "category": "Mattresses",
@@ -345,7 +345,7 @@ const defaultProducts = [
 {
     "id": 9,
     "slug": "technic-hybrid",
-    "code": "BKPMT009",
+    "code": "BSP-MAT-009", "oldCode": "BKPMT009",
         "collection": "Premium Mattress",
     "name": "Technic Hybrid",
     "category": "Mattresses",
@@ -384,7 +384,7 @@ const defaultProducts = [
 {
     "id": 10,
     "slug": "napster-mini",
-    "code": "BKPMT010",
+    "code": "BSP-MAT-010", "oldCode": "BKPMT010",
         "collection": "Premium Mattress",
     "name": "Napster Mini",
     "category": "Mattresses",
@@ -423,7 +423,7 @@ const defaultProducts = [
 {
     "id": 11,
     "slug": "luna-euro-top",
-    "code": "BKPMT011",
+    "code": "BSP-MAT-011", "oldCode": "BKPMT011",
         "collection": "Luxurious Mattress",
     "name": "Luna Euro Top",
     "category": "Mattresses",
@@ -462,7 +462,7 @@ const defaultProducts = [
 {
     "id": 12,
     "slug": "luna",
-    "code": "BKPMT012",
+    "code": "BSP-MAT-012", "oldCode": "BKPMT012",
         "collection": "Luxurious Mattress",
     "name": "Luna",
     "category": "Mattresses",
@@ -501,7 +501,7 @@ const defaultProducts = [
 {
     "id": 13,
     "slug": "coco",
-    "code": "BKPMT013",
+    "code": "BSP-MAT-013", "oldCode": "BKPMT013",
         "collection": "Luxurious Mattress",
     "name": "Coco",
     "category": "Mattresses",
@@ -540,7 +540,7 @@ const defaultProducts = [
 {
     "id": 14,
     "slug": "nature-pro",
-    "code": "BKPMT014",
+    "code": "BSP-MAT-014", "oldCode": "BKPMT014",
         "collection": "Luxurious Mattress",
     "name": "Nature Pro",
     "category": "Mattresses",
@@ -579,7 +579,7 @@ const defaultProducts = [
 {
     "id": 15,
     "slug": "prime",
-    "code": "BKPMT015",
+    "code": "BSP-MAT-015", "oldCode": "BKPMT015",
         "collection": "Luxurious Mattress",
     "name": "Prime",
     "category": "Mattresses",
@@ -631,58 +631,58 @@ const defaultProducts = [
 
     // --- BEDS COLLECTION (Row 1: 001-003, Row 2: 004-006, Row 3: 007-009) ---
     {
-        id: 201, name: 'BACKSPACE Upholstered Platform Bed', tagline: 'Scandinavian Serenity', description: 'Minimalist upholstered platform bed featuring clean lines, premium woven fabric, and reinforced acoustic slatted base.', category: 'Beds', subcategory: 'Platform Beds', material: 'Woven Fabric + Timber', firmness: 'Premium Fabric', warranty: '10 Years', image: './public/images/beds/upholstered_platform_bed.jpg', images: ['./public/images/beds/upholstered_platform_bed.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Queen', 'King'], thicknesses: ['12 inch', '14 inch'], prices: { 'Single': { price: 24990, mrp: 34990 }, 'Queen': { price: 29990, mrp: 39990 }, 'King': { price: 35990, mrp: 45990 } }, discount: '25% OFF', offer: 'BEST SELLER', stock: 18, sku: 'BKPBD001', featured: true, reviews: []
+        id: 201, name: 'BACKSPACE Upholstered Platform Bed', tagline: 'Scandinavian Serenity', description: 'Minimalist upholstered platform bed featuring clean lines, premium woven fabric, and reinforced acoustic slatted base.', category: 'Beds', subcategory: 'Platform Beds', material: 'Woven Fabric + Timber', firmness: 'Premium Fabric', warranty: '10 Years', image: './public/images/beds/upholstered_platform_bed.jpg', images: ['./public/images/beds/upholstered_platform_bed.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Queen', 'King'], thicknesses: ['12 inch', '14 inch'], prices: { 'Single': { price: 24990, mrp: 34990 }, 'Queen': { price: 29990, mrp: 39990 }, 'King': { price: 35990, mrp: 45990 } }, discount: '25% OFF', offer: 'BEST SELLER', stock: 18, sku: 'BSP-BED-001', oldSku: 'BKPBD001', featured: true, reviews: []
     },
     {
-        id: 202, name: 'BACKSPACE Floor Divan Storage Bed', tagline: 'Seamless Organization', description: 'Functional floor divan bed equipped with spacious pull-out storage drawers and seamless upholstered surround.', category: 'Beds', subcategory: 'Storage Beds', material: 'Linen + Solid Wood', firmness: 'Storage Divan', warranty: '10 Years', image: './public/images/beds/floor_divan_storage_bed.jpg', images: ['./public/images/beds/floor_divan_storage_bed.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Double', 'Queen', 'King'], thicknesses: ['14 inch'], prices: { 'Single': { price: 28990, mrp: 37990 }, 'Queen': { price: 34990, mrp: 44990 }, 'King': { price: 39990, mrp: 51990 } }, discount: '22% OFF', offer: 'POPULAR', stock: 15, sku: 'BKPBD002', featured: true, reviews: []
+        id: 202, name: 'BACKSPACE Floor Divan Storage Bed', tagline: 'Seamless Organization', description: 'Functional floor divan bed equipped with spacious pull-out storage drawers and seamless upholstered surround.', category: 'Beds', subcategory: 'Storage Beds', material: 'Linen + Solid Wood', firmness: 'Storage Divan', warranty: '10 Years', image: './public/images/beds/floor_divan_storage_bed.jpg', images: ['./public/images/beds/floor_divan_storage_bed.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Double', 'Queen', 'King'], thicknesses: ['14 inch'], prices: { 'Single': { price: 28990, mrp: 37990 }, 'Queen': { price: 34990, mrp: 44990 }, 'King': { price: 39990, mrp: 51990 } }, discount: '22% OFF', offer: 'POPULAR', stock: 15, sku: 'BSP-BED-002', oldSku: 'BKPBD002', featured: true, reviews: []
     },
     {
-        id: 203, name: 'BACKSPACE Horizontal Channel Headboard Bed', tagline: 'Architectural Comfort', description: 'Statement bed frame showcasing an opulent horizontal channel-tufted headboard in tailored architectural grey fabric.', category: 'Beds', subcategory: 'Headboard Beds', material: 'Architectural Grey Fabric', firmness: 'Cushioned Headboard', warranty: '10 Years', image: './public/images/beds/horizontal_channel_headboard_bed.jpg', images: ['./public/images/beds/horizontal_channel_headboard_bed.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch', '16 inch'], prices: { 'Queen': { price: 32990, mrp: 42990 }, 'King': { price: 38990, mrp: 48990 } }, discount: '23% OFF', offer: 'FEATURED', stock: 12, sku: 'BKPBD003', featured: true, reviews: []
+        id: 203, name: 'BACKSPACE Horizontal Channel Headboard Bed', tagline: 'Architectural Comfort', description: 'Statement bed frame showcasing an opulent horizontal channel-tufted headboard in tailored architectural grey fabric.', category: 'Beds', subcategory: 'Headboard Beds', material: 'Architectural Grey Fabric', firmness: 'Cushioned Headboard', warranty: '10 Years', image: './public/images/beds/horizontal_channel_headboard_bed.jpg', images: ['./public/images/beds/horizontal_channel_headboard_bed.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch', '16 inch'], prices: { 'Queen': { price: 32990, mrp: 42990 }, 'King': { price: 38990, mrp: 48990 } }, discount: '23% OFF', offer: 'FEATURED', stock: 12, sku: 'BSP-BED-003', oldSku: 'BKPBD003', featured: true, reviews: []
     },
     {
-        id: 205, name: 'BACKSPACE Diamond Tufted Headboard Bed', tagline: 'Plush Luxury', description: 'Luxurious handcrafted diamond button-tufted headboard bed frame.', category: 'Beds', subcategory: 'Tufted Beds', material: 'Linen Weave + Hardwood', firmness: 'Plush Tufted', warranty: '10 Years', image: './public/images/beds/bed-004.jpg', images: ['./public/images/beds/bed-004.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Queen', 'King'], thicknesses: ['14 inch'], prices: { 'Single': { price: 29990, mrp: 39990 }, 'Queen': { price: 36990, mrp: 48990 }, 'King': { price: 42990, mrp: 54990 } }, discount: '24% OFF', offer: 'NEW', stock: 15, sku: 'BKPBD004', featured: true, reviews: []
+        id: 205, name: 'BACKSPACE Diamond Tufted Headboard Bed', tagline: 'Plush Luxury', description: 'Luxurious handcrafted diamond button-tufted headboard bed frame.', category: 'Beds', subcategory: 'Tufted Beds', material: 'Linen Weave + Hardwood', firmness: 'Plush Tufted', warranty: '10 Years', image: './public/images/beds/bed-004.jpg', images: ['./public/images/beds/bed-004.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Queen', 'King'], thicknesses: ['14 inch'], prices: { 'Single': { price: 29990, mrp: 39990 }, 'Queen': { price: 36990, mrp: 48990 }, 'King': { price: 42990, mrp: 54990 } }, discount: '24% OFF', offer: 'NEW', stock: 15, sku: 'BSP-BED-004', oldSku: 'BKPBD004', featured: true, reviews: []
     },
     {
-        id: 206, name: 'BACKSPACE Chesterfield Rolled Headboard Bed', tagline: 'British Elegance', description: 'Magnificent Chesterfield-style bed frame with iconic scroll rolled headboard.', category: 'Beds', subcategory: 'Chesterfield Beds', material: 'Tailored Linen + Steel', firmness: 'Rolled Chesterfield', warranty: '10 Years', image: './public/images/beds/bed-005.jpg', images: ['./public/images/beds/bed-005.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['16 inch'], prices: { 'Queen': { price: 39990, mrp: 52990 }, 'King': { price: 45990, mrp: 59990 } }, discount: '25% OFF', offer: 'PREMIUM', stock: 12, sku: 'BKPBD005', featured: true, reviews: []
+        id: 206, name: 'BACKSPACE Chesterfield Rolled Headboard Bed', tagline: 'British Elegance', description: 'Magnificent Chesterfield-style bed frame with iconic scroll rolled headboard.', category: 'Beds', subcategory: 'Chesterfield Beds', material: 'Tailored Linen + Steel', firmness: 'Rolled Chesterfield', warranty: '10 Years', image: './public/images/beds/bed-005.jpg', images: ['./public/images/beds/bed-005.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['16 inch'], prices: { 'Queen': { price: 39990, mrp: 52990 }, 'King': { price: 45990, mrp: 59990 } }, discount: '25% OFF', offer: 'PREMIUM', stock: 12, sku: 'BSP-BED-005', oldSku: 'BKPBD005', featured: true, reviews: []
     },
     {
-        id: 207, name: 'BACKSPACE Polished Wood Frame Bed', tagline: 'Organic Timber', description: 'Classic polished natural hardwood bed frame with warm organic wood grains.', category: 'Beds', subcategory: 'Wooden Beds', material: 'Seasoned Sheesham Wood', firmness: 'Natural Wood', warranty: '10 Years', image: './public/images/beds/bed-006.jpg', images: ['./public/images/beds/bed-006.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Double', 'Queen', 'King'], thicknesses: ['12 inch'], prices: { 'Single': { price: 21990, mrp: 29990 }, 'Queen': { price: 27990, mrp: 36990 }, 'King': { price: 32990, mrp: 42990 } }, discount: '24% OFF', offer: 'BEST SELLER', stock: 20, sku: 'BKPBD006', featured: true, reviews: []
+        id: 207, name: 'BACKSPACE Polished Wood Frame Bed', tagline: 'Organic Timber', description: 'Classic polished natural hardwood bed frame with warm organic wood grains.', category: 'Beds', subcategory: 'Wooden Beds', material: 'Seasoned Sheesham Wood', firmness: 'Natural Wood', warranty: '10 Years', image: './public/images/beds/bed-006.jpg', images: ['./public/images/beds/bed-006.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Double', 'Queen', 'King'], thicknesses: ['12 inch'], prices: { 'Single': { price: 21990, mrp: 29990 }, 'Queen': { price: 27990, mrp: 36990 }, 'King': { price: 32990, mrp: 42990 } }, discount: '24% OFF', offer: 'BEST SELLER', stock: 20, sku: 'BSP-BED-006', oldSku: 'BKPBD006', featured: true, reviews: []
     },
     {
-        id: 208, name: 'BACKSPACE Hydraulic Storage Bed', tagline: 'Max Storage', description: 'Effortless gas-lift hydraulic storage bed frame offering massive under-mattress storage capacity.', category: 'Beds', subcategory: 'Storage Beds', material: 'Textured Linen + Steel Frame', firmness: 'Hydraulic Lift', warranty: '10 Years', image: './public/images/beds/bed-007.jpg', images: ['./public/images/beds/bed-007.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch'], prices: { 'Queen': { price: 35990, mrp: 46990 }, 'King': { price: 41990, mrp: 53990 } }, discount: '23% OFF', offer: 'BEST SELLER', stock: 10, sku: 'BKPBD007', featured: true, reviews: []
+        id: 208, name: 'BACKSPACE Hydraulic Storage Bed', tagline: 'Max Storage', description: 'Effortless gas-lift hydraulic storage bed frame offering massive under-mattress storage capacity.', category: 'Beds', subcategory: 'Storage Beds', material: 'Textured Linen + Steel Frame', firmness: 'Hydraulic Lift', warranty: '10 Years', image: './public/images/beds/bed-007.jpg', images: ['./public/images/beds/bed-007.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch'], prices: { 'Queen': { price: 35990, mrp: 46990 }, 'King': { price: 41990, mrp: 53990 } }, discount: '23% OFF', offer: 'BEST SELLER', stock: 10, sku: 'BSP-BED-007', oldSku: 'BKPBD007', featured: true, reviews: []
     },
     {
-        id: 209, name: 'BACKSPACE Front Drawer Storage Bed', tagline: 'Easy Access', description: 'Premium upholstered platform bed with dual integrated front pull-out storage drawers on smooth silent glides.', category: 'Beds', subcategory: 'Storage Beds', material: 'Linen Weave + Hardwood', firmness: 'Drawer Storage', warranty: '10 Years', image: './public/images/beds/bed-008.jpg', images: ['./public/images/beds/bed-008.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch'], prices: { 'Queen': { price: 32990, mrp: 42990 }, 'King': { price: 38990, mrp: 49990 } }, discount: '23% OFF', offer: 'NEW', stock: 14, sku: 'BKPBD008', featured: true, reviews: []
+        id: 209, name: 'BACKSPACE Front Drawer Storage Bed', tagline: 'Easy Access', description: 'Premium upholstered platform bed with dual integrated front pull-out storage drawers on smooth silent glides.', category: 'Beds', subcategory: 'Storage Beds', material: 'Linen Weave + Hardwood', firmness: 'Drawer Storage', warranty: '10 Years', image: './public/images/beds/bed-008.jpg', images: ['./public/images/beds/bed-008.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch'], prices: { 'Queen': { price: 32990, mrp: 42990 }, 'King': { price: 38990, mrp: 49990 } }, discount: '23% OFF', offer: 'NEW', stock: 14, sku: 'BSP-BED-008', oldSku: 'BKPBD008', featured: true, reviews: []
     },
     {
-        id: 210, name: 'BACKSPACE Upholstered Wingback Bed', tagline: 'Grand Hotel Style', description: 'Grand hotel-style upholstered bed featuring architectural sheltering wingback headboard and luxurious cream fabric.', category: 'Beds', subcategory: 'Wingback Beds', material: 'Tailored Linen + Solid Frame', firmness: 'Sheltering Wingback', warranty: '10 Years', image: './public/images/beds/bed-009.jpg', images: ['./public/images/beds/bed-009.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['16 inch'], prices: { 'Queen': { price: 38990, mrp: 49990 }, 'King': { price: 44990, mrp: 57990 } }, discount: '22% OFF', offer: 'PREMIUM', stock: 8, sku: 'BKPBD009', featured: true, reviews: []
+        id: 210, name: 'BACKSPACE Upholstered Wingback Bed', tagline: 'Grand Hotel Style', description: 'Grand hotel-style upholstered bed featuring architectural sheltering wingback headboard and luxurious cream fabric.', category: 'Beds', subcategory: 'Wingback Beds', material: 'Tailored Linen + Solid Frame', firmness: 'Sheltering Wingback', warranty: '10 Years', image: './public/images/beds/bed-009.jpg', images: ['./public/images/beds/bed-009.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['16 inch'], prices: { 'Queen': { price: 38990, mrp: 49990 }, 'King': { price: 44990, mrp: 57990 } }, discount: '22% OFF', offer: 'PREMIUM', stock: 8, sku: 'BSP-BED-009', oldSku: 'BKPBD009', featured: true, reviews: []
     },
     {
-        id: 211, name: 'BACKSPACE Scallop Shell Headboard Bed', tagline: 'Sculptural Elegance', description: 'Artistic blush-pink upholstered bed featuring a distinctive fluted scallop shell headboard, cream bedding, and a warm neutral bedroom setting.', category: 'Beds', subcategory: 'Fluted Beds', material: 'Blush Velvet + Hardwood', firmness: 'Fluted Velvet', warranty: '10 Years', image: './public/images/beds/bed-010.jpg', images: ['./public/images/beds/bed-010.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch'], prices: { 'Queen': { price: 36990, mrp: 47990 }, 'King': { price: 42990, mrp: 54990 } }, discount: '23% OFF', offer: 'NEW', stock: 10, sku: 'BKPBD010', featured: true, reviews: []
+        id: 211, name: 'BACKSPACE Scallop Shell Headboard Bed', tagline: 'Sculptural Elegance', description: 'Artistic blush-pink upholstered bed featuring a distinctive fluted scallop shell headboard, cream bedding, and a warm neutral bedroom setting.', category: 'Beds', subcategory: 'Fluted Beds', material: 'Blush Velvet + Hardwood', firmness: 'Fluted Velvet', warranty: '10 Years', image: './public/images/beds/bed-010.jpg', images: ['./public/images/beds/bed-010.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch'], prices: { 'Queen': { price: 36990, mrp: 47990 }, 'King': { price: 42990, mrp: 54990 } }, discount: '23% OFF', offer: 'NEW', stock: 10, sku: 'BSP-BED-010', oldSku: 'BKPBD010', featured: true, reviews: []
     },
     {
-        id: 212, name: 'BACKSPACE Low Floating Platform Bed', tagline: 'Minimalist Zen', description: 'Contemporary low-profile grey upholstered platform bed with a minimalist headboard, neutral bedding, and a floating-style base.', category: 'Beds', subcategory: 'Platform Beds', material: 'Grey Weave + Timber Box', firmness: 'Floating Platform', warranty: '10 Years', image: './public/images/beds/bed-011.jpg', images: ['./public/images/beds/bed-011.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Double', 'Queen', 'King'], thicknesses: ['12 inch'], prices: { 'Double': { price: 27990, mrp: 36990 }, 'Queen': { price: 31990, mrp: 41990 }, 'King': { price: 37990, mrp: 48990 } }, discount: '24% OFF', offer: 'BEST SELLER', stock: 12, sku: 'BKPBD011', featured: true, reviews: []
+        id: 212, name: 'BACKSPACE Low Floating Platform Bed', tagline: 'Minimalist Zen', description: 'Contemporary low-profile grey upholstered platform bed with a minimalist headboard, neutral bedding, and a floating-style base.', category: 'Beds', subcategory: 'Platform Beds', material: 'Grey Weave + Timber Box', firmness: 'Floating Platform', warranty: '10 Years', image: './public/images/beds/bed-011.jpg', images: ['./public/images/beds/bed-011.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Double', 'Queen', 'King'], thicknesses: ['12 inch'], prices: { 'Double': { price: 27990, mrp: 36990 }, 'Queen': { price: 31990, mrp: 41990 }, 'King': { price: 37990, mrp: 48990 } }, discount: '24% OFF', offer: 'BEST SELLER', stock: 12, sku: 'BSP-BED-011', oldSku: 'BKPBD011', featured: true, reviews: []
     },
     {
-        id: 213, name: 'BACKSPACE Rectangular Panel Headboard Bed', tagline: 'Geometric Luxury', description: 'Beige upholstered bed featuring a tall, geometrically divided rectangular-panel headboard and neutral bedding.', category: 'Beds', subcategory: 'Panel Beds', material: 'Sand Linen + Steel Beam', firmness: 'Geometric Panel', warranty: '10 Years', image: './public/images/beds/bed-012.jpg', images: ['./public/images/beds/bed-012.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch', '16 inch'], prices: { 'Queen': { price: 34990, mrp: 45990 }, 'King': { price: 41990, mrp: 52990 } }, discount: '24% OFF', offer: 'POPULAR', stock: 15, sku: 'BKPBD012', featured: true, reviews: []
+        id: 213, name: 'BACKSPACE Rectangular Panel Headboard Bed', tagline: 'Geometric Luxury', description: 'Beige upholstered bed featuring a tall, geometrically divided rectangular-panel headboard and neutral bedding.', category: 'Beds', subcategory: 'Panel Beds', material: 'Sand Linen + Steel Beam', firmness: 'Geometric Panel', warranty: '10 Years', image: './public/images/beds/bed-012.jpg', images: ['./public/images/beds/bed-012.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch', '16 inch'], prices: { 'Queen': { price: 34990, mrp: 45990 }, 'King': { price: 41990, mrp: 52990 } }, discount: '24% OFF', offer: 'POPULAR', stock: 15, sku: 'BSP-BED-012', oldSku: 'BKPBD012', featured: true, reviews: []
     },
     {
-        id: 214, name: 'BACKSPACE Rounded Upholstered Bed', tagline: 'Curved Silhouette', description: 'Cream/ivory upholstered bed with softly rounded headboard and frame, layered neutral bedding, and warm ambient bedroom styling.', category: 'Beds', subcategory: 'Curved Beds', material: 'Ivory Bouclé + Hardwood', firmness: 'Rounded Silhouette', warranty: '10 Years', image: './public/images/beds/bed-013.jpg', images: ['./public/images/beds/bed-013.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch', '16 inch'], prices: { 'Queen': { price: 35990, mrp: 46990 }, 'King': { price: 42990, mrp: 53990 } }, discount: '23% OFF', offer: 'NEW', stock: 12, sku: 'BKPBD013', featured: true, reviews: []
+        id: 214, name: 'BACKSPACE Rounded Upholstered Bed', tagline: 'Curved Silhouette', description: 'Cream/ivory upholstered bed with softly rounded headboard and frame, layered neutral bedding, and warm ambient bedroom styling.', category: 'Beds', subcategory: 'Curved Beds', material: 'Ivory Bouclé + Hardwood', firmness: 'Rounded Silhouette', warranty: '10 Years', image: './public/images/beds/bed-013.jpg', images: ['./public/images/beds/bed-013.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch', '16 inch'], prices: { 'Queen': { price: 35990, mrp: 46990 }, 'King': { price: 42990, mrp: 53990 } }, discount: '23% OFF', offer: 'NEW', stock: 12, sku: 'BSP-BED-013', oldSku: 'BKPBD013', featured: true, reviews: []
     },
     {
-        id: 215, name: 'BACKSPACE Two-Tone Upholstered Bed', tagline: 'Modern Contrast', description: 'Modern two-tone upholstered bed featuring a cream headboard with vertical channel stitching and a contrasting dark charcoal base.', category: 'Beds', subcategory: 'Channel Beds', material: 'Cream Velvet + Charcoal Base', firmness: 'Two-Tone Contrast', warranty: '10 Years', image: './public/images/beds/bed-014.jpg', images: ['./public/images/beds/bed-014.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch', '16 inch'], prices: { 'Queen': { price: 37990, mrp: 48990 }, 'King': { price: 44990, mrp: 56990 } }, discount: '22% OFF', offer: 'POPULAR', stock: 10, sku: 'BKPBD014', featured: true, reviews: []
+        id: 215, name: 'BACKSPACE Two-Tone Upholstered Bed', tagline: 'Modern Contrast', description: 'Modern two-tone upholstered bed featuring a cream headboard with vertical channel stitching and a contrasting dark charcoal base.', category: 'Beds', subcategory: 'Channel Beds', material: 'Cream Velvet + Charcoal Base', firmness: 'Two-Tone Contrast', warranty: '10 Years', image: './public/images/beds/bed-014.jpg', images: ['./public/images/beds/bed-014.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch', '16 inch'], prices: { 'Queen': { price: 37990, mrp: 48990 }, 'King': { price: 44990, mrp: 56990 } }, discount: '22% OFF', offer: 'POPULAR', stock: 10, sku: 'BSP-BED-014', oldSku: 'BKPBD014', featured: true, reviews: []
     },
     {
-        id: 216, name: 'BACKSPACE Integrated Side Table Bed', tagline: 'All-in-One Suite', description: 'Cream upholstered bed with an extended tall rectangular panel headboard and seamless integrated wooden bedside floating tables.', category: 'Beds', subcategory: 'Integrated Beds', material: 'Sand Linen + Oak Floating Tables', firmness: 'Integrated Tables', warranty: '10 Years', image: './public/images/beds/bed-015.jpg', images: ['./public/images/beds/bed-015.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch', '16 inch'], prices: { 'Queen': { price: 42990, mrp: 54990 }, 'King': { price: 49990, mrp: 62990 } }, discount: '22% OFF', offer: 'PREMIUM', stock: 8, sku: 'BKPBD015', featured: true, reviews: []
+        id: 216, name: 'BACKSPACE Integrated Side Table Bed', tagline: 'All-in-One Suite', description: 'Cream upholstered bed with an extended tall rectangular panel headboard and seamless integrated wooden bedside floating tables.', category: 'Beds', subcategory: 'Integrated Beds', material: 'Sand Linen + Oak Floating Tables', firmness: 'Integrated Tables', warranty: '10 Years', image: './public/images/beds/bed-015.jpg', images: ['./public/images/beds/bed-015.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch', '16 inch'], prices: { 'Queen': { price: 42990, mrp: 54990 }, 'King': { price: 49990, mrp: 62990 } }, discount: '22% OFF', offer: 'PREMIUM', stock: 8, sku: 'BSP-BED-015', oldSku: 'BKPBD015', featured: true, reviews: []
     },
     {
-        id: 217, name: 'BACKSPACE Four Poster Canopy Bed', tagline: 'Architectural Grandeur', description: 'A premium dark polished hardwood four-poster canopy frame with an elegant light cream upholstered headboard and neutral bedding.', category: 'Beds', subcategory: 'Canopy Beds', material: 'Dark Hardwood + Cream Linen', firmness: 'Canopy Hardwood', warranty: '10 Years', image: './public/images/beds/bed-016.jpg', images: ['./public/images/beds/bed-016.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch', '16 inch'], prices: { 'Queen': { price: 48990, mrp: 62990 }, 'King': { price: 56990, mrp: 71990 } }, discount: '22% OFF', offer: 'PREMIUM', stock: 6, sku: 'BKPBD016', featured: true, reviews: []
+        id: 217, name: 'BACKSPACE Four Poster Canopy Bed', tagline: 'Architectural Grandeur', description: 'A premium dark polished hardwood four-poster canopy frame with an elegant light cream upholstered headboard and neutral bedding.', category: 'Beds', subcategory: 'Canopy Beds', material: 'Dark Hardwood + Cream Linen', firmness: 'Canopy Hardwood', warranty: '10 Years', image: './public/images/beds/bed-016.jpg', images: ['./public/images/beds/bed-016.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Queen', 'King'], thicknesses: ['14 inch', '16 inch'], prices: { 'Queen': { price: 48990, mrp: 62990 }, 'King': { price: 56990, mrp: 71990 } }, discount: '22% OFF', offer: 'PREMIUM', stock: 6, sku: 'BSP-BED-016', oldSku: 'BKPBD016', featured: true, reviews: []
     },
     {
-        id: 218, name: 'BACKSPACE Compact Single Upholstered Bed', tagline: 'Space-Saving Refinement', description: 'A compact single-size bed with a cream upholstered frame, tall vertically panelled headboard, and neutral bedding designed for smaller bedrooms.', category: 'Beds', subcategory: 'Single Beds', material: 'Cream Linen + Timber Core', firmness: 'Compact Platform', warranty: '10 Years', image: './public/images/beds/bed-017.jpg', images: ['./public/images/beds/bed-017.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Super Single'], thicknesses: ['12 inch', '14 inch'], prices: { 'Single': { price: 24990, mrp: 32990 }, 'Super Single': { price: 28990, mrp: 37990 } }, discount: '24% OFF', offer: 'NEW', stock: 15, sku: 'BKPBD017', featured: true, reviews: []
+        id: 218, name: 'BACKSPACE Compact Single Upholstered Bed', tagline: 'Space-Saving Refinement', description: 'A compact single-size bed with a cream upholstered frame, tall vertically panelled headboard, and neutral bedding designed for smaller bedrooms.', category: 'Beds', subcategory: 'Single Beds', material: 'Cream Linen + Timber Core', firmness: 'Compact Platform', warranty: '10 Years', image: './public/images/beds/bed-017.jpg', images: ['./public/images/beds/bed-017.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Super Single'], thicknesses: ['12 inch', '14 inch'], prices: { 'Single': { price: 24990, mrp: 32990 }, 'Super Single': { price: 28990, mrp: 37990 } }, discount: '24% OFF', offer: 'NEW', stock: 15, sku: 'BSP-BED-017', oldSku: 'BKPBD017', featured: true, reviews: []
     },
     {
-        id: 219, name: 'BACKSPACE Upholstered Daybed With Bolsters', tagline: 'Versatile Day-to-Night Lounging', description: 'A premium cream upholstered daybed featuring dual rounded cylindrical bolster arm cushions, low upholstered base, and contemporary styling.', category: 'Beds', subcategory: 'Daybeds', material: 'Textured Bouclé + Hardwood', firmness: 'Bolster Daybed', warranty: '10 Years', image: './public/images/beds/bed-018.jpg', images: ['./public/images/beds/bed-018.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Double'], thicknesses: ['12 inch', '14 inch'], prices: { 'Single': { price: 31990, mrp: 41990 }, 'Double': { price: 36990, mrp: 47990 } }, discount: '24% OFF', offer: 'POPULAR', stock: 11, sku: 'BKPBD018', featured: true, reviews: []
+        id: 219, name: 'BACKSPACE Upholstered Daybed With Bolsters', tagline: 'Versatile Day-to-Night Lounging', description: 'A premium cream upholstered daybed featuring dual rounded cylindrical bolster arm cushions, low upholstered base, and contemporary styling.', category: 'Beds', subcategory: 'Daybeds', material: 'Textured Bouclé + Hardwood', firmness: 'Bolster Daybed', warranty: '10 Years', image: './public/images/beds/bed-018.jpg', images: ['./public/images/beds/bed-018.jpg'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', sizes: ['Single', 'Double'], thicknesses: ['12 inch', '14 inch'], prices: { 'Single': { price: 31990, mrp: 41990 }, 'Double': { price: 36990, mrp: 47990 } }, discount: '24% OFF', offer: 'POPULAR', stock: 11, sku: 'BSP-BED-018', oldSku: 'BKPBD018', featured: true, reviews: []
     },
 
     // --- PILLOWS ---
@@ -832,7 +832,7 @@ function appData() {
                 if (h.startsWith('#bed-')) {
                     const code = h.replace('#bed-', '').trim();
                     const allBeds = window.BED_COLLECTION_CARDS || [];
-                    const found = allBeds.find(b => (b.code || '').toUpperCase() === code.toUpperCase());
+                    const found = allBeds.find(b => ((b.code || '').toUpperCase() === code.toUpperCase()) || ((b.oldCode || '').toUpperCase() === code.toUpperCase()));
                     if (found) {
                         this.currentProductData = found;
                         this.currentPage = 'productDetail';
@@ -842,7 +842,7 @@ function appData() {
                     const parts = h.split('-');
                     const code = parts.slice(1).join('-').trim();
                     const allProducts = (window.BACKSPACE_CATALOGUE || []).concat(this.products || []);
-                    const found = allProducts.find(p => (p.code || '').toUpperCase() === code.toUpperCase() || String(p.id) === code);
+                    const found = allProducts.find(p => (p.code || '').toUpperCase() === code.toUpperCase() || ((p.oldCode || '').toUpperCase() === code.toUpperCase()) || String(p.id) === code);
                     if (found) {
                         this.currentProductData = found;
                         this.currentPage = 'productDetail';
@@ -1020,8 +1020,11 @@ function appData() {
 
         get filteredProducts() {
             let result = this.products.filter(p => {
-                const matchesSearch = p.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
-                                      p.description.toLowerCase().includes(this.searchQuery.toLowerCase());
+                const sq = this.searchQuery.toLowerCase();
+                const matchesSearch = p.name.toLowerCase().includes(sq) || 
+                                      p.description.toLowerCase().includes(sq) ||
+                                      (p.code && p.code.toLowerCase().includes(sq)) ||
+                                      (p.oldCode && p.oldCode.toLowerCase().includes(sq));
                 const matchesCat = this.currentCategoryFilter === 'All' || p.category === this.currentCategoryFilter || p.subcategory === this.currentCategoryFilter;
                 const matchesFirm = this.selectedFirmness === 'All' || p.firmness.includes(this.selectedFirmness);
                 const matchesSize = this.selectedSizeFilter === 'All' || p.sizes.includes(this.selectedSizeFilter);

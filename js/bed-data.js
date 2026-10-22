@@ -8,7 +8,8 @@ window.isBedProduct = isBedProduct;
 window.BED_COLLECTION_CARDS = [
     {
         "id": 201,
-        "code": "BKPBD001",
+        "code": "BSP-BED-001",
+        "oldCode": "BKPBD001",
         "name": "BACKSPACE Upholstered Platform Bed",
         "slug": "upholstered-platform-bed",
         "category": "Beds",
@@ -117,14 +118,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD003",
-            "BKPBD011",
-            "BKPBD013"
+            "BSP-BED-003",
+            "BSP-BED-011",
+            "BSP-BED-013"
         ]
     },
     {
         "id": 202,
-        "code": "BKPBD002",
+        "code": "BSP-BED-002",
+        "oldCode": "BKPBD002",
         "name": "BACKSPACE Floor Divan Storage Bed",
         "slug": "floor-divan-storage-bed",
         "category": "Beds",
@@ -228,14 +230,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid deck foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD007",
-            "BKPBD008",
-            "BKPBD001"
+            "BSP-BED-007",
+            "BSP-BED-008",
+            "BSP-BED-001"
         ]
     },
     {
         "id": 203,
-        "code": "BKPBD003",
+        "code": "BSP-BED-003",
+        "oldCode": "BKPBD003",
         "name": "BACKSPACE Horizontal Channel Headboard Bed",
         "slug": "horizontal-channel-headboard-bed",
         "category": "Beds",
@@ -344,14 +347,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD001",
-            "BKPBD012",
-            "BKPBD014"
+            "BSP-BED-001",
+            "BSP-BED-012",
+            "BSP-BED-014"
         ]
     },
     {
         "id": 205,
-        "code": "BKPBD004",
+        "code": "BSP-BED-004",
+        "oldCode": "BKPBD004",
         "name": "BACKSPACE Diamond Tufted Headboard Bed",
         "slug": "diamond-tufted-headboard-bed",
         "category": "Beds",
@@ -455,14 +459,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD005",
-            "BKPBD009",
-            "BKPBD010"
+            "BSP-BED-005",
+            "BSP-BED-009",
+            "BSP-BED-010"
         ]
     },
     {
         "id": 206,
-        "code": "BKPBD005",
+        "code": "BSP-BED-005",
+        "oldCode": "BKPBD005",
         "name": "BACKSPACE Chesterfield Rolled Headboard Bed",
         "slug": "chesterfield-rolled-headboard-bed",
         "category": "Beds",
@@ -556,14 +561,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD004",
-            "BKPBD009",
-            "BKPBD016"
+            "BSP-BED-004",
+            "BSP-BED-009",
+            "BSP-BED-016"
         ]
     },
     {
         "id": 207,
-        "code": "BKPBD006",
+        "code": "BSP-BED-006",
+        "oldCode": "BKPBD006",
         "name": "BACKSPACE Polished Wood Frame Bed",
         "slug": "polished-wood-frame-bed",
         "category": "Beds",
@@ -667,14 +673,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid wood slats included)"
         },
         "relatedBedCodes": [
-            "BKPBD011",
-            "BKPBD016",
-            "BKPBD015"
+            "BSP-BED-011",
+            "BSP-BED-016",
+            "BSP-BED-015"
         ]
     },
     {
         "id": 208,
-        "code": "BKPBD007",
+        "code": "BSP-BED-007",
+        "oldCode": "BKPBD007",
         "name": "BACKSPACE Hydraulic Storage Bed",
         "slug": "hydraulic-storage-bed",
         "category": "Beds",
@@ -768,14 +775,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; hydraulic deck system included)"
         },
         "relatedBedCodes": [
-            "BKPBD002",
-            "BKPBD008",
-            "BKPBD003"
+            "BSP-BED-002",
+            "BSP-BED-008",
+            "BSP-BED-003"
         ]
     },
     {
         "id": 209,
-        "code": "BKPBD008",
+        "code": "BSP-BED-008",
+        "oldCode": "BKPBD008",
         "name": "BACKSPACE Front Drawer Storage Bed",
         "slug": "front-drawer-storage-bed",
         "category": "Beds",
@@ -874,14 +882,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD002",
-            "BKPBD007",
-            "BKPBD012"
+            "BSP-BED-002",
+            "BSP-BED-007",
+            "BSP-BED-012"
         ]
     },
     {
         "id": 210,
-        "code": "BKPBD009",
+        "code": "BSP-BED-009",
+        "oldCode": "BKPBD009",
         "name": "BACKSPACE Upholstered Wingback Bed",
         "slug": "upholstered-wingback-bed",
         "category": "Beds",
@@ -980,14 +989,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD004",
-            "BKPBD005",
-            "BKPBD010"
+            "BSP-BED-004",
+            "BSP-BED-005",
+            "BSP-BED-010"
         ]
     },
     {
         "id": 211,
-        "code": "BKPBD010",
+        "code": "BSP-BED-010",
+        "oldCode": "BKPBD010",
         "name": "BACKSPACE Scallop Shell Headboard Bed",
         "slug": "scallop-shell-headboard-bed",
         "category": "Beds",
@@ -1091,14 +1101,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD004",
-            "BKPBD009",
-            "BKPBD013"
+            "BSP-BED-004",
+            "BSP-BED-009",
+            "BSP-BED-013"
         ]
     },
     {
         "id": 212,
-        "code": "BKPBD011",
+        "code": "BSP-BED-011",
+        "oldCode": "BKPBD011",
         "name": "BACKSPACE Low Floating Platform Bed",
         "slug": "low-floating-platform-bed",
         "category": "Beds",
@@ -1187,14 +1198,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD001",
-            "BKPBD006",
-            "BKPBD013"
+            "BSP-BED-001",
+            "BSP-BED-006",
+            "BSP-BED-013"
         ]
     },
     {
         "id": 213,
-        "code": "BKPBD012",
+        "code": "BSP-BED-012",
+        "oldCode": "BKPBD012",
         "name": "BACKSPACE Rectangular Panel Headboard Bed",
         "slug": "rectangular-panel-headboard-bed",
         "category": "Beds",
@@ -1303,14 +1315,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD003",
-            "BKPBD001",
-            "BKPBD008"
+            "BSP-BED-003",
+            "BSP-BED-001",
+            "BSP-BED-008"
         ]
     },
     {
         "id": 214,
-        "code": "BKPBD013",
+        "code": "BSP-BED-013",
+        "oldCode": "BKPBD013",
         "name": "BACKSPACE Rounded Upholstered Bed",
         "slug": "rounded-upholstered-bed",
         "category": "Beds",
@@ -1409,14 +1422,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD001",
-            "BKPBD010",
-            "BKPBD018"
+            "BSP-BED-001",
+            "BSP-BED-010",
+            "BSP-BED-018"
         ]
     },
     {
         "id": 215,
-        "code": "BKPBD014",
+        "code": "BSP-BED-014",
+        "oldCode": "BKPBD014",
         "name": "BACKSPACE Two-Tone Upholstered Bed",
         "slug": "two-tone-upholstered-bed",
         "category": "Beds",
@@ -1525,14 +1539,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD003",
-            "BKPBD012",
-            "BKPBD015"
+            "BSP-BED-003",
+            "BSP-BED-012",
+            "BSP-BED-015"
         ]
     },
     {
         "id": 216,
-        "code": "BKPBD015",
+        "code": "BSP-BED-015",
+        "oldCode": "BKPBD015",
         "name": "BACKSPACE Integrated Side Table Bed",
         "slug": "integrated-side-table-bed",
         "category": "Beds",
@@ -1625,14 +1640,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD006",
-            "BKPBD011",
-            "BKPBD014"
+            "BSP-BED-006",
+            "BSP-BED-011",
+            "BSP-BED-014"
         ]
     },
     {
         "id": 217,
-        "code": "BKPBD016",
+        "code": "BSP-BED-016",
+        "oldCode": "BKPBD016",
         "name": "BACKSPACE Four Poster Canopy Bed",
         "slug": "four-poster-canopy-bed",
         "category": "Beds",
@@ -1726,14 +1742,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid wood slats included)"
         },
         "relatedBedCodes": [
-            "BKPBD006",
-            "BKPBD005",
-            "BKPBD015"
+            "BSP-BED-006",
+            "BSP-BED-005",
+            "BSP-BED-015"
         ]
     },
     {
         "id": 218,
-        "code": "BKPBD017",
+        "code": "BSP-BED-017",
+        "oldCode": "BKPBD017",
         "name": "BACKSPACE Compact Single Upholstered Bed",
         "slug": "compact-single-upholstered-bed",
         "category": "Beds",
@@ -1832,14 +1849,15 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; solid slat foundation included)"
         },
         "relatedBedCodes": [
-            "BKPBD018",
-            "BKPBD001",
-            "BKPBD002"
+            "BSP-BED-018",
+            "BSP-BED-001",
+            "BSP-BED-002"
         ]
     },
     {
         "id": 219,
-        "code": "BKPBD018",
+        "code": "BSP-BED-018",
+        "oldCode": "BKPBD018",
         "name": "BACKSPACE Upholstered Daybed With Bolsters",
         "slug": "upholstered-daybed-with-bolsters",
         "category": "Beds",
@@ -1938,9 +1956,9 @@ window.BED_COLLECTION_CARDS = [
             "mattressIncluded": "No (Mattress sold separately; bolster cushions & slat base included)"
         },
         "relatedBedCodes": [
-            "BKPBD017",
-            "BKPBD013",
-            "BKPBD002"
+            "BSP-BED-017",
+            "BSP-BED-013",
+            "BSP-BED-002"
         ]
     }
 ];
