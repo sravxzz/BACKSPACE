@@ -9,7 +9,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 201,
         "code": "BKPBD001",
-        "name": "Upholstered Platform Bed",
+        "name": "BACKSPACE Upholstered Platform Bed",
         "slug": "upholstered-platform-bed",
         "category": "Beds",
         "tagline": "Minimalist Scandinavian Serenity",
@@ -125,7 +125,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 202,
         "code": "BKPBD002",
-        "name": "Floor Divan Storage Bed",
+        "name": "BACKSPACE Floor Divan Storage Bed",
         "slug": "floor-divan-storage-bed",
         "category": "Beds",
         "tagline": "Seamless Built-in Organization",
@@ -236,7 +236,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 203,
         "code": "BKPBD003",
-        "name": "Horizontal Channel Headboard Bed",
+        "name": "BACKSPACE Horizontal Channel Headboard Bed",
         "slug": "horizontal-channel-headboard-bed",
         "category": "Beds",
         "tagline": "Architectural Horizontal Paneling",
@@ -352,7 +352,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 205,
         "code": "BKPBD004",
-        "name": "Diamond Tufted Headboard Bed",
+        "name": "BACKSPACE Diamond Tufted Headboard Bed",
         "slug": "diamond-tufted-headboard-bed",
         "category": "Beds",
         "tagline": "Handcrafted Luxury Tufting",
@@ -463,7 +463,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 206,
         "code": "BKPBD005",
-        "name": "Chesterfield Rolled Headboard Bed",
+        "name": "BACKSPACE Chesterfield Rolled Headboard Bed",
         "slug": "chesterfield-rolled-headboard-bed",
         "category": "Beds",
         "tagline": "Grand Heritage Rolled Silhouette",
@@ -564,7 +564,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 207,
         "code": "BKPBD006",
-        "name": "Polished Wood Frame Bed",
+        "name": "BACKSPACE Polished Wood Frame Bed",
         "slug": "polished-wood-frame-bed",
         "category": "Beds",
         "tagline": "Organic Solid Timber & Lacquer",
@@ -675,7 +675,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 208,
         "code": "BKPBD007",
-        "name": "Hydraulic Storage Bed",
+        "name": "BACKSPACE Hydraulic Storage Bed",
         "slug": "hydraulic-storage-bed",
         "category": "Beds",
         "tagline": "German Gas-Lift Hydraulic Storage",
@@ -776,7 +776,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 209,
         "code": "BKPBD008",
-        "name": "Front Drawer Storage Bed",
+        "name": "BACKSPACE Front Drawer Storage Bed",
         "slug": "front-drawer-storage-bed",
         "category": "Beds",
         "tagline": "Slide-Out Front Storage Drawers",
@@ -882,7 +882,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 210,
         "code": "BKPBD009",
-        "name": "Upholstered Wingback Bed",
+        "name": "BACKSPACE Upholstered Wingback Bed",
         "slug": "upholstered-wingback-bed",
         "category": "Beds",
         "tagline": "Grand Cocooning Flared Wings",
@@ -988,7 +988,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 211,
         "code": "BKPBD010",
-        "name": "Scallop Shell Headboard Bed",
+        "name": "BACKSPACE Scallop Shell Headboard Bed",
         "slug": "scallop-shell-headboard-bed",
         "category": "Beds",
         "tagline": "Sculptural Art-Deco Petal Fluting",
@@ -1099,7 +1099,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 212,
         "code": "BKPBD011",
-        "name": "Low Floating Platform Bed",
+        "name": "BACKSPACE Low Floating Platform Bed",
         "slug": "low-floating-platform-bed",
         "category": "Beds",
         "tagline": "Minimalist Zen Cantilever Illusion",
@@ -1195,7 +1195,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 213,
         "code": "BKPBD012",
-        "name": "Rectangular Panel Headboard Bed",
+        "name": "BACKSPACE Rectangular Panel Headboard Bed",
         "slug": "rectangular-panel-headboard-bed",
         "category": "Beds",
         "tagline": "Architectural Geometric Grid Cushioning",
@@ -1311,7 +1311,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 214,
         "code": "BKPBD013",
-        "name": "Rounded Upholstered Bed",
+        "name": "BACKSPACE Rounded Upholstered Bed",
         "slug": "rounded-upholstered-bed",
         "category": "Beds",
         "tagline": "Organic Curved Contours & Zero Corners",
@@ -1417,7 +1417,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 215,
         "code": "BKPBD014",
-        "name": "Two-Tone Upholstered Bed",
+        "name": "BACKSPACE Two-Tone Upholstered Bed",
         "slug": "two-tone-upholstered-bed",
         "category": "Beds",
         "tagline": "Modern Dual-Tone Color Contrast",
@@ -1533,7 +1533,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 216,
         "code": "BKPBD015",
-        "name": "Integrated Side Table Bed",
+        "name": "BACKSPACE Integrated Side Table Bed",
         "slug": "integrated-side-table-bed",
         "category": "Beds",
         "tagline": "All-in-One Unified Bedside Suite",
@@ -1633,7 +1633,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 217,
         "code": "BKPBD016",
-        "name": "Four Poster Canopy Bed",
+        "name": "BACKSPACE Four Poster Canopy Bed",
         "slug": "four-poster-canopy-bed",
         "category": "Beds",
         "tagline": "Architectural Grandeur & Vertical Posts",
@@ -1734,7 +1734,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 218,
         "code": "BKPBD017",
-        "name": "Compact Single Upholstered Bed",
+        "name": "BACKSPACE Compact Single Upholstered Bed",
         "slug": "compact-single-upholstered-bed",
         "category": "Beds",
         "tagline": "Space-Saving Refinement & Compact Comfort",
@@ -1840,7 +1840,7 @@ window.BED_COLLECTION_CARDS = [
     {
         "id": 219,
         "code": "BKPBD018",
-        "name": "Upholstered Daybed With Bolsters",
+        "name": "BACKSPACE Upholstered Daybed With Bolsters",
         "slug": "upholstered-daybed-with-bolsters",
         "category": "Beds",
         "tagline": "Day-to-Night Lounging & Bolster Arms",
