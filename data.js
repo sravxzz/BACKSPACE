@@ -1,7 +1,7 @@
 export const initialProducts = [
   {
     id: 'p1',
-    name: 'Backspace Comfort Foam Mattress',
+    name: 'BACKSPACE Comfort Foam Mattress',
     description: 'Designed for everyday comfort with high-density foam that adapts to your body.',
     category: 'Memory Foam',
     image: 'images/products/p02_ortho_comfort.jpg', images: ['images/products/p02_ortho_comfort.jpg'],
@@ -33,7 +33,7 @@ export const initialProducts = [
   },
   {
     id: 'p2',
-    name: 'Backspace Premium Latex Mattress',
+    name: 'BACKSPACE Premium Latex Mattress',
     description: 'Experience the ultimate luxury and natural cooling with our premium latex blend.',
     category: 'Latex',
     image: 'images/products/p03_ortho_hybrid.jpg', images: ['images/products/p03_ortho_hybrid.jpg'],
@@ -62,7 +62,7 @@ export const initialProducts = [
   },
   {
     id: 'p3',
-    name: 'Backspace Orthopedic Support Mattress',
+    name: 'BACKSPACE Orthopedic Support Mattress',
     description: 'Firm support-focused mattress for optimal spinal alignment and pain relief.',
     category: 'Orthopedic Support',
     image: 'images/products/p01_ortho_support.jpg', images: ['images/products/p01_ortho_support.jpg'],
@@ -93,7 +93,7 @@ export const initialProducts = [
   },
   {
     id: 'p4',
-    name: 'Backspace Cloud Memory Foam Mattress',
+    name: 'BACKSPACE Cloud Memory Foam Mattress',
     description: 'Plush, cloud-like comfort that hugs your body for a deeply restful sleep.',
     category: 'Memory Foam',
     images: ['images/cloud_memory_foam_1790608670815.jpg'],
@@ -124,7 +124,7 @@ export const initialProducts = [
   },
   {
     id: 'p5',
-    name: 'Backspace Classic Spring Mattress',
+    name: 'BACKSPACE Classic Spring Mattress',
     description: 'Traditional bouncy feel with pocket springs and foam top for zero partner disturbance.',
     category: 'Spring',
     images: ['images/classic_spring_1790608874015.jpg'],
@@ -155,7 +155,7 @@ export const initialProducts = [
   },
   {
     id: 'p6',
-    name: 'Backspace Cool Gel Mattress',
+    name: 'BACKSPACE Cool Gel Mattress',
     description: 'Advanced cooling gel technology embedded in premium memory foam.',
     category: 'Premium',
     images: ['images/close_up_texture_1790608850802.jpg'],

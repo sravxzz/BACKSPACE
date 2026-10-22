@@ -1,7 +1,7 @@
 const products = [
   {
     id: 'm1',
-    name: 'Premium Memory Foam Mattress',
+    name: 'BACKSPACE Premium Memory Foam Mattress',
     category: 'mattresses',
     type: 'Memory Foam',
     shortDesc: 'Short product description goes here.',
@@ -15,7 +15,7 @@ const products = [
   },
   {
     id: 'm2',
-    name: 'Orthopedic Care Mattress',
+    name: 'BACKSPACE Orthopedic Care Mattress',
     category: 'mattresses',
     type: 'Orthopedic',
     shortDesc: 'Short product description goes here.',
@@ -29,7 +29,7 @@ const products = [
   },
   {
     id: 'b1',
-    name: 'Solid Wooden Bed',
+    name: 'BACKSPACE Solid Wooden Bed',
     category: 'beds',
     type: 'Wooden Beds',
     shortDesc: 'Short product description goes here.',
@@ -42,7 +42,7 @@ const products = [
   },
   {
     id: 'b2',
-    name: 'Premium Storage Bed',
+    name: 'BACKSPACE Premium Storage Bed',
     category: 'beds',
     type: 'Storage Beds',
     shortDesc: 'Short product description goes here.',
