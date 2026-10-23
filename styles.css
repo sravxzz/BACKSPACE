@@ -263,5 +263,11 @@ body {
         transform: none !important;
         opacity: 1 !important;
     }
+    .scroll-reveal {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
 }
 
