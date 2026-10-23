@@ -254,6 +254,12 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
     .hero-carousel-container {
         scroll-behavior: auto !important;
     }
@@ -263,11 +269,26 @@ body {
         transform: none !important;
         opacity: 1 !important;
     }
-    .scroll-reveal {
-        transition: none !important;
-        animation: none !important;
-        transform: none !important;
-        opacity: 1 !important;
-    }
 }
 
+
+
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+/* Subtle Ken Burns Zoom */
+@keyframes kenburns-subtle {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.035); }
+    100% { transform: scale(1); }
+}
+.animate-kenburns {
+    animation: kenburns-subtle 20s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-kenburns {
+        animation: none !important;
+        transform: none !important;
+    }
+}

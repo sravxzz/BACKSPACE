@@ -35,6 +35,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase Client v2 (CDN) & Configuration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="js/bed-data.js"></script>
     <script src="app.js"></script>
@@ -1247,8 +1250,9 @@
                     </template>
                 </div>
             </section>
-    <!-- Alpine JS App Logic -->
-    <script>
+
+        <!-- Alpine JS Product Catalogues & Global Data (Preserved) -->
+        <script>
         const BACKSPACE_CATALOGUE = [
     {
         "id": 1,
@@ -6072,147 +6076,577 @@ function singleBedApp() {
         window.singleBedApp = singleBedApp;
     </script>
 
-<!-- ================= 1. SHOP BY CATEGORY ================= -->
-<section class="py-16 sm:py-20 lg:py-24 bg-[#F7F4EF] scroll-reveal" x-data="{ revealed: false }" x-init="
-    const observer = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-            $el.classList.add('revealed');
-            observer.disconnect();
+        <!-- ================= SECTION 1: SHOP BY CATEGORY ================= -->
+        <section class="py-14 sm:py-20 lg:py-24 bg-[#F7F4EF] border-b border-[#E6DFD6]/60">
+            <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Section Header -->
+                <div class="max-w-2xl mb-10 md:mb-14">
+                    <span class="text-[#B85C38] tracking-[0.22em] text-xs font-bold uppercase block mb-3">SHOP BY CATEGORY</span>
+                    <h2 class="text-[#292522] font-serif font-medium leading-[1.15]" style="font-size: clamp(28px, 3.2vw, 44px);">Everything for a better night’s sleep</h2>
+                </div>
+
+                <!-- 4 Rounded Image Tiles (2x2 Mobile/Tablet, 4 Cols Desktop) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+                    <!-- Category Tile: Mattresses -->
+                    <div @click="goToPage('shop', 'Mattresses')" 
+                         class="group relative overflow-hidden rounded-[24px] bg-[#FFFCF7] border border-[#E6DFD6] p-4 sm:p-5 flex flex-col justify-between cursor-pointer hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300">
+                        <div class="relative overflow-hidden rounded-[18px] bg-[#F1EBE3] aspect-[4/3] mb-4">
+                            <img src="./public/images/mattresses/cloud-memory-foam/main.jpg" 
+                                 alt="BACKSPACE Premium Orthopedic Memory Foam Mattress" 
+                                 loading="lazy"
+                                 class="w-full h-full object-cover rounded-[18px] transition-transform duration-700 ease-out group-hover:scale-105">
+                        </div>
+                        <div class="flex items-end justify-between gap-3 pt-1">
+                            <div>
+                                <h3 class="font-serif text-[22px] sm:text-[24px] font-medium text-[#292522] group-hover:text-[#B85C38] transition-colors leading-snug">Mattresses</h3>
+                                <p class="text-xs sm:text-[13px] text-[#77716B] mt-1 font-sans leading-relaxed line-clamp-2">BodyIQ adaptive foam and targeted orthopedic spinal alignment.</p>
+                            </div>
+                            <span class="w-10 h-10 rounded-full border border-[#E6DFD6] bg-[#F7F4EF] group-hover:bg-[#B85C38] group-hover:border-[#B85C38] text-[#292522] group-hover:text-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300" aria-label="Explore Mattresses">
+                                <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Category Tile: Beds -->
+                    <div @click="goToPage('beds')" 
+                         class="group relative overflow-hidden rounded-[24px] bg-[#FFFCF7] border border-[#E6DFD6] p-4 sm:p-5 flex flex-col justify-between cursor-pointer hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300">
+                        <div class="relative overflow-hidden rounded-[18px] bg-[#F1EBE3] aspect-[4/3] mb-4">
+                            <img src="./public/images/beds/bed-001.jpg" 
+                                 alt="BACKSPACE Handcrafted Upholstered Platform Bed Frame" 
+                                 loading="lazy"
+                                 class="w-full h-full object-cover rounded-[18px] transition-transform duration-700 ease-out group-hover:scale-105">
+                        </div>
+                        <div class="flex items-end justify-between gap-3 pt-1">
+                            <div>
+                                <h3 class="font-serif text-[22px] sm:text-[24px] font-medium text-[#292522] group-hover:text-[#B85C38] transition-colors leading-snug">Beds</h3>
+                                <p class="text-xs sm:text-[13px] text-[#77716B] mt-1 font-sans leading-relaxed line-clamp-2">Handcrafted platform frames, designer headboards, and custom storage divans.</p>
+                            </div>
+                            <span class="w-10 h-10 rounded-full border border-[#E6DFD6] bg-[#F7F4EF] group-hover:bg-[#B85C38] group-hover:border-[#B85C38] text-[#292522] group-hover:text-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300" aria-label="Explore Beds">
+                                <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Category Tile: Protectors -->
+                    <div @click="goToPage('shop', 'Protectors')" 
+                         class="group relative overflow-hidden rounded-[24px] bg-[#FFFCF7] border border-[#E6DFD6] p-4 sm:p-5 flex flex-col justify-between cursor-pointer hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300">
+                        <div class="relative overflow-hidden rounded-[18px] bg-[#F1EBE3] aspect-[4/3] mb-4">
+                            <img src="./public/images/protectors/protector-01.jpg" 
+                                 alt="BACKSPACE Waterproof Bamboo Mattress Protector" 
+                                 loading="lazy"
+                                 class="w-full h-full object-cover rounded-[18px] transition-transform duration-700 ease-out group-hover:scale-105">
+                        </div>
+                        <div class="flex items-end justify-between gap-3 pt-1">
+                            <div>
+                                <h3 class="font-serif text-[22px] sm:text-[24px] font-medium text-[#292522] group-hover:text-[#B85C38] transition-colors leading-snug">Protectors</h3>
+                                <p class="text-xs sm:text-[13px] text-[#77716B] mt-1 font-sans leading-relaxed line-clamp-2">Breathable, 100% waterproof protection for long-lasting mattress hygiene.</p>
+                            </div>
+                            <span class="w-10 h-10 rounded-full border border-[#E6DFD6] bg-[#F7F4EF] group-hover:bg-[#B85C38] group-hover:border-[#B85C38] text-[#292522] group-hover:text-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300" aria-label="Explore Protectors">
+                                <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Category Tile: Pillows -->
+                    <div @click="goToPage('shop', 'Pillows')" 
+                         class="group relative overflow-hidden rounded-[24px] bg-[#FFFCF7] border border-[#E6DFD6] p-4 sm:p-5 flex flex-col justify-between cursor-pointer hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300">
+                        <div class="relative overflow-hidden rounded-[18px] bg-[#F1EBE3] aspect-[4/3] mb-4">
+                            <img src="./public/images/pillows/pillow-contour-memory.webp" 
+                                 alt="BACKSPACE Ergonomic Cervical Memory Foam Pillow" 
+                                 loading="lazy"
+                                 class="w-full h-full object-cover rounded-[18px] transition-transform duration-700 ease-out group-hover:scale-105">
+                        </div>
+                        <div class="flex items-end justify-between gap-3 pt-1">
+                            <div>
+                                <h3 class="font-serif text-[22px] sm:text-[24px] font-medium text-[#292522] group-hover:text-[#B85C38] transition-colors leading-snug">Pillows</h3>
+                                <p class="text-xs sm:text-[13px] text-[#77716B] mt-1 font-sans leading-relaxed line-clamp-2">Ergonomic dual-lobe contouring for cervical spine support and comfort.</p>
+                            </div>
+                            <span class="w-10 h-10 rounded-full border border-[#E6DFD6] bg-[#F7F4EF] group-hover:bg-[#B85C38] group-hover:border-[#B85C38] text-[#292522] group-hover:text-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300" aria-label="Explore Pillows">
+                                <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 2: FEATURED PRODUCTS ================= -->
+        <section class="py-14 sm:py-20 lg:py-24 bg-[#F4F2EF] border-b border-[#E6DFD6]"
+                 x-data="{
+                     activeTab: 'All',
+                     tabs: ['All', 'Mattresses', 'Beds', 'Protectors', 'Pillows'],
+                     get featuredList() {
+                         const cat = (window.BACKSPACE_CATALOGUE && window.BACKSPACE_CATALOGUE.length) ? window.BACKSPACE_CATALOGUE : (this.$root?.allProducts || []);
+                         const beds = (window.BED_COLLECTION_CARDS && window.BED_COLLECTION_CARDS.length) ? window.BED_COLLECTION_CARDS : cat.filter(p => p.category === 'Beds');
+
+                         const m = cat.filter(p => p.category === 'Mattresses').slice(0, 2);
+                         const b = beds.slice(0, 2);
+                         const pr = cat.filter(p => p.category === 'Protectors').slice(0, 2);
+                         const pi = cat.filter(p => p.category === 'Pillows' || (p.code && p.code.startsWith('BSP-PIL'))).slice(0, 2);
+
+                         if (this.activeTab === 'Mattresses') return m;
+                         if (this.activeTab === 'Beds') return b;
+                         if (this.activeTab === 'Protectors') return pr;
+                         if (this.activeTab === 'Pillows') return pi;
+                         return [...m, ...b, ...pr, ...pi];
+                     },
+                     viewAllCollection() {
+                         if (this.activeTab === 'Beds') {
+                             goToPage('beds');
+                         } else if (this.activeTab === 'All') {
+                             goToPage('shop', 'Mattresses');
+                         } else {
+                             goToPage('shop', this.activeTab);
+                         }
+                     },
+                     openProductCard(product) {
+                         const root = this.$root?._x_dataStack?.find(d => d.currentPage !== undefined);
+                         if (root) {
+                             root.currentProductData = product;
+                             root.goToPage('productDetail');
+                         } else {
+                             window.location.hash = '#product-' + (product.code || product.id);
+                         }
+                     }
+                 }">
+            <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Section Header + Tabs -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-4 border-b border-[#E6DFD6]">
+                    <div>
+                        <span class="text-[#B85C38] tracking-[0.22em] text-xs font-bold uppercase block mb-2">FEATURED COLLECTION</span>
+                        <h2 class="text-[#292522] font-serif font-medium leading-[1.15]" style="font-size: clamp(28px, 3.2vw, 44px);">Our Favourites</h2>
+                    </div>
+
+                    <!-- Tab Row (Accessible 44px targets) -->
+                    <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
+                        <template x-for="tab in tabs" :key="tab">
+                            <button type="button"
+                                    @click="activeTab = tab"
+                                    class="min-h-[44px] px-5 py-2 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all focus:outline-none whitespace-nowrap"
+                                    :class="activeTab === tab 
+                                        ? 'bg-[#292522] text-white shadow-sm' 
+                                        : 'bg-[#FAF6EE] text-[#77716B] hover:text-[#292522] hover:bg-white border border-[#E6DFD6]'"
+                                    x-text="tab">
+                            </button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Product Grid (4 cols desktop, 2 cols tablet, 1 col mobile) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-7">
+                    <template x-for="product in featuredList" :key="product.id || product.code">
+                        <div class="bg-[#F4ECE1] rounded-[28px] border border-[#E7DFD3] p-3.5 pb-5 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] transition-all duration-300 group flex flex-col justify-between cursor-pointer hover:-translate-y-1.5"
+                             @click="openProductCard(product)">
+                            <!-- Image Frame with Rounded Borders -->
+                            <div class="relative overflow-hidden rounded-[20px] border border-white/80 bg-[#EFE8DE] shadow-sm aspect-[301/201] mb-3.5">
+                                <img :src="product.image || (product.images && (product.images.main || product.images[0]))" 
+                                     :alt="product.name" 
+                                     class="w-full h-full object-cover rounded-[18px] transition-transform duration-700 ease-out group-hover:scale-105" 
+                                     loading="lazy" 
+                                     onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}">
+                                
+                                <!-- Circular Heart / Wishlist Button -->
+                                <button type="button"
+                                        @click.stop="toggleWishlist(product)" 
+                                        class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 hover:bg-white text-[#786C5E] hover:text-[#B85C38] flex items-center justify-center shadow-sm transition-all focus:outline-none z-10" 
+                                        title="Wishlist">
+                                    <i :class="isInWishlist(product.id) ? 'fa-solid fa-heart text-[#B85C38]' : 'fa-regular fa-heart text-[13px] text-[#6E5D4F]'"></i>
+                                </button>
+                            </div>
+
+                            <!-- Card Body -->
+                            <div class="px-2 pt-2 pb-1 flex-grow flex flex-col justify-between font-serif">
+                                <div>
+                                    <!-- Category & Product Code -->
+                                    <div class="flex items-center justify-between text-[#7E7467] text-[13px] mb-1 font-sans font-medium">
+                                        <span x-text="product.category || 'Collection'"></span>
+                                        <span class="tracking-wide" x-text="product.code || ''"></span>
+                                    </div>
+
+                                    <!-- Product Name -->
+                                    <h3 class="text-[#2B241E] text-[20px] sm:text-[22px] font-normal leading-snug my-2 group-hover:text-[#B85C38] transition-colors line-clamp-2" 
+                                        x-text="product.name"></h3>
+                                </div>
+
+                                <div>
+                                    <!-- Price: Only displayed if present in product data -->
+                                    <template x-if="product.price">
+                                        <div class="flex items-baseline gap-2 mt-2 mb-1 font-sans">
+                                            <span class="text-[#292522] font-semibold text-lg" x-text="'₹' + Number(product.price).toLocaleString('en-IN')"></span>
+                                            <template x-if="product.mrp && Number(product.mrp) > Number(product.price)">
+                                                <span class="text-xs text-[#7E7467] line-through" x-text="'₹' + Number(product.mrp).toLocaleString('en-IN')"></span>
+                                            </template>
+                                        </div>
+                                    </template>
+
+                                    <!-- Thin Divider -->
+                                    <div class="w-full h-[1px] bg-[#E5DCD0] my-3"></div>
+
+                                    <!-- Footer: Customization available + Circular Arrow Button -->
+                                    <div class="flex items-center justify-between pt-1">
+                                        <span class="text-[#7E7467] text-[12px] sm:text-[13px] font-normal font-sans" x-text="product.footer || 'Customization available'"></span>
+                                        <span class="w-8 h-8 rounded-full border border-[#D5C9B8] bg-transparent group-hover:bg-white flex items-center justify-center text-[#4A4036] group-hover:text-[#B85C38] transition shadow-sm" title="View Details">
+                                            <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7V15" /></svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Bottom Action: View All Link -->
+                <div class="mt-12 text-center">
+                    <button type="button"
+                            @click="viewAllCollection()" 
+                            class="inline-flex items-center gap-2 text-sm font-semibold text-[#292522] hover:text-[#B85C38] transition border-b border-[#292522] hover:border-[#B85C38] pb-1 group focus:outline-none">
+                        <span x-text="activeTab === 'All' ? 'View all collections' : ('View all ' + activeTab)"></span>
+                        <i class="fa-solid fa-arrow-right text-xs transition-transform duration-300 group-hover:translate-x-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 3: WHY BACKSPACE ================= -->
+        <section class="py-14 sm:py-20 lg:py-24 bg-[#FAF6EE] border-b border-[#E6DFD6]">
+            <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                    <!-- Left Column: Lifestyle Photo -->
+                    <div class="relative overflow-hidden rounded-[24px] shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] border border-[#E6DFD6] aspect-[4/3] sm:aspect-[16/11]">
+                        <img src="./public/images/beds/bed-001-lifestyle.jpg" 
+                             alt="BACKSPACE Handcrafted Bedroom Setting" 
+                             loading="lazy"
+                             class="w-full h-full object-cover rounded-[24px]">
+                    </div>
+
+                    <!-- Right Column: Heading & 4 True Business Claims -->
+                    <div>
+                        <span class="text-[#B85C38] tracking-[0.22em] text-xs font-bold uppercase block mb-3">WHY BACKSPACE</span>
+                        <h2 class="text-[#292522] font-serif font-medium leading-[1.15] mb-8" style="font-size: clamp(28px, 3.2vw, 44px);">Crafted for your comfort, built for everyday living</h2>
+
+                        <div class="space-y-6">
+                            <!-- Point 1 -->
+                            <div class="flex items-start gap-4 p-4 rounded-[20px] bg-white/70 border border-[#E6DFD6]/70 shadow-sm">
+                                <div class="w-11 h-11 rounded-full bg-[#FAF6EE] border border-[#E6DFD6] flex items-center justify-center text-[#B85C38] shrink-0 text-base">
+                                    <i class="fa-solid fa-bed"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-base sm:text-lg font-medium text-[#292522] font-sans">Handcrafted beds made to your size</h3>
+                                    <p class="text-xs sm:text-sm text-[#77716B] mt-1 font-sans leading-relaxed">Built with solid acoustic slat foundations, custom headboards, and frames tailored to your exact bedroom specifications.</p>
+                                </div>
+                            </div>
+
+                            <!-- Point 2 -->
+                            <div class="flex items-start gap-4 p-4 rounded-[20px] bg-white/70 border border-[#E6DFD6]/70 shadow-sm">
+                                <div class="w-11 h-11 rounded-full bg-[#FAF6EE] border border-[#E6DFD6] flex items-center justify-center text-[#B85C38] shrink-0 text-base">
+                                    <i class="fa-solid fa-pen-ruler"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-base sm:text-lg font-medium text-[#292522] font-sans">Customization available on every product</h3>
+                                    <p class="text-xs sm:text-sm text-[#77716B] mt-1 font-sans leading-relaxed">Choose custom lengths, widths, fabric finishes, color palettes, and drawer or hydraulic storage options.</p>
+                                </div>
+                            </div>
+
+                            <!-- Point 3 -->
+                            <div class="flex items-start gap-4 p-4 rounded-[20px] bg-white/70 border border-[#E6DFD6]/70 shadow-sm">
+                                <div class="w-11 h-11 rounded-full bg-[#FAF6EE] border border-[#E6DFD6] flex items-center justify-center text-[#25D366] shrink-0 text-lg">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-base sm:text-lg font-medium text-[#292522] font-sans">Order easily on WhatsApp</h3>
+                                    <p class="text-xs sm:text-sm text-[#77716B] mt-1 font-sans leading-relaxed">Connect directly with our sleep consultants for personalized advice, configuration quotes, and instant order confirmation.</p>
+                                </div>
+                            </div>
+
+                            <!-- Point 4 -->
+                            <div class="flex items-start gap-4 p-4 rounded-[20px] bg-white/70 border border-[#E6DFD6]/70 shadow-sm">
+                                <div class="w-11 h-11 rounded-full bg-[#FAF6EE] border border-[#E6DFD6] flex items-center justify-center text-[#B85C38] shrink-0 text-base">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-base sm:text-lg font-medium text-[#292522] font-sans">Mattresses, beds, protectors and pillows from one place</h3>
+                                    <p class="text-xs sm:text-sm text-[#77716B] mt-1 font-sans leading-relaxed">A complete, harmonious sleep ecosystem designed and manufactured together for seamless fit and restful nights.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 4: SLEEP SETUP (SIZE GUIDE) ================= -->
+        <section class="py-14 sm:py-20 lg:py-24 bg-[#F7F4EF] border-b border-[#E6DFD6]">
+            <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Section Header -->
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-[#B85C38] tracking-[0.22em] text-xs font-bold uppercase block mb-3">SLEEP SETUP</span>
+                    <h2 class="text-[#292522] font-serif font-medium leading-[1.15]" style="font-size: clamp(28px, 3.2vw, 44px);">Find your size</h2>
+                    <p class="text-xs sm:text-sm text-[#77716B] mt-3 font-sans leading-relaxed">Standard mattress and bed frame dimensions to help you choose the right fit for your bedroom.</p>
+                </div>
+
+                <!-- 4 Rounded Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+                    <!-- Single -->
+                    <div class="bg-[#FFFCF7] rounded-[24px] border border-[#E6DFD6] p-6 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[11px] font-bold tracking-widest text-[#B85C38] uppercase">SOLO SLEEPERS</span>
+                            <h3 class="font-serif text-2xl font-medium text-[#292522] mt-1 mb-3">Single</h3>
+                            <div class="space-y-1 py-3 border-y border-[#E6DFD6]/60 my-3 font-sans">
+                                <div class="text-sm font-bold text-[#292522]">Width: 36" (91 cm)</div>
+                                <div class="text-xs text-[#77716B]">Lengths: 72", 75", 78", 84"</div>
+                                <div class="text-[11px] text-[#77716B]">(183 cm, 191 cm, 198 cm, 213 cm)</div>
+                            </div>
+                            <p class="text-xs text-[#77716B] font-sans leading-relaxed mt-2">Ideal for guest rooms, compact bedrooms, daybeds, and children.</p>
+                        </div>
+                    </div>
+
+                    <!-- Double -->
+                    <div class="bg-[#FFFCF7] rounded-[24px] border border-[#E6DFD6] p-6 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[11px] font-bold tracking-widest text-[#B85C38] uppercase">ROOM TO STRETCH</span>
+                            <h3 class="font-serif text-2xl font-medium text-[#292522] mt-1 mb-3">Double</h3>
+                            <div class="space-y-1 py-3 border-y border-[#E6DFD6]/60 my-3 font-sans">
+                                <div class="text-sm font-bold text-[#292522]">48" × 75"</div>
+                                <div class="text-xs text-[#77716B]">122 cm × 190 cm</div>
+                                <div class="text-[11px] text-[#77716B]">4.00 ft × 6.25 ft</div>
+                            </div>
+                            <p class="text-xs text-[#77716B] font-sans leading-relaxed mt-2">Comfortable individual sleeping with extra width for smaller master rooms.</p>
+                        </div>
+                    </div>
+
+                    <!-- Queen -->
+                    <div class="bg-[#FFFCF7] rounded-[24px] border border-[#E6DFD6] p-6 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[11px] font-bold tracking-widest text-[#B85C38] uppercase">POPULAR CHOICE</span>
+                            <h3 class="font-serif text-2xl font-medium text-[#292522] mt-1 mb-3">Queen</h3>
+                            <div class="space-y-1 py-3 border-y border-[#E6DFD6]/60 my-3 font-sans">
+                                <div class="text-sm font-bold text-[#292522]">60" × 78"</div>
+                                <div class="text-xs text-[#77716B]">152 cm × 198 cm</div>
+                                <div class="text-[11px] text-[#77716B]">5.00 ft × 6.50 ft</div>
+                            </div>
+                            <p class="text-xs text-[#77716B] font-sans leading-relaxed mt-2">The most popular size for couples, providing balanced space and living comfort.</p>
+                        </div>
+                    </div>
+
+                    <!-- King -->
+                    <div class="bg-[#FFFCF7] rounded-[24px] border border-[#E6DFD6] p-6 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[11px] font-bold tracking-widest text-[#B85C38] uppercase">LUXURY SUITE</span>
+                            <h3 class="font-serif text-2xl font-medium text-[#292522] mt-1 mb-3">King</h3>
+                            <div class="space-y-1 py-3 border-y border-[#E6DFD6]/60 my-3 font-sans">
+                                <div class="text-sm font-bold text-[#292522]">72" × 78"</div>
+                                <div class="text-xs text-[#77716B]">183 cm × 198 cm</div>
+                                <div class="text-[11px] text-[#77716B]">6.00 ft × 6.50 ft</div>
+                            </div>
+                            <p class="text-xs text-[#77716B] font-sans leading-relaxed mt-2">Maximum personal sleeping space for grand master bedroom suites.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Size WhatsApp CTA -->
+                <div class="mt-10 text-center">
+                    <a href="https://wa.me/916300946652?text=Hello%20BACKSPACE%2C%20I%20need%20a%20custom%20mattress%20or%20bed%20size." 
+                       target="_blank" 
+                       class="inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-[#B85C38] hover:text-[#292522] transition group focus:outline-none">
+                        <i class="fa-brands fa-whatsapp text-lg text-[#25D366]"></i>
+                        <span class="underline underline-offset-4">Need a custom size? Chat with us</span>
+                        <i class="fa-solid fa-arrow-right text-xs transition-transform duration-300 group-hover:translate-x-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 5: MADE TO ORDER (CUSTOMIZATION BANNER) ================= -->
+        <section class="py-14 sm:py-20 lg:py-24 bg-[#F7F4EF] border-b border-[#E6DFD6]">
+            <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-[#F1EBE3] rounded-[28px] border border-[#E6DFD6] overflow-hidden p-6 sm:p-10 lg:p-14">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                        <!-- Text / Content -->
+                        <div class="order-2 lg:order-1">
+                            <span class="text-[#B85C38] tracking-[0.22em] text-xs font-bold uppercase block mb-3">MADE TO ORDER</span>
+                            <h2 class="text-[#292522] font-serif font-medium leading-[1.15] mb-4" style="font-size: clamp(28px, 3.2vw, 44px);">Made for your room, in your size</h2>
+                            <p class="text-sm sm:text-base text-[#77716B] font-sans leading-relaxed mb-8 max-w-xl">
+                                Every BACKSPACE bed frame is handcrafted to order—tailored to your room’s exact dimensions, with custom headboard heights, premium upholstery textures, and smart hydraulic or drawer storage configurations.
+                            </p>
+                            <button type="button"
+                                    @click="goToPage('beds')" 
+                                    class="min-h-[44px] inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-[#292522] text-white hover:bg-black font-semibold text-xs sm:text-sm tracking-wider uppercase shadow-md hover:shadow-lg transition-all focus:outline-none">
+                                Explore Beds
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+
+                        <!-- Real Bed Image from Assets -->
+                        <div class="order-1 lg:order-2">
+                            <div class="relative overflow-hidden rounded-[20px] shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] border border-white/80 aspect-[16/10] bg-[#EFE8DE]">
+                                <img src="./public/images/beds/bed-002.jpg" 
+                                     alt="BACKSPACE Handcrafted Floor Divan Storage Bed" 
+                                     loading="lazy"
+                                     class="w-full h-full object-cover rounded-[20px]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 6: CONTACT CALL TO ACTION ================= -->
+        <section class="py-14 sm:py-20 bg-[#FAF6EE] border-b border-[#E6DFD6]">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <span class="text-[#B85C38] tracking-[0.22em] text-xs font-bold uppercase block mb-3">PERSONAL SLEEP CONSULTATION</span>
+                <h2 class="text-[#292522] font-serif font-medium leading-[1.15] mb-3" style="font-size: clamp(28px, 3.2vw, 44px);">Not sure what to pick?</h2>
+                <p class="text-sm sm:text-base text-[#77716B] font-sans leading-relaxed max-w-xl mx-auto mb-8">
+                    Our sleep specialists are available to guide you through firmness selection, custom sizing, and frame upholstery.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="https://wa.me/916300946652?text=Hello%20BACKSPACE%2C%20I%20would%20like%20guidance%20on%20choosing%20the%20right%20products." 
+                       target="_blank" 
+                       class="min-h-[44px] inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#25D366] text-white hover:bg-[#20ba59] font-bold text-xs sm:text-sm tracking-wider uppercase shadow-md hover:shadow-lg transition-all focus:outline-none">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        Chat on WhatsApp
+                    </a>
+
+                    <!-- Secondary link to Find Store -->
+                    <button type="button" 
+                            @click="showToast('Visit our flagship studio or chat with us on WhatsApp for directions!')" 
+                            class="min-h-[44px] inline-flex items-center justify-center px-6 py-3 rounded-full text-xs sm:text-sm font-semibold text-[#77716B] hover:text-[#292522] hover:bg-white/80 border border-transparent hover:border-[#E6DFD6] transition-all focus:outline-none">
+                        <i class="fa-solid fa-location-dot mr-2 text-[#B85C38]"></i>
+                        Find Store
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+
+<!-- ================= ABOUT SECTION 1: THE BACKSPACE STORY ================= -->
+<section class="py-16 sm:py-20 lg:py-28 bg-[#F7F4EF] scroll-reveal" 
+    x-data="{ 
+        counts: { beds: 0, mattresses: 0, protectors: 0, pillows: 0 },
+        targets: { beds: 0, mattresses: 0, protectors: 0, pillows: 0 },
+        animated: false,
+        init() {
+            const beds = window.BED_COLLECTION_CARDS || [];
+            const cat = window.BACKSPACE_CATALOGUE || [];
+            this.targets.beds = beds.length || 18;
+            this.targets.mattresses = cat.filter(p => (p.category === 'Mattresses' || p.mainCategory === 'Mattresses') && (!p.code || !p.code.startsWith('BSP-BED'))).length || 15;
+            this.targets.protectors = cat.filter(p => p.category === 'Protectors' || p.mainCategory === 'Protectors' || (p.code && p.code.startsWith('BSP-PRO'))).length || 9;
+            this.targets.pillows = cat.filter(p => p.category === 'Pillows' || p.mainCategory === 'Pillows' || (p.code && p.code.startsWith('BSP-PIL'))).length || 6;
+        },
+        startCounters() {
+            if (this.animated) return;
+            this.animated = true;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                this.counts.beds = this.targets.beds;
+                this.counts.mattresses = this.targets.mattresses;
+                this.counts.protectors = this.targets.protectors;
+                this.counts.pillows = this.targets.pillows;
+                return;
+            }
+            const duration = 1200;
+            const startTime = performance.now();
+            const step = (now) => {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 3);
+                this.counts.beds = Math.floor(ease * this.targets.beds);
+                this.counts.mattresses = Math.floor(ease * this.targets.mattresses);
+                this.counts.protectors = Math.floor(ease * this.targets.protectors);
+                this.counts.pillows = Math.floor(ease * this.targets.pillows);
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    this.counts.beds = this.targets.beds;
+                    this.counts.mattresses = this.targets.mattresses;
+                    this.counts.protectors = this.targets.protectors;
+                    this.counts.pillows = this.targets.pillows;
+                }
+            };
+            requestAnimationFrame(step);
         }
-    }, { threshold: 0.1 });
-    observer.observe($el);
-">
+    }"
+    x-init="
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                $el.classList.add('revealed');
+                startCounters();
+                observer.disconnect();
+            }
+        }, { threshold: 0.15 });
+        observer.observe($el);
+    "
+>
     <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-            <span class="text-[#D05228] text-xs font-bold tracking-widest uppercase block mb-2">SHOP BY CATEGORY</span>
-            <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-normal text-[#2B241E] leading-tight" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
-                Everything for a better night’s sleep
-            </h2>
+        <!-- Split Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+            <!-- Left: Rounded Lifestyle Photo -->
+            <div class="lg:col-span-6">
+                <div class="relative rounded-[24px] sm:rounded-[32px] overflow-hidden border border-[#E7DFD3] shadow-md bg-[#EFE8DE] aspect-[4/3] sm:aspect-[16/11]">
+                    <img src="./public/images/beds/bed-003-lifestyle.jpg" alt="BACKSPACE master bedroom handcrafted bed setting" class="w-full h-full object-cover transition-transform duration-700 ease-out hover:scale-105" loading="lazy">
+                </div>
+            </div>
+
+            <!-- Right: Story Narrative -->
+            <div class="lg:col-span-6">
+                <div class="max-w-xl">
+                    <span class="text-[#D05228] text-xs font-bold tracking-widest uppercase block mb-2">THE BACKSPACE STORY</span>
+                    <h2 class="text-3xl sm:text-4xl lg:text-[44px] font-normal text-[#2B241E] leading-tight mb-5" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                        Furniture made for the way you sleep
+                    </h2>
+                    <p class="text-[#4A4036] text-sm sm:text-base leading-relaxed mb-4">
+                        At BACKSPACE, we create complete bedroom sleep systems—handcrafted beds, orthopedic mattresses, waterproof protectors, and ergonomic pillows designed to work harmoniously together.
+                    </p>
+                    <p class="text-[#7E7467] text-sm sm:text-base leading-relaxed">
+                        Every piece is built to your room dimensions with made-to-measure sizing, seasoned kiln-dried hardwood, and bespoke customization tailored for your comfort.
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-            <!-- 1. Mattresses -->
-            <div @click="goToPage('shop', 'Mattresses')" class="group bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-3.5 sm:p-5 flex flex-col justify-between cursor-pointer hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1 transition-all duration-300">
-                <div>
-                    <div class="relative overflow-hidden rounded-[18px] sm:rounded-[20px] aspect-[4/3] bg-[#EFE8DE] mb-4">
-                        <img src="./public/images/hero-mattress.webp" alt="Backspace Mattresses" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy">
-                    </div>
-                    <h3 class="text-[#2B241E] text-xl sm:text-2xl font-normal leading-snug mb-1.5" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">Mattresses</h3>
-                    <p class="text-[#7E7467] text-xs sm:text-sm leading-relaxed line-clamp-2">Orthopedic comfort, natural latex, and pocket spring support.</p>
+        <!-- 4 Animated Counters (Read from actual product data) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-12 sm:mt-16">
+            <!-- Counter 1: Beds -->
+            <div @click="goToPage('beds')" class="bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-5 sm:p-7 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+                <div class="text-[#D05228] text-xs font-bold tracking-wider uppercase mb-1">HANDCRAFTED</div>
+                <div class="text-4xl sm:text-5xl font-normal text-[#2B241E] mb-1 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                    <span x-text="counts.beds">0</span>
                 </div>
-                <div class="pt-4 flex items-center justify-between border-t border-[#E5DCD0]/70 mt-4">
-                    <span class="text-xs font-medium text-[#7E7467] group-hover:text-[#2B241E] transition-colors">Explore Mattresses</span>
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#D5C9B8] bg-white/80 group-hover:bg-[#2B241E] group-hover:border-[#2B241E] flex items-center justify-center text-[#4A4036] group-hover:text-white transition-all duration-300 shrink-0">
-                        <svg class="w-3.5 h-3.5 stroke-current transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7V15" /></svg>
-                    </div>
-                </div>
+                <div class="text-xs sm:text-sm font-medium text-[#7E7467] group-hover:text-[#2B241E] transition-colors">Beds Collection</div>
             </div>
 
-            <!-- 2. Beds -->
-            <div @click="goToPage('beds')" class="group bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-3.5 sm:p-5 flex flex-col justify-between cursor-pointer hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1 transition-all duration-300">
-                <div>
-                    <div class="relative overflow-hidden rounded-[18px] sm:rounded-[20px] aspect-[4/3] bg-[#EFE8DE] mb-4">
-                        <img src="./public/images/hero-beds.webp" alt="Backspace Handcrafted Beds" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy">
-                    </div>
-                    <h3 class="text-[#2B241E] text-xl sm:text-2xl font-normal leading-snug mb-1.5" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">Beds</h3>
-                    <p class="text-[#7E7467] text-xs sm:text-sm leading-relaxed line-clamp-2">Handcrafted upholstered frames, platform beds, and storage divans.</p>
+            <!-- Counter 2: Mattresses -->
+            <div @click="goToPage('shop', 'Mattresses')" class="bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-5 sm:p-7 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+                <div class="text-[#D05228] text-xs font-bold tracking-wider uppercase mb-1">ENGINEERED</div>
+                <div class="text-4xl sm:text-5xl font-normal text-[#2B241E] mb-1 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                    <span x-text="counts.mattresses">0</span>
                 </div>
-                <div class="pt-4 flex items-center justify-between border-t border-[#E5DCD0]/70 mt-4">
-                    <span class="text-xs font-medium text-[#7E7467] group-hover:text-[#2B241E] transition-colors">Explore Beds</span>
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#D5C9B8] bg-white/80 group-hover:bg-[#2B241E] group-hover:border-[#2B241E] flex items-center justify-center text-[#4A4036] group-hover:text-white transition-all duration-300 shrink-0">
-                        <svg class="w-3.5 h-3.5 stroke-current transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7V15" /></svg>
-                    </div>
-                </div>
+                <div class="text-xs sm:text-sm font-medium text-[#7E7467] group-hover:text-[#2B241E] transition-colors">Mattress Models</div>
             </div>
 
-            <!-- 3. Protectors -->
-            <div @click="goToPage('shop', 'Protectors')" class="group bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-3.5 sm:p-5 flex flex-col justify-between cursor-pointer hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1 transition-all duration-300">
-                <div>
-                    <div class="relative overflow-hidden rounded-[18px] sm:rounded-[20px] aspect-[4/3] bg-[#EFE8DE] mb-4">
-                        <img src="./public/images/hero-protectors.webp" alt="Backspace Mattress Protectors" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy">
-                    </div>
-                    <h3 class="text-[#2B241E] text-xl sm:text-2xl font-normal leading-snug mb-1.5" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">Protectors</h3>
-                    <p class="text-[#7E7467] text-xs sm:text-sm leading-relaxed line-clamp-2">100% waterproof breathable terry cotton and bamboo protection.</p>
+            <!-- Counter 3: Protectors -->
+            <div @click="goToPage('shop', 'Protectors')" class="bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-5 sm:p-7 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+                <div class="text-[#D05228] text-xs font-bold tracking-wider uppercase mb-1">100% WATERPROOF</div>
+                <div class="text-4xl sm:text-5xl font-normal text-[#2B241E] mb-1 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                    <span x-text="counts.protectors">0</span>
                 </div>
-                <div class="pt-4 flex items-center justify-between border-t border-[#E5DCD0]/70 mt-4">
-                    <span class="text-xs font-medium text-[#7E7467] group-hover:text-[#2B241E] transition-colors">Explore Protectors</span>
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#D5C9B8] bg-white/80 group-hover:bg-[#2B241E] group-hover:border-[#2B241E] flex items-center justify-center text-[#4A4036] group-hover:text-white transition-all duration-300 shrink-0">
-                        <svg class="w-3.5 h-3.5 stroke-current transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7V15" /></svg>
-                    </div>
-                </div>
+                <div class="text-xs sm:text-sm font-medium text-[#7E7467] group-hover:text-[#2B241E] transition-colors">Protectors Available</div>
             </div>
 
-            <!-- 4. Pillows -->
-            <div @click="goToPage('shop', 'Pillows')" class="group bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-3.5 sm:p-5 flex flex-col justify-between cursor-pointer hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1 transition-all duration-300">
-                <div>
-                    <div class="relative overflow-hidden rounded-[18px] sm:rounded-[20px] aspect-[4/3] bg-[#EFE8DE] mb-4">
-                        <img src="./public/images/hero-pillows.webp" alt="Backspace Pillows" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy">
-                    </div>
-                    <h3 class="text-[#2B241E] text-xl sm:text-2xl font-normal leading-snug mb-1.5" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">Pillows</h3>
-                    <p class="text-[#7E7467] text-xs sm:text-sm leading-relaxed line-clamp-2">Ergonomic contour memory foam and cervical neck support.</p>
+            <!-- Counter 4: Pillows -->
+            <div @click="goToPage('shop', 'Pillows')" class="bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-5 sm:p-7 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+                <div class="text-[#D05228] text-xs font-bold tracking-wider uppercase mb-1">ERGONOMIC</div>
+                <div class="text-4xl sm:text-5xl font-normal text-[#2B241E] mb-1 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                    <span x-text="counts.pillows">0</span>
                 </div>
-                <div class="pt-4 flex items-center justify-between border-t border-[#E5DCD0]/70 mt-4">
-                    <span class="text-xs font-medium text-[#7E7467] group-hover:text-[#2B241E] transition-colors">Explore Pillows</span>
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#D5C9B8] bg-white/80 group-hover:bg-[#2B241E] group-hover:border-[#2B241E] flex items-center justify-center text-[#4A4036] group-hover:text-white transition-all duration-300 shrink-0">
-                        <svg class="w-3.5 h-3.5 stroke-current transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7V15" /></svg>
-                    </div>
-                </div>
+                <div class="text-xs sm:text-sm font-medium text-[#7E7467] group-hover:text-[#2B241E] transition-colors">Pillow Designs</div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ================= 2. FEATURED PRODUCTS ================= -->
-<section class="py-16 sm:py-20 lg:py-24 bg-white border-t border-[#E6DFD6] scroll-reveal" 
-    x-data="{
-        activeTab: 'all',
-        tabs: [
-            { id: 'all', name: 'All' },
-            { id: 'Mattresses', name: 'Mattresses' },
-            { id: 'Beds', name: 'Beds' },
-            { id: 'Protectors', name: 'Protectors' },
-            { id: 'Pillows', name: 'Pillows' }
-        ],
-        featuredList: [
-            { id: 1, code: 'BSP-MAT-001', name: 'BACKSPACE Original – 3 Layered BodyIQ Orthopedic Memory Foam Mattress', category: 'Mattresses', price: 5638, originalPrice: 11599, discount: '51% OFF', image: './public/images/mattresses/cloud-memory-foam/main.jpg', footer: 'Customization available' },
-            { id: 2, code: 'BSP-MAT-002', name: 'BACKSPACE Pro – 5 Zone Pocket Spring Hybrid Mattress', category: 'Mattresses', price: 6429, originalPrice: 13199, discount: '51% OFF', image: './public/images/mattresses/cool-gel/main.jpg', footer: 'Customization available' },
-            { id: 201, code: 'BSP-BED-001', name: 'BACKSPACE Upholstered Platform Bed', category: 'Beds', price: 24990, originalPrice: 32990, discount: '24% OFF', image: './public/images/beds/upholstered_platform_bed.jpg', footer: 'Customization available' },
-            { id: 202, code: 'BSP-BED-002', name: 'BACKSPACE Floor Divan Storage Bed', category: 'Beds', price: 28990, originalPrice: 36990, discount: '22% OFF', image: './public/images/beds/floor_divan_storage_bed.jpg', footer: 'Customization available' },
-            { id: 101, code: 'BSP-PRO-001', name: 'BACKSPACE Waterproof Mattress Protector - Classic Terry Cotton', category: 'Protectors', price: 1299, originalPrice: 2499, discount: '48% OFF', image: './public/images/protectors/protector-01.jpg', footer: 'Customization available' },
-            { id: 102, code: 'BSP-PRO-002', name: 'BACKSPACE Bamboo Terry Waterproof Mattress Protector', category: 'Protectors', price: 1599, originalPrice: 2999, discount: '47% OFF', image: './public/images/protectors/protector-02.jpg', footer: 'Customization available' },
-            { id: 301, code: 'BSP-PIL-001', name: 'BACKSPACE Contour Memory Foam Pillow', category: 'Pillows', price: 1499, originalPrice: 2499, discount: '40% OFF', image: './public/images/pillows/pillow-contour-memory.webp', footer: 'Customization available' },
-            { id: 305, code: 'BSP-PIL-005', name: 'BACKSPACE Cervical Neck Support Pillow', category: 'Pillows', price: 1790, originalPrice: 2999, discount: '40% OFF', image: './public/images/pillows/pillow-cervical-support.webp', footer: 'Customization available' }
-        ],
-        get filteredItems() {
-            if (this.activeTab === 'all') return this.featuredList;
-            return this.featuredList.filter(item => item.category === this.activeTab);
-        },
-        viewAll() {
-            if (this.activeTab === 'Beds') {
-                this.goToPage('beds');
-            } else if (this.activeTab === 'all') {
-                this.goToPage('shop', 'All');
-            } else {
-                this.goToPage('shop', this.activeTab);
-            }
-        },
-        openFeatured(product) {
-            const catalogue = window.BACKSPACE_CATALOGUE || [];
-            const beds = window.BED_COLLECTION_CARDS || [];
-            const found = beds.find(b => b.code === product.code) || catalogue.find(p => p.code === product.code) || product;
-            if (found.category === 'Beds' || (found.code && found.code.startsWith('BSP-BED'))) {
-                window.currentBedProductData = found;
-            }
-            const gw = this.$root?._x_dataStack?.find(d => d.currentProductData !== undefined);
-            if (gw) {
-                gw.currentProductData = found;
-                gw.goToPage('productDetail');
-            } else {
-                this.currentProductData = found;
-                this.goToPage('productDetail');
-            }
-        }
-    }"
+<!-- ================= ABOUT SECTION 2: WHY CHOOSE BACKSPACE ================= -->
+<section class="py-16 sm:py-20 lg:py-28 bg-white border-y border-[#E6DFD6] scroll-reveal" 
+    x-data="{ revealed: false }" 
     x-init="
         const observer = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting) {
@@ -6224,396 +6658,120 @@ function singleBedApp() {
     "
 >
     <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Header & Tabs -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12 pb-6 border-b border-[#E6DFD6]">
-            <div>
-                <span class="text-[#D05228] text-xs font-bold tracking-widest uppercase block mb-2">CURATED COLLECTION</span>
-                <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-normal text-[#2B241E] leading-tight" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
-                    Our Favourites
-                </h2>
-            </div>
-
-            <!-- Filter Tabs -->
-            <div class="flex flex-wrap items-center gap-2">
-                <template x-for="tab in tabs" :key="tab.id">
-                    <button 
-                        @click="activeTab = tab.id"
-                        class="px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 min-h-[44px] flex items-center justify-center focus:outline-none"
-                        :class="activeTab === tab.id ? 'bg-[#2B241E] text-white shadow-sm' : 'bg-[#F4ECE1] text-[#4A4036] hover:bg-[#EAE1D5]'"
-                        x-text="tab.name"
-                    ></button>
-                </template>
-            </div>
-        </div>
-
-        <!-- 8 Product Grid (4 col desktop, 2 col tablet, 1 col mobile) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-7 lg:gap-8">
-            <template x-for="product in filteredItems" :key="product.code">
-                <div class="bg-[#F4ECE1] rounded-[28px] border border-[#E7DFD3] p-3.5 pb-5 hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] transition-all duration-300 group flex flex-col justify-between cursor-pointer hover:-translate-y-1" @click="openFeatured(product)">
-                    <div>
-                        <!-- Image Frame -->
-                        <div class="relative overflow-hidden rounded-[20px] border border-white/80 bg-[#EFE8DE] shadow-sm">
-                            <img :src="product.image" :alt="product.name" class="w-full h-auto aspect-[301/201] object-cover rounded-[18px] transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src=this.src.replace('/public/','/');}">
-                            
-                            <!-- Wishlist button -->
-                            <button @click.stop="toggleWishlist(product)" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 hover:bg-white text-[#786C5E] hover:text-[#B85C38] flex items-center justify-center shadow-sm transition-all focus:outline-none z-10" title="Wishlist">
-                                <i :class="isInWishlist(product.id) ? 'fa-solid fa-heart text-[#B85C38]' : 'fa-regular fa-heart text-[13px] text-[#6E5D4F]'"></i>
-                            </button>
-                        </div>
-                        
-                        <!-- Card Body -->
-                        <div class="px-2 pt-4 pb-1">
-                            <!-- Category & Product Code -->
-                            <div class="flex items-center justify-between text-[#7E7467] text-[13px] mb-1 font-medium" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
-                                <span x-text="product.category"></span>
-                                <span class="tracking-wide" x-text="product.code"></span>
-                            </div>
-                            
-                            <!-- Product Name -->
-                            <h3 class="text-[#2B241E] text-[20px] sm:text-[21px] font-normal leading-snug my-2 group-hover:text-[#8B5A2B] transition-colors line-clamp-2 min-h-[52px]" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;" x-text="product.name"></h3>
-                            
-                            <!-- Price Display -->
-                            <div class="flex items-baseline gap-2 mt-2">
-                                <span class="text-[#2B241E] text-lg font-bold">₹<span x-text="product.price ? product.price.toLocaleString('en-IN') : ''"></span></span>
-                                <template x-if="product.originalPrice">
-                                    <span class="text-[#7E7467] text-xs line-through">₹<span x-text="product.originalPrice.toLocaleString('en-IN')"></span></span>
-                                </template>
-                                <template x-if="product.discount">
-                                    <span class="text-[#D05228] text-[11px] font-bold" x-text="product.discount"></span>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Footer: Customization available + Circular Arrow -->
-                    <div class="px-2">
-                        <div class="w-full h-[1px] bg-[#E5DCD0] my-3"></div>
-                        <div class="flex items-center justify-between pt-1">
-                            <span class="text-[#7E7467] text-[12px] sm:text-[13px] font-normal" x-text="product.footer">Customization available</span>
-                            <button @click.stop="openFeatured(product)" class="w-8 h-8 rounded-full border border-[#D5C9B8] bg-transparent hover:bg-white flex items-center justify-center text-[#4A4036] hover:text-black transition shadow-sm focus:outline-none" title="View Details">
-                                <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H9M17 7V15" /></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </div>
-
-        <!-- View all link -->
-        <div class="mt-12 text-center">
-            <button @click="viewAll()" class="inline-flex items-center space-x-2 text-[#D05228] hover:text-[#B84018] font-semibold text-sm tracking-wide uppercase group focus:outline-none py-2 px-4 rounded-full hover:bg-orange-50 transition-colors">
-                <span x-text="activeTab === 'all' ? 'View all products' : ('View all ' + activeTab)"></span>
-                <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-            </button>
-        </div>
-    </div>
-</section>
-
-<!-- ================= 3. WHY BACKSPACE ================= -->
-<section class="py-16 sm:py-20 lg:py-28 bg-[#F7F4EF] scroll-reveal" x-data="{ revealed: false }" x-init="
-    const observer = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-            $el.classList.add('revealed');
-            observer.disconnect();
-        }
-    }, { threshold: 0.1 });
-    observer.observe($el);
-">
-    <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            <!-- Left: Large Lifestyle Photo -->
-            <div class="lg:col-span-5 order-2 lg:order-1">
-                <div class="relative rounded-[28px] overflow-hidden border border-[#E7DFD3] shadow-md bg-[#EFE8DE] aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/5]">
-                    <img src="./public/images/beds/horizontal_channel_headboard_bed.jpg" alt="BACKSPACE handcrafted master bedroom bed frame" class="w-full h-full object-cover transition-transform duration-700 ease-out hover:scale-105" loading="lazy">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"></div>
-                </div>
-            </div>
-
-            <!-- Right: 4 Verified Points -->
-            <div class="lg:col-span-7 order-1 lg:order-2">
-                <div class="max-w-xl">
-                    <span class="text-[#D05228] text-xs font-bold tracking-widest uppercase block mb-2">WHY BACKSPACE</span>
-                    <h2 class="text-3xl sm:text-4xl lg:text-[44px] font-normal text-[#2B241E] leading-tight mb-8 sm:mb-10" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
-                        Thoughtfully crafted for restorative sleep
-                    </h2>
-
-                    <div class="space-y-6 sm:space-y-8">
-                        <!-- Point 1 -->
-                        <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 rounded-2xl bg-[#F4ECE1] border border-[#E7DFD3] flex items-center justify-center shrink-0 text-[#D05228] shadow-sm">
-                                <i class="fa-solid fa-ruler-combined text-base"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-[#2B241E] text-lg font-semibold mb-1">Handcrafted beds made to your size</h3>
-                                <p class="text-[#7E7467] text-sm leading-relaxed">Each frame is engineered with seasoned kiln-dried timber and upholstered to your room’s exact dimensions and style.</p>
-                            </div>
-                        </div>
-
-                        <!-- Point 2 -->
-                        <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 rounded-2xl bg-[#F4ECE1] border border-[#E7DFD3] flex items-center justify-center shrink-0 text-[#D05228] shadow-sm">
-                                <i class="fa-solid fa-sliders text-base"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-[#2B241E] text-lg font-semibold mb-1">Customization available on every product</h3>
-                                <p class="text-[#7E7467] text-sm leading-relaxed">Personalize bed dimensions, headboard profiles, upholstery fabrics, storage configurations, and mattress firmness.</p>
-                            </div>
-                        </div>
-
-                        <!-- Point 3 -->
-                        <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 rounded-2xl bg-[#F4ECE1] border border-[#E7DFD3] flex items-center justify-center shrink-0 text-[#D05228] shadow-sm">
-                                <i class="fa-brands fa-whatsapp text-lg"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-[#2B241E] text-lg font-semibold mb-1">Order easily on WhatsApp</h3>
-                                <p class="text-[#7E7467] text-sm leading-relaxed">Connect directly with our sleep specialists for advice, custom measurements, order placement, and live updates.</p>
-                            </div>
-                        </div>
-
-                        <!-- Point 4 -->
-                        <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 rounded-2xl bg-[#F4ECE1] border border-[#E7DFD3] flex items-center justify-center shrink-0 text-[#D05228] shadow-sm">
-                                <i class="fa-solid fa-cubes text-base"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-[#2B241E] text-lg font-semibold mb-1">Mattresses, beds, protectors and pillows from one place</h3>
-                                <p class="text-[#7E7467] text-sm leading-relaxed">A cohesive bedroom sleep system where frames, mattresses, and bedding accessories match perfectly in quality and fit.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ================= 4. SLEEP SETUP (SIZE GUIDE) ================= -->
-<section class="py-16 sm:py-20 lg:py-24 bg-white border-y border-[#E6DFD6] scroll-reveal" x-data="{ revealed: false }" x-init="
-    const observer = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-            $el.classList.add('revealed');
-            observer.disconnect();
-        }
-    }, { threshold: 0.1 });
-    observer.observe($el);
-">
-    <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-            <span class="text-[#D05228] text-xs font-bold tracking-widest uppercase block mb-2">SIZE GUIDE</span>
-            <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-normal text-[#2B241E] leading-tight mb-3" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
-                Find your size
+        <!-- Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <span class="text-[#D05228] text-xs font-bold tracking-widest uppercase block mb-2">OUR COMMITMENT</span>
+            <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-normal text-[#2B241E] leading-tight" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                Why Choose Backspace
             </h2>
-            <p class="text-[#7E7467] text-sm sm:text-base leading-relaxed">
-                Standard mattress and bed dimensions from our collection. Need a custom fit? We craft custom sizes for every room.
-            </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- 1. Single -->
-            <div class="bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-6 hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+        <!-- 6 Image Cards (3 cols desktop, 2 tablet, 1 mobile) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 lg:gap-8">
+            <!-- Card 1: Customization available -->
+            <div class="group bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-3.5 sm:p-4 pb-5 flex flex-col justify-between hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300">
                 <div>
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-bold uppercase tracking-wider text-[#D05228] bg-white/70 px-2.5 py-1 rounded-full border border-[#E5DCD0]">1 Person</span>
-                        <i class="fa-solid fa-bed text-[#7E7467] text-sm"></i>
+                    <div class="relative overflow-hidden rounded-[18px] sm:rounded-[20px] aspect-[16/10] bg-[#EFE8DE] mb-4">
+                        <img src="./public/images/beds/upholstered_platform_bed.jpg" alt="Customization available" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy">
+                        <div class="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center text-[#D05228] shadow-sm transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110">
+                            <i class="fa-solid fa-sliders text-sm"></i>
+                        </div>
                     </div>
-                    <h3 class="text-[#2B241E] text-2xl font-normal mb-3" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">Single</h3>
-                    <div class="space-y-2 text-xs sm:text-sm text-[#4A4036] pb-4 border-b border-[#E5DCD0]">
-                        <div class="font-medium text-[#2B241E]">Lengths available:</div>
-                        <div class="flex justify-between"><span>72″ × 36″</span><span class="text-[#7E7467]">183 × 91 cm</span></div>
-                        <div class="flex justify-between"><span>75″ × 36″</span><span class="text-[#7E7467]">191 × 91 cm</span></div>
-                        <div class="flex justify-between"><span>78″ × 36″</span><span class="text-[#7E7467]">198 × 91 cm</span></div>
-                        <div class="flex justify-between"><span>84″ × 36″</span><span class="text-[#7E7467]">213 × 91 cm</span></div>
-                    </div>
-                </div>
-                <div class="pt-4 text-xs text-[#7E7467] leading-relaxed">
-                    Practical for compact rooms, children's bedrooms, and daybeds.
-                </div>
-            </div>
-
-            <!-- 2. Double -->
-            <div class="bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-6 hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-bold uppercase tracking-wider text-[#D05228] bg-white/70 px-2.5 py-1 rounded-full border border-[#E5DCD0]">1-2 Persons</span>
-                        <i class="fa-solid fa-bed text-[#7E7467] text-sm"></i>
-                    </div>
-                    <h3 class="text-[#2B241E] text-2xl font-normal mb-3" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">Double</h3>
-                    <div class="space-y-2 text-xs sm:text-sm text-[#4A4036] pb-4 border-b border-[#E5DCD0]">
-                        <div class="font-medium text-[#2B241E]">Dimensions:</div>
-                        <div class="flex justify-between"><span>72″ × 48″</span><span class="text-[#7E7467]">183 × 122 cm</span></div>
-                        <div class="flex justify-between"><span>75″ × 48″</span><span class="text-[#7E7467]">191 × 122 cm</span></div>
-                    </div>
-                </div>
-                <div class="pt-4 text-xs text-[#7E7467] leading-relaxed">
-                    Extra space for solo sleepers or compact guest bedrooms.
-                </div>
-            </div>
-
-            <!-- 3. Queen -->
-            <div class="bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-6 hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-bold uppercase tracking-wider text-[#D05228] bg-white/70 px-2.5 py-1 rounded-full border border-[#E5DCD0]">2 Persons</span>
-                        <i class="fa-solid fa-bed text-[#7E7467] text-sm"></i>
-                    </div>
-                    <h3 class="text-[#2B241E] text-2xl font-normal mb-3" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">Queen</h3>
-                    <div class="space-y-2 text-xs sm:text-sm text-[#4A4036] pb-4 border-b border-[#E5DCD0]">
-                        <div class="font-medium text-[#2B241E]">Standard Dimension:</div>
-                        <div class="flex justify-between"><span>78″ × 60″</span><span class="text-[#7E7467]">198 × 152 cm</span></div>
-                    </div>
-                </div>
-                <div class="pt-4 text-xs text-[#7E7467] leading-relaxed">
-                    Our most popular dimension for master bedrooms and shared comfort.
-                </div>
-            </div>
-
-            <!-- 4. King -->
-            <div class="bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-6 hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-bold uppercase tracking-wider text-[#D05228] bg-white/70 px-2.5 py-1 rounded-full border border-[#E5DCD0]">2-3 Persons</span>
-                        <i class="fa-solid fa-bed text-[#7E7467] text-sm"></i>
-                    </div>
-                    <h3 class="text-[#2B241E] text-2xl font-normal mb-3" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">King</h3>
-                    <div class="space-y-2 text-xs sm:text-sm text-[#4A4036] pb-4 border-b border-[#E5DCD0]">
-                        <div class="font-medium text-[#2B241E]">Standard Dimension:</div>
-                        <div class="flex justify-between"><span>78″ × 72″</span><span class="text-[#7E7467]">198 × 183 cm</span></div>
-                    </div>
-                </div>
-                <div class="pt-4 text-xs text-[#7E7467] leading-relaxed">
-                    Expansive luxury with maximum individual sleeping space.
-                </div>
-            </div>
-        </div>
-
-        <!-- Custom Size WhatsApp Link -->
-        <div class="mt-10 sm:mt-12 text-center">
-            <a href="https://wa.me/916300946652?text=Hello%20BACKSPACE%2C%20I%20would%20like%20to%20inquire%20about%20a%20custom%20size%20bed%20or%20mattress" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 text-[#D05228] hover:text-[#B84018] font-medium text-sm sm:text-base group py-2 px-4 rounded-full hover:bg-orange-50 transition-colors">
-                <i class="fa-brands fa-whatsapp text-lg"></i>
-                <span class="underline underline-offset-4 decoration-[#D05228]/50 group-hover:decoration-[#D05228]">Need a custom size? Chat with us</span>
-                <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- ================= 5. MADE TO ORDER (CUSTOMIZATION) ================= -->
-<section class="py-16 sm:py-20 lg:py-24 bg-[#F7F4EF] scroll-reveal" x-data="{ revealed: false }" x-init="
-    const observer = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-            $el.classList.add('revealed');
-            observer.disconnect();
-        }
-    }, { threshold: 0.1 });
-    observer.observe($el);
-">
-    <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-[#EFE8DE] rounded-[28px] sm:rounded-[36px] border border-[#E2D8CA] overflow-hidden p-6 sm:p-10 lg:p-16 relative shadow-sm">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                <!-- Text Details -->
-                <div class="lg:col-span-6 space-y-4 sm:space-y-6">
-                    <span class="text-[#D05228] text-xs font-bold tracking-widest uppercase block">MADE TO ORDER</span>
-                    <h2 class="text-3xl sm:text-4xl lg:text-[44px] font-normal text-[#2B241E] leading-tight" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
-                        Made for your room, in your size
-                    </h2>
-                    <p class="text-[#7E7467] text-sm sm:text-base leading-relaxed max-w-lg">
-                        From custom frame dimensions to premium textured fabrics and hydraulic under-bed storage, we craft each bed specifically for your space.
+                    <h3 class="text-[#2B241E] text-xl sm:text-2xl font-normal leading-snug mb-2 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                        Customization available
+                    </h3>
+                    <p class="text-[#7E7467] text-xs sm:text-sm leading-relaxed">
+                        Personalize headboard profiles, upholstery fabrics, storage configurations, and comfort levels.
                     </p>
-                    <div class="pt-2">
-                        <button @click="goToPage('beds')" class="inline-flex items-center space-x-3 bg-[#2B241E] hover:bg-[#D05228] text-white text-sm sm:text-base font-medium px-8 py-3.5 rounded-full transition-all duration-300 shadow-sm hover:shadow group min-h-[44px] focus:outline-none">
-                            <span>Explore Beds</span>
-                            <svg class="w-4 h-4 stroke-current transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Bed Photo from Project Assets -->
-                <div class="lg:col-span-6">
-                    <div class="rounded-[22px] sm:rounded-[26px] overflow-hidden border border-white/80 shadow-md bg-[#F4ECE1] aspect-[16/10]">
-                        <img src="./public/images/beds/floor_divan_storage_bed.jpg" alt="BACKSPACE Floor Divan Storage Bed" class="w-full h-full object-cover transition-transform duration-700 ease-out hover:scale-103" loading="lazy">
-                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
 
-<!-- ================= 6. CONTACT CALL TO ACTION ================= -->
-<section class="py-14 sm:py-18 bg-[#F4ECE1] border-y border-[#E7DFD3] scroll-reveal" x-data="{ revealed: false }" x-init="
-    const observer = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-            $el.classList.add('revealed');
-            observer.disconnect();
-        }
-    }, { threshold: 0.1 });
-    observer.observe($el);
-">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span class="text-[#D05228] text-xs font-bold tracking-widest uppercase block mb-2">PERSONAL SLEEP GUIDANCE</span>
-        <h2 class="text-3xl sm:text-4xl font-normal text-[#2B241E] leading-tight mb-3" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
-            Not sure what to pick?
-        </h2>
-        <p class="text-[#7E7467] text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-8">
-            Connect directly with our sleep specialists for personal recommendations, custom dimension queries, and order support.
-        </p>
-
-        <div class="flex flex-wrap items-center justify-center gap-4">
-            <!-- Primary WhatsApp Button -->
-            <button 
-                @click="window.open('https://wa.me/916300946652?text=' + encodeURIComponent('Hello BACKSPACE, I need guidance selecting the right sleep setup.'), '_blank')" 
-                class="bg-[#128C7E] hover:bg-[#075E54] text-white font-medium px-8 py-3.5 rounded-full flex items-center space-x-2.5 transition-all duration-300 shadow-sm hover:shadow min-h-[44px] focus:outline-none"
-            >
-                <i class="fa-brands fa-whatsapp text-lg"></i>
-                <span class="text-sm sm:text-base">Chat on WhatsApp</span>
-            </button>
-
-            <!-- Secondary Link to Find Store / Support -->
-            <button 
-                @click="goToPage('support')" 
-                class="bg-white/80 hover:bg-white text-[#2B241E] border border-[#D5C9B8] hover:border-[#2B241E] font-medium px-7 py-3.5 rounded-full flex items-center space-x-2 transition-all duration-300 shadow-sm min-h-[44px] focus:outline-none"
-            >
-                <i class="fa-solid fa-location-dot text-sm text-[#7E7467]"></i>
-                <span class="text-sm sm:text-base">Find Store</span>
-            </button>
-        </div>
-    </div>
-</section>
-
-<!-- ================= RELEVANT PRODUCT INFORMATION ================= -->
-<section class="py-20 md:py-32 bg-white" x-data="{ revealed: false }" x-init="
-    const observer = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-            revealed = true;
-            observer.disconnect();
-        }
-    }, { threshold: 0.1 });
-    observer.observe($el);
-">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h3 class="text-xl md:text-2xl lg:text-3xl font-extrabold text-brand-charcoal tracking-tight uppercase mb-8 md:mb-12 transition-all duration-700" 
-            :class="revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'">
-            FINDING YOUR PERFECT SLEEP
-        </h3>
-        
-        <div class="space-y-6 md:space-y-8 text-gray-500 leading-relaxed text-sm md:text-base">
-            <p class="transition-all duration-700 delay-100" :class="revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'">
-                Choosing the right single bed mattress can make a meaningful difference to your everyday sleep. A single mattress is a practical choice for compact bedrooms, children's rooms, guest rooms, hostels, PGs and other spaces where efficient use of space is important.
-            </p>
-            <p class="transition-all duration-700 delay-200" :class="revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'">
-                At BACKSPACE, our single mattresses are designed for different sleeping preferences, comfort levels and support requirements. Whether you prefer a firmer sleeping surface, balanced support or a softer and more relaxed feel, you can explore options according to your needs.
-            </p>
-            <p class="transition-all duration-700 delay-300" :class="revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'">
-                Our mattresses focus on comfortable cushioning, supportive construction, breathable materials and everyday durability. Different mattress constructions can provide different sleeping experiences, so consider your preferred firmness, mattress height, bed dimensions and budget before making your selection.
-            </p>
-            
-            <div class="pt-6 transition-all duration-700 delay-400" :class="revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'">
-                <div class="inline-flex items-center text-left p-6 md:p-8 bg-brand-ivory rounded-3xl border border-gray-100 shadow-sm max-w-3xl">
-                    <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm mr-5 text-brand-terracotta">
-                        <i class="fa-solid fa-ruler-combined"></i>
+            <!-- Card 2: Made to your size -->
+            <div class="group bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-3.5 sm:p-4 pb-5 flex flex-col justify-between hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300">
+                <div>
+                    <div class="relative overflow-hidden rounded-[18px] sm:rounded-[20px] aspect-[16/10] bg-[#EFE8DE] mb-4">
+                        <img src="./public/images/mattresses/cloud-memory-foam/main.jpg" alt="Made to your size" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy">
+                        <div class="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center text-[#D05228] shadow-sm transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110">
+                            <i class="fa-solid fa-ruler-combined text-sm"></i>
+                        </div>
                     </div>
-                    <p class="font-bold text-brand-charcoal text-[11px] md:text-xs tracking-widest uppercase leading-loose">
-                        Before purchasing, always measure the length and width of your existing bed frame and choose a mattress size that matches those dimensions.
+                    <h3 class="text-[#2B241E] text-xl sm:text-2xl font-normal leading-snug mb-2 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                        Made to your size
+                    </h3>
+                    <p class="text-[#7E7467] text-xs sm:text-sm leading-relaxed">
+                        Custom length and width mattress and bed configurations built to match any room or frame.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 3: Mattresses, beds, protectors and pillows in one place -->
+            <div class="group bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-3.5 sm:p-4 pb-5 flex flex-col justify-between hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300">
+                <div>
+                    <div class="relative overflow-hidden rounded-[18px] sm:rounded-[20px] aspect-[16/10] bg-[#EFE8DE] mb-4">
+                        <img src="./public/images/hero-beds.webp" alt="Sleep ecosystem" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy">
+                        <div class="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center text-[#D05228] shadow-sm transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110">
+                            <i class="fa-solid fa-cubes text-sm"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-[#2B241E] text-xl sm:text-2xl font-normal leading-snug mb-2 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                        Mattresses, beds, protectors and pillows in one place
+                    </h3>
+                    <p class="text-[#7E7467] text-xs sm:text-sm leading-relaxed">
+                        A complete sleep collection engineered to complement each other in restorative support and fit.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 4: Easy ordering on WhatsApp -->
+            <div class="group bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-3.5 sm:p-4 pb-5 flex flex-col justify-between hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300">
+                <div>
+                    <div class="relative overflow-hidden rounded-[18px] sm:rounded-[20px] aspect-[16/10] bg-[#EFE8DE] mb-4">
+                        <img src="./public/images/beds/floor_divan_storage_bed.jpg" alt="Easy ordering on WhatsApp" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy">
+                        <div class="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center text-[#D05228] shadow-sm transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110">
+                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-[#2B241E] text-xl sm:text-2xl font-normal leading-snug mb-2 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                        Easy ordering on WhatsApp
+                    </h3>
+                    <p class="text-[#7E7467] text-xs sm:text-sm leading-relaxed">
+                        Direct assistance with sizing queries, bespoke quotes, fabric swatches, and live order tracking.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 5: Handcrafted beds -->
+            <div class="group bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-3.5 sm:p-4 pb-5 flex flex-col justify-between hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300">
+                <div>
+                    <div class="relative overflow-hidden rounded-[18px] sm:rounded-[20px] aspect-[16/10] bg-[#EFE8DE] mb-4">
+                        <img src="./public/images/beds/horizontal_channel_headboard_bed.jpg" alt="Handcrafted beds" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy">
+                        <div class="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center text-[#D05228] shadow-sm transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110">
+                            <i class="fa-solid fa-hammer text-sm"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-[#2B241E] text-xl sm:text-2xl font-normal leading-snug mb-2 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                        Handcrafted beds
+                    </h3>
+                    <p class="text-[#7E7467] text-xs sm:text-sm leading-relaxed">
+                        Kiln-dried hardwood frameworks with acoustic timber slats built with precision by master artisans.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 6: Bulk and custom requirements for hostels, hotels, PGs and hospitals -->
+            <div class="group bg-[#F4ECE1] rounded-[24px] sm:rounded-[28px] border border-[#E7DFD3] p-3.5 sm:p-4 pb-5 flex flex-col justify-between hover:shadow-[0_16px_36px_-8px_rgba(70,50,30,0.12)] hover:-translate-y-1.5 transition-all duration-300">
+                <div>
+                    <div class="relative overflow-hidden rounded-[18px] sm:rounded-[20px] aspect-[16/10] bg-[#EFE8DE] mb-4">
+                        <img src="./public/images/protectors/protector-01.jpg" alt="Bulk and custom requirements" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy">
+                        <div class="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center text-[#D05228] shadow-sm transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110">
+                            <i class="fa-solid fa-hotel text-sm"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-[#2B241E] text-xl sm:text-2xl font-normal leading-snug mb-2 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                        Bulk and custom requirements for hostels, hotels, PGs and hospitals
+                    </h3>
+                    <p class="text-[#7E7467] text-xs sm:text-sm leading-relaxed">
+                        Tailored volume manufacturing with high commercial durability for enterprise spaces and institutions.
                     </p>
                 </div>
             </div>
@@ -6621,214 +6779,168 @@ function singleBedApp() {
     </div>
 </section>
 
-<!-- ================= WHY CHOOSE A SINGLE BED MATTRESS? ================= -->
-<section class="py-20 bg-brand-charcoal text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight uppercase mb-12 text-center">WHY CHOOSE A SINGLE BED MATTRESS?</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-white/10 p-6 rounded-2xl border border-white/5">
-                <h3 class="font-bold text-brand-terracotta mb-3 text-sm tracking-widest uppercase">IDEAL FOR COMPACT SPACES</h3>
-                <p class="text-sm text-gray-300">A single mattress is suitable for bedrooms, children's rooms, guest rooms, hostels, PGs and other compact spaces. It provides individual sleeping space without occupying unnecessary room.</p>
-            </div>
-            <div class="bg-white/10 p-6 rounded-2xl border border-white/5">
-                <h3 class="font-bold text-brand-terracotta mb-3 text-sm tracking-widest uppercase">COMFORTABLE EVERYDAY SUPPORT</h3>
-                <p class="text-sm text-gray-300">Our mattresses are designed to provide a balanced combination of cushioning and support for everyday sleeping.</p>
-            </div>
-            <div class="bg-white/10 p-6 rounded-2xl border border-white/5">
-                <h3 class="font-bold text-brand-terracotta mb-3 text-sm tracking-widest uppercase">AFFORDABLE OPTIONS</h3>
-                <p class="text-sm text-gray-300">BACKSPACE offers mattress options across different price ranges, making it easier to select a mattress according to your requirements and budget.</p>
-            </div>
-            <div class="bg-white/10 p-6 rounded-2xl border border-white/5">
-                <h3 class="font-bold text-brand-terracotta mb-3 text-sm tracking-widest uppercase">QUALITY MATERIALS</h3>
-                <p class="text-sm text-gray-300">We focus on carefully selected materials designed to provide comfort, support and durability for everyday use.</p>
-            </div>
-            <div class="bg-white/10 p-6 rounded-2xl border border-white/5">
-                <h3 class="font-bold text-brand-terracotta mb-3 text-sm tracking-widest uppercase">MULTIPLE OPTIONS</h3>
-                <p class="text-sm text-gray-300">Choose from different mattress constructions and comfort levels according to your sleeping preference and requirements.</p>
-            </div>
-            <div class="bg-white/10 p-6 rounded-2xl border border-white/5">
-                <h3 class="font-bold text-brand-terracotta mb-3 text-sm tracking-widest uppercase">BREATHABLE CONSTRUCTION</h3>
-                <p class="text-sm text-gray-300">Our mattress designs can incorporate breathable materials and construction that encourage airflow through the sleeping surface.</p>
-            </div>
-            <div class="bg-white/10 p-6 rounded-2xl border border-white/5">
-                <h3 class="font-bold text-brand-terracotta mb-3 text-sm tracking-widest uppercase">DURABLE DESIGN</h3>
-                <p class="text-sm text-gray-300">Our mattresses are designed for regular everyday use while maintaining their shape and comfort over time.</p>
-            </div>
-            <div class="bg-white/10 p-6 rounded-2xl border border-white/5">
-                <h3 class="font-bold text-brand-terracotta mb-3 text-sm tracking-widest uppercase">GOOD BODY SUPPORT</h3>
-                <p class="text-sm text-gray-300">Support-focused mattress designs can help provide a stable and comfortable sleeping surface according to the mattress construction and firmness level.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ================= STANDARD SINGLE BED MATTRESS SIZE IN INDIA ================= -->
-<section class="py-20 bg-gray-50 border-b border-gray-200">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-2xl font-extrabold text-brand-charcoal tracking-tight uppercase mb-6">STANDARD SINGLE BED MATTRESS SIZE IN INDIA</h2>
-        <p class="text-gray-600 mb-8 leading-relaxed">Single mattress sizes can vary depending on the bed frame. Before purchasing your mattress, measure the length and width of your existing bed to select the correct size.</p>
-        
-        <p class="font-semibold text-brand-charcoal mb-6">Common single mattress dimensions include:</p>
-        
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div class="bg-white border border-gray-200 py-6 px-4 rounded-xl shadow-sm text-brand-charcoal font-bold text-lg tracking-wider">72" x 36"</div>
-            <div class="bg-white border border-gray-200 py-6 px-4 rounded-xl shadow-sm text-brand-charcoal font-bold text-lg tracking-wider">75" x 36"</div>
-            <div class="bg-white border border-gray-200 py-6 px-4 rounded-xl shadow-sm text-brand-charcoal font-bold text-lg tracking-wider">78" x 36"</div>
-            <div class="bg-white border border-gray-200 py-6 px-4 rounded-xl shadow-sm text-brand-charcoal font-bold text-lg tracking-wider">84" x 36"</div>
-        </div>
-
-        <p class="text-sm text-gray-500 mb-2">These dimensions are commonly used for single-bed applications, but bed frames can vary.</p>
-        <p class="text-sm font-semibold text-brand-terracotta">If you have a customized bed frame, contact BACKSPACE to discuss a suitable mattress size.</p>
-    </div>
-</section>
-
-<!-- ================= TYPES OF SINGLE MATTRESSES WE OFFER ================= -->
-<section class="py-24 bg-white overflow-hidden">
+<!-- ================= ABOUT SECTION 3: HOW ORDERING WORKS ================= -->
+<section class="py-16 sm:py-20 lg:py-28 bg-[#F7F4EF] scroll-reveal" 
+    x-data="{ active: false }" 
+    x-init="
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                $el.classList.add('revealed');
+                active = true;
+                observer.disconnect();
+            }
+        }, { threshold: 0.15 });
+        observer.observe($el);
+    "
+>
     <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-2xl md:text-4xl font-extrabold text-brand-charcoal tracking-tight uppercase mb-16 text-center">TYPES OF SINGLE MATTRESSES WE OFFER</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
-            <!-- Orthopedic -->
-            <div class="bg-gray-50 rounded-[2rem] border border-gray-100 overflow-hidden group hover:shadow-xl transition-all duration-400">
-                <div class="aspect-video w-full overflow-hidden bg-gray-100 relative">
-                    <img src="./public/images/mattresses/orthopedic-support/angle.jpg" alt="Orthopedic Mattress" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
-                </div>
-                <div class="p-8">
-                    <h3 class="font-bold text-brand-charcoal mb-4 text-lg tracking-widest uppercase group-hover:text-brand-terracotta transition-colors">ORTHOPEDIC SINGLE MATTRESS</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Our orthopedic mattresses are designed with a focus on balanced support, comfortable cushioning and stable body support. They can be a suitable option for sleepers who prefer a firmer sleeping surface and additional support while resting.</p>
-                </div>
-            </div>
-            
-            <!-- Luxury -->
-            <div class="bg-gray-50 rounded-[2rem] border border-gray-100 overflow-hidden group hover:shadow-xl transition-all duration-400">
-                <div class="aspect-video w-full overflow-hidden bg-gray-100 relative">
-                    <img src="./public/images/mattresses/luxury-latex/angle.jpg" alt="Luxury Mattress" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
-                </div>
-                <div class="p-8">
-                    <h3 class="font-bold text-brand-charcoal mb-4 text-lg tracking-widest uppercase group-hover:text-brand-terracotta transition-colors">LUXURY SINGLE MATTRESS</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Our luxury mattresses are designed to provide a softer and more comfortable sleeping experience while maintaining supportive construction. They are suitable for customers looking for an upgraded everyday sleeping experience.</p>
-                </div>
-            </div>
-            
-            <!-- Spring -->
-            <div class="bg-gray-50 rounded-[2rem] border border-gray-100 overflow-hidden group hover:shadow-xl transition-all duration-400">
-                <div class="aspect-video w-full overflow-hidden bg-gray-100 relative">
-                    <img src="./public/images/mattresses/classic-spring/thickness.jpg" alt="Spring Mattress" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
-                </div>
-                <div class="p-8">
-                    <h3 class="font-bold text-brand-charcoal mb-4 text-lg tracking-widest uppercase group-hover:text-brand-terracotta transition-colors">SPRING SINGLE MATTRESS</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Spring mattresses use spring-based support construction designed to provide responsive support and comfortable cushioning. Pocket-coil constructions can also help provide independent support across different areas.</p>
-                </div>
-            </div>
-            
-            <!-- Comfort Foam -->
-            <div class="bg-gray-50 rounded-[2rem] border border-gray-100 overflow-hidden group hover:shadow-xl transition-all duration-400">
-                <div class="aspect-video w-full overflow-hidden bg-gray-100 relative">
-                    <img src="./public/images/mattresses/comfort-foam/angle.jpg" alt="Comfort Foam Mattress" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
-                </div>
-                <div class="p-8">
-                    <h3 class="font-bold text-brand-charcoal mb-4 text-lg tracking-widest uppercase group-hover:text-brand-terracotta transition-colors">COMFORT SINGLE MATTRESS</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Comfort mattresses focus on a softer and more relaxed sleeping experience while maintaining adequate support for everyday use. Ideal for sleepers who prefer immediate plush contouring.</p>
-                </div>
-            </div>
-            
-            <!-- Hybrid -->
-            <div class="bg-gray-50 rounded-[2rem] border border-gray-100 overflow-hidden group hover:shadow-xl transition-all duration-400">
-                <div class="aspect-video w-full overflow-hidden bg-gray-100 relative">
-                    <img src="./public/images/mattresses/cloud-memory-foam/thickness.jpg" alt="Hybrid Mattress" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
-                </div>
-                <div class="p-8">
-                    <h3 class="font-bold text-brand-charcoal mb-4 text-lg tracking-widest uppercase group-hover:text-brand-terracotta transition-colors">HYBRID SINGLE MATTRESS</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Hybrid mattresses combine different support and comfort technologies, such as foam and spring-based construction, to provide a perfectly balanced sleeping experience.</p>
-                </div>
-            </div>
-            
-            <!-- Custom & Bulk -->
-            <div class="bg-brand-charcoal rounded-[2rem] overflow-hidden group shadow-lg relative flex flex-col justify-end">
-                <img src="./public/images/mattresses/essential-budget/main.jpg" alt="Bulk Mattresses" class="absolute inset-0 w-full h-full object-cover opacity-30 transition-transform duration-700 group-hover:scale-105" loading="lazy">
-                <div class="absolute inset-0 bg-gradient-to-t from-brand-charcoal via-brand-charcoal/80 to-transparent"></div>
-                <div class="p-8 relative z-10 mt-auto">
-                    <h3 class="font-bold text-brand-terracotta mb-4 text-lg tracking-widest uppercase">CUSTOM & BULK MATTRESSES</h3>
-                    <p class="text-sm text-gray-300 leading-relaxed mb-4">BACKSPACE also provides mattress solutions for bulk requirements such as Hostels, Hotels, Hospitals, PGs, and Institutions.</p>
-                    <button class="bg-brand-terracotta text-white px-6 py-3 text-[10px] font-bold tracking-widest uppercase rounded-full hover:bg-orange-700 transition">ENQUIRE NOW</button>
-                </div>
-            </div>
+        <!-- Header -->
+        <div class="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
+            <span class="text-[#D05228] text-xs font-bold tracking-widest uppercase block mb-2">SEAMLESS PROCESS</span>
+            <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-normal text-[#2B241E] leading-tight" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                How Ordering Works
+            </h2>
         </div>
-    </div>
-</section>
-<!-- ================= WHICH SINGLE BED MATTRESS IS RIGHT FOR YOU? ================= -->
-<section class="py-20 bg-gray-50 border-y border-gray-200">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-12 items-center">
-        <div class="md:w-1/2">
-            <h2 class="text-2xl font-extrabold text-brand-charcoal tracking-tight uppercase mb-6">WHICH SINGLE BED MATTRESS IS RIGHT FOR YOU?</h2>
-            <div class="space-y-4 text-gray-600 leading-relaxed">
-                <p>Choosing the right mattress depends on your sleeping preference, support requirements, bed size, preferred firmness and budget.</p>
-                <p>If you prefer a firmer sleeping surface and additional support, an orthopedic mattress may be suitable for you.</p>
-                <p>If you prefer a softer and more comfortable feel, a comfort mattress can be a suitable choice.</p>
-                <p>If you want an upgraded sleeping experience with premium materials and enhanced cushioning, explore the premium mattress range.</p>
-                <p>If you prefer responsive support, consider a spring or hybrid mattress depending on the construction and comfort level you prefer.</p>
-                <p class="font-semibold text-brand-charcoal">For hostels, hotels, PGs, hospitals and other bulk requirements, BACKSPACE can provide customized mattress solutions according to space, size and quantity requirements.</p>
-            </div>
-        </div>
-        <div class="md:w-1/2 w-full">
-            <div class="rounded-2xl overflow-hidden shadow-lg border border-gray-200">
-                <img src="./public/images/mattresses/cloud-memory-foam/main.jpg" alt="BACKSPACE Mattress Setup" class="w-full h-auto object-cover" loading="lazy">
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- ================= BENEFITS OF BUYING A SINGLE BED MATTRESS ONLINE FROM BACKSPACE ================= -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-2xl md:text-3xl font-extrabold text-brand-charcoal tracking-tight uppercase mb-12 text-center">BENEFITS OF BUYING A SINGLE BED MATTRESS ONLINE FROM BACKSPACE</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="p-6 border border-gray-100 rounded-2xl hover:shadow-md transition bg-brand-ivory">
-                <h3 class="font-bold text-brand-charcoal mb-3 tracking-widest uppercase text-sm">CONVENIENT SHOPPING</h3>
-                <p class="text-sm text-gray-600">Explore the BACKSPACE mattress range from the comfort of your home and compare products according to your requirements.</p>
+        <!-- Horizontal Timeline on Desktop/Tablet, Vertical on Mobile -->
+        <div class="relative max-w-5xl mx-auto">
+            <!-- Connecting Line: Desktop/Tablet (horizontal) -->
+            <div class="hidden sm:block absolute top-7 left-[12%] right-[12%] h-[2px] bg-[#E7DFD3] z-0">
+                <div class="h-full bg-[#D05228] transition-all duration-1000 ease-out origin-left" :style="active ? 'width: 100%' : 'width: 0%'"></div>
             </div>
-            <div class="p-6 border border-gray-100 rounded-2xl hover:shadow-md transition bg-brand-ivory">
-                <h3 class="font-bold text-brand-charcoal mb-3 tracking-widest uppercase text-sm">MULTIPLE SIZE CHOICES</h3>
-                <p class="text-sm text-gray-600">Select a mattress according to the dimensions of your existing bed frame.</p>
+
+            <!-- Connecting Line: Mobile (vertical) -->
+            <div class="sm:hidden absolute top-7 bottom-7 left-6 w-[2px] bg-[#E7DFD3] z-0">
+                <div class="w-full bg-[#D05228] transition-all duration-1000 ease-out origin-top" :style="active ? 'height: 100%' : 'height: 0%'"></div>
             </div>
-            <div class="p-6 border border-gray-100 rounded-2xl hover:shadow-md transition bg-brand-ivory">
-                <h3 class="font-bold text-brand-charcoal mb-3 tracking-widest uppercase text-sm">QUALITY & COMFORT</h3>
-                <p class="text-sm text-gray-600">Our mattresses are designed with a focus on everyday comfort, support and durability.</p>
-            </div>
-            <div class="p-6 border border-gray-100 rounded-2xl hover:shadow-md transition bg-brand-ivory">
-                <h3 class="font-bold text-brand-charcoal mb-3 tracking-widest uppercase text-sm">INDIVIDUAL SLEEPING SPACE</h3>
-                <p class="text-sm text-gray-600">A single mattress provides an efficient sleeping solution for one person without occupying unnecessary space.</p>
-            </div>
-            <div class="p-6 border border-gray-100 rounded-2xl hover:shadow-md transition bg-brand-ivory">
-                <h3 class="font-bold text-brand-charcoal mb-3 tracking-widest uppercase text-sm">SUITABLE FOR DIFFERENT SPACES</h3>
-                <p class="text-sm text-gray-600">Single mattresses can be used in homes, children's rooms, guest rooms, hostels, PGs and other compact spaces.</p>
-            </div>
-            <div class="p-6 border border-gray-100 rounded-2xl hover:shadow-md transition bg-brand-ivory">
-                <h3 class="font-bold text-brand-charcoal mb-3 tracking-widest uppercase text-sm">DIFFERENT COMFORT LEVELS</h3>
-                <p class="text-sm text-gray-600">Choose between softer, medium, medium-firm or firmer mattress options according to your preference and product construction.</p>
+
+            <!-- Steps Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-8 sm:gap-6 relative z-10">
+                <!-- Step 1: Explore -->
+                <div class="flex sm:flex-col items-start sm:items-center text-left sm:text-center space-x-5 sm:space-x-0 transition-all duration-700" :class="active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'">
+                    <div class="w-14 h-14 rounded-full bg-white border-2 border-[#D05228] text-[#2B241E] flex items-center justify-center font-bold text-sm shadow-md shrink-0 sm:mb-4">
+                        <i class="fa-solid fa-compass text-base text-[#D05228]"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-[#D05228] uppercase tracking-wider mb-1">STEP 01</div>
+                        <h4 class="text-lg font-semibold text-[#2B241E] mb-1 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">Explore</h4>
+                        <p class="text-xs sm:text-sm text-[#7E7467] leading-relaxed">
+                            Browse handcrafted beds, mattresses, protectors and pillows.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2: Choose your size -->
+                <div class="flex sm:flex-col items-start sm:items-center text-left sm:text-center space-x-5 sm:space-x-0 transition-all duration-700 delay-100" :class="active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'">
+                    <div class="w-14 h-14 rounded-full bg-white border-2 border-[#D05228] text-[#2B241E] flex items-center justify-center font-bold text-sm shadow-md shrink-0 sm:mb-4">
+                        <i class="fa-solid fa-ruler-combined text-base text-[#D05228]"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-[#D05228] uppercase tracking-wider mb-1">STEP 02</div>
+                        <h4 class="text-lg font-semibold text-[#2B241E] mb-1 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">Choose your size</h4>
+                        <p class="text-xs sm:text-sm text-[#7E7467] leading-relaxed">
+                            Pick standard dimensions or specify custom made-to-measure sizing.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3: Chat on WhatsApp -->
+                <div class="flex sm:flex-col items-start sm:items-center text-left sm:text-center space-x-5 sm:space-x-0 transition-all duration-700 delay-200" :class="active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'">
+                    <div class="w-14 h-14 rounded-full bg-white border-2 border-[#D05228] text-[#2B241E] flex items-center justify-center font-bold text-sm shadow-md shrink-0 sm:mb-4">
+                        <i class="fa-brands fa-whatsapp text-lg text-[#D05228]"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-[#D05228] uppercase tracking-wider mb-1">STEP 03</div>
+                        <h4 class="text-lg font-semibold text-[#2B241E] mb-1 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">Chat on WhatsApp</h4>
+                        <p class="text-xs sm:text-sm text-[#7E7467] leading-relaxed">
+                            Share your preferences directly with our sleep specialists.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 4: Get it made for you -->
+                <div class="flex sm:flex-col items-start sm:items-center text-left sm:text-center space-x-5 sm:space-x-0 transition-all duration-700 delay-300" :class="active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'">
+                    <div class="w-14 h-14 rounded-full bg-white border-2 border-[#D05228] text-[#2B241E] flex items-center justify-center font-bold text-sm shadow-md shrink-0 sm:mb-4">
+                        <i class="fa-solid fa-couch text-base text-[#D05228]"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-[#D05228] uppercase tracking-wider mb-1">STEP 04</div>
+                        <h4 class="text-lg font-semibold text-[#2B241E] mb-1 font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">Get it made for you</h4>
+                        <p class="text-xs sm:text-sm text-[#7E7467] leading-relaxed">
+                            Handcrafted to your exact specifications and delivered to your home.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="mt-8 text-center bg-gray-50 p-6 rounded-2xl border border-gray-200">
-            <h3 class="font-bold text-brand-charcoal mb-2 tracking-widest uppercase">BULK & CUSTOMIZED SOLUTIONS</h3>
-            <p class="text-sm text-gray-600 mb-4">Need mattresses for a hostel, hotel, hospital or PG?</p>
-            <p class="font-bold text-brand-terracotta">Contact BACKSPACE for bulk and customized requirements.</p>
+        <!-- WhatsApp Action Button -->
+        <div class="mt-14 sm:mt-16 text-center">
+            <button 
+                @click="window.open('https://wa.me/916300946652?text=' + encodeURIComponent('Hello BACKSPACE, I would like to start an order.'), '_blank')" 
+                class="bg-[#128C7E] hover:bg-[#075E54] text-white font-medium px-8 py-3.5 rounded-full inline-flex items-center space-x-2.5 transition-all duration-300 shadow-sm hover:shadow min-h-[44px] focus:outline-none"
+            >
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+                <span class="text-sm sm:text-base">Start on WhatsApp</span>
+            </button>
         </div>
     </div>
 </section>
 
-<!-- ================= SINGLE MATTRESS PRICE IN INDIA ================= -->
-<section class="py-20 bg-brand-charcoal text-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-2xl font-extrabold tracking-tight uppercase mb-6">SINGLE MATTRESS PRICE IN INDIA</h2>
-        <div class="space-y-4 text-gray-300 leading-relaxed mb-8">
-            <p>The price of a single mattress depends on factors such as size, thickness, material, construction, comfort level and support technology.</p>
-            <p>At BACKSPACE, we aim to provide practical mattress options across different price ranges, making it easier to find a mattress that fits your requirements and budget.</p>
-            <p class="font-semibold text-white">For the latest prices, available sizes, customized requirements and bulk orders, contact the BACKSPACE team directly.</p>
+<!-- ================= ABOUT SECTION 4: BULK AND CUSTOM ORDERS ================= -->
+<section class="py-16 sm:py-20 lg:py-24 bg-white scroll-reveal" 
+    x-data="{ revealed: false }" 
+    x-init="
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                $el.classList.add('revealed');
+                observer.disconnect();
+            }
+        }, { threshold: 0.1 });
+        observer.observe($el);
+    "
+>
+    <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative rounded-[28px] sm:rounded-[36px] overflow-hidden min-h-[420px] sm:min-h-[480px] flex items-center justify-center p-8 sm:p-14 lg:p-20 text-center shadow-lg group">
+            <!-- Background Image with Subtle Hover Zoom -->
+            <img src="./public/images/beds/bed-001-lifestyle.jpg" alt="Commercial bulk bedding solutions" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105" loading="lazy">
+            
+            <!-- Soft Dark Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/60 to-black/45 pointer-events-none"></div>
+
+            <!-- Banner Text & Buttons -->
+            <div class="relative z-10 max-w-3xl mx-auto space-y-4 sm:space-y-6">
+                <span class="text-[#F4ECE1] bg-white/15 backdrop-blur-sm border border-white/20 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase inline-block">
+                    BULK & CUSTOM ORDERS
+                </span>
+                
+                <h2 class="text-3xl sm:text-4xl lg:text-[46px] font-normal text-white leading-tight font-serif" style="font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;">
+                    Furnishing a hostel, hotel, PG or hospital?
+                </h2>
+                
+                <p class="text-gray-200 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+                    BACKSPACE provides customized solutions according to space, size and quantity, engineered for institutional durability, easy maintenance, and long-lasting comfort.
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center gap-4 pt-3">
+                    <button 
+                        @click="window.open('https://wa.me/916300946652?text=' + encodeURIComponent('Hello BACKSPACE, I would like to inquire about bulk and customized solutions.'), '_blank')" 
+                        class="bg-[#128C7E] hover:bg-[#075E54] text-white font-medium px-8 py-3.5 rounded-full inline-flex items-center space-x-2.5 transition-all duration-300 shadow-md min-h-[44px] focus:outline-none"
+                    >
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span class="text-sm sm:text-base">Chat on WhatsApp</span>
+                    </button>
+
+                    <button 
+                        @click="goToPage('beds')" 
+                        class="bg-white/95 hover:bg-white text-[#2B241E] font-medium px-8 py-3.5 rounded-full inline-flex items-center space-x-2 transition-all duration-300 shadow-md min-h-[44px] focus:outline-none"
+                    >
+                        <span class="text-sm sm:text-base">Explore Beds</span>
+                        <svg class="w-4 h-4 stroke-current transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    </button>
+                </div>
+            </div>
         </div>
-        <button class="bg-brand-terracotta text-white px-8 py-3 rounded-full text-sm font-bold tracking-widest uppercase hover:bg-orange-700 transition">CONTACT US</button>
     </div>
 </section>
 
