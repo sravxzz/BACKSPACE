@@ -17,7 +17,7 @@
 const SUPABASE_URL = 'https://vqkevzxzorpxrbxxvjcl.supabase.co';
 
 // >>> INSERT YOUR SUPABASE ANON / PUBLISHABLE KEY HERE <<<
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+const SUPABASE_ANON_KEY = 'sb_publishable_LZzPZWgXOfdc-8_mE6UOCA_rmybCi_o';
 
 let supabaseClient = null;
 
