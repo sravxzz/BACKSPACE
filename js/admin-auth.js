@@ -168,7 +168,7 @@
         /**
          * Signs out the current user and redirects to login page.
          */
-        async signOut(redirectUrl = 'login.html') {
+        async signOut(redirectUrl = '/admin/login') {
             const client = this.getClient();
             if (client) {
                 try {
@@ -185,10 +185,10 @@
         /**
          * Route guard for admin dashboard:
          * Runs session check and admin_users check on load.
-         * If they fail, redirects to loginUrl (default: 'login.html').
+         * If they fail, redirects to loginUrl (default: '/admin/login').
          * If both pass, returns { session, user, adminRecord }.
          */
-        async requireAdminAuth(loginUrl = 'login.html') {
+        async requireAdminAuth(loginUrl = '/admin/login') {
             const { session, user, error } = await this.getSession();
             if (!session || !user) {
                 window.location.replace(loginUrl);
@@ -214,10 +214,10 @@
 
         /**
          * Route guard for login page:
-         * If user is already logged in as an admin, redirects them to dashboardUrl (default: 'index.html').
+         * If user is already logged in as an admin, redirects them to dashboardUrl (default: '/admin').
          * If logged in as non-admin, signs out to clear state.
          */
-        async redirectIfAuthenticated(dashboardUrl = 'index.html') {
+        async redirectIfAuthenticated(dashboardUrl = '/admin') {
             const { session, user } = await this.getSession();
             if (session && user) {
                 const authCheck = await this.verifyAdminAuthorization(user.id);

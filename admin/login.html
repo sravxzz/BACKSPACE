@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>Admin Login | BACKSPACE.CO</title>
-    <link rel="icon" type="image/png" href="../public/images/favicon.png">
-    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="icon" type="image/png" href="/public/images/favicon.png">
+    <link rel="shortcut icon" href="/favicon.ico">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -49,8 +49,8 @@
 
     <!-- Supabase Client v2 (CDN) & Configuration -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../js/supabase-client.js"></script>
-    <script src="../js/admin-auth.js"></script>
+    <script src="/js/supabase-client.js"></script>
+    <script src="/js/admin-auth.js"></script>
 
     <style>
         body {
@@ -69,15 +69,15 @@
     <!-- Subtle Top Bar -->
     <header class="w-full border-b border-[#E6DFD6] bg-[#FFFCF7]/80 backdrop-blur-md py-4 px-6 sm:px-10">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <a href="../index.html" class="flex items-center space-x-3 group" title="Return to BACKSPACE Store">
-                <img src="../public/images/backspace-logo.png" alt="BACKSPACE" class="h-7 sm:h-8 w-auto object-contain transition-opacity group-hover:opacity-80">
+            <a href="/" class="flex items-center space-x-3 group" title="Return to BACKSPACE Store">
+                <img src="/public/images/backspace-logo.png" alt="BACKSPACE" class="h-7 sm:h-8 w-auto object-contain transition-opacity group-hover:opacity-80">
             </a>
             <div class="flex items-center space-x-3">
                 <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-[#B85C38]/10 text-[#B85C38] border border-[#B85C38]/20 tracking-wider">
                     <span class="w-1.5 h-1.5 rounded-full bg-[#B85C38] mr-1.5 animate-pulse"></span>
                     ADMIN AREA
                 </span>
-                <a href="../index.html" class="text-xs text-[#77716B] hover:text-[#292522] transition-colors flex items-center space-x-1 font-medium">
+                <a href="/" class="text-xs text-[#77716B] hover:text-[#292522] transition-colors flex items-center space-x-1 font-medium">
                     <i class="fa-solid fa-arrow-left text-[10px]"></i>
                     <span class="hidden sm:inline">Storefront</span>
                 </a>
@@ -232,7 +232,7 @@
                 showError('You are not authorized to access the admin area.');
             } else if (window.AdminAuth && typeof window.AdminAuth.redirectIfAuthenticated === 'function') {
                 // If the user is already logged in as an admin and opens the login page, redirect them to the dashboard
-                window.AdminAuth.redirectIfAuthenticated('index.html');
+                window.AdminAuth.redirectIfAuthenticated('/admin');
             }
 
             // 2. Show / Hide Password toggle
@@ -320,7 +320,7 @@
                         if (submitBtnText) submitBtnText.textContent = 'Redirecting...';
 
                         // Redirect to admin dashboard
-                        window.location.href = 'index.html';
+                        window.location.href = '/admin';
 
                     } catch (err) {
                         showError('Incorrect email or password.');
