@@ -876,6 +876,9 @@ function appData() {
                     this.currentPage = 'shop';
                     this.currentCategoryFilter = 'All';
                     window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
+                } else if (h === '#admin' || h === '#admin-login') {
+                    window.location.href = 'admin.html';
+                    return;
                 } else if (h === '#home' || h === '') {
                     this.currentPage = 'home';
                     window.dispatchEvent(new CustomEvent('close-all-dropdowns'));
@@ -932,6 +935,10 @@ function appData() {
         },
 
         goToPage(page, category = null) {
+            if (page === 'admin' || page === 'admin-login') {
+                window.location.href = 'admin.html';
+                return;
+            }
             if (page === 'beds' || category === 'Beds' || category === 'Smart Beds') {
                 this.currentPage = 'beds';
                 this.currentCategoryFilter = 'Beds';

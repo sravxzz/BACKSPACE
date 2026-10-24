@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Login | BACKSPACE.CO</title>
+    <link rel="icon" type="image/png" href="../public/images/favicon.png">
+    <link rel="shortcut icon" href="../favicon.ico">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            ivory: '#F7F4EF',
+                            secondary: '#F1EBE3',
+                            gridBg: '#F4F2EF',
+                            cardBg: '#FFFCF7',
+                            sidebarBg: '#F8F5F0',
+                            terracotta: '#B85C38',
+                            terracottaHover: '#9E4C2C',
+                            charcoal: '#292522',
+                            warmGrey: '#77716B',
+                            borderSoft: '#E6DFD6',
+                            cream: '#F1EBE3',
+                            taupe: '#77716B'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Supabase Client v2 (CDN) & Configuration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-client.js"></script>
+    <script src="../js/admin-auth.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F7F4EF;
+            color: #292522;
+            -webkit-font-smoothing: antialiased;
+        }
+        .font-serif-luxury {
+            font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-[#B85C38] selection:text-white">
+
+    <!-- Subtle Top Bar -->
+    <header class="w-full border-b border-[#E6DFD6] bg-[#FFFCF7]/80 backdrop-blur-md py-4 px-6 sm:px-10">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="../index.html" class="flex items-center space-x-3 group" title="Return to BACKSPACE Store">
+                <img src="../public/images/backspace-logo.png" alt="BACKSPACE" class="h-7 sm:h-8 w-auto object-contain transition-opacity group-hover:opacity-80">
+            </a>
+            <div class="flex items-center space-x-3">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-[#B85C38]/10 text-[#B85C38] border border-[#B85C38]/20 tracking-wider">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#B85C38] mr-1.5 animate-pulse"></span>
+                    ADMIN AREA
+                </span>
+                <a href="../index.html" class="text-xs text-[#77716B] hover:text-[#292522] transition-colors flex items-center space-x-1 font-medium">
+                    <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                    <span class="hidden sm:inline">Storefront</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Login Card Area -->
+    <main class="flex-1 flex items-center justify-center px-4 sm:px-6 py-12">
+        <div class="w-full max-w-md">
+
+            <!-- Rounded Card -->
+            <div class="bg-[#FFFCF7] rounded-[28px] border border-[#E6DFD6] shadow-[0_20px_50px_rgba(41,37,34,0.06)] p-8 sm:p-10 relative overflow-hidden">
+                
+                <!-- Card Header -->
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#F7F4EF] border border-[#E6DFD6] text-[#B85C38] mb-4 shadow-sm">
+                        <i class="fa-solid fa-shield-halved text-2xl"></i>
+                    </div>
+                    <span class="block text-[11px] font-bold uppercase tracking-[0.2em] text-[#B85C38] mb-1">
+                        Secure Access
+                    </span>
+                    <h1 class="text-3xl sm:text-4xl font-serif-luxury font-normal text-[#292522] tracking-tight">
+                        Admin Login
+                    </h1>
+                    <p class="text-sm text-[#77716B] mt-2">
+                        Enter your administrator credentials to sign in.
+                    </p>
+                </div>
+
+                <!-- Error Alert Box -->
+                <div id="login-error" class="hidden mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm flex items-start space-x-3 transition-all duration-200" role="alert">
+                    <i class="fa-solid fa-circle-exclamation text-red-500 mt-0.5 text-base flex-shrink-0"></i>
+                    <div class="flex-1">
+                        <p id="login-error-message" class="font-medium text-xs sm:text-sm leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <!-- Success Alert Box -->
+                <div id="login-success" class="hidden mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-center space-x-3 transition-all duration-200" role="status">
+                    <i class="fa-solid fa-circle-check text-emerald-600 text-base flex-shrink-0"></i>
+                    <p id="login-success-message" class="font-medium text-xs sm:text-sm">Verified! Opening dashboard...</p>
+                </div>
+
+                <!-- Login Form -->
+                <form id="admin-login-form" novalidate class="space-y-5">
+                    
+                    <!-- Email Field -->
+                    <div>
+                        <label for="admin-email" class="block text-xs font-semibold uppercase tracking-wider text-[#292522] mb-2">
+                            Email Address
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#77716B]">
+                                <i class="fa-regular fa-envelope text-sm"></i>
+                            </div>
+                            <input 
+                                type="email" 
+                                id="admin-email" 
+                                name="email" 
+                                autocomplete="email" 
+                                required 
+                                placeholder="admin@backspace.co"
+                                class="w-full pl-10 pr-4 py-3 bg-[#F7F4EF]/60 hover:bg-[#F7F4EF] focus:bg-white rounded-xl border border-[#E6DFD6] focus:border-[#B85C38] focus:ring-2 focus:ring-[#B85C38]/10 text-sm text-[#292522] placeholder-[#77716B]/60 transition-all outline-none"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Password Field with Show/Hide Toggle -->
+                    <div>
+                        <label for="admin-password" class="block text-xs font-semibold uppercase tracking-wider text-[#292522] mb-2">
+                            Password
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#77716B]">
+                                <i class="fa-solid fa-lock text-sm"></i>
+                            </div>
+                            <input 
+                                type="password" 
+                                id="admin-password" 
+                                name="password" 
+                                autocomplete="current-password" 
+                                required 
+                                placeholder="••••••••••••"
+                                class="w-full pl-10 pr-12 py-3 bg-[#F7F4EF]/60 hover:bg-[#F7F4EF] focus:bg-white rounded-xl border border-[#E6DFD6] focus:border-[#B85C38] focus:ring-2 focus:ring-[#B85C38]/10 text-sm text-[#292522] placeholder-[#77716B]/60 transition-all outline-none"
+                            >
+                            <button 
+                                type="button" 
+                                id="toggle-password-btn" 
+                                class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#77716B] hover:text-[#292522] transition-colors focus:outline-none"
+                                aria-label="Toggle password visibility"
+                                title="Show / Hide Password"
+                            >
+                                <i id="toggle-password-icon" class="fa-regular fa-eye text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Orange-Red Button (Signature Brand Terracotta) -->
+                    <button 
+                        type="submit" 
+                        id="submit-btn" 
+                        class="w-full py-3.5 px-6 rounded-xl bg-[#B85C38] hover:bg-[#9E4C2C] text-white text-sm font-semibold tracking-wider transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center space-x-2 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer group"
+                    >
+                        <span id="submit-btn-spinner" class="hidden">
+                            <i class="fa-solid fa-circle-notch fa-spin text-sm mr-2"></i>
+                        </span>
+                        <span id="submit-btn-text">Sign In</span>
+                        <i id="submit-btn-arrow" class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+                    </button>
+                </form>
+
+                <!-- Security & Notice Footer -->
+                <div class="mt-8 pt-6 border-t border-[#E6DFD6]/70 text-center space-y-3">
+                    <div class="flex items-center justify-center space-x-1.5 text-xs text-[#77716B]">
+                        <i class="fa-solid fa-lock text-[11px] text-[#B85C38]"></i>
+                        <span>Admin access only. Unauthorized access is prohibited.</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-6 text-center text-xs text-[#77716B] border-t border-[#E6DFD6] bg-[#FFFCF7]/60">
+        <p>&copy; 2026 BACKSPACE.CO. All rights reserved. Administrator Portal.</p>
+    </footer>
+
+    <!-- Client Script -->
+    <script>
+        (function() {
+            'use strict';
+
+            const form = document.getElementById('admin-login-form');
+            const emailInput = document.getElementById('admin-email');
+            const passwordInput = document.getElementById('admin-password');
+            const togglePasswordBtn = document.getElementById('toggle-password-btn');
+            const togglePasswordIcon = document.getElementById('toggle-password-icon');
+            const submitBtn = document.getElementById('submit-btn');
+            const submitBtnSpinner = document.getElementById('submit-btn-spinner');
+            const submitBtnText = document.getElementById('submit-btn-text');
+            const submitBtnArrow = document.getElementById('submit-btn-arrow');
+            const errorBox = document.getElementById('login-error');
+            const errorMessage = document.getElementById('login-error-message');
+            const successBox = document.getElementById('login-success');
+
+            // 1. Check URL query parameters for unauthorized access rejection
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('error') === 'unauthorized') {
+                showError('You are not authorized to access the admin area.');
+            } else if (window.AdminAuth && typeof window.AdminAuth.redirectIfAuthenticated === 'function') {
+                // If the user is already logged in as an admin and opens the login page, redirect them to the dashboard
+                window.AdminAuth.redirectIfAuthenticated('index.html');
+            }
+
+            // 2. Show / Hide Password toggle
+            if (togglePasswordBtn && passwordInput && togglePasswordIcon) {
+                togglePasswordBtn.addEventListener('click', function() {
+                    const isPassword = passwordInput.getAttribute('type') === 'password';
+                    if (isPassword) {
+                        passwordInput.setAttribute('type', 'text');
+                        togglePasswordIcon.classList.remove('fa-eye');
+                        togglePasswordIcon.classList.add('fa-eye-slash');
+                        togglePasswordBtn.setAttribute('title', 'Hide Password');
+                    } else {
+                        passwordInput.setAttribute('type', 'password');
+                        togglePasswordIcon.classList.remove('fa-eye-slash');
+                        togglePasswordIcon.classList.add('fa-eye');
+                        togglePasswordBtn.setAttribute('title', 'Show Password');
+                    }
+                });
+            }
+
+            // 3. Helper to show error
+            function showError(msg) {
+                if (successBox) successBox.classList.add('hidden');
+                if (errorMessage) errorMessage.textContent = msg;
+                if (errorBox) {
+                    errorBox.classList.remove('hidden');
+                    errorBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+
+            // 4. Helper to hide errors
+            function hideError() {
+                if (errorBox) errorBox.classList.add('hidden');
+            }
+
+            // 5. Helper to toggle loading state on the button
+            function setLoading(isLoading) {
+                if (submitBtn) submitBtn.disabled = isLoading;
+                if (submitBtnSpinner) {
+                    if (isLoading) submitBtnSpinner.classList.remove('hidden');
+                    else submitBtnSpinner.classList.add('hidden');
+                }
+                if (submitBtnArrow) {
+                    if (isLoading) submitBtnArrow.classList.add('hidden');
+                    else submitBtnArrow.classList.remove('hidden');
+                }
+                if (submitBtnText) {
+                    submitBtnText.textContent = isLoading ? 'Signing In...' : 'Sign In';
+                }
+            }
+
+            // 6. Handle form submission
+            if (form) {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    hideError();
+
+                    const email = (emailInput ? emailInput.value : '').trim();
+                    const password = passwordInput ? passwordInput.value : '';
+
+                    if (!email || !password) {
+                        showError('Incorrect email or password.');
+                        return;
+                    }
+
+                    setLoading(true);
+
+                    try {
+                        if (!window.AdminAuth) {
+                            throw new Error('Authentication service unavailable. Please refresh the page.');
+                        }
+
+                        // Authenticate through AdminAuth
+                        // signIn checks credentials and verifies user is in admin_users
+                        const result = await window.AdminAuth.signIn(email, password);
+
+                        if (!result.success) {
+                            showError(result.error || 'Incorrect email or password.');
+                            setLoading(false);
+                            return;
+                        }
+
+                        // Login successful & admin verified
+                        if (successBox) successBox.classList.remove('hidden');
+                        if (submitBtnText) submitBtnText.textContent = 'Redirecting...';
+
+                        // Redirect to admin dashboard
+                        window.location.href = 'index.html';
+
+                    } catch (err) {
+                        showError('Incorrect email or password.');
+                        setLoading(false);
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

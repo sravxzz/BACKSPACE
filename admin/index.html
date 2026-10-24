@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Dashboard | BACKSPACE.CO</title>
+    <link rel="icon" type="image/png" href="../public/images/favicon.png">
+    <link rel="shortcut icon" href="../favicon.ico">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            ivory: '#F7F4EF',
+                            secondary: '#F1EBE3',
+                            gridBg: '#F4F2EF',
+                            cardBg: '#FFFCF7',
+                            sidebarBg: '#F8F5F0',
+                            terracotta: '#B85C38',
+                            terracottaHover: '#9E4C2C',
+                            charcoal: '#292522',
+                            warmGrey: '#77716B',
+                            borderSoft: '#E6DFD6',
+                            cream: '#F1EBE3',
+                            taupe: '#77716B'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Supabase Client v2 (CDN) & Configuration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-client.js"></script>
+    <script src="../js/admin-auth.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F7F4EF;
+            color: #292522;
+            -webkit-font-smoothing: antialiased;
+        }
+        .font-serif-luxury {
+            font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+        }
+        /* Fail-Secure Guard: Hide dashboard completely until session & admin checks pass */
+        #admin-dashboard-app {
+            display: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-[#F7F4EF] selection:bg-[#B85C38] selection:text-white">
+
+    <!-- Fail-Secure Auth Verification Overlay (Keeps page hidden until checks pass) -->
+    <div id="auth-guard-overlay" class="fixed inset-0 bg-[#F7F4EF] z-[9999] flex flex-col items-center justify-center p-6">
+        <div class="text-center space-y-4 max-w-sm">
+            <img src="../public/images/backspace-logo.png" alt="BACKSPACE" class="h-8 w-auto mx-auto object-contain">
+            <div class="inline-flex items-center space-x-2 text-sm text-[#77716B]">
+                <i class="fa-solid fa-circle-notch fa-spin text-[#B85C38]"></i>
+                <span id="auth-guard-text">Verifying admin access...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Protected Admin Dashboard Root (Revealed ONLY after session & admin_users checks pass) -->
+    <div id="admin-dashboard-app" class="min-h-screen flex flex-col justify-between">
+
+        <!-- Top Navigation Bar -->
+        <header class="w-full border-b border-[#E6DFD6] bg-[#FFFCF7]/90 backdrop-blur-md sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+                
+                <!-- Left: Logo & Admin Badge -->
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    <a href="../index.html" title="Return to Storefront">
+                        <img src="../public/images/backspace-logo.png" alt="BACKSPACE" class="h-7 sm:h-8 w-auto object-contain">
+                    </a>
+                    <span class="h-5 w-px bg-[#E6DFD6]"></span>
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#B85C38]/10 text-[#B85C38] border border-[#B85C38]/20 tracking-wider">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#B85C38] mr-1.5 animate-pulse"></span>
+                        ADMIN PORTAL
+                    </span>
+                </div>
+
+                <!-- Right: Admin User Email & Logout Button -->
+                <div class="flex items-center space-x-3 sm:space-x-5">
+                    <div class="flex items-center space-x-2 pl-2">
+                        <div class="w-8 h-8 rounded-full bg-[#292522] text-[#FFFCF7] flex items-center justify-center text-xs font-semibold">
+                            <i class="fa-solid fa-user-shield text-[11px]"></i>
+                        </div>
+                        <div class="hidden sm:block text-left">
+                            <p id="nav-admin-email" class="text-xs font-semibold text-[#292522] truncate max-w-[200px]">Admin</p>
+                            <p class="text-[10px] text-[#77716B]">Authorized Administrator</p>
+                        </div>
+                    </div>
+
+                    <!-- Logout Button -->
+                    <button 
+                        id="logout-btn" 
+                        type="button" 
+                        class="inline-flex items-center space-x-1.5 text-xs font-semibold text-red-600 hover:text-white hover:bg-red-600 border border-red-200 hover:border-red-600 py-1.5 px-3.5 rounded-xl transition-all duration-200 cursor-pointer shadow-sm"
+                        title="Sign out of Admin Portal"
+                    >
+                        <span id="logout-spinner" class="hidden">
+                            <i class="fa-solid fa-circle-notch fa-spin text-xs mr-1"></i>
+                        </span>
+                        <i id="logout-icon" class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+
+            <!-- Welcome Header Card -->
+            <div class="bg-[#FFFCF7] rounded-3xl border border-[#E6DFD6] p-6 sm:p-10 shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <span class="inline-block text-[11px] font-bold uppercase tracking-[0.2em] text-[#B85C38] mb-1">
+                            Secure Management Portal
+                        </span>
+                        <h1 class="text-3xl sm:text-4xl font-serif-luxury font-normal text-[#292522]">
+                            Welcome, Admin
+                        </h1>
+                        <p class="text-sm text-[#77716B] mt-2">
+                            Logged in as <strong id="welcome-admin-email" class="font-semibold text-[#292522]">Loading...</strong>
+                        </p>
+                    </div>
+
+                    <div class="self-start md:self-auto">
+                        <span class="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-sm">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span>
+                            Verified Administrator (RLS Active)
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status & Information Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Admin Session Info Card -->
+                <div class="bg-[#FFFCF7] rounded-3xl border border-[#E6DFD6] p-6 sm:p-8 space-y-4 shadow-sm">
+                    <div class="flex items-center justify-between pb-3 border-b border-[#E6DFD6]">
+                        <h2 class="text-base font-semibold text-[#292522] flex items-center space-x-2">
+                            <i class="fa-solid fa-id-badge text-[#B85C38]"></i>
+                            <span>Admin Profile</span>
+                        </h2>
+                        <span class="text-[11px] uppercase tracking-wider text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                            Active
+                        </span>
+                    </div>
+
+                    <div class="space-y-3 font-mono text-xs">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 rounded-xl bg-[#F7F4EF] border border-[#E6DFD6]/60">
+                            <span class="text-[#77716B] font-sans">Admin Email:</span>
+                            <span id="profile-admin-email" class="font-semibold text-[#292522] break-all">Loading...</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 rounded-xl bg-[#F7F4EF] border border-[#E6DFD6]/60">
+                            <span class="text-[#77716B] font-sans">Database Access:</span>
+                            <span class="text-emerald-700 font-semibold">Row Level Security Verified</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Verification Status Card -->
+                <div class="bg-[#FFFCF7] rounded-3xl border border-[#E6DFD6] p-6 sm:p-8 space-y-4 shadow-sm">
+                    <div class="flex items-center justify-between pb-3 border-b border-[#E6DFD6]">
+                        <h2 class="text-base font-semibold text-[#292522] flex items-center space-x-2">
+                            <i class="fa-solid fa-shield-halved text-[#B85C38]"></i>
+                            <span>Security & Authorization</span>
+                        </h2>
+                        <span class="text-[11px] uppercase tracking-wider text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                            Enforced
+                        </span>
+                    </div>
+
+                    <div class="space-y-2 text-xs text-[#77716B]">
+                        <p class="leading-relaxed">
+                            Your account is authenticated with Supabase Auth and confirmed in <code class="font-mono text-[11px] bg-[#F7F4EF] px-1.5 py-0.5 rounded border border-[#E6DFD6] text-[#292522]">public.admin_users</code>.
+                        </p>
+                        <p class="leading-relaxed">
+                            Session tokens are safely preserved across page refreshes. Non-admin users are strictly rejected at both the route guard and PostgreSQL RLS levels.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Future Dashboard Modules Placeholder -->
+            <div class="space-y-4">
+                <div>
+                    <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#B85C38]">
+                        Next Stages
+                    </span>
+                    <h2 class="text-xl font-serif-luxury text-[#292522]">
+                        Store Management Modules
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-[#FFFCF7] rounded-3xl border border-dashed border-[#E6DFD6] p-6 text-center">
+                        <div class="w-12 h-12 rounded-2xl bg-[#F7F4EF] border border-[#E6DFD6] text-[#77716B] flex items-center justify-center mx-auto mb-3">
+                            <i class="fa-solid fa-bed text-lg"></i>
+                        </div>
+                        <h3 class="font-semibold text-sm text-[#292522] mb-1">Products & Beds</h3>
+                        <p class="text-xs text-[#77716B] mb-4">Product catalog management, pricing, and variants.</p>
+                        <span class="inline-block text-[10px] font-semibold uppercase tracking-wider text-[#77716B] bg-[#F7F4EF] px-3 py-1 rounded-full border border-[#E6DFD6]">
+                            Coming in Stage 3
+                        </span>
+                    </div>
+
+                    <div class="bg-[#FFFCF7] rounded-3xl border border-dashed border-[#E6DFD6] p-6 text-center">
+                        <div class="w-12 h-12 rounded-2xl bg-[#F7F4EF] border border-[#E6DFD6] text-[#77716B] flex items-center justify-center mx-auto mb-3">
+                            <i class="fa-solid fa-receipt text-lg"></i>
+                        </div>
+                        <h3 class="font-semibold text-sm text-[#292522] mb-1">Orders & Inquiries</h3>
+                        <p class="text-xs text-[#77716B] mb-4">View incoming orders, customization requests, and customer inquiries.</p>
+                        <span class="inline-block text-[10px] font-semibold uppercase tracking-wider text-[#77716B] bg-[#F7F4EF] px-3 py-1 rounded-full border border-[#E6DFD6]">
+                            Coming in Stage 3
+                        </span>
+                    </div>
+
+                    <div class="bg-[#FFFCF7] rounded-3xl border border-dashed border-[#E6DFD6] p-6 text-center">
+                        <div class="w-12 h-12 rounded-2xl bg-[#F7F4EF] border border-[#E6DFD6] text-[#77716B] flex items-center justify-center mx-auto mb-3">
+                            <i class="fa-solid fa-gear text-lg"></i>
+                        </div>
+                        <h3 class="font-semibold text-sm text-[#292522] mb-1">Settings & Media</h3>
+                        <p class="text-xs text-[#77716B] mb-4">Configure store contact details, policies, and upload product assets.</p>
+                        <span class="inline-block text-[10px] font-semibold uppercase tracking-wider text-[#77716B] bg-[#F7F4EF] px-3 py-1 rounded-full border border-[#E6DFD6]">
+                            Coming in Stage 3
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="w-full py-6 text-center text-xs text-[#77716B] border-t border-[#E6DFD6] bg-[#FFFCF7]/60 mt-12">
+            <p>&copy; 2026 BACKSPACE.CO. All rights reserved. Administrator Portal.</p>
+        </footer>
+
+    </div>
+
+    <!-- Client Script for Session & Admin Check -->
+    <script>
+        (function() {
+            'use strict';
+
+            const authGuardOverlay = document.getElementById('auth-guard-overlay');
+            const authGuardText = document.getElementById('auth-guard-text');
+            const appRoot = document.getElementById('admin-dashboard-app');
+            const navAdminEmail = document.getElementById('nav-admin-email');
+            const welcomeAdminEmail = document.getElementById('welcome-admin-email');
+            const profileAdminEmail = document.getElementById('profile-admin-email');
+            const logoutBtn = document.getElementById('logout-btn');
+            const logoutSpinner = document.getElementById('logout-spinner');
+            const logoutIcon = document.getElementById('logout-icon');
+
+            async function initDashboard() {
+                if (!window.AdminAuth) {
+                    console.error('AdminAuth module not found');
+                    if (authGuardText) authGuardText.textContent = 'Auth module not loaded. Redirecting to login...';
+                    window.location.replace('login.html');
+                    return;
+                }
+
+                // Run session check and admin_users check on load
+                // If they fail, requireAdminAuth redirects to login.html immediately
+                const authData = await window.AdminAuth.requireAdminAuth('login.html');
+                if (!authData || !authData.user) {
+                    // requireAdminAuth handles window.location.replace('login.html')
+                    return;
+                }
+
+                // Both checks passed: extract admin email
+                const email = authData.user.email || 'Admin';
+                if (navAdminEmail) navAdminEmail.textContent = email;
+                if (welcomeAdminEmail) welcomeAdminEmail.textContent = email;
+                if (profileAdminEmail) profileAdminEmail.textContent = email;
+
+                // Reveal dashboard UI
+                if (appRoot) appRoot.style.display = 'flex';
+                if (authGuardOverlay) authGuardOverlay.style.display = 'none';
+            }
+
+            // Logout Button Handler
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async function() {
+                    logoutBtn.disabled = true;
+                    if (logoutSpinner) logoutSpinner.classList.remove('hidden');
+                    if (logoutIcon) logoutIcon.classList.add('hidden');
+                    
+                    if (window.AdminAuth) {
+                        await window.AdminAuth.signOut('login.html');
+                    } else {
+                        window.location.href = 'login.html';
+                    }
+                });
+            }
+
+            // Run verification immediately on load
+            initDashboard();
+        })();
+    </script>
+</body>
+</html>
