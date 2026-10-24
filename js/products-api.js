@@ -115,7 +115,7 @@
     async function loadProducts() {
         const client = getClient();
         if (!client) {
-            console.warn('⚠️ Supabase client not available. Using local fallback products.');
+            console.info('ℹ️ Supabase client not available. Using local fallback products.');
             console.log('Using local fallback products');
             return null;
         }
@@ -135,13 +135,13 @@
             const { data, error } = result || {};
 
             if (error) {
-                console.warn('⚠️ Supabase returned an error:', error.message || error);
+                console.info('ℹ️ Supabase offline or unavailable:', error.message || error);
                 console.log('Using local fallback products');
                 return null;
             }
 
             if (!data || !Array.isArray(data) || data.length === 0) {
-                console.warn('⚠️ Supabase returned empty products list. Keeping static fallback.');
+                console.info('ℹ️ Supabase returned empty products list. Keeping static fallback.');
                 console.log('Using local fallback products');
                 return null;
             }
@@ -168,7 +168,7 @@
             console.log('Products loaded from Supabase (' + transformedProducts.length + ')');
             return transformedProducts;
         } catch (err) {
-            console.warn('⚠️ Failed to load products from Supabase:', err.message || err);
+            console.info('ℹ️ Using local fallback products (Supabase unreachable):', err.message || err);
             console.log('Using local fallback products');
             return null;
         }

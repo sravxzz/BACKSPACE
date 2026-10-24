@@ -23,7 +23,7 @@ let supabaseClient = null;
 
 // Initialize Supabase client if library is loaded and key is provided
 if (typeof window.supabase === 'undefined') {
-    console.warn('⚠️ Supabase library (@supabase/supabase-js) is not loaded. Verify script tag in index.html.');
+    console.info('ℹ️ Supabase library (@supabase/supabase-js) is not loaded.');
 } else if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY_HERE') {
     console.info('ℹ️ Supabase client configuration ready. Please add your publishable (anon) key in js/supabase-client.js.');
 } else {
@@ -31,7 +31,7 @@ if (typeof window.supabase === 'undefined') {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         console.log('✅ Supabase client initialized successfully.');
     } catch (err) {
-        console.error('❌ Failed to initialize Supabase client:', err);
+        console.info('ℹ️ Supabase client could not be initialized:', err);
     }
 }
 

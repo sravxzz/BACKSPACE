@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="./favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        window.tailwind = window.tailwind || {};
         tailwind.config = {
             theme: {
                 extend: {
@@ -579,7 +580,7 @@
                                     { name: 'RETURNS & WARRANTY', section: 'warranty', icon: 'fa-shield-halved' },
                                     { name: 'CONTACT US', section: 'contact', icon: 'fa-envelope' },
                                     { name: 'BULK ORDERS', section: 'bulk', icon: 'fa-boxes-stacked' }
-                                ]">
+                                ]>
                                     <button @click="goToPage('support', item.section); openDropdown = null" class="flex items-center space-x-3 text-left group focus:outline-none rounded-xl p-2 hover:bg-gray-50 transition-colors duration-300">
                                         <div class="w-8 h-8 rounded-lg overflow-hidden shrink-0 bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 group-hover:text-brand-terracotta group-hover:bg-orange-50 transition-colors">
                                             <i class="fa-solid" :class="item.icon"></i>
@@ -665,7 +666,7 @@
                             { name: 'PILLOWS', key: 'pillows', filter: 'Pillows', img: './public/images/mattresses/cool-gel/thickness.jpg' },
                             { name: 'MEMORY FOAM', key: 'memory_foam', filter: 'Memory Foam', img: './public/images/mattresses/cloud-memory-foam/thickness.jpg' },
                             { name: 'SUPPORT & FAQ', key: 'support', filter: 'support', isPage: true, img: './public/images/mattresses/luxury-latex/detail.jpg' }
-                        ]">
+                        ]>
                             <button @click="hamburgerOpen = false; cat.isPage ? goToPage(cat.filter) : goToPage('shop', cat.filter)" class="rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition group active:scale-95" :class="isNavItemActive(cat.key) ? 'bg-brand-terracotta/20 border-2 border-brand-terracotta text-brand-terracotta' : 'bg-white/5 border border-white/10 hover:bg-white/10 text-white'">
                                 <div class="w-14 h-14 rounded-full bg-black/30 overflow-hidden group-hover:scale-110 transition" :class="isNavItemActive(cat.key) ? 'ring-2 ring-brand-terracotta' : ''">
                                     <img :src="cat.img" class="w-full h-full object-cover" :class="isNavItemActive(cat.key) ? 'opacity-100' : 'opacity-70'">
@@ -993,7 +994,7 @@
                 <div class="mb-8 pl-4">
                     <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4 px-2">Explore Categories</h3>
                     <div class="flex overflow-x-auto hide-scroll space-x-3 pr-4 snap-x pb-4">
-                        <template x-for="cat in ['Mattress', 'Chair', 'Sofa', 'Recliner', 'Pillow', 'Bedding']">
+                        <template x-for="cat in ['Mattress', 'Chair', 'Sofa', 'Recliner', 'Pillow', 'Bedding']" :key="cat">
                             <button @click="hamburgerOpen = false; goToPage('shop', cat.toUpperCase())" class="snap-start flex-shrink-0 w-28 relative rounded-2xl overflow-hidden group">
                                 <img src="./public/images/mattresses/orthopedic-support/thickness.jpg" class="w-full aspect-square object-cover opacity-70 group-hover:scale-110 transition duration-500">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center pb-3">
@@ -1069,7 +1070,7 @@
             </div>
             <div class="mt-6 flex flex-wrap gap-2">
                 <span class="text-xs font-bold text-gray-400 uppercase tracking-widest w-full mb-2">Popular Searches</span>
-                <template x-for="term in ['Orthopedic', 'Recliner', 'Memory Foam', 'King Size']">
+                <template x-for="term in ['Orthopedic', 'Recliner', 'Memory Foam', 'King Size']" :key="term">
                     <button @click="searchQuery = term; searchOpen = false; goToPage('shop', 'All')" class="bg-gray-100 px-4 py-2 rounded-full text-xs font-bold text-brand-charcoal hover:bg-gray-200 transition" x-text="term"></button>
                 </template>
             </div>
@@ -7625,11 +7626,12 @@ function singleBedApp() {
         selectedSize: 'Single',
         selectedHeight: null,
         quantity: 1,
-        get currentImage() { return this.currentProductData && this.currentProductData.images ? this.currentProductData.images[this.activeImg] : ''; },
+        get currentImage() { return this.currentProductData && this.currentProductData.images ? (this.currentProductData.images[this.activeImg] || (typeof this.currentProductData.images === 'object' ? Object.values(this.currentProductData.images)[0] : '') || this.currentProductData.image || '') : (this.currentProductData ? (this.currentProductData.image || this.currentProductData.image_url || '') : ''); },
         initPDP() {
             this.activeImg = 'main';
             if (this.currentProductData && this.currentProductData.sizes && this.currentProductData.sizes.length > 0) {
-                this.selectedSize = this.currentProductData.sizes[0];
+                const s0 = this.currentProductData.sizes[0];
+                this.selectedSize = typeof s0 === 'object' ? s0.name : s0;
             } else {
                 this.selectedSize = 'Single';
             }
@@ -7670,16 +7672,16 @@ function singleBedApp() {
             <div class="w-full lg:w-1/2 flex flex-col gap-4">
                 <!-- Main Image -->
                 <div class="aspect-square bg-[#FFFCF7] rounded-2xl overflow-hidden border border-[#E6DFD6] shadow-sm relative group">
-                    <img :src="currentImage" :alt="currentProductData.name" class="w-full h-full object-cover">
+                    <img :src="currentImage" :alt="currentProductData ? currentProductData.name : ''" class="w-full h-full object-cover">
                     <!-- Badges -->
                     <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="bg-brand-charcoal text-white text-[10px] font-bold px-2.5 py-1 rounded-sm uppercase tracking-widest" x-text="currentProductData.discount"></span>
+                        <span x-show="currentProductData && currentProductData.discount" class="bg-brand-charcoal text-white text-[10px] font-bold px-2.5 py-1 rounded-sm uppercase tracking-widest" x-text="currentProductData ? currentProductData.discount : ''"></span>
                     </div>
                 </div>
                 
                 <!-- Thumbnails -->
                 <div class="grid grid-cols-4 gap-4">
-                    <template x-for="(url, key) in currentProductData.images">
+                    <template x-for="(url, key) in (currentProductData && currentProductData.images ? currentProductData.images : {})" :key="key">
                         <button @click="activeImg = key" class="aspect-square bg-[#F1EBE3] rounded-xl overflow-hidden border-2 transition-all duration-200" :class="activeImg === key ? 'border-brand-charcoal shadow-md' : 'border-transparent hover:border-gray-300'">
                             <img :src="url" alt="Thumbnail" class="w-full h-full object-cover">
                         </button>
@@ -7689,36 +7691,36 @@ function singleBedApp() {
             
             <!-- RIGHT: Product Info -->
             <div class="w-full lg:w-1/2 flex flex-col">
-                <h1 class="text-3xl lg:text-4xl font-extrabold text-brand-charcoal leading-tight mb-2 uppercase tracking-tight" x-text="currentProductData.name"></h1>
+                <h1 class="text-3xl lg:text-4xl font-extrabold text-brand-charcoal leading-tight mb-2 uppercase tracking-tight" x-text="currentProductData ? currentProductData.name : ''"></h1>
                 
                 <!-- Ratings -->
-                <div x-show="currentProductData.rating" class="flex items-center space-x-3 mb-6 pb-6 border-b border-gray-100">
+                <div x-show="currentProductData && currentProductData.rating" class="flex items-center space-x-3 mb-6 pb-6 border-b border-gray-100">
                     <div class="flex text-brand-terracotta text-sm">
                         <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
                     </div>
-                    <span class="text-sm font-bold text-brand-charcoal" x-text="(currentProductData.rating || 5) + '/5'"></span>
-                    <span class="text-xs text-gray-500 font-medium" x-text="(currentProductData.reviews || 0) + ' Reviews'"></span>
+                    <span class="text-sm font-bold text-brand-charcoal" x-text="(currentProductData ? (currentProductData.rating || 5) : 5) + '/5'"></span>
+                    <span class="text-xs text-gray-500 font-medium" x-text="(currentProductData ? (currentProductData.reviews || 0) : 0) + ' Reviews'"></span>
                 </div>
 
                 <!-- Features Strip -->
                 <div class="flex flex-wrap gap-2 mb-6">
                     <span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-widest flex items-center gap-1.5 border border-blue-100"><i class="fa-solid fa-moon"></i> 100 Nights Trial</span>
-                    <span class="bg-gray-100 text-gray-700 text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-widest flex items-center gap-1.5"><i class="fa-solid fa-shield"></i> <span x-text="currentProductData.warranty"></span></span>
-                    <span class="bg-gray-100 text-gray-700 text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-widest flex items-center gap-1.5"><i class="fa-solid fa-layer-group"></i> <span x-text="currentProductData.firmness"></span></span>
+                    <span x-show="currentProductData && currentProductData.warranty" class="bg-gray-100 text-gray-700 text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-widest flex items-center gap-1.5"><i class="fa-solid fa-shield"></i> <span x-text="currentProductData ? currentProductData.warranty : ''"></span></span>
+                    <span x-show="currentProductData && currentProductData.firmness" class="bg-gray-100 text-gray-700 text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-widest flex items-center gap-1.5"><i class="fa-solid fa-layer-group"></i> <span x-text="currentProductData ? currentProductData.firmness : ''"></span></span>
                 </div>
                 
                 <!-- Positioning -->
-                <p class="text-gray-600 text-sm leading-relaxed mb-6" x-text="currentProductData.positioning"></p>
+                <p x-show="currentProductData && currentProductData.positioning" class="text-gray-600 text-sm leading-relaxed mb-6" x-text="currentProductData ? currentProductData.positioning : ''"></p>
 
                 <!-- Product Code & Material -->
                 <div class="flex items-center gap-3 text-xs text-[#7E7467] font-semibold tracking-wide uppercase mb-3">
-                    <span x-text="'Code: ' + (currentProductData.code || (window.isPillowProduct && isPillowProduct(currentProductData) ? 'BSP-PIL-00' + (currentProductData.id - 400) : ('BSP-MAT-00' + currentProductData.id)))"></span>
+                    <span x-text="'Code: ' + (currentProductData ? (currentProductData.code || (window.isPillowProduct && isPillowProduct(currentProductData) ? 'BSP-PIL-00' + (currentProductData.id - 400) : ('BSP-MAT-00' + currentProductData.id))) : '')"></span>
                     <span>•</span>
-                    <span x-text="'Material: ' + (currentProductData.material || currentProductData.subCategory || 'Comfort Foam')"></span>
+                    <span x-text="'Material: ' + (currentProductData ? (currentProductData.material || currentProductData.subCategory || 'Comfort Foam') : '')"></span>
                 </div>
 
                 <!-- Price (shown when price exists) -->
-                <div x-show="currentProductData.price" class="mb-8">
+                <div x-show="currentProductData && currentProductData.price" class="mb-8">
                     <div class="flex items-end space-x-3">
                         <span class="text-3xl font-extrabold text-brand-charcoal" x-text="'₹' + (currentProductData.price ? currentProductData.price.toLocaleString('en-IN') : '')"></span>
                         <span x-show="currentProductData.originalPrice" class="text-sm font-medium text-gray-400 line-through mb-1" x-text="'MRP ₹' + (currentProductData.originalPrice ? currentProductData.originalPrice.toLocaleString('en-IN') : '')"></span>
@@ -7726,7 +7728,7 @@ function singleBedApp() {
                     <p class="text-[10px] text-gray-400 font-bold uppercase mt-1">Inclusive of all taxes</p>
                 </div>
                 <!-- Custom Pricing Notice (shown when price is empty/optional) -->
-                <div x-show="!currentProductData.price" class="mb-8 p-4 bg-[#F1EBE3] rounded-xl border border-[#E6DFD6] flex items-center justify-between">
+                <div x-show="currentProductData && !currentProductData.price" class="mb-8 p-4 bg-[#F1EBE3] rounded-xl border border-[#E6DFD6] flex items-center justify-between">
                     <div>
                         <p class="text-sm font-bold text-[#292522]">Custom Pricing on Request</p>
                         <p class="text-xs text-[#7E7467]">Handcrafted to order with bespoke dimensions and material specifications.</p>
@@ -7743,8 +7745,8 @@ function singleBedApp() {
                             <span class="text-[10px] text-brand-terracotta font-bold uppercase tracking-widest cursor-pointer hover:underline">SIZE GUIDE</span>
                         </div>
                         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                            <template x-for="size in currentProductData.sizes">
-                                <button @click="selectedSize = size" class="py-3 px-2 rounded-xl border transition-all text-xs font-bold tracking-widest uppercase focus:outline-none" :class="selectedSize === size ? 'border-brand-charcoal bg-brand-charcoal text-white shadow-md' : 'border-gray-200 text-gray-600 hover:border-gray-300 bg-white'" x-text="size"></button>
+                            <template x-for="size in (currentProductData && currentProductData.sizes ? currentProductData.sizes : [])" :key="typeof size === 'object' ? size.name : size">
+                                <button @click="selectedSize = (typeof size === 'object' ? size.name : size)" class="py-3 px-2 rounded-xl border transition-all text-xs font-bold tracking-widest uppercase focus:outline-none" :class="selectedSize === (typeof size === 'object' ? size.name : size) ? 'border-brand-charcoal bg-brand-charcoal text-white shadow-md' : 'border-gray-200 text-gray-600 hover:border-gray-300 bg-white'" x-text="typeof size === 'object' ? size.name : size"></button>
                             </template>
                         </div>
                     </div>
@@ -7753,7 +7755,7 @@ function singleBedApp() {
                     <div x-show="currentProductData.heights && currentProductData.heights.length > 0">
                         <label class="text-[11px] font-bold text-brand-charcoal uppercase tracking-widest block mb-3">MATTRESS HEIGHT</label>
                         <div class="flex flex-wrap gap-3">
-                            <template x-for="height in currentProductData.heights">
+                            <template x-for="height in (currentProductData && currentProductData.heights ? currentProductData.heights : [])" :key="height">
                                 <button @click="selectedHeight = height" class="py-2.5 px-5 rounded-xl border transition-all text-xs font-bold tracking-widest uppercase focus:outline-none" :class="selectedHeight === height ? 'border-brand-charcoal bg-brand-charcoal text-white shadow-md' : 'border-gray-200 text-gray-600 hover:border-gray-300 bg-white'" x-text="height + ' INCH'"></button>
                             </template>
                         </div>
@@ -7774,10 +7776,10 @@ function singleBedApp() {
                     </div>
                     
                     <!-- Add to Cart Button -->
-                    <button @click="cart.push({ id: currentProductData.id, name: currentProductData.name, price: currentProductData.price, image: (currentProductData.images && currentProductData.images.main) ? currentProductData.images.main : currentProductData.image, quantity: quantity, size: selectedSize, height: selectedHeight ? (selectedHeight + ' inch') : '6 inch' }); currentProductData.added = true; if(typeof saveCart === 'function') saveCart(); setTimeout(() => currentProductData.added = false, 2000)" class="flex-1 bg-[#292522] hover:bg-[#3D3733] text-white font-medium py-3.5 px-6 rounded-full shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wider uppercase focus:outline-none cursor-pointer">
+                    <button @click="if(!currentProductData) return; cart.push({ id: currentProductData.id, name: currentProductData.name, price: currentProductData.price, image: (currentProductData.images && currentProductData.images.main) ? currentProductData.images.main : currentProductData.image, quantity: quantity, size: selectedSize, height: selectedHeight ? (selectedHeight + ' inch') : '6 inch' }); currentProductData.added = true; if(typeof saveCart === 'function') saveCart(); setTimeout(() => { if(currentProductData) currentProductData.added = false; }, 2000)" class="flex-1 bg-[#292522] hover:bg-[#3D3733] text-white font-medium py-3.5 px-6 rounded-full shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wider uppercase focus:outline-none cursor-pointer">
                         <i class="fa-solid fa-bag-shopping"></i>
-                        <span x-show="!currentProductData.added">ADD TO CART</span>
-                        <span x-show="currentProductData.added" class="text-green-400 flex items-center gap-1.5" style="display:none;"><i class="fa-solid fa-check"></i>ADDED TO CART</span>
+                        <span x-show="!currentProductData || !currentProductData.added">ADD TO CART</span>
+                        <span x-show="currentProductData && currentProductData.added" class="text-green-400 flex items-center gap-1.5" style="display:none;"><i class="fa-solid fa-check"></i>ADDED TO CART</span>
                     </button>
                     
                     <!-- Buy Now / Order on WhatsApp Button -->
@@ -7801,9 +7803,9 @@ function singleBedApp() {
 
                 <!-- Features Details -->
                 <div>
-                    <h3 class="text-[11px] font-bold text-brand-charcoal tracking-widest uppercase mb-4 pb-2 border-b border-gray-100">FEATURES</h3>
+                    <h3 x-show="currentProductData && currentProductData.features && currentProductData.features.length > 0" class="text-[11px] font-bold text-brand-charcoal tracking-widest uppercase mb-4 pb-2 border-b border-gray-100">FEATURES</h3>
                     <ul class="space-y-3">
-                        <template x-for="feature in currentProductData.features">
+                        <template x-for="feature in (currentProductData && currentProductData.features ? currentProductData.features : [])" :key="feature">
                             <li class="flex items-start gap-3">
                                 <i class="fa-solid fa-check text-green-500 mt-1 text-sm"></i>
                                 <span class="text-sm text-gray-600" x-text="feature"></span>
@@ -7816,7 +7818,7 @@ function singleBedApp() {
     </div>
 
     <!-- What's Inside & Specs -->
-    <div class="mt-24 border-t border-[#E6DFD6] pt-20 bg-[#F1EBE3]">
+    <div x-show="currentProductData && currentProductData.construction && currentProductData.construction.length > 0" class="mt-24 border-t border-[#E6DFD6] pt-20 bg-[#F1EBE3]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-2xl md:text-3xl font-extrabold text-brand-charcoal tracking-tight uppercase mb-4">WHAT'S INSIDE</h2>
@@ -7825,10 +7827,10 @@ function singleBedApp() {
             
             <div class="flex flex-col md:flex-row gap-12 items-center bg-[#FFFCF7] p-8 lg:p-12 rounded-3xl shadow-sm border border-[#E6DFD6]">
                 <div class="w-full md:w-1/2">
-                    <img :src="currentProductData.images.side" alt="Mattress Construction" class="w-full rounded-2xl">
+                    <img :src="(currentProductData && currentProductData.images && currentProductData.images.side) ? currentProductData.images.side : ((currentProductData && currentProductData.images && currentProductData.images.main) ? currentProductData.images.main : (currentProductData ? (currentProductData.image || '') : ''))" alt="Mattress Construction" class="w-full rounded-2xl">
                 </div>
                 <div class="w-full md:w-1/2 space-y-8">
-                    <template x-for="(layer, index) in currentProductData.construction">
+                    <template x-for="(layer, index) in (currentProductData && currentProductData.construction ? currentProductData.construction : [])" :key="index">
                         <div class="flex gap-6">
                             <div class="w-12 h-12 rounded-full bg-brand-charcoal text-white flex items-center justify-center font-bold text-lg shrink-0" x-text="index + 1"></div>
                             <div>
@@ -7843,33 +7845,33 @@ function singleBedApp() {
     </div>
 
     <!-- Product Specific Visual Benefits (4 Images) -->
-    <div class="mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div x-show="currentProductData && (currentProductData.category === 'Mattresses' || currentProductData.mainCategory === 'Mattresses')" class="mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-2xl font-extrabold text-brand-charcoal tracking-tight uppercase mb-12 text-center">MATTRESS HIGHLIGHTS</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div class="flex flex-col">
                 <div class="aspect-square rounded-2xl overflow-hidden mb-6 bg-gray-50">
-                    <img :src="currentProductData.images.main" class="w-full h-full object-cover">
+                    <img :src="(currentProductData && currentProductData.images && currentProductData.images.main) ? currentProductData.images.main : (currentProductData ? (currentProductData.image || '') : '')" class="w-full h-full object-cover">
                 </div>
                 <h3 class="font-bold text-brand-charcoal text-xs tracking-widest uppercase mb-3">SIGNATURE DESIGN</h3>
                 <p class="text-xs text-gray-500 leading-relaxed">A clean, premium aesthetic that fits beautifully into modern bedrooms.</p>
             </div>
             <div class="flex flex-col">
                 <div class="aspect-square rounded-2xl overflow-hidden mb-6 bg-gray-50">
-                    <img :src="currentProductData.images.detail" class="w-full h-full object-cover">
+                    <img :src="(currentProductData && currentProductData.images && currentProductData.images.detail) ? currentProductData.images.detail : ((currentProductData && currentProductData.images && currentProductData.images.main) ? currentProductData.images.main : (currentProductData ? (currentProductData.image || '') : ''))" class="w-full h-full object-cover">
                 </div>
                 <h3 class="font-bold text-brand-charcoal text-xs tracking-widest uppercase mb-3">BREATHABLE SURFACE</h3>
                 <p class="text-xs text-gray-500 leading-relaxed">Carefully selected fabrics that support a comfortable and temperature-balanced sleep environment.</p>
             </div>
             <div class="flex flex-col">
                 <div class="aspect-square rounded-2xl overflow-hidden mb-6 bg-gray-50">
-                    <img :src="currentProductData.images.side" class="w-full h-full object-cover">
+                    <img :src="(currentProductData && currentProductData.images && currentProductData.images.side) ? currentProductData.images.side : ((currentProductData && currentProductData.images && currentProductData.images.main) ? currentProductData.images.main : (currentProductData ? (currentProductData.image || '') : ''))" class="w-full h-full object-cover">
                 </div>
                 <h3 class="font-bold text-brand-charcoal text-xs tracking-widest uppercase mb-3">BALANCED SUPPORT</h3>
                 <p class="text-xs text-gray-500 leading-relaxed">Engineered construction providing reliable structural support exactly where it's needed.</p>
             </div>
             <div class="flex flex-col">
                 <div class="aspect-square rounded-2xl overflow-hidden mb-6 bg-gray-50">
-                    <img :src="currentProductData.images.lifestyle" class="w-full h-full object-cover">
+                    <img :src="(currentProductData && currentProductData.images && currentProductData.images.lifestyle) ? currentProductData.images.lifestyle : ((currentProductData && currentProductData.images && currentProductData.images.main) ? currentProductData.images.main : (currentProductData ? (currentProductData.image || '') : ''))" class="w-full h-full object-cover">
                 </div>
                 <h3 class="font-bold text-brand-charcoal text-xs tracking-widest uppercase mb-3">EVERYDAY COMFORT</h3>
                 <p class="text-xs text-gray-500 leading-relaxed">Designed for practical, long-lasting comfort in real-world everyday use scenarios.</p>
@@ -7878,10 +7880,10 @@ function singleBedApp() {
     </div>
 
     <!-- Product Video -->
-    <div class="mt-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div x-show="currentProductData && currentProductData.video" class="mt-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-2xl font-extrabold text-brand-charcoal tracking-tight uppercase mb-8 text-center">EXPERIENCE THE COMFORT</h2>
         <div class="aspect-video bg-gray-900 rounded-3xl overflow-hidden shadow-xl relative border border-gray-200">
-            <video :src="currentProductData.video" class="w-full h-full object-cover opacity-80" controls muted poster="./public/images/mattresses/orthopedic-support/thickness.jpg"></video>
+            <video :src="currentProductData ? currentProductData.video : ''" class="w-full h-full object-cover opacity-80" controls muted poster="./public/images/mattresses/orthopedic-support/thickness.jpg"></video>
             <!-- Note: if the local video is missing, it will just show the poster/controls -->
         </div>
     </div>
@@ -7898,19 +7900,19 @@ function singleBedApp() {
                     <ul class="space-y-4">
                         <li class="flex justify-between border-b border-gray-50 pb-3">
                             <span class="text-sm text-gray-500">Firmness</span>
-                            <span class="text-sm font-bold text-brand-charcoal uppercase" x-text="currentProductData.firmness"></span>
+                            <span class="text-sm font-bold text-brand-charcoal uppercase" x-text="currentProductData ? currentProductData.firmness : ''"></span>
                         </li>
                         <li class="flex justify-between border-b border-gray-50 pb-3">
                             <span class="text-sm text-gray-500">Mattress Category</span>
-                            <span class="text-sm font-bold text-brand-charcoal uppercase" x-text="currentProductData.category"></span>
+                            <span class="text-sm font-bold text-brand-charcoal uppercase" x-text="currentProductData ? currentProductData.category : ''"></span>
                         </li>
                         <li class="flex justify-between border-b border-gray-50 pb-3">
                             <span class="text-sm text-gray-500">Warranty</span>
-                            <span class="text-sm font-bold text-brand-charcoal uppercase" x-text="currentProductData.warranty"></span>
+                            <span class="text-sm font-bold text-brand-charcoal uppercase" x-text="currentProductData ? currentProductData.warranty : ''"></span>
                         </li>
                         <li class="flex justify-between border-b border-gray-50 pb-3">
                             <span class="text-sm text-gray-500">Custom Size</span>
-                            <span class="text-sm font-bold text-brand-charcoal uppercase" x-text="currentProductData.sizes.includes('Custom Size') ? 'Available' : 'No'"></span>
+                            <span class="text-sm font-bold text-brand-charcoal uppercase" x-text="(currentProductData && Array.isArray(currentProductData.sizes) && currentProductData.sizes.some(s => (typeof s === 'object' ? s.name : s) === 'Custom Size')) ? 'Available' : 'No'"></span>
                         </li>
                     </ul>
                 </div>
@@ -7935,17 +7937,17 @@ function singleBedApp() {
         <h2 class="text-2xl font-extrabold text-brand-charcoal tracking-tight uppercase mb-10 text-center">PRODUCT FAQ</h2>
         <div class="space-y-4">
             <template x-for="(faq, i) in [
-                { q: 'What type of mattress is this?', a: 'This is a premium ' + currentProductData.category.toLowerCase() + ' ' + currentProductData.name + ' designed for optimal sleep.' },
-                { q: 'What firmness does this mattress have?', a: 'This mattress has a ' + currentProductData.firmness + ' feel, designed to provide ' + ((currentProductData.positioning || currentProductData.description || '').toLowerCase()) },
+                { q: 'What type of mattress is this?', a: 'This is a premium ' + ((currentProductData.category || 'sleep').toLowerCase()) + ' ' + (currentProductData.name || 'product') + ' designed for optimal sleep.' },
+                { q: 'What firmness does this mattress have?', a: 'This product features ' + (currentProductData.firmness ? currentProductData.firmness + ' feel' : 'premium craftsmanship') + ', designed to provide ' + ((currentProductData.positioning || currentProductData.description || 'optimal support and comfort').toLowerCase()) },
                 { q: 'Who is this mattress suitable for?', a: 'It is highly suitable for sleepers seeking ' + (((currentProductData.features && currentProductData.features[0]) || currentProductData.feature1 || 'optimal comfort').toLowerCase()) + ' and ' + (((currentProductData.features && currentProductData.features[1]) || currentProductData.feature2 || 'spinal support').toLowerCase()) + '.' },
-                { q: 'What sizes are available?', a: 'It is available in: ' + currentProductData.sizes.join(', ') + '.' },
-                { q: 'What heights are available?', a: currentProductData.heights ? 'Available heights: ' + currentProductData.heights.map(h=>h+' INCH').join(', ') : 'Standard height only.' },
-                { q: 'Is custom sizing available?', a: currentProductData.sizes.includes('Custom Size') ? 'Yes, we provide custom sizes for this product. Contact our support team with your dimensions.' : 'Currently, custom sizing is not standard for this specific model, but contact us for special requests.' },
-                { q: 'What is the warranty?', a: 'This product includes a ' + currentProductData.warranty + ' protection plan against manufacturing defects.' },
-                { q: 'Is a trial available?', a: currentProductData.warranty.includes('Trial') ? 'Yes, this product includes a 100-Night Trial to ensure it meets your expectations.' : 'Please check our standard return policy for trial eligibility.' },
+                { q: 'What sizes are available?', a: 'It is available in: ' + (Array.isArray(currentProductData.sizes) ? currentProductData.sizes.map(s => typeof s === 'object' && s ? s.name : s).join(', ') : 'Standard sizes') + '.' },
+                { q: 'What heights are available?', a: (Array.isArray(currentProductData.heights) && currentProductData.heights.length) ? 'Available heights: ' + currentProductData.heights.map(h=>h+' INCH').join(', ') : 'Standard specifications apply.' },
+                { q: 'Is custom sizing available?', a: (Array.isArray(currentProductData.sizes) && currentProductData.sizes.some(s => (typeof s === 'object' && s ? s.name : s) === 'Custom Size')) ? 'Yes, we provide custom sizes for this product. Contact our support team with your dimensions.' : 'Currently, custom sizing is not standard for this specific model, but contact us for special requests.' },
+                { q: 'What is the warranty?', a: 'This product includes a ' + (currentProductData.warranty || 'standard') + ' protection plan against manufacturing defects.' },
+                { q: 'Is a trial available?', a: (currentProductData.warranty && typeof currentProductData.warranty === 'string' && currentProductData.warranty.includes('Trial')) ? 'Yes, this product includes a 100-Night Trial to ensure it meets your expectations.' : 'Please check our standard return policy for trial eligibility.' },
                 { q: 'How should the mattress be cared for?', a: 'Use a water-resistant protector, keep it on a flat supportive base, and ensure proper ventilation. Do not fold the mattress unless explicitly specified.' },
-                { q: 'How does this mattress differ from other BACKSPACE mattresses?', a: 'The ' + currentProductData.name + ' specifically focuses on ' + (((currentProductData.features && currentProductData.features[0]) || currentProductData.feature1 || 'targeted comfort').toLowerCase()) + ', making it unique within our collection.' }
-            ]">
+                { q: 'How does this mattress differ from other BACKSPACE mattresses?', a: 'The ' + (currentProductData.name || 'product') + ' specifically focuses on ' + (((currentProductData.features && currentProductData.features[0]) || currentProductData.feature1 || 'targeted comfort').toLowerCase()) + ', making it unique within our collection.' }
+            ]" :key="i">
                 <div class="border border-gray-200 rounded-xl overflow-hidden">
                     <button @click="activeFaq = activeFaq === i ? null : i" class="w-full px-6 py-5 text-left flex justify-between items-center bg-gray-50 hover:bg-gray-100 transition focus:outline-none">
                         <span class="font-bold text-brand-charcoal text-sm uppercase" x-text="faq.q"></span>
@@ -8740,7 +8742,7 @@ function singleBedApp() {
              if (this.selectedSizes.length > 0) {
                  list = list.filter(p => {
                      if (!p.sizes || !Array.isArray(p.sizes)) return false;
-                     return p.sizes.some(sz => this.selectedSizes.includes(sz));
+                     return p.sizes.some(sz => this.selectedSizes.includes(typeof sz === 'object' && sz ? sz.name : sz));
                  });
              }
              
@@ -9180,7 +9182,7 @@ function singleBedApp() {
                 { q: 'How does the 10-Year Warranty work?', a: 'All Backspace mattresses come with a comprehensive 10-year warranty covering any manufacturing defects, core sagging greater than 1 inch, or foam structural degradation.' },
                 { q: 'Can I order a custom size mattress?', a: 'Yes! If you have a custom bed frame dimension, we can manufacture your mattress to exact inch measurements. Contact us via WhatsApp or phone for immediate custom quote.' },
                 { q: 'Do Backspace mattresses come pre-assembled or rolled in a box?', a: 'Backspace mattresses are shipped securely compressed and vacuum-rolled in a compact protective box for easy maneuvering through narrow doorways and elevators. They expand to full size within 4-6 hours.' }
-            ]">
+            ]" :key="i">
                 <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
                     <button @click="openFaq = (openFaq === i ? null : i)" class="w-full p-6 text-left font-bold text-sm text-brand-charcoal flex justify-between items-center focus:outline-none">
                         <span x-text="faq.q"></span>
