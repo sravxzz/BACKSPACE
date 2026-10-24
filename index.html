@@ -38,9 +38,11 @@
     <!-- Supabase Client v2 (CDN) & Configuration -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-client.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="js/bed-data.js"></script>
     <script src="app.js"></script>
+    <script src="js/products-api.js"></script>
 
 <style>
 .animate-nav-load .animate-nav-left { animation: navFadeSlide 0.6s cubic-bezier(0.2, 0, 0, 1) forwards; }
@@ -5744,8 +5746,8 @@ const BED_COLLECTION_CARDS = [
         ]
     }
 ];
-window.BED_COLLECTION_CARDS = BED_COLLECTION_CARDS;
-window.BACKSPACE_CATALOGUE = BACKSPACE_CATALOGUE.filter(p => !p.code || (!p.code.startsWith('BKPBD') && !p.code.startsWith('BSP-BED'))).concat(BED_COLLECTION_CARDS);
+if (!window._supabaseProductsLoaded) window.BED_COLLECTION_CARDS = BED_COLLECTION_CARDS;
+if (!window._supabaseProductsLoaded) window.BACKSPACE_CATALOGUE = BACKSPACE_CATALOGUE.filter(p => !p.code || (!p.code.startsWith('BKPBD') && !p.code.startsWith('BSP-BED'))).concat(BED_COLLECTION_CARDS);
 
 
 function singleBedApp() {
@@ -5777,8 +5779,9 @@ function singleBedApp() {
             this.sectionsOpen[sec] = !this.sectionsOpen[sec];
         },
 
-        products: BED_COLLECTION_CARDS,
+        products: (window.BED_COLLECTION_CARDS && window.BED_COLLECTION_CARDS.length) ? window.BED_COLLECTION_CARDS : BED_COLLECTION_CARDS,
         wishlistIds: [],
+        materialHeading: 'Material',
 
         init() {
             if (Array.isArray(this.products)) {
@@ -5788,6 +5791,16 @@ function singleBedApp() {
                     }
                 });
             }
+            window.addEventListener('backspace-products-updated', (e) => {
+                if (e.detail && e.detail.beds && e.detail.beds.length > 0) {
+                    this.products = e.detail.beds;
+                    this.products.forEach(p => {
+                        if (!p.image && p.images && p.images.main) {
+                            p.image = p.images.main;
+                        }
+                    });
+                }
+            });
             window.addEventListener('select-bed-classified', (e) => {
                 if (e.detail) {
                     this.applyClassified(e.detail.type, e.detail.value);
@@ -6175,7 +6188,14 @@ function singleBedApp() {
                  x-data="{
                      activeTab: 'All',
                      tabs: ['All', 'Mattresses', 'Beds', 'Protectors', 'Pillows'],
+                     productsVersion: 0,
+                     init() {
+                         window.addEventListener('backspace-products-updated', () => {
+                             this.productsVersion++;
+                         });
+                     },
                      get featuredList() {
+                         const _v = this.productsVersion;
                          const cat = (window.BACKSPACE_CATALOGUE && window.BACKSPACE_CATALOGUE.length) ? window.BACKSPACE_CATALOGUE : (this.$root?.allProducts || []);
                          const beds = (window.BED_COLLECTION_CARDS && window.BED_COLLECTION_CARDS.length) ? window.BED_COLLECTION_CARDS : cat.filter(p => p.category === 'Beds');
 
@@ -6533,6 +6553,20 @@ function singleBedApp() {
             this.targets.mattresses = cat.filter(p => (p.category === 'Mattresses' || p.mainCategory === 'Mattresses') && (!p.code || !p.code.startsWith('BSP-BED'))).length || 15;
             this.targets.protectors = cat.filter(p => p.category === 'Protectors' || p.mainCategory === 'Protectors' || (p.code && p.code.startsWith('BSP-PRO'))).length || 9;
             this.targets.pillows = cat.filter(p => p.category === 'Pillows' || p.mainCategory === 'Pillows' || (p.code && p.code.startsWith('BSP-PIL'))).length || 6;
+            window.addEventListener('backspace-products-updated', () => {
+                const b = window.BED_COLLECTION_CARDS || [];
+                const c = window.BACKSPACE_CATALOGUE || [];
+                this.targets.beds = b.length || 18;
+                this.targets.mattresses = c.filter(p => (p.category === 'Mattresses' || p.mainCategory === 'Mattresses') && (!p.code || !p.code.startsWith('BSP-BED'))).length || 15;
+                this.targets.protectors = c.filter(p => p.category === 'Protectors' || p.mainCategory === 'Protectors' || (p.code && p.code.startsWith('BSP-PRO'))).length || 9;
+                this.targets.pillows = c.filter(p => p.category === 'Pillows' || p.mainCategory === 'Pillows' || (p.code && p.code.startsWith('BSP-PIL'))).length || 6;
+                if (this.animated) {
+                    this.counts.beds = this.targets.beds;
+                    this.counts.mattresses = this.targets.mattresses;
+                    this.counts.protectors = this.targets.protectors;
+                    this.counts.pillows = this.targets.pillows;
+                }
+            });
         },
         startCounters() {
             if (this.animated) return;
@@ -7902,15 +7936,15 @@ function singleBedApp() {
         <div class="space-y-4">
             <template x-for="(faq, i) in [
                 { q: 'What type of mattress is this?', a: 'This is a premium ' + currentProductData.category.toLowerCase() + ' ' + currentProductData.name + ' designed for optimal sleep.' },
-                { q: 'What firmness does this mattress have?', a: 'This mattress has a ' + currentProductData.firmness + ' feel, designed to provide ' + currentProductData.positioning.toLowerCase() },
-                { q: 'Who is this mattress suitable for?', a: 'It is highly suitable for sleepers seeking ' + currentProductData.features[0].toLowerCase() + ' and ' + currentProductData.features[1].toLowerCase() + '.' },
+                { q: 'What firmness does this mattress have?', a: 'This mattress has a ' + currentProductData.firmness + ' feel, designed to provide ' + ((currentProductData.positioning || currentProductData.description || '').toLowerCase()) },
+                { q: 'Who is this mattress suitable for?', a: 'It is highly suitable for sleepers seeking ' + (((currentProductData.features && currentProductData.features[0]) || currentProductData.feature1 || 'optimal comfort').toLowerCase()) + ' and ' + (((currentProductData.features && currentProductData.features[1]) || currentProductData.feature2 || 'spinal support').toLowerCase()) + '.' },
                 { q: 'What sizes are available?', a: 'It is available in: ' + currentProductData.sizes.join(', ') + '.' },
                 { q: 'What heights are available?', a: currentProductData.heights ? 'Available heights: ' + currentProductData.heights.map(h=>h+' INCH').join(', ') : 'Standard height only.' },
                 { q: 'Is custom sizing available?', a: currentProductData.sizes.includes('Custom Size') ? 'Yes, we provide custom sizes for this product. Contact our support team with your dimensions.' : 'Currently, custom sizing is not standard for this specific model, but contact us for special requests.' },
                 { q: 'What is the warranty?', a: 'This product includes a ' + currentProductData.warranty + ' protection plan against manufacturing defects.' },
                 { q: 'Is a trial available?', a: currentProductData.warranty.includes('Trial') ? 'Yes, this product includes a 100-Night Trial to ensure it meets your expectations.' : 'Please check our standard return policy for trial eligibility.' },
                 { q: 'How should the mattress be cared for?', a: 'Use a water-resistant protector, keep it on a flat supportive base, and ensure proper ventilation. Do not fold the mattress unless explicitly specified.' },
-                { q: 'How does this mattress differ from other BACKSPACE mattresses?', a: 'The ' + currentProductData.name + ' specifically focuses on ' + currentProductData.features[0].toLowerCase() + ', making it unique within our collection.' }
+                { q: 'How does this mattress differ from other BACKSPACE mattresses?', a: 'The ' + currentProductData.name + ' specifically focuses on ' + (((currentProductData.features && currentProductData.features[0]) || currentProductData.feature1 || 'targeted comfort').toLowerCase()) + ', making it unique within our collection.' }
             ]">
                 <div class="border border-gray-200 rounded-xl overflow-hidden">
                     <button @click="activeFaq = activeFaq === i ? null : i" class="w-full px-6 py-5 text-left flex justify-between items-center bg-gray-50 hover:bg-gray-100 transition focus:outline-none">
@@ -8438,6 +8472,7 @@ function singleBedApp() {
          selectedCollections: [],
          selectedMaterials: [],
          selectedSizes: [],
+         productsVersion: 0,
          sectionsOpen: {
              collection: true,
              material: true,
@@ -8447,6 +8482,7 @@ function singleBedApp() {
              this.sectionsOpen[sec] = !this.sectionsOpen[sec];
          },
          init() {
+             window.addEventListener('backspace-products-updated', () => { this.productsVersion = (this.productsVersion || 0) + 1; });
              window.addEventListener('select-protector-filter', (e) => {
                  this.resetFilters();
                  if (e.detail) {
@@ -8598,6 +8634,7 @@ function singleBedApp() {
              return 'Discover our premium range of 100% natural latex, adaptive memory foam, orthopedic, and pocket spring mattresses with a 10-year warranty.';
          },
          get allMattresses() {
+             const _v = this.productsVersion;
              let list = (window.BACKSPACE_CATALOGUE || []).slice();
              return list.filter(p => p.mainCategory === 'Mattresses' || p.category === 'Mattresses');
          },
@@ -8609,6 +8646,7 @@ function singleBedApp() {
              return this.allMattresses.length || 15;
          },
          get displayProducts() {
+             const _v = this.productsVersion;
              let list = (window.BACKSPACE_CATALOGUE || []).slice();
              const cat = (this.currentCat || '').toLowerCase();
              

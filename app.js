@@ -742,7 +742,7 @@ function appData() {
         
         // Core State
         currentPage: 'home',
-        currentProductData: null, // 'home', 'shop', 'product', 'compare', 'finder', 'guide', 'bulk', 'about', 'admin', 'profile', 'orders', 'track', 'wishlist'
+        currentProductData: (typeof defaultProducts !== 'undefined' && defaultProducts[0]) ? defaultProducts[0] : null, // 'home', 'shop', 'product', 'compare', 'finder', 'guide', 'bulk', 'about', 'admin', 'profile', 'orders', 'track', 'wishlist'
         currentCategoryFilter: 'Mattresses', // Which category to show on the shop page
         selectedBedGroup: 'all',
         
@@ -810,6 +810,31 @@ function appData() {
                 }
             });
             localStorage.setItem('backspaceProducts', JSON.stringify(this.products));
+            
+            // Listen for background updates from Supabase via ProductsAPI
+            window.addEventListener('backspace-products-updated', (e) => {
+                if (e.detail && e.detail.products && e.detail.products.length > 0) {
+                    this.allProducts = e.detail.products;
+                    this.products = e.detail.products;
+                    this.products.forEach(p => {
+                        if (!p.image && p.images) {
+                            p.image = Array.isArray(p.images) ? p.images[0] : (p.images.main || '');
+                        }
+                    });
+                    localStorage.setItem('backspaceProducts', JSON.stringify(this.products));
+                    if (this.currentProductData && (this.currentProductData.code || this.currentProductData.id)) {
+                        const code = (this.currentProductData.code || '').toUpperCase();
+                        const oldCode = (this.currentProductData.oldCode || '').toUpperCase();
+                        const idStr = String(this.currentProductData.id);
+                        const updated = e.detail.products.find(p => 
+                            (p.code && p.code.toUpperCase() === code) || 
+                            (p.oldCode && p.oldCode.toUpperCase() === oldCode) || 
+                            String(p.id) === idStr
+                        );
+                        if (updated) this.currentProductData = updated;
+                    }
+                }
+            });
             
             const storedCart = localStorage.getItem('backspaceCart');
             if(storedCart) this.cart = JSON.parse(storedCart);

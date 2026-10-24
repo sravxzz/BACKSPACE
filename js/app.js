@@ -109,11 +109,34 @@ document.addEventListener('alpine:init', () => {
 });
 
 window.getProduct = (id) => {
-  return products.find(p => p.id === id);
+  if (!id) return null;
+  const list = (typeof window !== 'undefined' && window.BACKSPACE_CATALOGUE && window.BACKSPACE_CATALOGUE.length) 
+    ? window.BACKSPACE_CATALOGUE 
+    : products;
+  const target = String(id).toLowerCase().trim();
+  return list.find(p => 
+    String(p.id).toLowerCase() === target || 
+    (p.code && p.code.toLowerCase() === target) || 
+    (p.oldCode && p.oldCode.toLowerCase() === target) ||
+    (p.slug && p.slug.toLowerCase() === target)
+  );
 };
 
 window.getProductsByCategory = (category) => {
-  return products.filter(p => p.category === category);
+  const list = (typeof window !== 'undefined' && window.BACKSPACE_CATALOGUE && window.BACKSPACE_CATALOGUE.length) 
+    ? window.BACKSPACE_CATALOGUE 
+    : products;
+  if (!category || category.toLowerCase() === 'all') return list;
+  const cat = category.toLowerCase().trim();
+  return list.filter(p => {
+    const pCat = (p.category || '').toLowerCase();
+    const pMain = (p.mainCategory || '').toLowerCase();
+    if (cat === 'beds' || cat === 'bed') return pCat === 'beds' || pMain === 'beds' || (p.code && p.code.startsWith('BSP-BED'));
+    if (cat === 'mattresses' || cat === 'mattress') return pCat === 'mattresses' || pMain === 'mattresses' || (p.code && p.code.startsWith('BSP-MAT'));
+    if (cat === 'protectors' || cat === 'protector') return pCat === 'protectors' || pMain === 'protectors' || (p.code && p.code.startsWith('BSP-PRO'));
+    if (cat === 'pillows' || cat === 'pillow') return pCat === 'pillows' || pMain === 'pillows' || (p.code && p.code.startsWith('BSP-PIL'));
+    return pCat === cat || pMain === cat;
+  });
 };
 
 window.showToast = (msg) => {

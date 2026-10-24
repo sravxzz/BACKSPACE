@@ -11,6 +11,10 @@
   </script>
   <link rel="stylesheet" href="css/style.css">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/bed-data.js"></script>
+  <script src="js/products-api.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="js/app.js"></script>
 </head>
@@ -86,7 +90,7 @@
               <label class="block font-bold text-sm mb-2 text-gray-700">Size</label>
               <select x-model="selectedSize" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none bg-white">
                 <template x-for="sz in product.sizes" :key="sz">
-                  <option :value="sz" x-text="sz"></option>
+                  <option :value="typeof sz === 'object' ? sz.name : sz" x-text="typeof sz === 'object' ? (sz.name + (sz.dimensions ? ' (' + sz.dimensions + ')' : '')) : sz"></option>
                 </template>
               </select>
             </div>
@@ -104,7 +108,7 @@
               <label class="block font-bold text-sm mb-2 text-gray-700">Color</label>
               <select x-model="selectedColor" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-brown focus:border-brown outline-none bg-white">
                 <template x-for="c in product.colors" :key="c">
-                  <option :value="c" x-text="c"></option>
+                  <option :value="typeof c === 'object' ? c.name : c" x-text="typeof c === 'object' ? c.name : c"></option>
                 </template>
               </select>
             </div>
@@ -171,12 +175,29 @@
         init() {
           const urlParams = new URLSearchParams(window.location.search);
           const id = urlParams.get('id');
-          this.product = window.getProduct(id);
-          
-          if(this.product) {
-            if(this.product.sizes) this.selectedSize = this.product.sizes[0];
-            if(this.product.thickness) this.selectedThickness = this.product.thickness[0];
-            if(this.product.colors) this.selectedColor = this.product.colors[0];
+          this.applyProduct(window.getProduct(id));
+
+          window.addEventListener('backspace-products-updated', () => {
+            const updated = window.getProduct(id);
+            if (updated) {
+              this.applyProduct(updated);
+            }
+          });
+        },
+
+        applyProduct(prod) {
+          if (!prod) return;
+          this.product = prod;
+          if (this.product.sizes && this.product.sizes.length > 0 && !this.selectedSize) {
+            const s0 = this.product.sizes[0];
+            this.selectedSize = (typeof s0 === 'object' ? s0.name : s0);
+          }
+          if (this.product.thickness && this.product.thickness.length > 0 && !this.selectedThickness) {
+            this.selectedThickness = this.product.thickness[0];
+          }
+          if (this.product.colors && this.product.colors.length > 0 && !this.selectedColor) {
+            const c0 = this.product.colors[0];
+            this.selectedColor = (typeof c0 === 'object' ? c0.name : c0);
           }
         },
         
