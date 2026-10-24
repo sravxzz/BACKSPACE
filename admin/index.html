@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Admin Dashboard | BACKSPACE.CO</title>
+    <title>Admin Product Manager | BACKSPACE.CO</title>
     <link rel="icon" type="image/png" href="/public/images/favicon.png">
     <link rel="shortcut icon" href="/favicon.ico">
 
@@ -47,22 +47,17 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Admin Stylesheet -->
+    <link rel="stylesheet" href="/css/admin.css">
+
     <!-- Supabase Client v2 (CDN) & Configuration -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/js/supabase-client.js"></script>
     <script src="/js/admin-auth.js"></script>
+    <script src="/js/admin-products.js"></script>
 
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F7F4EF;
-            color: #292522;
-            -webkit-font-smoothing: antialiased;
-        }
-        .font-serif-luxury {
-            font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-        }
-        /* Fail-Secure Guard: Hide dashboard completely until session & admin checks pass */
+        /* Fail-Secure Guard: Dashboard stays strictly hidden until session and admin checks pass */
         #admin-dashboard-app {
             display: none;
         }
@@ -81,34 +76,43 @@
         </div>
     </div>
 
-    <!-- Protected Admin Dashboard Root (Revealed ONLY after session & admin_users checks pass) -->
-    <div id="admin-dashboard-app" class="min-h-screen flex flex-col justify-between">
+    <!-- Protected Admin Dashboard Root -->
+    <div id="admin-dashboard-app" class="min-h-screen flex flex-col">
 
         <!-- Top Navigation Bar -->
-        <header class="w-full border-b border-[#E6DFD6] bg-[#FFFCF7]/90 backdrop-blur-md sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+        <header class="w-full border-b border-[#E6DFD6] bg-[#FFFCF7]/95 backdrop-blur-md sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                 
-                <!-- Left: Logo & Admin Badge -->
+                <!-- Left: Mobile Menu Button & Brand -->
                 <div class="flex items-center space-x-3 sm:space-x-4">
-                    <a href="/" title="Return to Storefront">
-                        <img src="/public/images/backspace-logo.png" alt="BACKSPACE" class="h-7 sm:h-8 w-auto object-contain">
+                    <button id="admin-mobile-menu-btn" type="button" class="lg:hidden p-2 rounded-xl text-[#292522] hover:bg-[#F1EBE3] focus:outline-none cursor-pointer" title="Toggle Navigation">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+
+                    <a href="/" title="Return to Storefront" class="flex items-center">
+                        <img src="/public/images/backspace-logo.png" alt="BACKSPACE" class="h-6 sm:h-7 w-auto object-contain">
                     </a>
-                    <span class="h-5 w-px bg-[#E6DFD6]"></span>
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#B85C38]/10 text-[#B85C38] border border-[#B85C38]/20 tracking-wider">
+                    <span class="h-4 w-px bg-[#E6DFD6] hidden sm:block"></span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#B85C38]/10 text-[#B85C38] border border-[#B85C38]/20 tracking-wider">
                         <span class="w-1.5 h-1.5 rounded-full bg-[#B85C38] mr-1.5 animate-pulse"></span>
-                        ADMIN PORTAL
+                        CATALOG ADMIN
                     </span>
                 </div>
 
-                <!-- Right: Admin User Email & Logout Button -->
-                <div class="flex items-center space-x-3 sm:space-x-5">
-                    <div class="flex items-center space-x-2 pl-2">
+                <!-- Right: Admin User & Logout Button -->
+                <div class="flex items-center space-x-3 sm:space-5">
+                    <a href="/" target="_blank" class="hidden sm:inline-flex items-center space-x-1.5 text-xs text-[#77716B] hover:text-[#292522] transition-colors py-1 px-2.5 rounded-lg hover:bg-[#F1EBE3]">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
+                        <span>View Store</span>
+                    </a>
+
+                    <div class="flex items-center space-x-2 pl-2 border-l border-[#E6DFD6]">
                         <div class="w-8 h-8 rounded-full bg-[#292522] text-[#FFFCF7] flex items-center justify-center text-xs font-semibold">
                             <i class="fa-solid fa-user-shield text-[11px]"></i>
                         </div>
                         <div class="hidden sm:block text-left">
-                            <p id="nav-admin-email" class="text-xs font-semibold text-[#292522] truncate max-w-[200px]">Admin</p>
-                            <p class="text-[10px] text-[#77716B]">Authorized Administrator</p>
+                            <p id="nav-admin-email" class="text-xs font-semibold text-[#292522] truncate max-w-[160px]">Admin</p>
+                            <p class="text-[10px] text-emerald-700 font-medium">Verified Admin</p>
                         </div>
                     </div>
 
@@ -116,146 +120,350 @@
                     <button 
                         id="logout-btn" 
                         type="button" 
-                        class="inline-flex items-center space-x-1.5 text-xs font-semibold text-red-600 hover:text-white hover:bg-red-600 border border-red-200 hover:border-red-600 py-1.5 px-3.5 rounded-xl transition-all duration-200 cursor-pointer shadow-sm"
+                        class="inline-flex items-center space-x-1.5 text-xs font-semibold text-red-600 hover:text-white hover:bg-red-600 border border-red-200 hover:border-red-600 py-1.5 px-3 rounded-xl transition-all duration-200 cursor-pointer shadow-sm"
                         title="Sign out of Admin Portal"
                     >
                         <span id="logout-spinner" class="hidden">
                             <i class="fa-solid fa-circle-notch fa-spin text-xs mr-1"></i>
                         </span>
                         <i id="logout-icon" class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
-                        <span>Logout</span>
+                        <span class="hidden sm:inline">Logout</span>
                     </button>
                 </div>
 
             </div>
         </header>
 
-        <!-- Main Content Area -->
-        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+        <!-- Sidebar Mobile Backdrop Overlay -->
+        <div id="sidebar-mobile-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden backdrop-blur-xs"></div>
 
-            <!-- Welcome Header Card -->
-            <div class="bg-[#FFFCF7] rounded-3xl border border-[#E6DFD6] p-6 sm:p-10 shadow-sm">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div>
-                        <span class="inline-block text-[11px] font-bold uppercase tracking-[0.2em] text-[#B85C38] mb-1">
-                            Secure Management Portal
-                        </span>
-                        <h1 class="text-3xl sm:text-4xl font-serif-luxury font-normal text-[#292522]">
-                            Welcome, Admin
-                        </h1>
-                        <p class="text-sm text-[#77716B] mt-2">
-                            Logged in as <strong id="welcome-admin-email" class="font-semibold text-[#292522]">Loading...</strong>
-                        </p>
+        <!-- Layout Body (Sidebar + Content) -->
+        <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex gap-8">
+
+            <!-- Sidebar Navigation -->
+            <aside id="admin-sidebar" class="fixed lg:static top-0 bottom-0 left-0 w-64 z-50 lg:z-auto bg-[#FFFCF7] lg:bg-transparent border-r lg:border-r-0 border-[#E6DFD6] p-6 lg:p-0 flex flex-col justify-between flex-shrink-0">
+                <div class="space-y-6">
+                    <!-- Mobile Sidebar Header -->
+                    <div class="flex items-center justify-between pb-4 border-b border-[#E6DFD6] lg:hidden">
+                        <span class="text-sm font-bold text-[#292522]">Navigation</span>
+                        <button id="sidebar-close-btn" class="p-1 text-[#77716B] hover:text-[#292522]">
+                            <i class="fa-solid fa-xmark text-lg"></i>
+                        </button>
                     </div>
 
-                    <div class="self-start md:self-auto">
-                        <span class="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-sm">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span>
-                            Verified Administrator (RLS Active)
-                        </span>
-                    </div>
-                </div>
-            </div>
+                    <!-- Category Navigation Links (Hash routing) -->
+                    <nav class="space-y-1.5">
+                        <span class="block text-[10px] font-bold uppercase tracking-wider text-[#77716B] px-3 mb-2">Overview</span>
+                        <a href="#dashboard" class="sidebar-nav-link flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-[#77716B] hover:text-[#292522] hover:bg-[#F1EBE3] transition-colors active">
+                            <i class="fa-solid fa-chart-pie w-4 text-center"></i>
+                            <span>Dashboard</span>
+                        </a>
 
-            <!-- Status & Information Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                <!-- Admin Session Info Card -->
-                <div class="bg-[#FFFCF7] rounded-3xl border border-[#E6DFD6] p-6 sm:p-8 space-y-4 shadow-sm">
-                    <div class="flex items-center justify-between pb-3 border-b border-[#E6DFD6]">
-                        <h2 class="text-base font-semibold text-[#292522] flex items-center space-x-2">
-                            <i class="fa-solid fa-id-badge text-[#B85C38]"></i>
-                            <span>Admin Profile</span>
-                        </h2>
-                        <span class="text-[11px] uppercase tracking-wider text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                            Active
-                        </span>
-                    </div>
-
-                    <div class="space-y-3 font-mono text-xs">
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 rounded-xl bg-[#F7F4EF] border border-[#E6DFD6]/60">
-                            <span class="text-[#77716B] font-sans">Admin Email:</span>
-                            <span id="profile-admin-email" class="font-semibold text-[#292522] break-all">Loading...</span>
-                        </div>
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 rounded-xl bg-[#F7F4EF] border border-[#E6DFD6]/60">
-                            <span class="text-[#77716B] font-sans">Database Access:</span>
-                            <span class="text-emerald-700 font-semibold">Row Level Security Verified</span>
-                        </div>
-                    </div>
+                        <span class="block text-[10px] font-bold uppercase tracking-wider text-[#77716B] px-3 mt-6 mb-2">Catalogue</span>
+                        <a href="#beds" class="sidebar-nav-link flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-[#77716B] hover:text-[#292522] hover:bg-[#F1EBE3] transition-colors">
+                            <i class="fa-solid fa-bed w-4 text-center"></i>
+                            <span>Beds</span>
+                        </a>
+                        <a href="#mattresses" class="sidebar-nav-link flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-[#77716B] hover:text-[#292522] hover:bg-[#F1EBE3] transition-colors">
+                            <i class="fa-solid fa-box-tissue w-4 text-center"></i>
+                            <span>Mattresses</span>
+                        </a>
+                        <a href="#protectors" class="sidebar-nav-link flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-[#77716B] hover:text-[#292522] hover:bg-[#F1EBE3] transition-colors">
+                            <i class="fa-solid fa-shield-heart w-4 text-center"></i>
+                            <span>Protectors</span>
+                        </a>
+                        <a href="#pillows" class="sidebar-nav-link flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-[#77716B] hover:text-[#292522] hover:bg-[#F1EBE3] transition-colors">
+                            <i class="fa-solid fa-cloud w-4 text-center"></i>
+                            <span>Pillows</span>
+                        </a>
+                    </nav>
                 </div>
 
-                <!-- Security Verification Status Card -->
-                <div class="bg-[#FFFCF7] rounded-3xl border border-[#E6DFD6] p-6 sm:p-8 space-y-4 shadow-sm">
-                    <div class="flex items-center justify-between pb-3 border-b border-[#E6DFD6]">
-                        <h2 class="text-base font-semibold text-[#292522] flex items-center space-x-2">
-                            <i class="fa-solid fa-shield-halved text-[#B85C38]"></i>
-                            <span>Security & Authorization</span>
-                        </h2>
-                        <span class="text-[11px] uppercase tracking-wider text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                            Enforced
-                        </span>
-                    </div>
-
-                    <div class="space-y-2 text-xs text-[#77716B]">
-                        <p class="leading-relaxed">
-                            Your account is authenticated with Supabase Auth and confirmed in <code class="font-mono text-[11px] bg-[#F7F4EF] px-1.5 py-0.5 rounded border border-[#E6DFD6] text-[#292522]">public.admin_users</code>.
-                        </p>
-                        <p class="leading-relaxed">
-                            Session tokens are safely preserved across page refreshes. Non-admin users are strictly rejected at both the route guard and PostgreSQL RLS levels.
-                        </p>
+                <!-- Sidebar Footer Status -->
+                <div class="pt-6 border-t border-[#E6DFD6] space-y-3">
+                    <div class="bg-[#F1EBE3] p-3 rounded-2xl border border-[#E6DFD6]/60">
+                        <div class="flex items-center space-x-2 text-[11px] text-emerald-700 font-semibold mb-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            <span>RLS Enforcement Active</span>
+                        </div>
+                        <p class="text-[10px] text-[#77716B] leading-tight">Admin writes verified through public.admin_users table.</p>
                     </div>
                 </div>
+            </aside>
 
-            </div>
+            <!-- Main Dynamic Content Views -->
+            <main class="flex-1 min-w-0 space-y-6">
 
-            <!-- Future Dashboard Modules Placeholder -->
-            <div class="space-y-4">
-                <div>
-                    <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#B85C38]">
-                        Next Stages
-                    </span>
-                    <h2 class="text-xl font-serif-luxury text-[#292522]">
-                        Store Management Modules
-                    </h2>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-[#FFFCF7] rounded-3xl border border-dashed border-[#E6DFD6] p-6 text-center">
-                        <div class="w-12 h-12 rounded-2xl bg-[#F7F4EF] border border-[#E6DFD6] text-[#77716B] flex items-center justify-center mx-auto mb-3">
-                            <i class="fa-solid fa-bed text-lg"></i>
+                <!-- VIEW 1: DASHBOARD OVERVIEW (#dashboard) -->
+                <section id="view-dashboard" class="space-y-6">
+                    <!-- Dashboard Greeting -->
+                    <div class="bg-[#FFFCF7] rounded-3xl border border-[#E6DFD6] p-6 sm:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#B85C38]">Catalogue Metrics</span>
+                            <h1 class="text-2xl sm:text-3xl font-serif-luxury font-normal text-[#292522] mt-0.5">Product Management Dashboard</h1>
+                            <p class="text-xs text-[#77716B] mt-1">Live snapshot of catalog inventory, visibility status, and category distribution.</p>
                         </div>
-                        <h3 class="font-semibold text-sm text-[#292522] mb-1">Products & Beds</h3>
-                        <p class="text-xs text-[#77716B] mb-4">Product catalog management, pricing, and variants.</p>
-                        <span class="inline-block text-[10px] font-semibold uppercase tracking-wider text-[#77716B] bg-[#F7F4EF] px-3 py-1 rounded-full border border-[#E6DFD6]">
-                            Coming in Stage 3
-                        </span>
+                        <div>
+                            <button id="dashboard-add-product-btn" type="button" class="inline-flex items-center space-x-2 bg-[#292522] hover:bg-[#B85C38] text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-sm transition-all cursor-pointer">
+                                <i class="fa-solid fa-plus text-xs"></i>
+                                <span>Add New Product</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="bg-[#FFFCF7] rounded-3xl border border-dashed border-[#E6DFD6] p-6 text-center">
-                        <div class="w-12 h-12 rounded-2xl bg-[#F7F4EF] border border-[#E6DFD6] text-[#77716B] flex items-center justify-center mx-auto mb-3">
-                            <i class="fa-solid fa-receipt text-lg"></i>
+                    <!-- Global Counter Metric Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-[#FFFCF7] rounded-2xl border border-[#E6DFD6] p-5 shadow-sm">
+                            <span class="text-xs text-[#77716B] font-medium">Total Products</span>
+                            <div class="flex items-baseline space-x-2 mt-2">
+                                <span id="stat-total-products" class="text-3xl font-bold font-serif-luxury text-[#292522]">--</span>
+                                <span class="text-[11px] text-[#77716B]">items in database</span>
+                            </div>
                         </div>
-                        <h3 class="font-semibold text-sm text-[#292522] mb-1">Orders & Inquiries</h3>
-                        <p class="text-xs text-[#77716B] mb-4">View incoming orders, customization requests, and customer inquiries.</p>
-                        <span class="inline-block text-[10px] font-semibold uppercase tracking-wider text-[#77716B] bg-[#F7F4EF] px-3 py-1 rounded-full border border-[#E6DFD6]">
-                            Coming in Stage 3
-                        </span>
+
+                        <div class="bg-[#FFFCF7] rounded-2xl border border-[#E6DFD6] p-5 shadow-sm">
+                            <span class="text-xs text-emerald-700 font-medium flex items-center space-x-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                <span>Active on Storefront</span>
+                            </span>
+                            <div class="flex items-baseline space-x-2 mt-2">
+                                <span id="stat-total-active" class="text-3xl font-bold font-serif-luxury text-emerald-700">--</span>
+                                <span class="text-[11px] text-[#77716B]">visible to shoppers</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#FFFCF7] rounded-2xl border border-[#E6DFD6] p-5 shadow-sm">
+                            <span class="text-xs text-amber-700 font-medium flex items-center space-x-1.5">
+                                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                                <span>Hidden / Draft</span>
+                            </span>
+                            <div class="flex items-baseline space-x-2 mt-2">
+                                <span id="stat-total-hidden" class="text-3xl font-bold font-serif-luxury text-amber-700">--</span>
+                                <span class="text-[11px] text-[#77716B]">hidden from visitors</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="bg-[#FFFCF7] rounded-3xl border border-dashed border-[#E6DFD6] p-6 text-center">
-                        <div class="w-12 h-12 rounded-2xl bg-[#F7F4EF] border border-[#E6DFD6] text-[#77716B] flex items-center justify-center mx-auto mb-3">
-                            <i class="fa-solid fa-gear text-lg"></i>
+                    <!-- 4 Category Breakdown Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        
+                        <!-- Beds Metric Card -->
+                        <div class="bg-[#FFFCF7] rounded-2xl border border-[#E6DFD6] p-5 shadow-sm flex flex-col justify-between space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="w-9 h-9 rounded-xl bg-[#F1EBE3] flex items-center justify-center text-[#B85C38]">
+                                        <i class="fa-solid fa-bed"></i>
+                                    </div>
+                                    <span class="text-[11px] font-mono font-semibold text-[#77716B]" id="stat-beds-total">-- Total</span>
+                                </div>
+                                <h3 class="font-semibold text-sm text-[#292522]">Beds</h3>
+                                <div class="mt-2 space-y-1 text-xs">
+                                    <div class="flex justify-between text-[#77716B]">
+                                        <span>Active:</span>
+                                        <span id="stat-beds-active" class="font-semibold text-emerald-700">--</span>
+                                    </div>
+                                    <div class="flex justify-between text-[#77716B]">
+                                        <span>Hidden:</span>
+                                        <span id="stat-beds-hidden" class="font-semibold text-amber-700">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#beds" class="w-full text-center py-2 px-3 rounded-xl bg-[#F1EBE3] hover:bg-[#292522] hover:text-white text-xs font-semibold text-[#292522] transition-colors">
+                                Manage Beds &rarr;
+                            </a>
                         </div>
-                        <h3 class="font-semibold text-sm text-[#292522] mb-1">Settings & Media</h3>
-                        <p class="text-xs text-[#77716B] mb-4">Configure store contact details, policies, and upload product assets.</p>
-                        <span class="inline-block text-[10px] font-semibold uppercase tracking-wider text-[#77716B] bg-[#F7F4EF] px-3 py-1 rounded-full border border-[#E6DFD6]">
-                            Coming in Stage 3
-                        </span>
-                    </div>
-                </div>
-            </div>
 
-        </main>
+                        <!-- Mattresses Metric Card -->
+                        <div class="bg-[#FFFCF7] rounded-2xl border border-[#E6DFD6] p-5 shadow-sm flex flex-col justify-between space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="w-9 h-9 rounded-xl bg-[#F1EBE3] flex items-center justify-center text-[#B85C38]">
+                                        <i class="fa-solid fa-box-tissue"></i>
+                                    </div>
+                                    <span class="text-[11px] font-mono font-semibold text-[#77716B]" id="stat-mattresses-total">-- Total</span>
+                                </div>
+                                <h3 class="font-semibold text-sm text-[#292522]">Mattresses</h3>
+                                <div class="mt-2 space-y-1 text-xs">
+                                    <div class="flex justify-between text-[#77716B]">
+                                        <span>Active:</span>
+                                        <span id="stat-mattresses-active" class="font-semibold text-emerald-700">--</span>
+                                    </div>
+                                    <div class="flex justify-between text-[#77716B]">
+                                        <span>Hidden:</span>
+                                        <span id="stat-mattresses-hidden" class="font-semibold text-amber-700">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#mattresses" class="w-full text-center py-2 px-3 rounded-xl bg-[#F1EBE3] hover:bg-[#292522] hover:text-white text-xs font-semibold text-[#292522] transition-colors">
+                                Manage Mattresses &rarr;
+                            </a>
+                        </div>
+
+                        <!-- Protectors Metric Card -->
+                        <div class="bg-[#FFFCF7] rounded-2xl border border-[#E6DFD6] p-5 shadow-sm flex flex-col justify-between space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="w-9 h-9 rounded-xl bg-[#F1EBE3] flex items-center justify-center text-[#B85C38]">
+                                        <i class="fa-solid fa-shield-heart"></i>
+                                    </div>
+                                    <span class="text-[11px] font-mono font-semibold text-[#77716B]" id="stat-protectors-total">-- Total</span>
+                                </div>
+                                <h3 class="font-semibold text-sm text-[#292522]">Protectors</h3>
+                                <div class="mt-2 space-y-1 text-xs">
+                                    <div class="flex justify-between text-[#77716B]">
+                                        <span>Active:</span>
+                                        <span id="stat-protectors-active" class="font-semibold text-emerald-700">--</span>
+                                    </div>
+                                    <div class="flex justify-between text-[#77716B]">
+                                        <span>Hidden:</span>
+                                        <span id="stat-protectors-hidden" class="font-semibold text-amber-700">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#protectors" class="w-full text-center py-2 px-3 rounded-xl bg-[#F1EBE3] hover:bg-[#292522] hover:text-white text-xs font-semibold text-[#292522] transition-colors">
+                                Manage Protectors &rarr;
+                            </a>
+                        </div>
+
+                        <!-- Pillows Metric Card -->
+                        <div class="bg-[#FFFCF7] rounded-2xl border border-[#E6DFD6] p-5 shadow-sm flex flex-col justify-between space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="w-9 h-9 rounded-xl bg-[#F1EBE3] flex items-center justify-center text-[#B85C38]">
+                                        <i class="fa-solid fa-cloud"></i>
+                                    </div>
+                                    <span class="text-[11px] font-mono font-semibold text-[#77716B]" id="stat-pillows-total">-- Total</span>
+                                </div>
+                                <h3 class="font-semibold text-sm text-[#292522]">Pillows</h3>
+                                <div class="mt-2 space-y-1 text-xs">
+                                    <div class="flex justify-between text-[#77716B]">
+                                        <span>Active:</span>
+                                        <span id="stat-pillows-active" class="font-semibold text-emerald-700">--</span>
+                                    </div>
+                                    <div class="flex justify-between text-[#77716B]">
+                                        <span>Hidden:</span>
+                                        <span id="stat-pillows-hidden" class="font-semibold text-amber-700">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#pillows" class="w-full text-center py-2 px-3 rounded-xl bg-[#F1EBE3] hover:bg-[#292522] hover:text-white text-xs font-semibold text-[#292522] transition-colors">
+                                Manage Pillows &rarr;
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <!-- Recent Products Summary Table -->
+                    <div class="bg-[#FFFCF7] rounded-3xl border border-[#E6DFD6] p-6 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-semibold text-[#292522] flex items-center space-x-2">
+                                <i class="fa-solid fa-clock-rotate-left text-[#B85C38]"></i>
+                                <span>Recently Catalogued Products</span>
+                            </h3>
+                            <span class="text-xs text-[#77716B]">Last 5 entries</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-[#E6DFD6] text-[11px] uppercase tracking-wider text-[#77716B] font-semibold">
+                                        <th class="py-3 px-4">Preview</th>
+                                        <th class="py-3 px-4">Product Name</th>
+                                        <th class="py-3 px-4">Code</th>
+                                        <th class="py-3 px-4">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dashboard-recent-products" class="divide-y divide-[#E6DFD6]/40 text-xs">
+                                    <!-- Populated dynamically via textContent in admin-products.js -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 2: CATEGORY TABLE VIEW (#beds, #mattresses, #protectors, #pillows) -->
+                <section id="view-category" class="space-y-6 hidden">
+                    
+                    <!-- Category Header -->
+                    <div class="bg-[#FFFCF7] rounded-3xl border border-[#E6DFD6] p-6 sm:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center space-x-3">
+                                <h1 id="category-view-title" class="text-2xl sm:text-3xl font-serif-luxury font-normal text-[#292522]">Category Collection</h1>
+                                <span id="category-product-count" class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#F1EBE3] text-[#77716B] border border-[#E6DFD6]">
+                                    0 Products
+                                </span>
+                            </div>
+                            <p class="text-xs text-[#77716B] mt-1">Manage listings, adjust details, toggle storefront visibility, and upload imagery.</p>
+                        </div>
+                        <div>
+                            <button id="add-product-btn" type="button" class="inline-flex items-center space-x-2 bg-[#292522] hover:bg-[#B85C38] text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-sm transition-all cursor-pointer">
+                                <i class="fa-solid fa-plus text-xs"></i>
+                                <span id="add-product-btn-label">Add Product</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Search & Filter Controls -->
+                    <div class="bg-[#FFFCF7] rounded-2xl border border-[#E6DFD6] p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <div class="relative w-full sm:w-80">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-xs text-[#77716B]"></i>
+                            <input 
+                                id="category-search-input" 
+                                type="text" 
+                                placeholder="Search by name, code, material..." 
+                                class="w-full bg-[#F7F4EF] border border-[#E6DFD6] rounded-xl pl-9 pr-4 py-2 text-xs text-[#292522] placeholder-[#77716B] focus:outline-none focus:border-[#B85C38] focus:ring-1 focus:ring-[#B85C38] transition-all"
+                            >
+                        </div>
+
+                        <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
+                            <label for="category-status-filter" class="text-xs text-[#77716B] font-medium">Status:</label>
+                            <select 
+                                id="category-status-filter" 
+                                class="bg-[#F7F4EF] border border-[#E6DFD6] rounded-xl px-3 py-2 text-xs text-[#292522] focus:outline-none focus:border-[#B85C38] cursor-pointer"
+                            >
+                                <option value="all">All Products</option>
+                                <option value="active">Active Only</option>
+                                <option value="hidden">Hidden Only</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Category Table Container -->
+                    <div class="bg-[#FFFCF7] rounded-3xl border border-[#E6DFD6] shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-[#F7F4EF] border-b border-[#E6DFD6] text-[11px] uppercase tracking-wider text-[#77716B] font-semibold">
+                                        <th class="py-3 px-4">Thumbnail</th>
+                                        <th class="py-3 px-4">Product Name</th>
+                                        <th class="py-3 px-4">Code</th>
+                                        <th class="py-3 px-4">Material</th>
+                                        <th class="py-3 px-4">Price</th>
+                                        <th class="py-3 px-4">Status</th>
+                                        <th class="py-3 px-4 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="category-products-table-body" class="divide-y divide-[#E6DFD6]/40 text-xs">
+                                    <!-- Populated dynamically via textContent in admin-products.js -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Empty State -->
+                        <div id="category-empty-state" class="py-16 text-center space-y-3 hidden">
+                            <div class="w-12 h-12 rounded-2xl bg-[#F7F4EF] text-[#77716B] flex items-center justify-center mx-auto text-lg">
+                                <i class="fa-solid fa-box-open"></i>
+                            </div>
+                            <p class="text-sm font-semibold text-[#292522]">No products found</p>
+                            <p class="text-xs text-[#77716B]">Try adjusting your search criteria or add a new product to this category.</p>
+                        </div>
+                    </div>
+
+                </section>
+
+            </main>
+
+        </div>
 
         <!-- Footer -->
         <footer class="w-full py-6 text-center text-xs text-[#77716B] border-t border-[#E6DFD6] bg-[#FFFCF7]/60 mt-12">
@@ -264,7 +472,192 @@
 
     </div>
 
-    <!-- Client Script for Session & Admin Check -->
+    <!-- ================= ADD / EDIT PRODUCT MODAL ================= -->
+    <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 hidden">
+        <div class="admin-modal-backdrop fixed inset-0" id="product-modal-backdrop"></div>
+        
+        <div class="admin-modal-panel relative bg-[#FFFCF7] w-full max-w-3xl max-h-[90vh] rounded-3xl border border-[#E6DFD6] shadow-2xl flex flex-col overflow-hidden z-10">
+            
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-[#E6DFD6] flex items-center justify-between bg-[#F7F4EF]/60">
+                <h2 id="product-modal-title" class="text-base font-semibold text-[#292522]">Add New Product</h2>
+                <button id="product-modal-close" type="button" class="p-1.5 rounded-lg text-[#77716B] hover:text-[#292522] hover:bg-[#E6DFD6]/50 transition-colors cursor-pointer" title="Close Modal">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+
+            <!-- Modal Scrollable Form Body -->
+            <form id="product-form" class="overflow-y-auto p-6 space-y-6 flex-1">
+                
+                <!-- Category, Name & Code Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label for="form-category" class="block text-xs font-semibold text-[#292522] mb-1.5">Category *</label>
+                        <select id="form-category" required class="w-full bg-[#F7F4EF] border border-[#E6DFD6] rounded-xl px-3 py-2 text-xs text-[#292522] focus:outline-none focus:border-[#B85C38]">
+                            <option value="Beds">Beds</option>
+                            <option value="Mattresses">Mattresses</option>
+                            <option value="Protectors">Protectors</option>
+                            <option value="Pillows">Pillows</option>
+                        </select>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label for="form-name" class="block text-xs font-semibold text-[#292522] mb-1.5">Product Name *</label>
+                        <input id="form-name" type="text" required placeholder="e.g. BACKSPACE Upholstered Platform Bed" class="w-full bg-[#F7F4EF] border border-[#E6DFD6] rounded-xl px-3.5 py-2 text-xs text-[#292522] focus:outline-none focus:border-[#B85C38]">
+                    </div>
+                </div>
+
+                <!-- Code & Slug Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="form-code" class="block text-xs font-semibold text-[#292522] mb-1.5">
+                            Product Code * <span class="text-[10px] text-[#77716B] font-normal">(Auto-suggested free code)</span>
+                        </label>
+                        <input id="form-code" type="text" required placeholder="e.g. BSP-BED-019" class="w-full bg-[#F7F4EF] border border-[#E6DFD6] rounded-xl px-3.5 py-2 text-xs font-mono text-[#292522] focus:outline-none focus:border-[#B85C38]">
+                    </div>
+
+                    <div>
+                        <label for="form-slug" class="block text-xs font-semibold text-[#292522] mb-1.5">
+                            URL Slug * <span class="text-[10px] text-[#77716B] font-normal">(Lowercase, hyphens)</span>
+                        </label>
+                        <input id="form-slug" type="text" required placeholder="e.g. upholstered-platform-bed" class="w-full bg-[#F7F4EF] border border-[#E6DFD6] rounded-xl px-3.5 py-2 text-xs font-mono text-[#292522] focus:outline-none focus:border-[#B85C38]">
+                    </div>
+                </div>
+
+                <!-- Material & Customization -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+                    <div class="sm:col-span-2">
+                        <label for="form-material" class="block text-xs font-semibold text-[#292522] mb-1.5">Material & Composition</label>
+                        <input id="form-material" type="text" placeholder="e.g. Textured Linen / Kiln-Dried Hardwood" class="w-full bg-[#F7F4EF] border border-[#E6DFD6] rounded-xl px-3.5 py-2 text-xs text-[#292522] focus:outline-none focus:border-[#B85C38]">
+                    </div>
+
+                    <div class="pt-4 sm:pt-6">
+                        <label class="flex items-center space-x-2.5 cursor-pointer">
+                            <input id="form-customization" type="checkbox" checked class="w-4 h-4 rounded text-[#B85C38] focus:ring-0 accent-[#B85C38] cursor-pointer">
+                            <span class="text-xs font-semibold text-[#292522]">Customization Available</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <label for="form-description" class="block text-xs font-semibold text-[#292522] mb-1.5">Description</label>
+                    <textarea id="form-description" rows="3" placeholder="Provide product details, positioning, and craftsmanship specs..." class="w-full bg-[#F7F4EF] border border-[#E6DFD6] rounded-xl p-3 text-xs text-[#292522] focus:outline-none focus:border-[#B85C38]"></textarea>
+                </div>
+
+                <!-- Available Sizes Checkboxes -->
+                <div>
+                    <label class="block text-xs font-semibold text-[#292522] mb-2">Available Sizes</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+                        <label class="flex items-center space-x-2 p-2 rounded-xl bg-[#F7F4EF] border border-[#E6DFD6]/60 cursor-pointer text-xs">
+                            <input type="checkbox" id="size-single" value="Single" class="w-3.5 h-3.5 rounded text-[#B85C38] accent-[#B85C38]">
+                            <span class="text-[#292522]">Single</span>
+                        </label>
+                        <label class="flex items-center space-x-2 p-2 rounded-xl bg-[#F7F4EF] border border-[#E6DFD6]/60 cursor-pointer text-xs">
+                            <input type="checkbox" id="size-double" value="Double" class="w-3.5 h-3.5 rounded text-[#B85C38] accent-[#B85C38]">
+                            <span class="text-[#292522]">Double</span>
+                        </label>
+                        <label class="flex items-center space-x-2 p-2 rounded-xl bg-[#F7F4EF] border border-[#E6DFD6]/60 cursor-pointer text-xs">
+                            <input type="checkbox" id="size-queen" value="Queen" class="w-3.5 h-3.5 rounded text-[#B85C38] accent-[#B85C38]">
+                            <span class="text-[#292522]">Queen</span>
+                        </label>
+                        <label class="flex items-center space-x-2 p-2 rounded-xl bg-[#F7F4EF] border border-[#E6DFD6]/60 cursor-pointer text-xs">
+                            <input type="checkbox" id="size-king" value="King" class="w-3.5 h-3.5 rounded text-[#B85C38] accent-[#B85C38]">
+                            <span class="text-[#292522]">King</span>
+                        </label>
+                        <label class="flex items-center space-x-2 p-2 rounded-xl bg-[#F7F4EF] border border-[#E6DFD6]/60 cursor-pointer text-xs">
+                            <input type="checkbox" id="size-custom-size" value="Custom Size" class="w-3.5 h-3.5 rounded text-[#B85C38] accent-[#B85C38]">
+                            <span class="text-[#292522]">Custom Size</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pricing Fields (Optional) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="form-price" class="block text-xs font-semibold text-[#292522] mb-1.5">
+                            Selling Price (₹) <span class="text-[10px] text-[#77716B] font-normal">(Optional)</span>
+                        </label>
+                        <input id="form-price" type="number" step="any" min="0" placeholder="e.g. 28990" class="w-full bg-[#F7F4EF] border border-[#E6DFD6] rounded-xl px-3.5 py-2 text-xs text-[#292522] focus:outline-none focus:border-[#B85C38]">
+                    </div>
+
+                    <div>
+                        <label for="form-original-price" class="block text-xs font-semibold text-[#292522] mb-1.5">
+                            Original / MRP Price (₹) <span class="text-[10px] text-[#77716B] font-normal">(Optional)</span>
+                        </label>
+                        <input id="form-original-price" type="number" step="any" min="0" placeholder="e.g. 36990" class="w-full bg-[#F7F4EF] border border-[#E6DFD6] rounded-xl px-3.5 py-2 text-xs text-[#292522] focus:outline-none focus:border-[#B85C38]">
+                    </div>
+                </div>
+
+                <!-- Images & Supabase Storage Upload -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-semibold text-[#292522]">Product Images</label>
+                        <span class="text-[10px] text-[#77716B]">Accepts JPG, PNG, WebP (Max 3 MB each)</span>
+                    </div>
+
+                    <!-- Dropzone -->
+                    <div id="image-dropzone" class="image-dropzone rounded-2xl p-6 text-center cursor-pointer">
+                        <input id="image-file-input" type="file" multiple accept="image/jpeg,image/png,image/webp" class="hidden">
+                        <div class="w-10 h-10 rounded-full bg-[#EBE5DB] text-[#B85C38] flex items-center justify-center mx-auto mb-2 text-sm">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <p class="text-xs font-semibold text-[#292522]">Click or drag & drop images to upload</p>
+                        <p class="text-[10px] text-[#77716B] mt-0.5">Images upload to Supabase Storage bucket 'product-images' on save.</p>
+                    </div>
+
+                    <!-- Previews Grid -->
+                    <div>
+                        <span class="block text-[11px] font-semibold text-[#77716B] mb-2">Attached Images & Previews:</span>
+                        <div id="image-previews-grid" class="grid grid-cols-3 sm:grid-cols-6 gap-2.5">
+                            <!-- Populated dynamically via admin-products.js -->
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 border-t border-[#E6DFD6] bg-[#F7F4EF]/60 flex items-center justify-end space-x-3">
+                <button id="product-modal-cancel" type="button" class="px-4 py-2 rounded-xl text-xs font-semibold text-[#77716B] hover:text-[#292522] hover:bg-[#E6DFD6]/50 transition-colors cursor-pointer">
+                    Cancel
+                </button>
+                <button id="save-product-btn" form="product-form" type="submit" class="inline-flex items-center space-x-1.5 px-5 py-2 rounded-xl bg-[#292522] hover:bg-[#B85C38] text-white text-xs font-semibold shadow-sm transition-all cursor-pointer">
+                    <span>Save Product</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= DELETE CONFIRMATION MODAL ================= -->
+    <div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="admin-modal-backdrop fixed inset-0"></div>
+        <div class="admin-modal-panel relative bg-[#FFFCF7] w-full max-w-md rounded-3xl border border-[#E6DFD6] shadow-2xl p-6 space-y-4 z-10">
+            <div class="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center text-lg mx-auto">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div class="text-center space-y-1.5">
+                <h3 class="text-base font-semibold text-[#292522]">Confirm Permanent Delete</h3>
+                <p id="delete-modal-text" class="text-xs text-[#77716B] leading-relaxed">
+                    Are you sure you want to delete this product? This action cannot be undone.
+                </p>
+            </div>
+            <div class="flex items-center justify-center space-x-3 pt-2">
+                <button id="cancel-delete-btn" type="button" class="w-1/2 py-2.5 rounded-xl border border-[#E6DFD6] text-xs font-semibold text-[#77716B] hover:text-[#292522] hover:bg-[#F1EBE3] transition-colors cursor-pointer">
+                    Cancel
+                </button>
+                <button id="confirm-delete-btn" type="button" class="w-1/2 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-semibold transition-colors cursor-pointer shadow-sm">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container"></div>
+
+    <!-- Client Script for Session, Admin Check & Product Manager Init -->
     <script>
         (function() {
             'use strict';
@@ -273,8 +666,6 @@
             const authGuardText = document.getElementById('auth-guard-text');
             const appRoot = document.getElementById('admin-dashboard-app');
             const navAdminEmail = document.getElementById('nav-admin-email');
-            const welcomeAdminEmail = document.getElementById('welcome-admin-email');
-            const profileAdminEmail = document.getElementById('profile-admin-email');
             const logoutBtn = document.getElementById('logout-btn');
             const logoutSpinner = document.getElementById('logout-spinner');
             const logoutIcon = document.getElementById('logout-icon');
@@ -287,23 +678,24 @@
                     return;
                 }
 
-                // Run session check and admin_users check on load
-                // If they fail, requireAdminAuth redirects to /admin/login immediately
+                // Verify session and public.admin_users table authorization
                 const authData = await window.AdminAuth.requireAdminAuth('/admin/login');
                 if (!authData || !authData.user) {
-                    // requireAdminAuth handles window.location.replace('/admin/login')
                     return;
                 }
 
-                // Both checks passed: extract admin email
+                // Populate authorized admin email
                 const email = authData.user.email || 'Admin';
                 if (navAdminEmail) navAdminEmail.textContent = email;
-                if (welcomeAdminEmail) welcomeAdminEmail.textContent = email;
-                if (profileAdminEmail) profileAdminEmail.textContent = email;
 
                 // Reveal dashboard UI
-                if (appRoot) appRoot.style.display = 'flex';
+                if (appRoot) appRoot.style.display = 'block';
                 if (authGuardOverlay) authGuardOverlay.style.display = 'none';
+
+                // Initialize Admin Product Manager
+                if (window.AdminProducts) {
+                    window.AdminProducts.init();
+                }
             }
 
             // Logout Button Handler
@@ -318,6 +710,17 @@
                     } else {
                         window.location.href = '/admin/login';
                     }
+                });
+            }
+
+            // Mobile sidebar close button
+            const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
+            const sidebar = document.getElementById('admin-sidebar');
+            const sidebarOverlay = document.getElementById('sidebar-mobile-overlay');
+            if (sidebarCloseBtn && sidebar && sidebarOverlay) {
+                sidebarCloseBtn.addEventListener('click', () => {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.add('hidden');
                 });
             }
 
